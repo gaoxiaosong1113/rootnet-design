@@ -3,11 +3,11 @@ nav:
   title: 组件
   path: /components
 group:
-  title: Upload 文件上传
-  order: 45
+  title: Radio 单选框
+  order: 30
 ---
 
-## Upload 文件上传
+## Radio 单选框
 
 Demo:
 

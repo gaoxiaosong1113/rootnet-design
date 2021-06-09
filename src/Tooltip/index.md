@@ -3,11 +3,11 @@ nav:
   title: 组件
   path: /components
 group:
-  title: Upload 文件上传
-  order: 45
+  title: Tooltip 文字提示
+  order: 42
 ---
 
-## Upload 文件上传
+## Tooltip 文字提示
 
 Demo:
 

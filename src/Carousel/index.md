@@ -3,11 +3,11 @@ nav:
   title: 组件
   path: /components
 group:
-  title: Upload 文件上传
-  order: 45
+  title: Carousel 走马灯
+  order: 5
 ---
 
-## Upload 文件上传
+## Carousel 走马灯
 
 Demo:
 

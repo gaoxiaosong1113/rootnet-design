@@ -3,11 +3,11 @@ nav:
   title: 组件
   path: /components
 group:
-  title: Upload 文件上传
-  order: 45
+  title: Layout 布局
+  order: 19
 ---
 
-## Upload 文件上传
+## Layout 布局
 
 Demo:
 

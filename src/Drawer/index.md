@@ -3,11 +3,11 @@ nav:
   title: 组件
   path: /components
 group:
-  title: Upload 文件上传
-  order: 45
+  title: Drawer 抽屉
+  order: 10
 ---
 
-## Upload 文件上传
+## Drawer 抽屉
 
 Demo:
 

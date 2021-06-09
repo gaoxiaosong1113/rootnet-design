@@ -3,11 +3,11 @@ nav:
   title: 组件
   path: /components
 group:
-  title: Upload 文件上传
-  order: 45
+  title: Collapse 折叠面板
+  order: 7
 ---
 
-## Upload 文件上传
+## Collapse 折叠面板
 
 Demo:
 

@@ -3,11 +3,11 @@ nav:
   title: 组件
   path: /components
 group:
-  title: Upload 文件上传
-  order: 45
+  title: Button 按钮
+  order: 2
 ---
 
-## Upload 文件上传
+## Button 按钮
 
 Demo:
 

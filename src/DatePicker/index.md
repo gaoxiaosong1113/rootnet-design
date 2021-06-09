@@ -3,11 +3,11 @@ nav:
   title: 组件
   path: /components
 group:
-  title: Upload 文件上传
-  order: 45
+  title: DatePicker 日期选择
+  order: 8
 ---
 
-## Upload 文件上传
+## DatePicker 日期选择
 
 Demo:
 

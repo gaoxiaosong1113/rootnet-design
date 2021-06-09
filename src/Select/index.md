@@ -3,11 +3,11 @@ nav:
   title: 组件
   path: /components
 group:
-  title: Upload 文件上传
-  order: 45
+  title: Select 下拉框
+  order: 32
 ---
 
-## Upload 文件上传
+## Select 下拉框
 
 Demo:
 

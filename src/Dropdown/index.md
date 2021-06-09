@@ -3,11 +3,11 @@ nav:
   title: 组件
   path: /components
 group:
-  title: Upload 文件上传
-  order: 45
+  title: Dropdown 下拉菜单
+  order: 11
 ---
 
-## Upload 文件上传
+## Dropdown 下拉菜单
 
 Demo:
 

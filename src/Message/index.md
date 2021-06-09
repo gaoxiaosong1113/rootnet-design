@@ -3,11 +3,11 @@ nav:
   title: 组件
   path: /components
 group:
-  title: Upload 文件上传
-  order: 45
+  title: Message 全局提示
+  order: 22
 ---
 
-## Upload 文件上传
+## Message 全局提示
 
 Demo:
 

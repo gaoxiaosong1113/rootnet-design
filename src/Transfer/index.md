@@ -3,11 +3,11 @@ nav:
   title: 组件
   path: /components
 group:
-  title: Upload 文件上传
-  order: 45
+  title: Transfer 穿梭框
+  order: 43
 ---
 
-## Upload 文件上传
+## Transfer 穿梭框
 
 Demo:
 

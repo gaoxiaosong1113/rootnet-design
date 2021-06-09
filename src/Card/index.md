@@ -3,11 +3,11 @@ nav:
   title: 组件
   path: /components
 group:
-  title: Upload 文件上传
-  order: 45
+  title: Card 卡片
+  order: 4
 ---
 
-## Upload 文件上传
+## Card 卡片
 
 Demo:
 

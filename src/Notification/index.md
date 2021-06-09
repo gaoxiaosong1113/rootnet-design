@@ -3,11 +3,11 @@ nav:
   title: 组件
   path: /components
 group:
-  title: Upload 文件上传
-  order: 45
+  title: Notification 通知提示框
+  order: 24
 ---
 
-## Upload 文件上传
+## Notification 通知提示框
 
 Demo:
 

@@ -3,11 +3,11 @@ nav:
   title: 组件
   path: /components
 group:
-  title: Upload 文件上传
-  order: 45
+  title: Alert 警告提示
+  order: 1
 ---
 
-## Upload 文件上传
+## Alert 警告提示
 
 Demo:
 

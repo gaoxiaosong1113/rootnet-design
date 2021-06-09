@@ -3,11 +3,11 @@ nav:
   title: 组件
   path: /components
 group:
-  title: Upload 文件上传
-  order: 45
+  title: Spin 加载中
+  order: 35
 ---
 
-## Upload 文件上传
+## Spin 加载中
 
 Demo:
 

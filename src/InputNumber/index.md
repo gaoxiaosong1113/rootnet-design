@@ -3,11 +3,11 @@ nav:
   title: 组件
   path: /components
 group:
-  title: Upload 文件上传
-  order: 45
+  title: InputNumber 数字输入框
+  order: 18
 ---
 
-## Upload 文件上传
+## InputNumber 数字输入框
 
 Demo:
 

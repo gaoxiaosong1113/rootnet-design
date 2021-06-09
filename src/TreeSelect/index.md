@@ -3,11 +3,11 @@ nav:
   title: 组件
   path: /components
 group:
-  title: Upload 文件上传
+  title: TreeSelect 树形选择
   order: 45
 ---
 
-## Upload 文件上传
+## TreeSelect 树形选择
 
 Demo:
 

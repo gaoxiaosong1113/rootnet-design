@@ -3,11 +3,11 @@ nav:
   title: 组件
   path: /components
 group:
-  title: Upload 文件上传
-  order: 45
+  title: Popover 气泡卡片
+  order: 28
 ---
 
-## Upload 文件上传
+## Popover 气泡卡片
 
 Demo:
 

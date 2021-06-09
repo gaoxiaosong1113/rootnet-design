@@ -3,11 +3,11 @@ nav:
   title: 组件
   path: /components
 group:
-  title: Upload 文件上传
-  order: 45
+  title: Timeline 时间轴
+  order: 41
 ---
 
-## Upload 文件上传
+## Timeline 时间轴
 
 Demo:
 

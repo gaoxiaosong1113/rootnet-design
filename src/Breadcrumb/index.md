@@ -3,11 +3,11 @@ nav:
   title: 组件
   path: /components
 group:
-  title: Upload 文件上传
-  order: 45
+  title: Breadcrumb 面包屑导航
+  order: 2
 ---
 
-## Upload 文件上传
+## Breadcrumb 面包屑导航
 
 Demo:
 

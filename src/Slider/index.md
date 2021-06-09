@@ -3,11 +3,11 @@ nav:
   title: 组件
   path: /components
 group:
-  title: Upload 文件上传
-  order: 45
+  title: Slider 滑动输入条
+  order: 33
 ---
 
-## Upload 文件上传
+## Slider 滑动输入条
 
 Demo:
 

@@ -3,11 +3,11 @@ nav:
   title: 组件
   path: /components
 group:
-  title: Upload 文件上传
-  order: 45
+  title: Switch 开关
+  order: 37
 ---
 
-## Upload 文件上传
+## Switch 开关
 
 Demo:
 

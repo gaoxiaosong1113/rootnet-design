@@ -3,11 +3,11 @@ nav:
   title: 组件
   path: /components
 group:
-  title: Upload 文件上传
-  order: 45
+  title: Tree 树形控件
+  order: 44
 ---
 
-## Upload 文件上传
+## Tree 树形控件
 
 Demo:
 

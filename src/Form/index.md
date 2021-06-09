@@ -3,11 +3,11 @@ nav:
   title: 组件
   path: /components
 group:
-  title: Upload 文件上传
-  order: 45
+  title: Form 表单
+  order: 13
 ---
 
-## Upload 文件上传
+## Form 表单
 
 Demo:
 

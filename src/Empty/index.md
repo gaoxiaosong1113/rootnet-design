@@ -3,11 +3,11 @@ nav:
   title: 组件
   path: /components
 group:
-  title: Upload 文件上传
-  order: 45
+  title: Empty 空状态
+  order: 12
 ---
 
-## Upload 文件上传
+## Empty 空状态
 
 Demo:
 

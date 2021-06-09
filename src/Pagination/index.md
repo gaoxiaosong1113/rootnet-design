@@ -3,11 +3,11 @@ nav:
   title: 组件
   path: /components
 group:
-  title: Upload 文件上传
-  order: 45
+  title: Pagination 分页
+  order: 26
 ---
 
-## Upload 文件上传
+## Pagination 分页
 
 Demo:
 

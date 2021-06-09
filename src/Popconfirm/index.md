@@ -3,11 +3,11 @@ nav:
   title: 组件
   path: /components
 group:
-  title: Upload 文件上传
-  order: 45
+  title: Popconfirm 气泡确认框
+  order: 27
 ---
 
-## Upload 文件上传
+## Popconfirm 气泡确认框
 
 Demo:
 

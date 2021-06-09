@@ -3,11 +3,13 @@ nav:
   title: 组件
   path: /components
 group:
-  title: Upload 文件上传
-  order: 45
+  title: Checkbox 多选框
+  order: 6
 ---
 
-## Upload 文件上传
+## Checkbox 多选框
+
+## Foo
 
 Demo:
 

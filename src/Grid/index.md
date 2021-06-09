@@ -3,11 +3,11 @@ nav:
   title: 组件
   path: /components
 group:
-  title: Upload 文件上传
-  order: 45
+  title: Grid 栅格
+  order: 14
 ---
 
-## Upload 文件上传
+## Grid 栅格
 
 Demo:
 
