@@ -4,7 +4,7 @@ nav:
   path: /components
 group:
   title: Space 间隔
-  order: 33
+  order: 34
 ---
 
 ## Space 间隔

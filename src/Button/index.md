@@ -4,7 +4,7 @@ nav:
   path: /components
 group:
   title: Button 按钮
-  order: 2
+  order: 3
 ---
 
 ## Button 按钮
