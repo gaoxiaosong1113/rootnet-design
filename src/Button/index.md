@@ -13,9 +13,11 @@ Demo:
 
 ```tsx
 import React from 'react';
-import { Foo } from 'rootnet-design';
+import { Button } from 'rootnet-design';
 
-export default () => <Foo title="First Demo" />;
+export default () => <Button type="primary">按钮</Button>;
 ```
+
+<API></API>
 
 More skills for writing demo: https://d.umijs.org/guide/demo-principle

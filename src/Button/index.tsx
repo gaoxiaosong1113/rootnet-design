@@ -2,6 +2,10 @@ import React from 'react';
 
 import clsx from 'clsx';
 
+import './index.less';
+
+import { prefix } from '../config';
+
 interface ButtonProps {
   /**
    * @description      图标的样式名
@@ -21,10 +25,6 @@ interface ButtonProps {
    */
   disabled?: boolean;
 
-  /**
-   * @description      图标的样式名
-   * @default           -
-   */
   children?: React.ReactChild;
 
   /**
@@ -59,11 +59,10 @@ function Button(props: ButtonProps) {
   return (
     <button
       className={clsx({
-        'rootnet-mobile-button': true,
-        // 'rootnet-mobile-button-default': !type || type == 'default',
-        'rootnet-mobile-button-primary': type == 'primary',
-        'rootnet-mobile-button-disabled': disabled,
-        'rootnet-mobile-button-inline': inline,
+        [`${prefix}-button`]: true,
+        [`${prefix}-button-${type}`]: type,
+        [`${prefix}-button-disabled`]: disabled,
+        [`${prefix}-button-inline`]: inline,
       })}
       style={{ margin: interval }}
       onClick={handleClick}

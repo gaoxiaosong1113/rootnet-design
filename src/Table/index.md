@@ -9,13 +9,69 @@ group:
 
 ## Table 表格
 
-Demo:
+示例:
 
 ```tsx
 import React from 'react';
-import { Foo } from 'rootnet-design';
+import { Table } from 'rootnet-design';
 
-export default () => <Foo title="First Demo" />;
+const columns = [
+  {
+    title: '产品代码',
+    dataIndex: 'productNum',
+    width: 105,
+  },
+  {
+    title: '产品简称',
+    dataIndex: 'productName',
+    width: 200,
+  },
+  {
+    title: '所属分组',
+    dataIndex: 'stkIndustryNames',
+    width: 251,
+  },
+  {
+    title: '产品状态',
+    dataIndex: 'productStatus',
+    width: 107,
+    render: (r) => {
+      if (r.productStatus == 1) {
+        return '上市';
+      }
+      if (r.productStatus == 2) {
+        return '注销';
+      }
+    },
+  },
+  {
+    title: '',
+    dataIndex: '',
+  },
+];
+
+const dataSource = [
+  {
+    productNum: 'a001',
+    productName: '我是产品名称',
+    stkIndustryNames: '私募产品',
+    productStatus: '1',
+  },
+  {
+    productNum: 'a001',
+    productName: '我是产品名称',
+    stkIndustryNames: '私募产品',
+    productStatus: '2',
+  },
+  {
+    productNum: 'a001',
+    productName: '我是产品名称',
+    stkIndustryNames: '私募产品',
+    productStatus: '1',
+  },
+];
+
+export default () => <Table columns={columns} dataSource={dataSource} />;
 ```
 
 More skills for writing demo: https://d.umijs.org/guide/demo-principle
