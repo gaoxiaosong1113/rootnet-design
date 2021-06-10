@@ -20,7 +20,7 @@ const { Row, Col } = Grid;
 export default () => {
   return (
     <div>
-      <Row gutter={`0,16px`}>
+      <Row gutter={[0, 16]}>
         <Col span={20}>1</Col>
         <Col span={1}>2</Col>
         <Col span={1}>3</Col>

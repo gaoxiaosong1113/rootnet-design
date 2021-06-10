@@ -9,6 +9,7 @@
   border: 1px solid;
   box-sizing: border-box;
   transition: all 0.3s;
+  white-space: nowrap;
 
   &&-default {
     background: #fff;
@@ -42,6 +43,15 @@
   &&-text {
     background: none;
     border: 0;
+    &:hover {
+      border-color: #7692ff;
+      color: #7692ff;
+    }
+  }
+  &&-link {
+    background: none;
+    border: 0;
+    color: @primaryColor;
     &:hover {
       border-color: #7692ff;
       color: #7692ff;

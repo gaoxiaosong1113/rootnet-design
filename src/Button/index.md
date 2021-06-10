@@ -13,48 +13,91 @@ Demo:
 
 ```tsx
 import React from 'react';
-import { Button } from 'rootnet-design';
+import { Button, Grid } from 'rootnet-design';
+
+const { Row, Col } = Grid;
 
 export default () => {
   return (
     <div>
-      <div>
-        <Button type="primary">按钮</Button>
-        <Button>按钮</Button>
-        <Button type="dashed">按钮</Button>
-        <Button disabled="disabled">按钮</Button>
-        <Button type="text">按钮</Button>
-      </div>
-      <div>
-        <Button type="primary" size="sm">
-          按钮
-        </Button>
-        <Button size="sm">按钮</Button>
-        <Button type="dashed" size="sm">
-          按钮
-        </Button>
-        <Button disabled="disabled" size="sm">
-          按钮
-        </Button>
-        <Button type="text" size="sm">
-          按钮
-        </Button>
-      </div>
-      <div>
-        <Button type="primary" size="lg">
-          按钮
-        </Button>
-        <Button size="lg">按钮</Button>
-        <Button type="dashed" size="lg">
-          按钮
-        </Button>
-        <Button disabled="disabled" size="lg">
-          按钮
-        </Button>
-        <Button type="text" size="lg">
-          按钮
-        </Button>
-      </div>
+      <Row gutter={[16, 16]}>
+        <Col span={4}>
+          <Button type="primary" size="sm">
+            按钮
+          </Button>
+        </Col>
+        <Col span={4}>
+          <Button size="sm">按钮</Button>
+        </Col>
+        <Col span={4}>
+          <Button type="dashed" size="sm">
+            按钮
+          </Button>
+        </Col>
+        <Col span={4}>
+          <Button disabled="disabled" size="sm">
+            按钮
+          </Button>
+        </Col>
+        <Col span={4}>
+          <Button type="text" size="sm">
+            按钮
+          </Button>
+        </Col>
+        <Col span={4}>
+          <Button type="link" size="sm">
+            按钮
+          </Button>
+        </Col>
+
+        <Col span={4}>
+          <Button type="primary">按钮</Button>
+        </Col>
+        <Col span={4}>
+          <Button>按钮</Button>
+        </Col>
+        <Col span={4}>
+          <Button type="dashed">按钮</Button>
+        </Col>
+        <Col span={4}>
+          <Button disabled="disabled">按钮</Button>
+        </Col>
+        <Col span={4}>
+          <Button type="text">按钮</Button>
+        </Col>
+        <Col span={4}>
+          <Button type="link">按钮</Button>
+        </Col>
+
+        <Col span={4}>
+          <Button type="primary" size="lg">
+            按钮
+          </Button>
+        </Col>
+        <Col span={4}>
+          <Button size="lg">按钮</Button>
+        </Col>
+        <Col span={4}>
+          <Button type="dashed" size="lg">
+            按钮
+          </Button>
+        </Col>
+        <Col span={4}>
+          <Button disabled="disabled" size="lg">
+            按钮
+          </Button>
+        </Col>
+        <Col span={4}>
+          <Button type="text" size="lg">
+            按钮
+          </Button>
+        </Col>
+        <Col span={4}>
+          <Button type="link" size="lg">
+            按钮
+          </Button>
+        </Col>
+      </Row>
     </div>
   );
 };
