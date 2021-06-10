@@ -9,13 +9,15 @@ group:
 
 ## Icon 图标
 
-Demo:
+示例:
 
 ```tsx
 import React from 'react';
-import { Foo } from 'rootnet-design';
+import { Icon } from 'rootnet-design';
 
-export default () => <Foo title="First Demo" />;
+export default () => <Icon name="sk-order" />;
 ```
+
+<API></API>
 
 More skills for writing demo: https://d.umijs.org/guide/demo-principle
