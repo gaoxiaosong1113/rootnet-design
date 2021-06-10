@@ -40,29 +40,28 @@ interface ButtonProps {
   interval?: string;
 
   /**
-   * @description      图标的样式名
+   * @description      button的尺寸
    * @default           -
    */
-  inline?: string;
+  size?: string;
 }
 
 function Button(props: ButtonProps) {
-  const { type, disabled, children, onClick, interval, inline, ...prop } =
-    props;
+  const { type, disabled, children, onClick, interval, size, ...prop } = props;
 
   function handleClick() {
     if (!disabled && onClick) {
       onClick();
     }
   }
-
   return (
     <button
       className={clsx({
         [`${prefix}-button`]: true,
+        [`${prefix}-button-default`]: !type && !disabled,
         [`${prefix}-button-${type}`]: type,
         [`${prefix}-button-disabled`]: disabled,
-        [`${prefix}-button-inline`]: inline,
+        [`${prefix}-button-${size}`]: size,
       })}
       style={{ margin: interval }}
       onClick={handleClick}

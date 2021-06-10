@@ -13,9 +13,22 @@ Demo:
 
 ```tsx
 import React from 'react';
-import { Foo } from 'rootnet-design';
+import { Grid } from 'rootnet-design';
 
-export default () => <Foo title="First Demo" />;
+const { Row, Col } = Grid;
+
+export default () => {
+  return (
+    <div>
+      <Row gutter={`0,16px`}>
+        <Col span={20}>1</Col>
+        <Col span={1}>2</Col>
+        <Col span={1}>3</Col>
+        <Col span={1}>4</Col>
+      </Row>
+    </div>
+  );
+};
 ```
 
 More skills for writing demo: https://d.umijs.org/guide/demo-principle
