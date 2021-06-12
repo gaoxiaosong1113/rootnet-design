@@ -10,7 +10,7 @@ import { Icon } from '../index';
 
 interface ButtonProps {
   /**
-   * @description      图标的样式名
+   * @description      按钮的样式名
    * @default           -
    */
   className?: string;

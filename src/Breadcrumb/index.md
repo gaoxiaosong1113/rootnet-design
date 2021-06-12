@@ -13,9 +13,29 @@ group:
 
 ```tsx
 import React from 'react';
-import { Foo } from 'rootnet-design';
+import { Breadcrumb, Grid } from 'rootnet-design';
 
-export default () => <Foo title="First Demo" />;
+const { Row, Col } = Grid;
+
+export default () => {
+  return (
+    <div>
+      <Row gutter={[16, 16]}>
+        <Col span={12}>
+          <Breadcrumb>
+            <Breadcrumb.Item>首页</Breadcrumb.Item>
+            <Breadcrumb.Item>一级菜单</Breadcrumb.Item>
+            <Breadcrumb.Item>二级菜单</Breadcrumb.Item>
+            <Breadcrumb.Item>三级菜单</Breadcrumb.Item>
+            <Breadcrumb.Item>内容页</Breadcrumb.Item>
+          </Breadcrumb>
+        </Col>
+      </Row>
+    </div>
+  );
+};
 ```
+
+<API ></API>
 
 More skills for writing 示例： https://d.umijs.org/guide/demo-principle

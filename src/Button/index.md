@@ -14,7 +14,7 @@ group:
 ```tsx
 import React from 'react';
 import { Button, Grid } from 'rootnet-design';
-
+console.log(Grid);
 const { Row, Col } = Grid;
 
 export default () => {

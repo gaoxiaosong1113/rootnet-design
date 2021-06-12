@@ -35,7 +35,12 @@ function Icon(props: IconProps) {
   return (
     <span
       className={`${prefix}-iconfont iconfont icon-${name}`}
-      style={{ fontSize: size || 16, color }}
+      style={{
+        fontSize: size || 16,
+        color,
+        width: size || 16,
+        height: size || 16,
+      }}
       {...prop}
     />
   );

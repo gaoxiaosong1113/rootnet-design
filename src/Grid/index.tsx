@@ -40,9 +40,9 @@ const Row = (props) => {
     </div>
   );
 };
+
 const Col = (props) => {
   const { children, span, offset, pull, push, order, gutter } = props;
-  console.log(gutter);
   return (
     <div
       className={clsx({
@@ -63,11 +63,7 @@ const Col = (props) => {
   );
 };
 
-const Grid = {
-  Row,
-  Col,
-};
-
+const Grid = {};
 Grid.Row = Row;
 Grid.Col = Col;
 

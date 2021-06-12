@@ -1,0 +1,111 @@
+@import '../index.less';
+
+.@{prefix}-alert {
+  padding: 13px 17px;
+  background: #ffffff;
+  border-radius: 2px;
+  border: 1px solid @borderColor;
+  width: auto;
+  display: flex;
+  position: relative;
+  &-closed {
+    opacity: 0;
+    transition: all 0.3s;
+  }
+
+  &-lg {
+    padding: 18px 26px;
+  }
+
+  &&-info {
+    border-color: @primaryColor;
+    .@{prefix}-alert-head {
+      .iconfont {
+        color: @primaryColor;
+      }
+    }
+  }
+
+  &&-success {
+    border-color: @successColor;
+
+    .@{prefix}-alert-head {
+      .iconfont {
+        color: @successColor;
+      }
+    }
+  }
+
+  &&-warning {
+    border-color: @warningColor;
+
+    .@{prefix}-alert-head {
+      .iconfont {
+        color: @warningColor;
+      }
+    }
+  }
+
+  &&-error {
+    border-color: @errorColor;
+    .@{prefix}-alert-head {
+      .iconfont {
+        color: @errorColor;
+      }
+    }
+  }
+
+  &-head {
+    .@{prefix}-alert-head {
+      .iconfont {
+        display: block;
+      }
+    }
+
+    margin-right: 8px;
+  }
+
+  &-body {
+    flex: 1;
+    overflow-x: hidden;
+  }
+
+  &-title {
+    font-size: 16px;
+    font-weight: 500;
+    color: #15171f;
+    line-height: 1em;
+    margin-bottom: 16px;
+  }
+
+  &-content {
+    font-size: 14px;
+    color: #15171f;
+    line-height: 16px;
+    height: 16px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  &-footer {
+    font-size: 14px;
+    color: #15171f;
+    line-height: 16px;
+    height: 16px;
+  }
+
+  &-close {
+    color: #000000;
+    position: absolute;
+    right: 16px;
+    top: 13px;
+    cursor: pointer;
+
+    .iconfont {
+      display: block;
+    }
+    & + .@{prefix}-alert-footer {
+      margin-right: 20px;
+    }
+  }
+}

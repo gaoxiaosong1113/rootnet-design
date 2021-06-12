@@ -1,3 +1,85 @@
 import React from 'react';
 
-export default ({ title }: { title: string }) => <h1>{title}</h1>;
+import clsx from 'clsx';
+
+import './index.less';
+
+import { prefix } from '../config';
+
+import { Icon } from '../index';
+
+interface ResultProps {
+  /**
+   * @description      图标的样式名
+   * @default           -
+   */
+  className?: string;
+
+  /**
+   * @description      按钮的类型
+   * @default           -
+   */
+  type?: string;
+
+  /**
+   * @description      需要显示的图标
+   * @default           -
+   */
+  icon?: string;
+
+  /**
+   * @description      是否禁用按钮
+   * @default           false
+   */
+  disabled?: boolean;
+
+  children?: React.ReactChild;
+
+  /**
+   * @description      Result点击事件
+   * @default           -
+   */
+  onClick?: Function;
+
+  /**
+   * @description      Result左右的间隔
+   * @default           -
+   */
+  interval?: string;
+
+  /**
+   * @description      Result的尺寸
+   * @default           -
+   */
+  size?: string;
+}
+
+function Result(props: ResultProps) {
+  const { type, icon, disabled, children, onClick, interval, size, ...prop } =
+    props;
+
+  function handleClick() {
+    if (!disabled && onClick) {
+      onClick();
+    }
+  }
+  return (
+    <Result
+      className={clsx({
+        [`${prefix}-Result`]: true,
+        [`${prefix}-Result-default`]: !type && !disabled,
+        [`${prefix}-Result-${type}`]: type,
+        [`${prefix}-Result-disabled`]: disabled,
+        [`${prefix}-Result-${size}`]: size,
+      })}
+      style={{ margin: interval }}
+      onClick={handleClick}
+      {...prop}
+    >
+      {icon && <Icon name={icon} />}
+      <span>{children}</span>
+    </Result>
+  );
+}
+
+export default Result;

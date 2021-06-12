@@ -115,11 +115,14 @@ export default function Card(props: IconProps) {
                   <div
                     className={clsx({
                       [`${prefix}-card-tabs-item`]: true,
+                      [`${prefix}-card-tabs-item-disabled`]: item.disabled,
                       [`${prefix}-card-tabs-item-active`]:
                         activeTabKey == index,
                     })}
                     onClick={() =>
-                      changeTabKey ? changeTabKey(index, item.key) : null
+                      changeTabKey && !item.disabled
+                        ? changeTabKey(index, item.key)
+                        : null
                     }
                   >
                     {item.name}
