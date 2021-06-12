@@ -6,6 +6,8 @@ import './index.less';
 
 import { prefix } from '../config';
 
+import { Icon } from '../index';
+
 interface ButtonProps {
   /**
    * @description      图标的样式名
@@ -20,8 +22,14 @@ interface ButtonProps {
   type?: string;
 
   /**
-   * @description      是否禁用按钮
+   * @description      需要显示的图标
    * @default           -
+   */
+  icon?: string;
+
+  /**
+   * @description      是否禁用按钮
+   * @default           false
    */
   disabled?: boolean;
 
@@ -47,7 +55,8 @@ interface ButtonProps {
 }
 
 function Button(props: ButtonProps) {
-  const { type, disabled, children, onClick, interval, size, ...prop } = props;
+  const { type, icon, disabled, children, onClick, interval, size, ...prop } =
+    props;
 
   function handleClick() {
     if (!disabled && onClick) {
@@ -67,7 +76,8 @@ function Button(props: ButtonProps) {
       onClick={handleClick}
       {...prop}
     >
-      {children}
+      {icon && <Icon name={icon} />}
+      <span>{children}</span>
     </button>
   );
 }

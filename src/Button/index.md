@@ -9,7 +9,7 @@ group:
 
 ## Button 按钮
 
-Demo:
+示例：
 
 ```tsx
 import React from 'react';
@@ -97,10 +97,41 @@ export default () => {
             按钮
           </Button>
         </Col>
+
+        <Col span={4}>
+          <Button icon="sk-order" type="primary">
+            按钮
+          </Button>
+        </Col>
+        <Col span={4}>
+          <Button icon="sk-order">按钮</Button>
+        </Col>
+        <Col span={4}>
+          <Button icon="sk-order" type="dashed">
+            按钮
+          </Button>
+        </Col>
+        <Col span={4}>
+          <Button icon="sk-order" disabled="disabled">
+            按钮
+          </Button>
+        </Col>
+        <Col span={4}>
+          <Button icon="sk-order" type="text">
+            按钮
+          </Button>
+        </Col>
+        <Col span={4}>
+          <Button icon="sk-order" type="link">
+            按钮
+          </Button>
+        </Col>
       </Row>
     </div>
   );
 };
 ```
 
-More skills for writing demo: https://d.umijs.org/guide/demo-principle
+<API ></API>
+
+More skills for writing 示例： https://d.umijs.org/guide/demo-principle

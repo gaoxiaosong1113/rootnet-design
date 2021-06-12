@@ -9,7 +9,7 @@ group:
 
 ## Image 图片
 
-Demo:
+示例：
 
 ```tsx
 import React from 'react';
@@ -18,4 +18,4 @@ import { Foo } from 'rootnet-design';
 export default () => <Foo title="First Demo" />;
 ```
 
-More skills for writing demo: https://d.umijs.org/guide/demo-principle
+More skills for writing 示例： https://d.umijs.org/guide/demo-principle

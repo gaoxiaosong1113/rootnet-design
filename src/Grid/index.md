@@ -9,7 +9,7 @@ group:
 
 ## Grid 栅格
 
-Demo:
+示例：
 
 ```tsx
 import React from 'react';
@@ -31,4 +31,4 @@ export default () => {
 };
 ```
 
-More skills for writing demo: https://d.umijs.org/guide/demo-principle
+More skills for writing 示例： https://d.umijs.org/guide/demo-principle

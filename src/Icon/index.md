@@ -20,4 +20,4 @@ export default () => <Icon name="sk-order" />;
 
 <API></API>
 
-More skills for writing demo: https://d.umijs.org/guide/demo-principle
+More skills for writing 示例： https://d.umijs.org/guide/demo-principle
