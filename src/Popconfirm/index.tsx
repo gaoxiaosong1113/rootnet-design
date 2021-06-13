@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import ReactDom from 'react-dom';
 
 import clsx from 'clsx';
 
@@ -6,79 +7,131 @@ import './index.less';
 
 import { prefix } from '../config';
 
-import { Icon } from '../index';
+import { Icon, Button } from '../index';
 
-interface PopconfirmProps {
+var getOffsetLeft = function (obj) {
+  var tmp = obj.offsetLeft;
+  var node = obj.offsetParent;
+  while (node != null) {
+    tmp += node.offsetLeft;
+    node = node.offsetParent;
+  }
+  return tmp;
+};
+var getOffsetTop = function (obj) {
+  var tmp = obj.offsetTop;
+  var node = obj.offsetParent;
+  while (node != null) {
+    tmp += node.offsetTop;
+    node = node.offsetParent;
+  }
+  return tmp;
+};
+
+interface ModalProps {
   /**
    * @description      图标的样式名
    * @default           -
    */
   className?: string;
-
-  /**
-   * @description      按钮的类型
-   * @default           -
-   */
-  type?: string;
-
-  /**
-   * @description      需要显示的图标
-   * @default           -
-   */
-  icon?: string;
-
-  /**
-   * @description      是否禁用按钮
-   * @default           false
-   */
-  disabled?: boolean;
-
-  children?: React.ReactChild;
-
-  /**
-   * @description      Popconfirm点击事件
-   * @default           -
-   */
-  onClick?: Function;
-
-  /**
-   * @description      Popconfirm左右的间隔
-   * @default           -
-   */
-  interval?: string;
-
-  /**
-   * @description      Popconfirm的尺寸
-   * @default           -
-   */
-  size?: string;
 }
 
-function Popconfirm(props: PopconfirmProps) {
-  const { type, icon, disabled, children, onClick, interval, size, ...prop } =
-    props;
+function ModalContent(props: ModalProps) {
+  const { content, children, onConfirm, onCancel, event, ...prop } = props;
 
-  function handleClick() {
-    if (!disabled && onClick) {
-      onClick();
-    }
+  console.log(props);
+
+  function handleCancel() {
+    handleUnRender();
+    onCancel ? onCancel() : null;
   }
+
+  function handleConfirm() {
+    handleUnRender();
+    onConfirm ? onConfirm() : null;
+  }
+  console.log(event.target);
+  console.log(getOffsetLeft(event.target));
   return (
-    <Popconfirm
+    <div
       className={clsx({
-        [`${prefix}-Popconfirm`]: true,
-        [`${prefix}-Popconfirm-default`]: !type && !disabled,
-        [`${prefix}-Popconfirm-${type}`]: type,
-        [`${prefix}-Popconfirm-disabled`]: disabled,
-        [`${prefix}-Popconfirm-${size}`]: size,
+        [`${prefix}-popconfirm-warp`]: true,
       })}
-      style={{ margin: interval }}
-      onClick={handleClick}
-      {...prop}
     >
-      {icon && <Icon name={icon} />}
-      <span>{children}</span>
-    </Popconfirm>
+      <div
+        className={clsx({
+          [`${prefix}-popconfirm`]: true,
+        })}
+        style={{
+          left: getOffsetLeft(event.target) + event.target.offsetWidth / 2,
+          top: getOffsetTop(event.target) - event.target.offsetHeight,
+        }}
+      >
+        <div
+          className={clsx({
+            [`${prefix}-popconfirm-body`]: true,
+          })}
+        >
+          <span>{content}</span>
+        </div>
+        <div
+          className={clsx({
+            [`${prefix}-popconfirm-footer`]: true,
+          })}
+        >
+          <Button onClick={handleCancel}>取消</Button>
+          <Button type="primary" onClick={handleConfirm}>
+            确定
+          </Button>
+        </div>
+      </div>
+      <div
+        className={clsx({
+          [`${prefix}-popconfirm-mask`]: true,
+        })}
+        onClick={handleCancel}
+      ></div>
+    </div>
+  );
+}
+
+var popup;
+
+// 挂载弹窗
+function handleRender(props) {
+  ReactDom.render(<ModalContent {...props} />, popup);
+}
+
+// 首次挂载弹窗
+function handleAppendRender(props) {
+  popup = document.createElement('div');
+  document.body.appendChild(popup);
+  handleRender(props);
+}
+
+// 卸载弹窗
+function handleUnRender(props) {
+  if (popup) ReactDom.unmountComponentAtNode(popup);
+}
+
+function Popconfirm(props: ModalProps) {
+  const { title, children, visible, onConfirm, onCancel, ...prop } = props;
+
+  return (
+    <span
+      className={clsx({
+        [`${prefix}-popconfirm-target`]: true,
+      })}
+      onClick={(event) => {
+        console.log(event);
+        handleAppendRender({
+          ...props,
+          event,
+        });
+      }}
+    >
+      {children}
+    </span>
   );
 }
 

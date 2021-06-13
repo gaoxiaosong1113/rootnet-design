@@ -14,10 +14,8 @@ group:
 ```tsx
 import React from 'react';
 import { Alert, Grid } from 'rootnet-design';
-console.log(Grid);
 const { Row, Col } = Grid;
 
-debugger;
 export default () => {
   return (
     <div>

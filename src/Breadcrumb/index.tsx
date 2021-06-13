@@ -32,7 +32,12 @@ function Breadcrumb(props: BreadcrumbProps) {
       })}
       {...prop}
     >
-      {children}
+      {React.Children.map(children, (item, index) => {
+        return React.cloneElement(item, {
+          index,
+          lastChild: children.length - 1 == index,
+        });
+      })}
     </div>
   );
 }
@@ -46,10 +51,10 @@ interface BreadcrumbItemProps {
 }
 
 function BreadcrumbItem(props: BreadcrumbItemProps) {
-  const { children, ...prop } = props;
+  const { children, index, onClick, lastChild, ...prop } = props;
 
   function handleClick() {
-    if (!disabled && onClick) {
+    if (onClick) {
       onClick();
     }
   }
@@ -58,7 +63,9 @@ function BreadcrumbItem(props: BreadcrumbItemProps) {
     <div
       className={clsx({
         [`${prefix}-breadcrumb-item`]: true,
+        [`${prefix}-breadcrumb-item-last`]: lastChild,
       })}
+      onClick={() => handleClick()}
     >
       <span>{children}</span>
     </div>
