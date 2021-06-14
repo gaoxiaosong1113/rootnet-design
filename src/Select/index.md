@@ -13,9 +13,130 @@ group:
 
 ```tsx
 import React from 'react';
-import { Foo } from 'rootnet-design';
+import { Select, Grid } from 'rootnet-design';
+const { Row, Col } = Grid;
 
-export default () => <Foo title="First Demo" />;
+export default () => {
+  return (
+    <div>
+      <Row gutter={[16, 16]}>
+        <Col span={4}>
+          <Select
+            options={[
+              {
+                label: '选项一选项一选项一选项一选项一选项一选项一选项一',
+                value: 1,
+              },
+              {
+                label: '选项二',
+                value: 2,
+              },
+              {
+                label: '选项三',
+                value: 3,
+              },
+            ]}
+            placeholder={'默认下拉框'}
+            onChange={(value) => {
+              console.log(value);
+            }}
+          />
+        </Col>
+        <Col span={4}>
+          <Select
+            options={[
+              {
+                label: '选项一选项一选项一选项一选项一选项一选项一选项一',
+                value: 1,
+              },
+              {
+                label: '选项二',
+                value: 2,
+              },
+              {
+                label: '选项三',
+                value: 3,
+              },
+            ]}
+            multiple={true}
+            placeholder={'多选下拉框'}
+            onChange={(value) => {
+              console.log(value);
+            }}
+          />
+        </Col>
+        <Col span={4}>
+          <Select
+            options={[
+              {
+                label: '选项一选项一选项一选项一选项一选项一选项一选项一',
+                value: 1,
+              },
+              {
+                label: '选项二',
+                value: 2,
+              },
+              {
+                label: '选项三',
+                value: 3,
+              },
+            ]}
+            placeholder={'自定义提示'}
+            onChange={(value) => {
+              console.log(value);
+            }}
+          />
+        </Col>
+        <Col span={4}>
+          <Select
+            options={[
+              {
+                label: '选项一选项一选项一选项一选项一选项一选项一选项一',
+                value: 1,
+              },
+              {
+                label: '选项二',
+                value: 2,
+              },
+              {
+                label: '选项三',
+                value: 3,
+              },
+            ]}
+            close={true}
+            placeholder={'带关闭的下拉框'}
+            onChange={(value) => {
+              console.log(value);
+            }}
+          />
+        </Col>
+        <Col span={4}>
+          <Select
+            options={[
+              {
+                label: '选项一选项一选项一选项一选项一选项一选项一选项一',
+                value: 1,
+              },
+              {
+                label: '选项二',
+                value: 2,
+              },
+              {
+                label: '选项三',
+                value: 3,
+              },
+            ]}
+            disabled={true}
+            placeholder={'禁用下拉框'}
+            onChange={(value) => {
+              console.log(value);
+            }}
+          />
+        </Col>
+      </Row>
+    </div>
+  );
+};
 ```
 
 More skills for writing 示例： https://d.umijs.org/guide/demo-principle

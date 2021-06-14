@@ -1,4 +1,98 @@
 @import '../index.less';
 
-.@{prefix}-t {
+.@{prefix}-checkbox {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  padding: 10px 0;
+  & > input {
+    display: none;
+  }
+  &-icon {
+    width: 16px;
+    height: 16px;
+    background: #ffffff;
+    border-radius: 2px;
+    border: 1px solid @borderColor;
+    margin-right: 8px;
+  }
+
+  &-content {
+    line-height: 16px;
+    font-size: 14px;
+    color: @textColor;
+  }
+
+  &&-default {
+    display: flex;
+    align-items: center;
+  }
+
+  // &-${type}{
+
+  // }
+  &&-disabled {
+    .@{prefix}-checkbox-icon {
+      border-color: @borderColor;
+      background: @fullDisableColor;
+    }
+    &.@{prefix}-checkbox-checked {
+      .@{prefix}-checkbox-icon {
+        background: @fullDisableColor;
+        border-color: @borderColor;
+        &:after {
+          background: @borderColor;
+        }
+      }
+    }
+
+    .@{prefix}-checkbox-icon {
+      border-color: @borderColor;
+      background: @fullDisableColor;
+    }
+    .@{prefix}-checkbox-content {
+      color: @promptTextColor;
+    }
+    &:hover {
+      .@{prefix}-checkbox-icon {
+        border-color: @borderColor;
+      }
+    }
+  }
+
+  // &-${size}{
+
+  // }
+  &:hover {
+    .@{prefix}-checkbox-icon {
+      border-color: @primaryColor;
+    }
+  }
+
+  &&-checked {
+    color: @primaryColor;
+
+    .@{prefix}-checkbox-icon {
+      background: @primaryColor;
+      border-color: @primaryColor;
+      position: relative;
+
+      &::before {
+        position: absolute;
+        display: table;
+        border: 2px solid #fff;
+        border-top: 0;
+        border-left: 0;
+        width: 6px;
+        height: 10px;
+        transform: rotate(45deg) scale(1) translate(-50%, -50%);
+        opacity: 1;
+        transition: all 0.2s cubic-bezier(0.12, 0.4, 0.29, 1.46) 0.1s;
+        content: ' ';
+        top: 50%;
+        left: 50%;
+        margin-left: -4px;
+      }
+    }
+  }
 }

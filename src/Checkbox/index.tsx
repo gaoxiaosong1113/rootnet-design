@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import clsx from 'clsx';
 
@@ -8,7 +8,7 @@ import { prefix } from '../config';
 
 import { Icon } from '../index';
 
-interface CarouselProps {
+interface CheckboxProps {
   /**
    * @description      图标的样式名
    * @default           -
@@ -36,50 +36,97 @@ interface CarouselProps {
   children?: React.ReactChild;
 
   /**
-   * @description      Carousel点击事件
+   * @description      Checkbox点击事件
    * @default           -
    */
   onClick?: Function;
 
   /**
-   * @description      Carousel左右的间隔
+   * @description      Checkbox左右的间隔
    * @default           -
    */
   interval?: string;
 
   /**
-   * @description      Carousel的尺寸
+   * @description      Checkbox的尺寸
    * @default           -
    */
   size?: string;
 }
 
-function Carousel(props: CarouselProps) {
-  const { type, icon, disabled, children, onClick, interval, size, ...prop } =
-    props;
+function Checkbox(props: CheckboxProps) {
+  const { type, icon, disabled, children, onChage, size, ...prop } = props;
+  const [checked, setChecked] = useState(props.checked || null);
 
-  function handleClick() {
-    if (!disabled && onClick) {
-      onClick();
+  function handleClick(e) {
+    console.log(e);
+    if (!disabled) {
+      setChecked(e.target.checked);
+      if (onChage) onChage(e.target.checked);
     }
   }
+
+  useEffect(() => {
+    setChecked(checked);
+  }, [props.checked]);
+
   return (
-    <Carousel
+    <label
       className={clsx({
-        [`${prefix}-Carousel`]: true,
-        [`${prefix}-Carousel-default`]: !type && !disabled,
-        [`${prefix}-Carousel-${type}`]: type,
-        [`${prefix}-Carousel-disabled`]: disabled,
-        [`${prefix}-Carousel-${size}`]: size,
+        [`${prefix}-checkbox`]: true,
+        [`${prefix}-checkbox-default`]: !type && !disabled,
+        [`${prefix}-checkbox-${type}`]: type,
+        [`${prefix}-checkbox-disabled`]: disabled,
+        [`${prefix}-checkbox-${size}`]: size,
+        [`${prefix}-checkbox-checked`]: checked,
       })}
-      style={{ margin: interval }}
-      onClick={handleClick}
+      // onClick={handleClick}
       {...prop}
     >
-      {icon && <Icon name={icon} />}
-      <span>{children}</span>
-    </Carousel>
+      <input type="checkbox" checked={checked} onChange={handleClick} />
+      <span
+        className={clsx({
+          [`${prefix}-checkbox-icon`]: true,
+        })}
+      ></span>
+      <span
+        className={clsx({
+          [`${prefix}-checkbox-content`]: true,
+        })}
+      >
+        {children}
+      </span>
+    </label>
   );
 }
 
-export default Carousel;
+function loopChildren(children, props) {
+  return React.Children.map(children, (item) => {
+    console.log(item.type.name == 'Checkbox');
+    if (item.type.name == 'Checkbox') {
+      return React.cloneElement(item, {
+        ...props,
+      });
+    } else {
+      if (item.props.children) {
+        return React.cloneElement(item, {
+          children: loopChildren(item.props.children),
+        });
+      }
+      return item;
+    }
+  });
+}
+
+function Group(props) {
+  const { children, onChange } = props;
+  function handleChange(e) {
+    console.log(e);
+  }
+  console.log(loopChildren(children, { onChange: handleChange }));
+  return <div>{children}</div>;
+}
+
+Checkbox.Group = Group;
+
+export default Checkbox;

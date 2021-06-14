@@ -1,4 +1,100 @@
 @import '../index.less';
 
-.@{prefix}-t {
+.@{prefix}-select-warp {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 9999;
+}
+
+.@{prefix}-select-target {
+  cursor: pointer;
+  height: 32px;
+  background: #ffffff;
+  border-radius: 4px;
+  border: 1px solid #cfd3e3;
+  line-height: 30px;
+  padding: 0 8px;
+  font-size: 14px;
+  color: @textColor;
+  overflow: hidden;
+
+  display: flex;
+  align-items: center;
+  &-content {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    flex: 1;
+  }
+  .iconfont {
+    line-height: 1em;
+  }
+  &&-disabled {
+    cursor: not-allowed;
+    background: @fullDisableColor;
+    border-color: 1px solid @borderColor;
+  }
+}
+
+.@{prefix}-select {
+  position: absolute;
+  z-index: 10;
+  background: #ffffff;
+  box-shadow: 0px 6px 20px 0px rgba(153, 161, 194, 0.3);
+  border-radius: 2px;
+  margin-top: 4px;
+  padding: 2px 0;
+  max-height: 500px;
+  overflow-y: auto;
+
+  &-item {
+    height: 34px;
+    cursor: pointer;
+    background: #ffffff;
+    padding: 0 12px;
+    line-height: 34px;
+    white-space: nowrap;
+    &:hover {
+      background: #f2f6fa;
+    }
+    &&-active {
+      background: #d9e3fa;
+    }
+    &&-disabled {
+      cursor: not-allowed;
+      color: #d0d1d9;
+      background: #fff;
+    }
+  }
+
+  &-placeholder {
+    color: @promptTextColor;
+  }
+
+  &-mask {
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+  }
+
+  &-body {
+  }
+
+  &-footer {
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 0 16px;
+
+    & > * {
+      margin-left: 16px;
+    }
+  }
 }

@@ -1,4 +1,95 @@
 @import '../index.less';
 
-.@{prefix}-t {
+.@{prefix}-radio {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+
+  & > input {
+    display: none;
+  }
+
+  &-icon {
+    width: 16px;
+    height: 16px;
+    background: #ffffff;
+    border-radius: 8px;
+    border: 1px solid @borderColor;
+    margin-right: 8px;
+  }
+
+  &-content {
+    font-size: 14px;
+    color: @textColor;
+  }
+
+  &&-default {
+    display: flex;
+    align-items: center;
+  }
+
+  // &-${type}{
+
+  // }
+  &&-disabled {
+    .@{prefix}-radio-icon {
+      border-color: @borderColor;
+      background: @fullDisableColor;
+    }
+
+    &.@{prefix}-radio-checked {
+      .@{prefix}-radio-icon {
+        border-color: @borderColor;
+
+        &:after {
+          background: @borderColor;
+        }
+      }
+    }
+
+    .@{prefix}-radio-icon {
+      border-color: @borderColor;
+      background: @fullDisableColor;
+    }
+
+    .@{prefix}-radio-content {
+      color: @promptTextColor;
+    }
+
+    &:hover {
+      .@{prefix}-radio-icon {
+        border-color: @borderColor;
+      }
+    }
+  }
+
+  // &-${size}{
+
+  // }
+  &:hover {
+    .@{prefix}-radio-icon {
+      border-color: @primaryColor;
+    }
+  }
+
+  &&-checked {
+    color: @primaryColor;
+
+    .@{prefix}-radio-icon {
+      border-color: @primaryColor;
+      position: relative;
+
+      &:after {
+        content: '';
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: @primaryColor;
+      }
+    }
+  }
 }

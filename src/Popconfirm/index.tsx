@@ -9,24 +9,7 @@ import { prefix } from '../config';
 
 import { Icon, Button } from '../index';
 
-var getOffsetLeft = function (obj) {
-  var tmp = obj.offsetLeft;
-  var node = obj.offsetParent;
-  while (node != null) {
-    tmp += node.offsetLeft;
-    node = node.offsetParent;
-  }
-  return tmp;
-};
-var getOffsetTop = function (obj) {
-  var tmp = obj.offsetTop;
-  var node = obj.offsetParent;
-  while (node != null) {
-    tmp += node.offsetTop;
-    node = node.offsetParent;
-  }
-  return tmp;
-};
+import { getOffsetLeft, getOffsetTop } from '../_util';
 
 interface ModalProps {
   /**

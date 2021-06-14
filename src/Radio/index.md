@@ -13,9 +13,31 @@ group:
 
 ```tsx
 import React from 'react';
-import { Foo } from 'rootnet-design';
+import { Radio, Grid } from 'rootnet-design';
+const { Row, Col } = Grid;
 
-export default () => <Foo title="First Demo" />;
+export default () => {
+  return (
+    <div>
+      <Row gutter={[16, 16]}>
+        <Col span={4}>
+          <Radio>常规</Radio>
+        </Col>
+        <Col span={4}>
+          <Radio disabled>禁用</Radio>
+        </Col>
+        <Col span={4}>
+          <Radio disabled checked={true}>
+            默认选中并禁用
+          </Radio>
+        </Col>
+        <Col span={4}>
+          <Radio checked={true}>默认选中</Radio>
+        </Col>
+      </Row>
+    </div>
+  );
+};
 ```
 
 More skills for writing 示例： https://d.umijs.org/guide/demo-principle

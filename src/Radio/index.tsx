@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import clsx from 'clsx';
 
@@ -55,30 +55,47 @@ interface RadioProps {
 }
 
 function Radio(props: RadioProps) {
-  const { type, icon, disabled, children, onClick, interval, size, ...prop } =
-    props;
+  const { type, icon, disabled, children, onChage, size, ...prop } = props;
+  const [checked, setChecked] = useState(props.checked || null);
 
-  function handleClick() {
-    if (!disabled && onClick) {
-      onClick();
+  function handleClick(e) {
+    if (!disabled) {
+      setChecked(e.target.checked);
+      if (onChage) onChage(e.target.checked);
     }
   }
+
+  useEffect(() => {
+    setChecked(checked);
+  }, [props.checked]);
+
   return (
-    <Radio
+    <div
       className={clsx({
-        [`${prefix}-Radio`]: true,
-        [`${prefix}-Radio-default`]: !type && !disabled,
-        [`${prefix}-Radio-${type}`]: type,
-        [`${prefix}-Radio-disabled`]: disabled,
-        [`${prefix}-Radio-${size}`]: size,
+        [`${prefix}-radio`]: true,
+        [`${prefix}-radio-default`]: !type && !disabled,
+        [`${prefix}-radio-${type}`]: type,
+        [`${prefix}-radio-disabled`]: disabled,
+        [`${prefix}-radio-${size}`]: size,
+        [`${prefix}-radio-checked`]: checked,
       })}
-      style={{ margin: interval }}
       onClick={handleClick}
       {...prop}
     >
-      {icon && <Icon name={icon} />}
-      <span>{children}</span>
-    </Radio>
+      <input type="radio" checked={checked} onChange={handleClick} />
+      <span
+        className={clsx({
+          [`${prefix}-radio-icon`]: true,
+        })}
+      ></span>
+      <span
+        className={clsx({
+          [`${prefix}-radio-content`]: true,
+        })}
+      >
+        {children}
+      </span>
+    </div>
   );
 }
 
