@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState, useContext } from 'react';
 
 import clsx from 'clsx';
 
@@ -7,6 +7,8 @@ import './index.less';
 import { prefix } from '../config';
 
 import { Icon } from '../index';
+
+import { GroupContext } from './Group';
 
 interface CheckboxProps {
   /**
@@ -59,13 +61,36 @@ function Checkbox(props: CheckboxProps) {
   const [checked, setChecked] = useState(props.checked || false);
   const [value, setValue] = useState(props.value || '');
 
+  const checkboxGroup = useContext(GroupContext);
+
   function handleClick(e) {
     if (!disabled) {
+      console.log(checked);
+      console.log(e.target.checked);
       setChecked(e.target.checked);
       if (onChange) {
         onChange(e.target.checked, value);
       }
     }
+  }
+
+  console.log(checked);
+
+  const checkboxProps = {
+    onChange: handleClick,
+    checked,
+  };
+
+  console.log(checkboxProps);
+
+  if (checkboxGroup) {
+    checkboxProps.onChange = (...args) => {
+      handleClick(...args);
+    };
+    console.log(checkboxGroup.checked, props.value);
+    checkboxProps.name = checkboxGroup.name;
+    checkboxProps.checked = checkboxGroup.checked.indexOf(props.value) !== -1;
+    checkboxProps.disabled = props.disabled || checkboxGroup.disabled;
   }
 
   useEffect(() => {
@@ -76,6 +101,8 @@ function Checkbox(props: CheckboxProps) {
     setValue(props.value || '');
   }, [props.value]);
 
+  console.log(checkboxProps);
+
   return (
     <label
       className={clsx({
@@ -84,12 +111,12 @@ function Checkbox(props: CheckboxProps) {
         [`${prefix}-checkbox-${type}`]: type,
         [`${prefix}-checkbox-disabled`]: disabled,
         [`${prefix}-checkbox-${size}`]: size,
-        [`${prefix}-checkbox-checked`]: checked,
+        [`${prefix}-checkbox-checked`]: checkboxProps.checked,
       })}
       // onClick={handleClick}
       {...prop}
     >
-      <input type="checkbox" checked={checked} onChange={handleClick} />
+      <input type="checkbox" {...checkboxProps} />
       <span
         className={clsx({
           [`${prefix}-checkbox-icon`]: true,
@@ -106,50 +133,22 @@ function Checkbox(props: CheckboxProps) {
   );
 }
 
-function loopChildren(children, props, value) {
-  return React.Children.map(children, (item) => {
-    if (item.type.name == 'Checkbox') {
-      return React.cloneElement(item, {
-        ...props,
-        checked: value.indexOf(item.props.value) != -1,
-      });
-    } else {
-      if (item.props.children) {
-        return React.cloneElement(item, {
-          children: loopChildren(item.props.children, props, value),
-        });
-      }
-      return item;
-    }
-  });
-}
-
-function Group(props) {
-  const { children, onChange } = props;
-
-  const [checked, setChecked] = useState(props.checked || []);
-
-  function handleChange(e, v) {
-    let findIndex = checked.indexOf(v);
-    if (!e && findIndex != -1) {
-      checked.splice(findIndex, 1);
-    } else {
-      checked.push(v);
-    }
-    setChecked([...checked]);
-    if (onChange) {
-      onChange([...checked]);
-    }
-  }
-
-  const child = useMemo(() => {
-    // 临时解决方案，最好使用context上下文解决传递值的问题
-    return loopChildren(children, { onChange: handleChange }, props.checked);
-  }, [props.checked]);
-
-  return <div>{child}</div>;
-}
-
-Checkbox.Group = Group;
+// function loopChildren(children, props, value) {
+//   return React.Children.map(children, (item) => {
+//     if (item.type.name == 'Checkbox') {
+//       return React.cloneElement(item, {
+//         ...props,
+//         checked: value.indexOf(item.props.value) != -1,
+//       });
+//     } else {
+//       if (item.props.children) {
+//         return React.cloneElement(item, {
+//           children: loopChildren(item.props.children, props, value),
+//         });
+//       }
+//       return item;
+//     }
+//   });
+// }
 
 export default Checkbox;

@@ -34,21 +34,45 @@ export default () => {
         <Col span={4}>
           <Checkbox checked={true}>默认选中</Checkbox>
         </Col>
+      </Row>
+    </div>
+  );
+};
+```
+
+支持组嵌套的 checkbox：
+
+```tsx
+import React from 'react';
+import { Checkbox, Grid } from 'rootnet-design';
+const { Row, Col } = Grid;
+
+export default () => {
+  return (
+    <div>
+      <Row gutter={[16, 16]}>
         <Col span={4}>
-          <Checkbox.Group checked={true}>
+          <Checkbox.Group
+            onChange={(v) => {
+              console.log(v);
+            }}
+            checked={['1', '2', '3', '4', '5', '6', '7']}
+          >
             <div>
-              <Checkbox>Checkbox组</Checkbox>
+              <Checkbox value="1" disabled>
+                Checkbox组
+              </Checkbox>
             </div>
             <div>
-              <Checkbox>Checkbox组</Checkbox>
+              <Checkbox value="2">Checkbox组</Checkbox>
             </div>
             <div>
-              <Checkbox>Checkbox组</Checkbox>
+              <Checkbox value="3">Checkbox组</Checkbox>
             </div>
-            <Checkbox>Checkbox组</Checkbox>
-            <Checkbox>Checkbox组</Checkbox>
-            <Checkbox>Checkbox组</Checkbox>
-            <Checkbox>Checkbox组</Checkbox>
+            <Checkbox value="4">Checkbox组</Checkbox>
+            <Checkbox value="5">Checkbox组</Checkbox>
+            <Checkbox value="6">Checkbox组</Checkbox>
+            <Checkbox value="7">Checkbox组</Checkbox>
           </Checkbox.Group>
         </Col>
       </Row>
