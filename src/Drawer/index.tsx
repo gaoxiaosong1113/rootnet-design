@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import ReactDom from 'react-dom';
 
 import clsx from 'clsx';
 
@@ -6,80 +7,156 @@ import './index.less';
 
 import { prefix } from '../config';
 
-import { Icon } from '../index';
+import { Icon, Button } from '../index';
 
-interface DescriptionsProps {
+interface DrawerProps {
   /**
-   * @description      图标的样式名
+   * @description      drawer 的样式名
    * @default           -
    */
   className?: string;
 
   /**
-   * @description      按钮的类型
+   * @description      drawer 的title
    * @default           -
    */
-  type?: string;
+  title: any;
 
   /**
-   * @description      需要显示的图标
+   * @description      drawer 的内容
    * @default           -
    */
-  icon?: string;
+  content?: any;
+
+  children: any;
 
   /**
-   * @description      是否禁用按钮
+   * @description      drawer 的类型
+   * @default           -
+   */
+  type: string;
+
+  /**
+   * @description      drawer 是否显示
    * @default           false
    */
-  disabled?: boolean;
-
-  children?: React.ReactChild;
+  visible: boolean;
 
   /**
-   * @description      Descriptions点击事件
+   * @description      确认按钮
    * @default           -
    */
-  onClick?: Function;
+  onConfirm: Function;
 
   /**
-   * @description      Descriptions左右的间隔
+   * @description      取消按钮
    * @default           -
    */
-  interval?: string;
+  onCancel: Function;
 
   /**
-   * @description      Descriptions的尺寸
+   * @description      取消按钮
    * @default           -
    */
-  size?: string;
+  position?: string;
 }
 
-function Descriptions(props: DescriptionsProps) {
-  const { type, icon, disabled, children, onClick, interval, size, ...prop } =
-    props;
+// 第一次渲染，不显示
 
-  function handleClick() {
-    if (!disabled && onClick) {
-      onClick();
-    }
+// 不是第一次渲染，渲染dom，根据visible是否显示
+
+function DrawerContent(props: DrawerProps) {
+  const {
+    visible,
+    title,
+    children,
+    position = 'left',
+    onConfirm,
+    onCancel,
+    ...prop
+  } = props;
+
+  function handleCancel() {
+    onCancel ? onCancel() : null;
   }
+
+  function handleConfirm() {
+    onConfirm ? onConfirm() : null;
+  }
+  console.log(position);
   return (
     <div
       className={clsx({
-        [`${prefix}-Descriptions`]: true,
-        [`${prefix}-Descriptions-default`]: !type && !disabled,
-        [`${prefix}-Descriptions-${type}`]: type,
-        [`${prefix}-Descriptions-disabled`]: disabled,
-        [`${prefix}-Descriptions-${size}`]: size,
+        [`${prefix}-drawer-warp`]: true,
+        [`${prefix}-drawer-visible`]: visible,
       })}
-      style={{ margin: interval }}
-      onClick={handleClick}
-      {...prop}
     >
-      {icon && <Icon name={icon} />}
-      <span>{children}</span>
+      <div
+        className={clsx({
+          [`${prefix}-drawer`]: true,
+          [`${prefix}-drawer-${position}`]: position,
+        })}
+      >
+        <div
+          className={clsx({
+            [`${prefix}-drawer-head`]: true,
+          })}
+        >
+          <div
+            className={clsx({
+              [`${prefix}-drawer-head-title`]: true,
+            })}
+          >
+            {title}
+          </div>
+          <div
+            className={clsx({
+              [`${prefix}-drawer-head-close`]: true,
+            })}
+            onClick={() => {
+              onCancel ? onCancel() : null;
+            }}
+          >
+            <Icon name="sk-order" />
+          </div>
+        </div>
+        <div
+          className={clsx({
+            [`${prefix}-drawer-body`]: true,
+          })}
+        >
+          <span>{children}</span>
+        </div>
+        <div
+          className={clsx({
+            [`${prefix}-drawer-footer`]: true,
+          })}
+        >
+          <Button onClick={handleCancel}>取消</Button>
+          <Button type="primary" onClick={handleConfirm}>
+            确定
+          </Button>
+        </div>
+      </div>
+      <div
+        className={clsx({
+          [`${prefix}-drawer-mask`]: true,
+        })}
+        onClick={handleCancel}
+      ></div>
     </div>
   );
 }
 
-export default Descriptions;
+function Drawer(props: DrawerProps) {
+  const { visible, title, children, position, onConfirm, onCancel, ...prop } =
+    props;
+
+  if (!visible) {
+    return null;
+  }
+
+  return ReactDom.createPortal(<DrawerContent {...props} />, document.body);
+}
+
+export default Drawer;

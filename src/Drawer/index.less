@@ -1,4 +1,136 @@
 @import '../index.less';
 
-.@{prefix}-t {
+.@{prefix}-drawer-warp {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  display: none;
+}
+
+.@{prefix}-drawer {
+  position: relative;
+  z-index: 10;
+  width: 480px;
+  background: #ffffff;
+  box-shadow: 0px 6px 20px 0px rgba(153, 161, 194, 0.3);
+  border-radius: 2px;
+
+  &-left {
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+
+    .@{prefix}-drawer-body {
+      flex: 1;
+      overflow: auto;
+    }
+  }
+
+  &-right {
+    position: fixed;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+
+    .@{prefix}-drawer-body {
+      flex: 1;
+      overflow: auto;
+    }
+  }
+  &-top {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    width: 100%;
+    .@{prefix}-drawer-body {
+      flex: 1;
+      overflow: auto;
+    }
+  }
+  &-bottom {
+    position: fixed;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    width: 100%;
+    .@{prefix}-drawer-body {
+      flex: 1;
+      overflow: auto;
+    }
+  }
+
+  &-visible {
+    display: flex;
+  }
+
+  &-mask {
+    position: absolute;
+    z-index: 1;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.6);
+  }
+
+  &-head {
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 16px;
+    border-bottom: 1px solid #e9eaf2;
+
+    &-title {
+      font-size: 16px;
+      font-weight: 500;
+      color: #15171f;
+      line-height: 24px;
+    }
+
+    &-close {
+      cursor: pointer;
+      position: absolute;
+      right: 16px;
+      top: 16px;
+      color: #3a415c;
+    }
+  }
+
+  &-body {
+    padding: 16px;
+  }
+
+  &-footer {
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 0 16px;
+    border-top: 1px solid #e9eaf2;
+
+    & > * {
+      margin-left: 16px;
+    }
+  }
 }

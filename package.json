@@ -1,7 +1,10 @@
 {
-  "private": true,
+  "private": false,
   "name": "rootnet-design",
   "version": "0.0.1",
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "start": "dumi dev",
     "docs:build": "dumi build",
@@ -12,7 +15,8 @@
     "prettier": "prettier --write \"**/*.{js,jsx,tsx,ts,less,md,json}\"",
     "test": "umi-test",
     "test:coverage": "umi-test --coverage",
-    "upload": "npm version patch && npm run build && npm publish --registry=http://192.168.1.56:8081/repository/npm-hosted/"
+    "patch": "npm version patch",
+    "upload": "npm publish --registry=http://192.168.1.56:8081/repository/npm-hosted/"
   },
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
