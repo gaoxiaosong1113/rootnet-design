@@ -28,10 +28,22 @@ export interface IconProps {
    * @default 16
    */
   size?: number;
+
+  /**
+   * @description 点击事件
+   * @default -
+   */
+  onClick?: Function | undefined;
+
+  /**
+   * @description 样式
+   * @default -
+   */
+  style?: Object;
 }
 
 function Icon(props: IconProps) {
-  const { name, size, color, ...prop } = props;
+  const { name, size, color, onClick, ...prop } = props;
   return (
     <span
       className={`${prefix}-iconfont iconfont icon-${name}`}
@@ -41,6 +53,7 @@ function Icon(props: IconProps) {
         width: size || 16,
         height: size || 16,
       }}
+      onClick={() => (onClick ? onClick() : null)}
       {...prop}
     />
   );

@@ -64,7 +64,7 @@ function Spin(props: SpinProps) {
     }
   }
   return (
-    <Spin
+    <div
       className={clsx({
         [`${prefix}-Spin`]: true,
         [`${prefix}-Spin-default`]: !type && !disabled,
@@ -78,7 +78,7 @@ function Spin(props: SpinProps) {
     >
       {icon && <Icon name={icon} />}
       <span>{children}</span>
-    </Spin>
+    </div>
   );
 }
 

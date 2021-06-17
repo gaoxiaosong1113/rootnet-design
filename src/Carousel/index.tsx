@@ -64,7 +64,7 @@ function Carousel(props: CarouselProps) {
     }
   }
   return (
-    <Carousel
+    <div
       className={clsx({
         [`${prefix}-Carousel`]: true,
         [`${prefix}-Carousel-default`]: !type && !disabled,
@@ -78,7 +78,7 @@ function Carousel(props: CarouselProps) {
     >
       {icon && <Icon name={icon} />}
       <span>{children}</span>
-    </Carousel>
+    </div>
   );
 }
 

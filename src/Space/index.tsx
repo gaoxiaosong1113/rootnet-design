@@ -64,7 +64,7 @@ function Space(props: SpaceProps) {
     }
   }
   return (
-    <Space
+    <div
       className={clsx({
         [`${prefix}-Space`]: true,
         [`${prefix}-Space-default`]: !type && !disabled,
@@ -78,7 +78,7 @@ function Space(props: SpaceProps) {
     >
       {icon && <Icon name={icon} />}
       <span>{children}</span>
-    </Space>
+    </div>
   );
 }
 

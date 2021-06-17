@@ -64,7 +64,7 @@ function Menu(props: MenuProps) {
     }
   }
   return (
-    <Menu
+    <div
       className={clsx({
         [`${prefix}-Menu`]: true,
         [`${prefix}-Menu-default`]: !type && !disabled,
@@ -78,7 +78,7 @@ function Menu(props: MenuProps) {
     >
       {icon && <Icon name={icon} />}
       <span>{children}</span>
-    </Menu>
+    </div>
   );
 }
 

@@ -17,6 +17,28 @@ interface ModalProps {
    * @default           -
    */
   className?: string;
+
+  /**
+   * @description      主体内容
+   * @default           -
+   */
+  content: any;
+
+  children: any;
+
+  /**
+   * @description      确认按钮回调
+   * @default           -
+   */
+  onConfirm: Function;
+
+  /**
+   * @description      取消按钮回调
+   * @default           -
+   */
+  onCancel: Function;
+
+  event: any;
 }
 
 function ModalContent(props: ModalProps) {
@@ -33,8 +55,7 @@ function ModalContent(props: ModalProps) {
     handleUnRender();
     onConfirm ? onConfirm() : null;
   }
-  console.log(event.target);
-  console.log(getOffsetLeft(event.target));
+
   return (
     <div
       className={clsx({
@@ -78,27 +99,27 @@ function ModalContent(props: ModalProps) {
   );
 }
 
-var popup;
+var popup: any;
 
 // 挂载弹窗
-function handleRender(props) {
+function handleRender(props: any) {
   ReactDom.render(<ModalContent {...props} />, popup);
 }
 
 // 首次挂载弹窗
-function handleAppendRender(props) {
+function handleAppendRender(props: any) {
   popup = document.createElement('div');
   document.body.appendChild(popup);
   handleRender(props);
 }
 
 // 卸载弹窗
-function handleUnRender(props) {
+function handleUnRender(props?: any) {
   if (popup) ReactDom.unmountComponentAtNode(popup);
 }
 
 function Popconfirm(props: ModalProps) {
-  const { title, children, visible, onConfirm, onCancel, ...prop } = props;
+  const { children, onConfirm, onCancel, ...prop } = props;
 
   return (
     <span

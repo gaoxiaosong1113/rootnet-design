@@ -64,7 +64,7 @@ function Steps(props: StepsProps) {
     }
   }
   return (
-    <Steps
+    <div
       className={clsx({
         [`${prefix}-Steps`]: true,
         [`${prefix}-Steps-default`]: !type && !disabled,
@@ -78,7 +78,7 @@ function Steps(props: StepsProps) {
     >
       {icon && <Icon name={icon} />}
       <span>{children}</span>
-    </Steps>
+    </div>
   );
 }
 

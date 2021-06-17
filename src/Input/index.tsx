@@ -64,7 +64,7 @@ function Input(props: InputProps) {
     }
   }
   return (
-    <Input
+    <div
       className={clsx({
         [`${prefix}-Input`]: true,
         [`${prefix}-Input-default`]: !type && !disabled,
@@ -78,7 +78,7 @@ function Input(props: InputProps) {
     >
       {icon && <Icon name={icon} />}
       <span>{children}</span>
-    </Input>
+    </div>
   );
 }
 

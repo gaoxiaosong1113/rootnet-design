@@ -64,7 +64,7 @@ function Upload(props: UploadProps) {
     }
   }
   return (
-    <Upload
+    <div
       className={clsx({
         [`${prefix}-Upload`]: true,
         [`${prefix}-Upload-default`]: !type && !disabled,
@@ -78,7 +78,7 @@ function Upload(props: UploadProps) {
     >
       {icon && <Icon name={icon} />}
       <span>{children}</span>
-    </Upload>
+    </div>
   );
 }
 

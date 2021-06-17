@@ -64,7 +64,7 @@ function Tag(props: TagProps) {
     }
   }
   return (
-    <Tag
+    <div
       className={clsx({
         [`${prefix}-Tag`]: true,
         [`${prefix}-Tag-default`]: !type && !disabled,
@@ -78,7 +78,7 @@ function Tag(props: TagProps) {
     >
       {icon && <Icon name={icon} />}
       <span>{children}</span>
-    </Tag>
+    </div>
   );
 }
 

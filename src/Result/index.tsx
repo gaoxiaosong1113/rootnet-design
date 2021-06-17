@@ -64,7 +64,7 @@ function Result(props: ResultProps) {
     }
   }
   return (
-    <Result
+    <div
       className={clsx({
         [`${prefix}-Result`]: true,
         [`${prefix}-Result-default`]: !type && !disabled,
@@ -78,7 +78,7 @@ function Result(props: ResultProps) {
     >
       {icon && <Icon name={icon} />}
       <span>{children}</span>
-    </Result>
+    </div>
   );
 }
 

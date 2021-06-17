@@ -20,7 +20,7 @@ interface TableItemProps {
    * @description      层级
    * @default           -
    */
-  layer?: string;
+  layer: number;
 
   /**
    * @description      是否显示索引
@@ -32,7 +32,7 @@ interface TableItemProps {
    * @description      表格列的配置
    * @default           false
    */
-  columns?: string;
+  columns?: Array<any>;
 
   /**
    * @description      配置是否展开属性
@@ -86,7 +86,7 @@ interface TableItemProps {
    * @description      表格的数据
    * @default           false
    */
-  data?: Array<any>;
+  data?: any;
 
   /**
    * @description      是否树形结构
@@ -98,7 +98,7 @@ interface TableItemProps {
    * @description      当前行的索引值
    * @default           false
    */
-  index?: string;
+  index: number;
 }
 
 function TableItem(props: TableItemProps) {
@@ -136,7 +136,7 @@ function TableItem(props: TableItemProps) {
     setOpen(!open);
   };
 
-  let child = data.childList && data.childList.length > 0;
+  let child: any = data.childList && data.childList.length > 0;
 
   return (
     <>
@@ -166,7 +166,7 @@ function TableItem(props: TableItemProps) {
           </td>
         )}
         {columns &&
-          columns.map((item, index) => {
+          columns.map((item: any, index: any) => {
             return (
               <td
                 className={`${prefix}-table-td ${item.className || ''}`}
@@ -192,18 +192,18 @@ function TableItem(props: TableItemProps) {
   );
 }
 
-function TableChildren(props) {
+function TableChildren(props: any) {
   const { data } = props;
 
   return (
     data &&
-    data.map((dataItem, index) => {
+    data.map((dataItem: any, index: any) => {
       return <TableItem {...props} index={index} key={index} data={dataItem} />;
     })
   );
 }
 
-export default function Table(props) {
+export default function Table(props: any) {
   const {
     // 是否显示索引
     indexEq = true,
@@ -314,7 +314,7 @@ export default function Table(props) {
                 </th>
               )}
               {columns &&
-                columns.map((item, index) => {
+                columns.map((item: any, index: any) => {
                   return (
                     <th
                       className={clsx(

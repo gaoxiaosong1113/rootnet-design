@@ -64,7 +64,7 @@ function Layout(props: LayoutProps) {
     }
   }
   return (
-    <Layout
+    <div
       className={clsx({
         [`${prefix}-Layout`]: true,
         [`${prefix}-Layout-default`]: !type && !disabled,
@@ -78,7 +78,7 @@ function Layout(props: LayoutProps) {
     >
       {icon && <Icon name={icon} />}
       <span>{children}</span>
-    </Layout>
+    </div>
   );
 }
 

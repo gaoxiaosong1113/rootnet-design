@@ -64,7 +64,7 @@ function PageHeader(props: PageHeaderProps) {
     }
   }
   return (
-    <PageHeader
+    <div
       className={clsx({
         [`${prefix}-PageHeader`]: true,
         [`${prefix}-PageHeader-default`]: !type && !disabled,
@@ -78,7 +78,7 @@ function PageHeader(props: PageHeaderProps) {
     >
       {icon && <Icon name={icon} />}
       <span>{children}</span>
-    </PageHeader>
+    </div>
   );
 }
 

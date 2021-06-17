@@ -64,7 +64,7 @@ function Collapse(props: CollapseProps) {
     }
   }
   return (
-    <Collapse
+    <div
       className={clsx({
         [`${prefix}-Collapse`]: true,
         [`${prefix}-Collapse-default`]: !type && !disabled,
@@ -78,7 +78,7 @@ function Collapse(props: CollapseProps) {
     >
       {icon && <Icon name={icon} />}
       <span>{children}</span>
-    </Collapse>
+    </div>
   );
 }
 

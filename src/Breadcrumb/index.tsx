@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactChild, ReactChildren, ReactNode } from 'react';
 
 import clsx from 'clsx';
 
@@ -19,7 +19,13 @@ interface BreadcrumbProps {
    * @description      面包屑导航的数据
    * @default           -
    */
-  list?: array;
+  list?: Array<any>;
+
+  /**
+   * @description      子项
+   * @default           -
+   */
+  children?: any;
 }
 
 function Breadcrumb(props: BreadcrumbProps) {
@@ -32,10 +38,10 @@ function Breadcrumb(props: BreadcrumbProps) {
       })}
       {...prop}
     >
-      {React.Children.map(children, (item, index) => {
+      {React.Children.map(children, (item: any, index) => {
         return React.cloneElement(item, {
           index,
-          lastChild: children.length - 1 == index,
+          lastChild: children && children.length - 1 == index,
         });
       })}
     </div>
@@ -48,6 +54,30 @@ interface BreadcrumbItemProps {
    * @default           -
    */
   className?: string;
+
+  /**
+   * @description      点击事件
+   * @default           -
+   */
+  onClick: Function;
+
+  /**
+   * @description      当前项的索引
+   * @default           -
+   */
+  index: number;
+
+  /**
+   * @description      是否是最后一项
+   * @default           -
+   */
+  lastChild: boolean;
+
+  /**
+   * @description      子项
+   * @default           -
+   */
+  children?: any;
 }
 
 function BreadcrumbItem(props: BreadcrumbItemProps) {
@@ -66,6 +96,7 @@ function BreadcrumbItem(props: BreadcrumbItemProps) {
         [`${prefix}-breadcrumb-item-last`]: lastChild,
       })}
       onClick={() => handleClick()}
+      {...prop}
     >
       <span>{children}</span>
     </div>

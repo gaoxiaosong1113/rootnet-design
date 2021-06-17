@@ -64,7 +64,7 @@ function Popover(props: PopoverProps) {
     }
   }
   return (
-    <Popover
+    <div
       className={clsx({
         [`${prefix}-Popover`]: true,
         [`${prefix}-Popover-default`]: !type && !disabled,
@@ -78,7 +78,7 @@ function Popover(props: PopoverProps) {
     >
       {icon && <Icon name={icon} />}
       <span>{children}</span>
-    </Popover>
+    </div>
   );
 }
 

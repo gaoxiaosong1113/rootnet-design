@@ -6,13 +6,40 @@ import './index.less';
 
 import { prefix } from '../config';
 
-const Row = (props) => {
+interface RowProps {
+  /**
+   * @description      图标的样式名
+   * @default           -
+   */
+  className?: string;
+
+  children?: React.ReactChild;
+
+  /**
+   * @description      对齐方式
+   * @default           -
+   */
+  justify?: string;
+
+  /**
+   * @description      是否换行
+   * @default           false
+   */
+  wrap?: boolean;
+
+  /**
+   * @description      栅格的间隔
+   * @default           -
+   */
+  gutter?: Array<any>;
+}
+
+const Row = (props: RowProps) => {
   const { children, justify, wrap, gutter } = props;
-  console.log(`${gutter.toString()}`);
 
-  let gutterData = [];
+  let gutterData: Array<any> = [];
 
-  if (Object.prototype.toString.call(gutter) == '[object Array]') {
+  if (gutter && Object.prototype.toString.call(gutter) == '[object Array]') {
     if (gutter.length == 2) {
       gutterData = gutter;
     }
@@ -34,14 +61,60 @@ const Row = (props) => {
         rowGap: gutterData[1],
       }}
     >
-      {React.Children.map(children, (item) => {
+      {React.Children.map(children, (item: any) => {
         return React.cloneElement(item, { gutter: gutterData });
       })}
     </div>
   );
 };
 
-const Col = (props) => {
+interface ColProps {
+  /**
+   * @description      图标的样式名
+   * @default           -
+   */
+  className?: string;
+
+  children?: React.ReactChild;
+
+  /**
+   * @description      对齐方式
+   * @default           -
+   */
+  span?: string;
+
+  /**
+   * @description      抵消
+   * @default           -
+   */
+  offset?: boolean;
+
+  /**
+   * @description      缩进
+   * @default           -
+   */
+  pull?: number;
+
+  /**
+   * @description      推进
+   * @default           -
+   */
+  push?: number;
+
+  /**
+   * @description      栅格排序
+   * @default           -
+   */
+  order?: number;
+
+  /**
+   * @description      栅格的间隔
+   * @default           -
+   */
+  gutter: Array<any>;
+}
+
+const Col = (props: ColProps) => {
   const { children, span, offset, pull, push, order, gutter } = props;
   return (
     <div
@@ -63,8 +136,7 @@ const Col = (props) => {
   );
 };
 
-const Grid = {};
-Grid.Row = Row;
-Grid.Col = Col;
-
-export default Grid;
+export default {
+  Row,
+  Col,
+};

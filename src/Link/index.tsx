@@ -64,7 +64,7 @@ function Link(props: LinkProps) {
     }
   }
   return (
-    <Link
+    <div
       className={clsx({
         [`${prefix}-Link`]: true,
         [`${prefix}-Link-default`]: !type && !disabled,
@@ -78,7 +78,7 @@ function Link(props: LinkProps) {
     >
       {icon && <Icon name={icon} />}
       <span>{children}</span>
-    </Link>
+    </div>
   );
 }
 

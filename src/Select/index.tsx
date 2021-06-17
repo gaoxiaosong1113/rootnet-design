@@ -16,42 +16,83 @@ interface SelectProps {
    * @default           -
    */
   className?: string;
+
+  /**
+   * @description      select 提示
+   * @default           -
+   */
+  placeholder?: string;
+
+  /**
+   * @description      禁用 select
+   * @default           -
+   */
+  disabled?: boolean;
+
+  /**
+   * @description      select 值更改
+   * @default           -
+   */
+  onChange?: any;
+
+  /**
+   * @description      取消 select 下拉
+   * @default           -
+   */
+  onCancel?: any;
+
+  /**
+   * @description      是否显示删除按钮
+   * @default           -
+   */
+  close?: any;
+
+  /**
+   * @description      select 的值
+   * @default           -
+   */
+  value?: any;
+
+  /**
+   * @description      select 选项
+   * @default           -
+   */
+  options: Array<any>;
+
+  /**
+   * @description      开启多选
+   * @default           false
+   */
+  multiple?: boolean;
+
+  event?: any;
 }
 
-var popup;
+var popup: any;
 
 // 挂载弹窗
-function handleRender(props) {
+function handleRender(props: any) {
   ReactDom.render(<SelectContent {...props} />, popup);
 }
 
 // 首次挂载弹窗
-function handleAppendRender(props) {
+function handleAppendRender(props: any) {
   popup = document.createElement('div');
   document.body.appendChild(popup);
   handleRender(props);
 }
 
 // 卸载弹窗
-function handleUnRender(props) {
+function handleUnRender(props?: any) {
   if (popup) ReactDom.unmountComponentAtNode(popup);
 }
 
 function Select(props: SelectProps) {
-  const {
-    title,
-    children,
-    placeholder,
-    disabled,
-    onChange,
-    onCancel,
-    close,
-    ...prop
-  } = props;
+  const { placeholder, disabled, onChange, onCancel, close, ...prop } = props;
 
-  const [value, setValue] = useState(props.value);
+  const [value, setValue] = useState(props.value || '');
 
-  function handleOnChange(e) {
+  function handleOnChange(e: any) {
     // onChange
     setValue(e);
     if (onChange) onChange(e);
@@ -66,7 +107,7 @@ function Select(props: SelectProps) {
       className={clsx({
         [`${prefix}-select-target`]: true,
         [`${prefix}-select-target-disabled`]: disabled,
-        [`${prefix}-select-placeholder`]: value === undefined || value === null,
+        [`${prefix}-select-placeholder`]: !value,
       })}
     >
       <div
@@ -91,23 +132,15 @@ function Select(props: SelectProps) {
 }
 
 function SelectContent(props: SelectProps) {
-  const {
-    options,
-    multiple,
-    value,
-    children,
-    onChange,
-    onCancel,
-    event,
-    ...prop
-  } = props;
+  const { options, multiple, value, onChange, onCancel, event, ...prop } =
+    props;
 
-  function handleCancel(e) {
+  function handleCancel(e: any) {
     handleUnRender();
     onCancel ? onCancel(e) : null;
   }
 
-  function handleChange(e) {
+  function handleChange(e: any) {
     handleUnRender();
     onChange ? onChange(e) : null;
   }
@@ -170,7 +203,7 @@ function SelectContent(props: SelectProps) {
   );
 }
 
-function SelectValue(props) {
+function SelectValue(props: SelectProps) {
   const { options, value, placeholder, onChange, onCancel, event, ...prop } =
     props;
   if (value) {

@@ -64,7 +64,7 @@ function Pagination(props: PaginationProps) {
     }
   }
   return (
-    <Pagination
+    <div
       className={clsx({
         [`${prefix}-Pagination`]: true,
         [`${prefix}-Pagination-default`]: !type && !disabled,
@@ -78,7 +78,7 @@ function Pagination(props: PaginationProps) {
     >
       {icon && <Icon name={icon} />}
       <span>{children}</span>
-    </Pagination>
+    </div>
   );
 }
 

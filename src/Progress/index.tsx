@@ -64,7 +64,7 @@ function Progress(props: ProgressProps) {
     }
   }
   return (
-    <Progress
+    <div
       className={clsx({
         [`${prefix}-Progress`]: true,
         [`${prefix}-Progress-default`]: !type && !disabled,
@@ -78,7 +78,7 @@ function Progress(props: ProgressProps) {
     >
       {icon && <Icon name={icon} />}
       <span>{children}</span>
-    </Progress>
+    </div>
   );
 }
 

@@ -64,7 +64,7 @@ function Dropdown(props: DropdownProps) {
     }
   }
   return (
-    <Dropdown
+    <div
       className={clsx({
         [`${prefix}-Dropdown`]: true,
         [`${prefix}-Dropdown-default`]: !type && !disabled,
@@ -78,7 +78,7 @@ function Dropdown(props: DropdownProps) {
     >
       {icon && <Icon name={icon} />}
       <span>{children}</span>
-    </Dropdown>
+    </div>
   );
 }
 

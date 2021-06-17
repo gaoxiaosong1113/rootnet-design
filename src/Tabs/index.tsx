@@ -64,7 +64,7 @@ function Tabs(props: TabsProps) {
     }
   }
   return (
-    <Tabs
+    <div
       className={clsx({
         [`${prefix}-Tabs`]: true,
         [`${prefix}-Tabs-default`]: !type && !disabled,
@@ -78,7 +78,7 @@ function Tabs(props: TabsProps) {
     >
       {icon && <Icon name={icon} />}
       <span>{children}</span>
-    </Tabs>
+    </div>
   );
 }
 

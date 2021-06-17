@@ -36,16 +36,22 @@ interface CheckboxProps {
   children?: React.ReactChild;
 
   /**
-   * @description      Checkbox点击事件
+   * @description      Checkbox 更改事件
    * @default           -
    */
-  onClick?: Function;
+  onChange?: Function;
 
   /**
-   * @description      Checkbox左右的间隔
+   * @description      是否选中
    * @default           -
    */
-  interval?: string;
+  checked?: boolean;
+
+  /**
+   * @description      Checkbox 的值
+   * @default           -
+   */
+  value?: string;
 
   /**
    * @description      Checkbox的尺寸
@@ -59,7 +65,7 @@ function Checkbox(props: CheckboxProps) {
   const [checked, setChecked] = useState(props.checked || false);
   const [value, setValue] = useState(props.value || '');
 
-  function handleClick(e) {
+  function handleClick(e: any) {
     if (!disabled) {
       setChecked(e.target.checked);
       if (onChange) {
@@ -106,8 +112,8 @@ function Checkbox(props: CheckboxProps) {
   );
 }
 
-function loopChildren(children, props, value) {
-  return React.Children.map(children, (item) => {
+function loopChildren(children: any, props: any, value: Array<any>): any {
+  return React.Children.map(children, (item: any) => {
     if (item.type.name == 'Checkbox') {
       return React.cloneElement(item, {
         ...props,
@@ -124,12 +130,34 @@ function loopChildren(children, props, value) {
   });
 }
 
-function Group(props) {
+interface GroupProps {
+  /**
+   * @description      图标的样式名
+   * @default           -
+   */
+  className?: string;
+
+  children?: React.ReactChild;
+
+  /**
+   * @description      Checkbox 更改事件
+   * @default           -
+   */
+  onChange?: Function;
+
+  /**
+   * @description      是否选中
+   * @default           -
+   */
+  checked: [];
+}
+
+function Group(props: GroupProps) {
   const { children, onChange } = props;
 
   const [checked, setChecked] = useState(props.checked || []);
 
-  function handleChange(e, v) {
+  function handleChange(e: any, v: never) {
     let findIndex = checked.indexOf(v);
     if (!e && findIndex != -1) {
       checked.splice(findIndex, 1);

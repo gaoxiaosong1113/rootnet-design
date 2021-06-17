@@ -1,4 +1,4 @@
-export const getOffsetLeft = function (obj) {
+export const getOffsetLeft = function (obj: any): any {
   let tmp = obj.offsetLeft;
   let node = obj.offsetParent;
   while (node != null) {
@@ -8,7 +8,7 @@ export const getOffsetLeft = function (obj) {
   return tmp;
 };
 
-export const getOffsetTop = function (obj) {
+export const getOffsetTop = function (obj: any): any {
   let tmp = obj.offsetTop;
   let node = obj.offsetParent;
   while (node != null) {

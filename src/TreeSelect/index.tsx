@@ -64,7 +64,7 @@ function TreeSelect(props: TreeSelectProps) {
     }
   }
   return (
-    <TreeSelect
+    <div
       className={clsx({
         [`${prefix}-TreeSelect`]: true,
         [`${prefix}-TreeSelect-default`]: !type && !disabled,
@@ -78,7 +78,7 @@ function TreeSelect(props: TreeSelectProps) {
     >
       {icon && <Icon name={icon} />}
       <span>{children}</span>
-    </TreeSelect>
+    </div>
   );
 }
 

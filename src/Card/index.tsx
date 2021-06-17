@@ -5,7 +5,6 @@ import clsx from 'clsx';
 import './index.less';
 
 import { prefix } from '../config';
-import { IconProps } from '@/Icon';
 
 interface CardProps {
   /**
@@ -57,15 +56,9 @@ interface CardProps {
    * @default           -
    */
   changeTabKey?: Function;
-
-  /**
-   * @description      卡片的宽度
-   * @default           -
-   */
-  width?: number;
 }
 
-export default function Card(props: IconProps) {
+export default function Card(props: CardProps) {
   const {
     children,
     title,
@@ -110,7 +103,7 @@ export default function Card(props: IconProps) {
                 [`${prefix}-card-tabs`]: true,
               })}
             >
-              {tabList.map((item, index) => {
+              {tabList.map((item: any, index: number) => {
                 return (
                   <div
                     className={clsx({

@@ -64,7 +64,7 @@ function InputNumber(props: InputNumberProps) {
     }
   }
   return (
-    <InputNumber
+    <div
       className={clsx({
         [`${prefix}-InputNumber`]: true,
         [`${prefix}-InputNumber-default`]: !type && !disabled,
@@ -78,7 +78,7 @@ function InputNumber(props: InputNumberProps) {
     >
       {icon && <Icon name={icon} />}
       <span>{children}</span>
-    </InputNumber>
+    </div>
   );
 }
 

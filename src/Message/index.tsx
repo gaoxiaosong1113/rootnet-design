@@ -64,7 +64,7 @@ function Message(props: MessageProps) {
     }
   }
   return (
-    <Message
+    <div
       className={clsx({
         [`${prefix}-Message`]: true,
         [`${prefix}-Message-default`]: !type && !disabled,
@@ -78,7 +78,7 @@ function Message(props: MessageProps) {
     >
       {icon && <Icon name={icon} />}
       <span>{children}</span>
-    </Message>
+    </div>
   );
 }
 

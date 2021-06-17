@@ -64,7 +64,7 @@ function DatePicker(props: DatePickerProps) {
     }
   }
   return (
-    <DatePicker
+    <div
       className={clsx({
         [`${prefix}-DatePicker`]: true,
         [`${prefix}-DatePicker-default`]: !type && !disabled,
@@ -78,7 +78,7 @@ function DatePicker(props: DatePickerProps) {
     >
       {icon && <Icon name={icon} />}
       <span>{children}</span>
-    </DatePicker>
+    </div>
   );
 }
 

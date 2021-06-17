@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import ReactDom from 'react-dom';
+import ReactDOM from 'react-dom';
 
 import clsx from 'clsx';
 
@@ -11,10 +11,48 @@ import { Icon, Button } from '../index';
 
 interface ModalProps {
   /**
-   * @description      图标的样式名
+   * @description      modal 的样式名
    * @default           -
    */
   className?: string;
+
+  /**
+   * @description      modal 的title
+   * @default           -
+   */
+  title: any;
+
+  /**
+   * @description      modal 的内容
+   * @default           -
+   */
+  content?: any;
+
+  children: any;
+
+  /**
+   * @description      modal 的类型
+   * @default           -
+   */
+  type: string;
+
+  /**
+   * @description      modal 是否显示
+   * @default           false
+   */
+  visible: boolean;
+
+  /**
+   * @description      确认按钮
+   * @default           -
+   */
+  onConfirm: Function;
+
+  /**
+   * @description      取消按钮
+   * @default           -
+   */
+  onCancel: Function;
 }
 
 function ModalContent(props: ModalProps) {
@@ -103,23 +141,23 @@ function ModalContent(props: ModalProps) {
   );
 }
 
-var popup;
+var popup: any;
 
 // 挂载弹窗
-function handleRender(props) {
-  ReactDom.render(<ModalContent {...props} />, popup);
+function handleRender(props: any) {
+  ReactDOM.render(<ModalContent {...props} />, popup);
 }
 
 // 首次挂载弹窗
-function handleAppendRender(props) {
+function handleAppendRender(props: any) {
   popup = document.createElement('div');
   document.body.appendChild(popup);
   handleRender(props);
 }
 
 // 卸载弹窗
-function handleUnRender(props) {
-  if (popup) ReactDom.unmountComponentAtNode(popup);
+function handleUnRender(props?: any) {
+  if (popup) ReactDOM.unmountComponentAtNode(popup);
 }
 
 function Modal(props: ModalProps) {
@@ -150,7 +188,7 @@ function Modal(props: ModalProps) {
   return null;
 }
 
-Modal.confirm = (props) =>
+Modal.confirm = (props: any) =>
   handleAppendRender({
     ...props,
     visible: true,

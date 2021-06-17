@@ -36,32 +36,32 @@ interface RadioProps {
   children?: React.ReactChild;
 
   /**
-   * @description      Radio点击事件
+   * @description      Radio更改事件
    * @default           -
    */
-  onClick?: Function;
-
-  /**
-   * @description      Radio左右的间隔
-   * @default           -
-   */
-  interval?: string;
+  onChange?: Function;
 
   /**
    * @description      Radio的尺寸
    * @default           -
    */
   size?: string;
+
+  /**
+   * @description      是否选中
+   * @default           false
+   */
+  checked?: boolean;
 }
 
 function Radio(props: RadioProps) {
-  const { type, icon, disabled, children, onChage, size, ...prop } = props;
-  const [checked, setChecked] = useState(props.checked || null);
+  const { type, icon, disabled, children, onChange, size, ...prop } = props;
+  const [checked, setChecked] = useState(props.checked || false);
 
-  function handleClick(e) {
+  function handleClick(e: any) {
     if (!disabled) {
       setChecked(e.target.checked);
-      if (onChage) onChage(e.target.checked);
+      if (onChange) onChange(e.target.checked);
     }
   }
 

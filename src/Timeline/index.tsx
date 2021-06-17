@@ -64,7 +64,7 @@ function Timeline(props: TimelineProps) {
     }
   }
   return (
-    <Timeline
+    <div
       className={clsx({
         [`${prefix}-Timeline`]: true,
         [`${prefix}-Timeline-default`]: !type && !disabled,
@@ -78,7 +78,7 @@ function Timeline(props: TimelineProps) {
     >
       {icon && <Icon name={icon} />}
       <span>{children}</span>
-    </Timeline>
+    </div>
   );
 }
 

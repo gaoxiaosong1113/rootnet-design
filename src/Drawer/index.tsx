@@ -64,7 +64,7 @@ function Descriptions(props: DescriptionsProps) {
     }
   }
   return (
-    <Descriptions
+    <div
       className={clsx({
         [`${prefix}-Descriptions`]: true,
         [`${prefix}-Descriptions-default`]: !type && !disabled,
@@ -78,7 +78,7 @@ function Descriptions(props: DescriptionsProps) {
     >
       {icon && <Icon name={icon} />}
       <span>{children}</span>
-    </Descriptions>
+    </div>
   );
 }
 

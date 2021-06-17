@@ -64,7 +64,7 @@ function Switch(props: SwitchProps) {
     }
   }
   return (
-    <Switch
+    <div
       className={clsx({
         [`${prefix}-Switch`]: true,
         [`${prefix}-Switch-default`]: !type && !disabled,
@@ -78,7 +78,7 @@ function Switch(props: SwitchProps) {
     >
       {icon && <Icon name={icon} />}
       <span>{children}</span>
-    </Switch>
+    </div>
   );
 }
 

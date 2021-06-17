@@ -64,7 +64,7 @@ function Image(props: ImageProps) {
     }
   }
   return (
-    <Image
+    <div
       className={clsx({
         [`${prefix}-Image`]: true,
         [`${prefix}-Image-default`]: !type && !disabled,
@@ -78,7 +78,7 @@ function Image(props: ImageProps) {
     >
       {icon && <Icon name={icon} />}
       <span>{children}</span>
-    </Image>
+    </div>
   );
 }
 

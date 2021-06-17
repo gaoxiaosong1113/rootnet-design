@@ -64,7 +64,7 @@ function Empty(props: EmptyProps) {
     }
   }
   return (
-    <Empty
+    <div
       className={clsx({
         [`${prefix}-Empty`]: true,
         [`${prefix}-Empty-default`]: !type && !disabled,
@@ -78,7 +78,7 @@ function Empty(props: EmptyProps) {
     >
       {icon && <Icon name={icon} />}
       <span>{children}</span>
-    </Empty>
+    </div>
   );
 }
 

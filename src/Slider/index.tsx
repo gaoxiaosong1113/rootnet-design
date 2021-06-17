@@ -64,7 +64,7 @@ function Slider(props: SliderProps) {
     }
   }
   return (
-    <Slider
+    <div
       className={clsx({
         [`${prefix}-Slider`]: true,
         [`${prefix}-Slider-default`]: !type && !disabled,
@@ -78,7 +78,7 @@ function Slider(props: SliderProps) {
     >
       {icon && <Icon name={icon} />}
       <span>{children}</span>
-    </Slider>
+    </div>
   );
 }
 

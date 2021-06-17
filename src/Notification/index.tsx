@@ -64,7 +64,7 @@ function Notification(props: NotificationProps) {
     }
   }
   return (
-    <Notification
+    <div
       className={clsx({
         [`${prefix}-Notification`]: true,
         [`${prefix}-Notification-default`]: !type && !disabled,
@@ -78,7 +78,7 @@ function Notification(props: NotificationProps) {
     >
       {icon && <Icon name={icon} />}
       <span>{children}</span>
-    </Notification>
+    </div>
   );
 }
 

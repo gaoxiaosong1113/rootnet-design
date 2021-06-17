@@ -64,7 +64,7 @@ function Tooltip(props: TooltipProps) {
     }
   }
   return (
-    <Tooltip
+    <div
       className={clsx({
         [`${prefix}-Tooltip`]: true,
         [`${prefix}-Tooltip-default`]: !type && !disabled,
@@ -78,7 +78,7 @@ function Tooltip(props: TooltipProps) {
     >
       {icon && <Icon name={icon} />}
       <span>{children}</span>
-    </Tooltip>
+    </div>
   );
 }
 
