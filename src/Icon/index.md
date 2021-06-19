@@ -18,6 +18,4 @@ import { Icon } from 'rootnet-design';
 export default () => <Icon name="sk-order" />;
 ```
 
-<API></API>
-
-More skills for writing 示例： https://d.umijs.org/guide/demo-principle
+<API />

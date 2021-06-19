@@ -31,4 +31,4 @@ export default () => {
 };
 ```
 
-More skills for writing 示例： https://d.umijs.org/guide/demo-principle
+<API />

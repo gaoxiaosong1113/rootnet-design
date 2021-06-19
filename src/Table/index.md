@@ -73,5 +73,3 @@ const dataSource = [
 
 export default () => <Table columns={columns} dataSource={dataSource} />;
 ```
-
-More skills for writing 示例： https://d.umijs.org/guide/demo-principle
