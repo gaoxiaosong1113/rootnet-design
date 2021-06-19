@@ -1,25 +1,20 @@
 @import '../index.less';
 
 .@{prefix}-drawer-warp {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 9999;
   display: none;
 }
 
 .@{prefix}-drawer {
-  position: relative;
-  z-index: 10;
+  position: fixed;
+  z-index: 999;
   width: 480px;
   background: #ffffff;
   box-shadow: 0px 6px 20px 0px rgba(153, 161, 194, 0.3);
   border-radius: 2px;
+
+  &-visible {
+    display: block;
+  }
 
   &-left {
     position: fixed;
@@ -79,13 +74,9 @@
     }
   }
 
-  &-visible {
-    display: flex;
-  }
-
   &-mask {
-    position: absolute;
-    z-index: 1;
+    position: fixed;
+    z-index: 998;
     left: 0;
     right: 0;
     top: 0;

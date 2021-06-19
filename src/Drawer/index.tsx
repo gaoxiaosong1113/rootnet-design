@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import ReactDom from 'react-dom';
+import React from 'react';
+
+import ReactDOM from 'react-dom';
 
 import clsx from 'clsx';
 
@@ -59,13 +60,39 @@ interface DrawerProps {
    * @default           -
    */
   position?: string;
+
+  /**
+   * @description      是否显示遮罩
+   * @default           true
+   */
+  mask?: boolean;
+
+  /**
+   * @description      抽屉到顶部的距离
+   * @default           0
+   */
+  offsetTop?: number;
+
+  /**
+   * @description      自定义页脚
+   * @default           -
+   */
+  footer?: any;
+
+  /**
+   * @description      抽屉的宽度
+   * @default           -
+   */
+  width?: number;
+
+  /**
+   * @description      是否显示关闭按钮
+   * @default           true
+   */
+  close?: boolean;
 }
 
-// 第一次渲染，不显示
-
-// 不是第一次渲染，渲染dom，根据visible是否显示
-
-function DrawerContent(props: DrawerProps) {
+function Drawer(props: DrawerProps): any {
   const {
     visible,
     title,
@@ -73,6 +100,11 @@ function DrawerContent(props: DrawerProps) {
     position = 'left',
     onConfirm,
     onCancel,
+    mask = true,
+    offsetTop = 0,
+    footer,
+    width,
+    close = true,
     ...prop
   } = props;
 
@@ -83,8 +115,7 @@ function DrawerContent(props: DrawerProps) {
   function handleConfirm() {
     onConfirm ? onConfirm() : null;
   }
-  console.log(position);
-  return (
+  return ReactDOM.createPortal(
     <div
       className={clsx({
         [`${prefix}-drawer-warp`]: true,
@@ -96,6 +127,7 @@ function DrawerContent(props: DrawerProps) {
           [`${prefix}-drawer`]: true,
           [`${prefix}-drawer-${position}`]: position,
         })}
+        style={{ top: offsetTop, width }}
       >
         <div
           className={clsx({
@@ -109,16 +141,18 @@ function DrawerContent(props: DrawerProps) {
           >
             {title}
           </div>
-          <div
-            className={clsx({
-              [`${prefix}-drawer-head-close`]: true,
-            })}
-            onClick={() => {
-              onCancel ? onCancel() : null;
-            }}
-          >
-            <Icon name="sk-order" />
-          </div>
+          {close && (
+            <div
+              className={clsx({
+                [`${prefix}-drawer-head-close`]: true,
+              })}
+              onClick={() => {
+                onCancel ? onCancel() : null;
+              }}
+            >
+              <Icon name="sk-order" />
+            </div>
+          )}
         </div>
         <div
           className={clsx({
@@ -127,36 +161,38 @@ function DrawerContent(props: DrawerProps) {
         >
           <span>{children}</span>
         </div>
+        {footer ? (
+          <div
+            className={clsx({
+              [`${prefix}-drawer-footer`]: true,
+            })}
+          >
+            {footer}
+          </div>
+        ) : (
+          <div
+            className={clsx({
+              [`${prefix}-drawer-footer`]: true,
+            })}
+          >
+            <Button onClick={handleCancel}>取消</Button>
+            <Button type="primary" onClick={handleConfirm}>
+              确定
+            </Button>
+          </div>
+        )}
+      </div>
+      {mask && (
         <div
           className={clsx({
-            [`${prefix}-drawer-footer`]: true,
+            [`${prefix}-drawer-mask`]: true,
           })}
-        >
-          <Button onClick={handleCancel}>取消</Button>
-          <Button type="primary" onClick={handleConfirm}>
-            确定
-          </Button>
-        </div>
-      </div>
-      <div
-        className={clsx({
-          [`${prefix}-drawer-mask`]: true,
-        })}
-        onClick={handleCancel}
-      ></div>
-    </div>
+          onClick={handleCancel}
+        ></div>
+      )}
+    </div>,
+    document.body,
   );
-}
-
-function Drawer(props: DrawerProps) {
-  const { visible, title, children, position, onConfirm, onCancel, ...prop } =
-    props;
-
-  if (!visible) {
-    return null;
-  }
-
-  return ReactDom.createPortal(<DrawerContent {...props} />, document.body);
 }
 
 export default Drawer;

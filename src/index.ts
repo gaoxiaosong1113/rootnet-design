@@ -1,3 +1,4 @@
+export { default as Grid } from './Grid';
 export { default as Foo } from './Foo';
 export { default as Alert } from './Alert';
 export { default as Breadcrumb } from './Breadcrumb';
@@ -12,7 +13,6 @@ export { default as Drawer } from './Drawer';
 export { default as Dropdown } from './Dropdown';
 export { default as Empty } from './Empty';
 export { default as Form } from './Form';
-export { default as Grid } from './Grid';
 export { default as Icon } from './Icon';
 export { default as Image } from './Image';
 export { default as Input } from './Input';

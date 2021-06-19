@@ -18,10 +18,6 @@ const { Row, Col } = Grid;
 
 export default () => {
   const [visible, setVisible] = useState(false);
-  const [visible1, setVisible1] = useState(false);
-  const [visible2, setVisible2] = useState(false);
-  const [visible3, setVisible3] = useState(false);
-  const [visible4, setVisible4] = useState(false);
 
   return (
     <div>
@@ -31,29 +27,9 @@ export default () => {
             按钮
           </Button>
         </Col>
-        <Col span={4}>
-          <Button type="primary" onClick={() => setVisible1(true)}>
-            左侧抽屉
-          </Button>
-        </Col>
-        <Col span={4}>
-          <Button type="primary" onClick={() => setVisible2(true)}>
-            右侧抽屉
-          </Button>
-        </Col>
-        <Col span={4}>
-          <Button type="primary" onClick={() => setVisible3(true)}>
-            顶部抽屉
-          </Button>
-        </Col>
-        <Col span={4}>
-          <Button type="primary" onClick={() => setVisible4(true)}>
-            底部抽屉
-          </Button>
-        </Col>
       </Row>
       <Drawer
-        title="First Demo"
+        title="抽屉标题"
         visible={visible}
         onCancel={() => {
           console.log('关闭');
@@ -65,58 +41,306 @@ export default () => {
       >
         我是抽屉的内容
       </Drawer>
+    </div>
+  );
+};
+```
+
+左侧抽屉：
+
+```tsx
+import React, { useState } from 'react';
+import { Drawer, Button, Grid } from 'rootnet-design';
+const { Row, Col } = Grid;
+
+export default () => {
+  const [visible, setVisible] = useState(false);
+
+  return (
+    <div>
+      <Row gutter={[16, 16]}>
+        <Col span={4}>
+          <Button type="primary" onClick={() => setVisible(true)}>
+            左侧抽屉
+          </Button>
+        </Col>
+      </Row>
       <Drawer
-        title="First Demo"
+        title="抽屉标题"
         position="left"
-        visible={visible1}
+        visible={visible}
         onCancel={() => {
           console.log('关闭');
-          setVisible1(false);
+          setVisible(false);
         }}
         onConfirm={() => {
-          setVisible1(false);
+          setVisible(false);
         }}
       >
         我是抽屉的内容
       </Drawer>
+    </div>
+  );
+};
+```
+
+右侧抽屉：
+
+```tsx
+import React, { useState } from 'react';
+import { Drawer, Button, Grid } from 'rootnet-design';
+const { Row, Col } = Grid;
+
+export default () => {
+  const [visible, setVisible] = useState(false);
+
+  return (
+    <div>
+      <Row gutter={[16, 16]}>
+        <Col span={4}>
+          <Button type="primary" onClick={() => setVisible(true)}>
+            右侧抽屉
+          </Button>
+        </Col>
+      </Row>
       <Drawer
-        title="First Demo"
+        title="抽屉标题"
         position="right"
-        visible={visible2}
+        visible={visible}
         onCancel={() => {
           console.log('关闭');
-          setVisible2(false);
+          setVisible(false);
         }}
         onConfirm={() => {
-          setVisible2(false);
+          setVisible(false);
         }}
       >
         我是抽屉的内容
       </Drawer>
+    </div>
+  );
+};
+```
+
+顶部抽屉：
+
+```tsx
+import React, { useState } from 'react';
+import { Drawer, Button, Grid } from 'rootnet-design';
+const { Row, Col } = Grid;
+
+export default () => {
+  const [visible, setVisible] = useState(false);
+
+  return (
+    <div>
+      <Row gutter={[16, 16]}>
+        <Col span={4}>
+          <Button type="primary" onClick={() => setVisible(true)}>
+            顶部抽屉
+          </Button>
+        </Col>
+      </Row>
       <Drawer
-        title="First Demo"
+        title="抽屉标题"
         position="top"
-        visible={visible3}
+        visible={visible}
         onCancel={() => {
           console.log('关闭');
-          setVisible3(false);
+          setVisible(false);
         }}
         onConfirm={() => {
-          setVisible3(false);
+          setVisible(false);
         }}
       >
         我是抽屉的内容
       </Drawer>
+    </div>
+  );
+};
+```
+
+底部抽屉：
+
+```tsx
+import React, { useState } from 'react';
+import { Drawer, Button, Grid } from 'rootnet-design';
+const { Row, Col } = Grid;
+
+export default () => {
+  const [visible, setVisible] = useState(false);
+
+  return (
+    <div>
+      <Row gutter={[16, 16]}>
+        <Col span={4}>
+          <Button type="primary" onClick={() => setVisible(true)}>
+            底部抽屉
+          </Button>
+        </Col>
+      </Row>
       <Drawer
-        title="First Demo"
+        title="抽屉标题"
         position="bottom"
-        visible={visible4}
+        visible={visible}
         onCancel={() => {
           console.log('关闭');
-          setVisible4(false);
+          setVisible(false);
         }}
         onConfirm={() => {
-          setVisible4(false);
+          setVisible(false);
+        }}
+      >
+        我是抽屉的内容
+      </Drawer>
+    </div>
+  );
+};
+```
+
+隐藏遮罩：
+
+```tsx
+import React, { useState } from 'react';
+import { Drawer, Button, Grid } from 'rootnet-design';
+const { Row, Col } = Grid;
+
+export default () => {
+  const [visible, setVisible] = useState(false);
+
+  return (
+    <div>
+      <Row gutter={[16, 16]}>
+        <Col span={4}>
+          <Button type="primary" onClick={() => setVisible(true)}>
+            隐藏遮罩
+          </Button>
+        </Col>
+      </Row>
+      <Drawer
+        title="抽屉标题"
+        visible={visible}
+        mask={false}
+        onCancel={() => {
+          console.log('关闭');
+          setVisible(false);
+        }}
+        onConfirm={() => {
+          setVisible(false);
+        }}
+      >
+        我是抽屉的内容
+      </Drawer>
+    </div>
+  );
+};
+```
+
+设置抽屉位置：
+
+```tsx
+import React, { useState } from 'react';
+import { Drawer, Button, Grid } from 'rootnet-design';
+const { Row, Col } = Grid;
+
+export default () => {
+  const [visible, setVisible] = useState(false);
+
+  return (
+    <div>
+      <Row gutter={[16, 16]}>
+        <Col span={4}>
+          <Button type="primary" onClick={() => setVisible(true)}>
+            设置抽屉位置
+          </Button>
+        </Col>
+      </Row>
+      <Drawer
+        title="抽屉标题"
+        visible={visible}
+        offsetTop={100}
+        onCancel={() => {
+          console.log('关闭');
+          setVisible(false);
+        }}
+        onConfirm={() => {
+          setVisible(false);
+        }}
+      >
+        我是抽屉的内容
+      </Drawer>
+    </div>
+  );
+};
+```
+
+自定义按钮：
+
+```tsx
+import React, { useState } from 'react';
+import { Drawer, Button, Grid } from 'rootnet-design';
+const { Row, Col } = Grid;
+
+export default () => {
+  const [visible, setVisible] = useState(false);
+
+  return (
+    <div>
+      <Row gutter={[16, 16]}>
+        <Col span={4}>
+          <Button type="primary" onClick={() => setVisible(true)}>
+            自定义按钮
+          </Button>
+        </Col>
+      </Row>
+      <Drawer
+        title="抽屉标题"
+        visible={visible}
+        onCancel={() => {
+          console.log('关闭');
+          setVisible(false);
+        }}
+        onConfirm={() => {
+          setVisible(false);
+        }}
+        footer={<div>自定义页脚</div>}
+      >
+        我是抽屉的内容
+      </Drawer>
+    </div>
+  );
+};
+```
+
+取消关闭按钮：
+
+```tsx
+import React, { useState } from 'react';
+import { Drawer, Button, Grid } from 'rootnet-design';
+const { Row, Col } = Grid;
+
+export default () => {
+  const [visible, setVisible] = useState(false);
+
+  return (
+    <div>
+      <Row gutter={[16, 16]}>
+        <Col span={4}>
+          <Button type="primary" onClick={() => setVisible(true)}>
+            取消关闭按钮
+          </Button>
+        </Col>
+      </Row>
+      <Drawer
+        title="抽屉标题"
+        visible={visible}
+        close={false}
+        onCancel={() => {
+          console.log('关闭');
+          setVisible(false);
+        }}
+        onConfirm={() => {
+          setVisible(false);
         }}
       >
         我是抽屉的内容

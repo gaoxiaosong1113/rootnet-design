@@ -10,7 +10,7 @@ import { Icon } from '../index';
 
 interface InputProps {
   /**
-   * @description      图标的样式名
+   * @description      样式命
    * @default           -
    */
   className?: string;
@@ -36,16 +36,28 @@ interface InputProps {
   children?: React.ReactChild;
 
   /**
-   * @description      Input点击事件
+   * @description      Input的尺寸
    * @default           -
    */
-  onClick?: Function;
+  label?: string;
 
   /**
-   * @description      Input左右的间隔
+   * @description      Input的尺寸
    * @default           -
    */
-  interval?: string;
+  required?: string;
+
+  /**
+   * @description      Input的尺寸
+   * @default           -
+   */
+  horizontal?: string;
+
+  /**
+   * @description      Input的尺寸
+   * @default           -
+   */
+  component?: string;
 
   /**
    * @description      Input的尺寸
@@ -55,29 +67,25 @@ interface InputProps {
 }
 
 function Input(props: InputProps) {
-  const { type, icon, disabled, children, onClick, interval, size, ...prop } =
-    props;
-
-  function handleClick() {
-    if (!disabled && onClick) {
-      onClick();
-    }
-  }
+  const { label, required, horizontal, component, ...prop } = props;
   return (
     <div
       className={clsx({
-        [`${prefix}-Input`]: true,
-        [`${prefix}-Input-default`]: !type && !disabled,
-        [`${prefix}-Input-${type}`]: type,
-        [`${prefix}-Input-disabled`]: disabled,
-        [`${prefix}-Input-${size}`]: size,
+        [`${prefix}-input`]: true,
+        horizontal: horizontal,
       })}
-      style={{ margin: interval }}
-      onClick={handleClick}
-      {...prop}
     >
-      {icon && <Icon name={icon} />}
-      <span>{children}</span>
+      <div
+        className={clsx({
+          label: true,
+        })}
+      >
+        {required && <span className="label-required">*</span>}
+        {label}
+      </div>
+      <div className="content">
+        <input type="text" placeholder="请输入" />
+      </div>
     </div>
   );
 }

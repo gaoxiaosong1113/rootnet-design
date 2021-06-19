@@ -12,8 +12,20 @@ group:
 示例：
 
 ```tsx
-import React from 'react';
-import { Foo } from 'rootnet-design';
+import React, { useState } from 'react';
+import { Input, Button, Grid } from 'rootnet-design';
 
-export default () => <Foo title="First Demo" />;
+const { Row, Col } = Grid;
+
+export default () => {
+  return (
+    <div>
+      <Row gutter={[16, 16]}>
+        <Col span={24}>
+          <Input />
+        </Col>
+      </Row>
+    </div>
+  );
+};
 ```

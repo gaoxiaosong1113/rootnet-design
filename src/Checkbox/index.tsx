@@ -10,7 +10,7 @@ import { Icon } from '../index';
 
 interface CheckboxProps {
   /**
-   * @description      图标的样式名
+   * @description      样式命
    * @default           -
    */
   className?: string;
@@ -132,7 +132,7 @@ function loopChildren(children: any, props: any, value: Array<any>): any {
 
 interface GroupProps {
   /**
-   * @description      图标的样式名
+   * @description      样式命
    * @default           -
    */
   className?: string;

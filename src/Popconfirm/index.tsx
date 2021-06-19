@@ -13,7 +13,7 @@ import { getOffsetLeft, getOffsetTop } from '../_util';
 
 interface ModalProps {
   /**
-   * @description      图标的样式名
+   * @description      样式命
    * @default           -
    */
   className?: string;

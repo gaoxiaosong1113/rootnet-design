@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useMemo } from 'react';
 
 import clsx from 'clsx';
 
@@ -8,7 +8,7 @@ import { prefix } from '../config';
 
 interface RowProps {
   /**
-   * @description      图标的样式名
+   * @description      样式命
    * @default           -
    */
   className?: string;
@@ -31,7 +31,7 @@ interface RowProps {
    * @description      栅格的间隔
    * @default           -
    */
-  gutter?: Array<any>;
+  gutter?: any;
 }
 
 const Row = (props: RowProps) => {
@@ -70,7 +70,7 @@ const Row = (props: RowProps) => {
 
 interface ColProps {
   /**
-   * @description      图标的样式名
+   * @description      样式命
    * @default           -
    */
   className?: string;
@@ -111,11 +111,22 @@ interface ColProps {
    * @description      栅格的间隔
    * @default           -
    */
-  gutter: Array<any>;
+  gutter?: any;
 }
 
 const Col = (props: ColProps) => {
   const { children, span, offset, pull, push, order, gutter } = props;
+
+  let newGutter: Array<any> = useMemo(() => {
+    if (!gutter) {
+      return [0, 0];
+    }
+    if (typeof gutter == 'number') {
+      return [0, gutter];
+    }
+    return gutter;
+  }, [gutter]);
+
   return (
     <div
       className={clsx({
@@ -127,8 +138,8 @@ const Col = (props: ColProps) => {
         [`${prefix}-col-order-${order}`]: order,
       })}
       style={{
-        paddingLeft: gutter[0] / 2,
-        paddingRight: gutter[0] / 2,
+        paddingLeft: newGutter[0] / 2,
+        paddingRight: newGutter[0] / 2,
       }}
     >
       {children}
