@@ -117,6 +117,7 @@ export default function Card(props: CardProps) {
                         ? changeTabKey(index, item.key)
                         : null
                     }
+                    key={index}
                   >
                     {item.name}
                   </div>
