@@ -2,36 +2,65 @@
 
 .@{prefix}-input {
   display: flex;
-  flex-direction: column;
-  margin-bottom: 5px;
-
+  border: 1px solid #cfd3e3;
+  border-radius: 4px;
   &.horizontal {
     flex-direction: row;
   }
 
   div.label {
-    font-size: 12px;
-    line-height: 30px;
+    font-size: 14px;
+    line-height: 32px;
     color: #7a8199;
 
     .label-required {
-      font-size: 12px;
+      font-size: 14px;
       color: #f5221b;
-      line-height: 30px;
+      line-height: 32px;
       margin-right: 4px;
     }
   }
-
-  div.content {
-    line-height: 20px;
-    border: 1px solid #cfd3e3;
-    border-radius: 4px;
+  &-icon {
+    line-height: 32px;
+    margin-left: 8px;
+    color: #3a415c;
+  }
+  &-content {
+    flex: 1;
     input {
       outline: 0;
-      padding: 5px;
+      padding: 0px 8px;
       width: 100%;
       border: none;
-      font-size: 12px;
+      font-size: 14px;
+      line-height: 32px;
+      background: none;
+      &::placeholder {
+        color: #d7d9e0;
+      }
     }
+  }
+  &-before {
+    font-size: 14px;
+    padding: 0 10px;
+    min-width: 32px;
+    background: #f0f2f5;
+    border-right: 1px solid #d0d3e3;
+    border-radius: 4px 0 0 4px;
+    text-align: center;
+    line-height: 30px;
+    color: #7a8199;
+  }
+  &-after {
+    font-size: 14px;
+    padding: 0 10px;
+    flex: 0 0 auto;
+    min-width: 32px;
+    background: #f0f2f5;
+    border-left: 1px solid #d0d3e3;
+    border-radius: 0 4px 4px 0;
+    text-align: center;
+    line-height: 30px;
+    color: #7a8199;
   }
 }

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import clsx from 'clsx';
 
@@ -64,28 +64,146 @@ interface InputProps {
    * @default           -
    */
   size?: string;
+
+  /**
+   * @description      提示文字
+   * @default           -
+   */
+  placeholder?: string;
+
+  /**
+   * @description      input 后面的信息
+   * @default           -
+   */
+  after?: any;
+
+  /**
+   * @description      input 前面的信息
+   * @default           -
+   */
+  before?: any;
+
+  /**
+   * @description      设置icon
+   * @default           -
+   */
+  icon?: any;
+
+  /**
+   * @description      change
+   * @default           -
+   */
+  onChange?: Function;
+
+  /**
+   * @description      focus
+   * @default           -
+   */
+  onFocus?: Function;
+
+  /**
+   * @description      blur
+   * @default           -
+   */
+  onBlur?: Function;
+
+  /**
+   * @description      name
+   * @default           -
+   */
+  name?: string;
 }
 
 function Input(props: InputProps) {
-  const { label, required, horizontal, component, ...prop } = props;
+  const {
+    label,
+    required,
+    horizontal,
+    placeholder,
+    before,
+    after,
+    component,
+    icon,
+    onChange,
+    onFocus,
+    onBlur,
+    name,
+    ...prop
+  } = props;
+
+  const [value, setValue] = useState(props.value);
+
+  const handleChange = (e) => {
+    setValue(e.target.value);
+    if (onChange) {
+      onChange(e.target.value);
+    }
+  };
+
+  const handleFocus = (e) => {
+    if (onFocus) {
+      onFocus(e);
+    }
+  };
+  const handleBlur = (e) => {
+    if (onBlur) {
+      onBlur(e);
+    }
+  };
+
+  useEffect(() => {
+    setValue(props.value);
+  }, [props.value]);
+
   return (
     <div
       className={clsx({
         [`${prefix}-input`]: true,
-        horizontal: horizontal,
       })}
     >
+      {before && (
+        <div
+          className={clsx({
+            [`${prefix}-input-before`]: true,
+          })}
+        >
+          {before}
+        </div>
+      )}
+      {icon && (
+        <div
+          className={clsx({
+            [`${prefix}-input-icon`]: true,
+          })}
+        >
+          {icon}
+        </div>
+      )}
       <div
         className={clsx({
-          label: true,
+          [`${prefix}-input-content`]: true,
         })}
       >
-        {required && <span className="label-required">*</span>}
-        {label}
+        <input
+          type="text"
+          name={name}
+          value={value || ''}
+          onChange={handleChange}
+          onFocus={handleFocus}
+          onBlur={handleBlur}
+          placeholder={placeholder || '请输入'}
+        />
       </div>
-      <div className="content">
-        <input type="text" placeholder="请输入" />
-      </div>
+
+      {after && (
+        <div
+          className={clsx({
+            [`${prefix}-input-after`]: true,
+          })}
+        >
+          {after}
+        </div>
+      )}
     </div>
   );
 }

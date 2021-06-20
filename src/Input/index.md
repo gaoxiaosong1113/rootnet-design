@@ -21,8 +21,115 @@ export default () => {
   return (
     <div>
       <Row gutter={[16, 16]}>
-        <Col span={24}>
-          <Input />
+        <Col span={8}>
+          <Input placeholder="请输入内容" after={'%'} />
+        </Col>
+      </Row>
+    </div>
+  );
+};
+```
+
+附加信息：
+
+```tsx
+import React, { useState } from 'react';
+import { Input, Icon, Button, Grid } from 'rootnet-design';
+
+const { Row, Col } = Grid;
+
+export default () => {
+  return (
+    <div>
+      <Row gutter={[16, 16]}>
+        <Col span={8}>
+          <Input placeholder="请输入内容" after={'%'} />
+        </Col>
+        <Col span={8}>
+          <Input placeholder="请输入内容" before={'金额'} after={'%'} />
+        </Col>
+        <Col span={8}>
+          <Input
+            placeholder="请输入内容"
+            before={<Icon name="sk-order" />}
+            after={'%'}
+          />
+        </Col>
+      </Row>
+    </div>
+  );
+};
+```
+
+设置图标：
+
+```tsx
+import React, { useState } from 'react';
+import { Input, Icon, Button, Grid } from 'rootnet-design';
+
+const { Row, Col } = Grid;
+
+export default () => {
+  return (
+    <div>
+      <Row gutter={[16, 16]}>
+        <Col span={8}>
+          <Input placeholder="请输入内容" icon={<Icon name="sk-order" />} />
+        </Col>
+      </Row>
+    </div>
+  );
+};
+```
+
+非受控：
+
+```tsx
+import React, { useState } from 'react';
+import { Input, Icon, Button, Grid } from 'rootnet-design';
+
+const { Row, Col } = Grid;
+
+export default () => {
+  return (
+    <div>
+      <Row gutter={[16, 16]}>
+        <Col span={8}>
+          <Input
+            placeholder="请输入内容"
+            onChange={(value) => {
+              console.log(value);
+            }}
+            icon={<Icon name="sk-order" />}
+          />
+        </Col>
+      </Row>
+    </div>
+  );
+};
+```
+
+设置默认值：
+
+```tsx
+import React, { useState } from 'react';
+import { Input, Icon, Button, Grid } from 'rootnet-design';
+
+const { Row, Col } = Grid;
+
+export default () => {
+  const [value, setValue] = useState(55);
+
+  return (
+    <div>
+      <Row gutter={[16, 16]}>
+        <Col span={8}>
+          <Input
+            placeholder="请输入内容"
+            onChange={(v) => setValue(v)}
+            value={value}
+            icon={<Icon name="sk-order" />}
+          />
         </Col>
       </Row>
     </div>

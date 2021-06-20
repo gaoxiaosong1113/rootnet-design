@@ -52,11 +52,26 @@ interface ButtonProps {
    * @default           -
    */
   size?: string;
+
+  /**
+   * @description      按钮的类型
+   * @default           -
+   */
+  htmlType?: string;
 }
 
 function Button(props: ButtonProps) {
-  const { type, icon, disabled, children, onClick, interval, size, ...prop } =
-    props;
+  const {
+    type,
+    icon,
+    disabled,
+    children,
+    onClick,
+    interval,
+    size,
+    htmlType,
+    ...prop
+  } = props;
 
   function handleClick() {
     if (!disabled && onClick) {
@@ -74,6 +89,7 @@ function Button(props: ButtonProps) {
       })}
       style={{ margin: interval }}
       onClick={handleClick}
+      type={htmlType || 'button'}
       {...prop}
     >
       {icon && <Icon name={icon} />}
