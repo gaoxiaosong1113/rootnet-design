@@ -10,7 +10,7 @@ import { Icon } from '../index';
 
 import { GroupContext } from './Group';
 
-interface CheckboxProps {
+interface RadioProps {
   /**
    * @description      样式命
    * @default           -
@@ -38,7 +38,7 @@ interface CheckboxProps {
   children?: React.ReactChild;
 
   /**
-   * @description      Checkbox 更改事件
+   * @description      Radio 更改事件
    * @default           -
    */
   onChange?: Function;
@@ -50,13 +50,13 @@ interface CheckboxProps {
   checked?: boolean;
 
   /**
-   * @description      Checkbox 的值
+   * @description      Radio 的值
    * @default           -
    */
   value?: string;
 
   /**
-   * @description      Checkbox的尺寸
+   * @description      Radio的尺寸
    * @default           -
    */
   size?: string;
@@ -64,12 +64,12 @@ interface CheckboxProps {
   Group?: any;
 }
 
-function Checkbox(props: CheckboxProps) {
+function Radio(props: RadioProps) {
   const { type, icon, disabled, children, onChange, size, ...prop } = props;
   const [checked, setChecked] = useState(props.checked || false);
   const [value, setValue] = useState(props.value || '');
 
-  const checkboxGroup = useContext(GroupContext);
+  const radioGroup = useContext(GroupContext);
 
   function handleChange(e: any) {
     if (!disabled) {
@@ -80,24 +80,24 @@ function Checkbox(props: CheckboxProps) {
     }
   }
 
-  const checkboxProps: any = {
+  const radioProps: any = {
     onChange: handleChange,
     checked,
   };
 
   // 被group包裹走group的props
-  if (JSON.stringify(checkboxGroup) !== '{}') {
-    checkboxProps.onChange = (e: any) => {
+  if (JSON.stringify(radioGroup) !== '{}') {
+    radioProps.onChange = (e: any) => {
       if (!disabled) {
         setChecked(e.target.checked);
-        if (checkboxGroup.onChange) {
-          checkboxGroup.onChange(e.target.checked, value);
+        if (radioGroup.onChange) {
+          radioGroup.onChange(e.target.checked, value);
         }
       }
     };
-    checkboxProps.name = checkboxGroup.name;
-    checkboxProps.checked = checkboxGroup.checked.indexOf(props.value) !== -1;
-    checkboxProps.disabled = props.disabled || checkboxGroup.disabled;
+    radioProps.name = radioGroup.name;
+    radioProps.checked = radioGroup.checked === props.value;
+    radioProps.disabled = props.disabled || radioGroup.disabled;
   }
 
   useEffect(() => {
@@ -111,25 +111,25 @@ function Checkbox(props: CheckboxProps) {
   return (
     <label
       className={clsx({
-        [`${prefix}-checkbox`]: true,
-        [`${prefix}-checkbox-default`]: !type && !disabled,
-        [`${prefix}-checkbox-${type}`]: type,
-        [`${prefix}-checkbox-disabled`]: disabled,
-        [`${prefix}-checkbox-${size}`]: size,
-        [`${prefix}-checkbox-checked`]: checkboxProps.checked,
+        [`${prefix}-radio`]: true,
+        [`${prefix}-radio-default`]: !type && !disabled,
+        [`${prefix}-radio-${type}`]: type,
+        [`${prefix}-radio-disabled`]: disabled,
+        [`${prefix}-radio-${size}`]: size,
+        [`${prefix}-radio-checked`]: radioProps.checked,
       })}
       // onClick={handleChange}
       {...prop}
     >
-      <input type="checkbox" {...checkboxProps} />
+      <input type="radio" {...radioProps} />
       <span
         className={clsx({
-          [`${prefix}-checkbox-icon`]: true,
+          [`${prefix}-radio-icon`]: true,
         })}
       ></span>
       <span
         className={clsx({
-          [`${prefix}-checkbox-content`]: true,
+          [`${prefix}-radio-content`]: true,
         })}
       >
         {children}
@@ -138,4 +138,4 @@ function Checkbox(props: CheckboxProps) {
   );
 }
 
-export default Checkbox;
+export default Radio;

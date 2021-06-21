@@ -26,7 +26,7 @@ const themes = {
   },
 };
 
-const ThemeContext = React.createContext();
+const ThemeContext = React.createContext({});
 
 const Form = (props: any) => {
   const {
@@ -40,15 +40,14 @@ const Form = (props: any) => {
     ...prop
   } = props;
 
-  const [value, setValue] = useState({});
+  const [value, setValue] = useState(initialValues || {});
   // const [error, setError] = useState({});
 
-  const formRef = useRef({});
+  const formRef: any = useRef({});
 
-  function handleSubmit(e) {
+  function handleSubmit(e: any) {
     e.preventDefault();
-    console.log(formRef);
-    let error = {};
+    let error: any = {};
     for (let attr in formRef.current) {
       let err = formRef.current[attr].validation();
       if (err) {
@@ -68,14 +67,15 @@ const Form = (props: any) => {
   return (
     <ThemeContext.Provider
       value={{
-        onChange: (name, v) => {
-          let newValue = { ...value };
-          newValue[name] = v;
-          setValue(newValue);
-          console.log(newValue);
-          console.log('change');
+        onChange: (name: string, v: string) => {
+          setValue((val: any) => {
+            val[name] = v;
+            console.log(val);
+            console.log(v);
+            return val;
+          });
         },
-        onError: (error) => {
+        onError: (error: any) => {
           // setError(error);
           // console.log('error');
         },
@@ -95,10 +95,10 @@ const Form = (props: any) => {
             item,
             item.props.name
               ? {
-                  ref: (r) => (formRef.current[item.props.name] = r),
+                  ref: (r: any) => (formRef.current[item.props.name] = r),
                   value: initialValues[item.props.name],
                 }
-              : null,
+              : {},
           );
         })}
       </form>
@@ -111,7 +111,7 @@ const Item = (props: any, ref: any) => {
 
   const [value, setValue] = useState(props.value);
   const [required, setRequired] = useState(false);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState([] as Array<any>);
 
   useImperativeHandle(ref, () => ({
     validation: () => {
@@ -132,29 +132,38 @@ const Item = (props: any, ref: any) => {
 
   useEffect(() => {
     if (rules) {
-      setRequired(rules.map((item) => item.required)[0] !== undefined);
+      setRequired(rules.map((item: any) => item.required)[0] !== undefined);
     }
   }, [rules]);
 
-  const validationData = (v) => {
+  const validationData = (v: any) => {
+    if (v) {
+      v = v.toString();
+    }
     if (name && rules) {
-      console.log(v.length);
       let errorAry = rules
-        .map((item) => {
-          if (item.required && item.required === true) {
-            if (v == undefined || v.length <= 0) {
+        .map((item: any) => {
+          // 必填项
+          if (item.required !== undefined && item.required === true) {
+            if (v === undefined || v.length <= 0) {
               return item;
             }
           }
-          if (item.fields && !new RegExp(item.fields).test(v)) {
+
+          // 验证正则
+          if (item.fields && !item.fields.test(v)) {
             return item;
           }
+
+          // 验证长度
           if (item.max && item.max < v.length) {
             return {
               max: item.max,
               message: `最多输入${item.max}`,
             };
           }
+
+          // 验证长度
           if (item.min && item.min > v.length) {
             return {
               max: item.min,
@@ -162,29 +171,29 @@ const Item = (props: any, ref: any) => {
             };
           }
         })
-        .filter((item) => item !== undefined);
-      console.log(errorAry);
+        .filter((item: any) => item !== undefined);
       setError(errorAry);
       return errorAry.length > 0 ? errorAry[0] : null;
     }
     return null;
   };
 
-  const handleChange = (v) => {
+  const handleChange = (v: any) => {
     setValue(v);
     validationData(v);
+    console.log(name);
     if (name && onChange) {
       onChange(name, v);
     }
   };
 
-  const handleFocus = (e) => {
+  const handleFocus = (e: any) => {
     if (name && onFocus) {
       onFocus(e);
     }
   };
 
-  const handleBlur = (e) => {
+  const handleBlur = (e: any) => {
     if (name && onBlur) {
       onBlur(e);
     }
@@ -193,17 +202,19 @@ const Item = (props: any, ref: any) => {
   useEffect(() => {
     setValue(props.value);
   }, [props.value]);
-  console.log(error);
+
   return (
     <div
       {...prop}
       className={clsx({
         [`${prefix}-form-item`]: true,
+        [`${prefix}-form-item-errors`]: error && error.length > 0,
       })}
     >
       <label
         className={clsx({
           [`${prefix}-form-item-laber`]: true,
+          [`${prefix}-form-item-laber-none`]: !label,
         })}
       >
         {required && (
@@ -225,7 +236,7 @@ const Item = (props: any, ref: any) => {
         {React.cloneElement(children, {
           name,
           value,
-          onChange: (e) => {
+          onChange: (e: any) => {
             handleChange(e);
           },
         })}

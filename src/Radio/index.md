@@ -39,3 +39,44 @@ export default () => {
   );
 };
 ```
+
+支持组嵌套的 checkbox：
+
+```tsx
+import React from 'react';
+import { Radio, Grid } from 'rootnet-design';
+const { Row, Col } = Grid;
+
+export default () => {
+  return (
+    <div>
+      <Row gutter={[16, 16]}>
+        <Col span={4}>
+          <Radio.Group
+            onChange={(v) => {
+              console.log(v);
+            }}
+            checked={'1'}
+          >
+            <div>
+              <Radio value="1" disabled>
+                Radio组
+              </Radio>
+            </div>
+            <div>
+              <Radio value="2">Radio组</Radio>
+            </div>
+            <div>
+              <Radio value="3">Radio组</Radio>
+            </div>
+            <Radio value="4">Radio组</Radio>
+            <Radio value="5">Radio组</Radio>
+            <Radio value="6">Radio组</Radio>
+            <Radio value="7">Radio组</Radio>
+          </Radio.Group>
+        </Col>
+      </Row>
+    </div>
+  );
+};
+```

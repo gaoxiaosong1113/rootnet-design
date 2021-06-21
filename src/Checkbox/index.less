@@ -4,10 +4,20 @@
   cursor: pointer;
   display: flex;
   align-items: center;
-  padding: 10px 0;
+  height: 32px;
+
+  &-group {
+    display: flex;
+
+    .@{prefix}-checkbox {
+      margin-right: 16px;
+    }
+  }
+
   & > input {
     display: none;
   }
+
   &-icon {
     width: 16px;
     height: 16px;
@@ -21,6 +31,7 @@
     line-height: 16px;
     font-size: 14px;
     color: @textColor;
+    white-space: nowrap;
   }
 
   &&-default {
@@ -36,10 +47,12 @@
       border-color: @borderColor;
       background: @fullDisableColor;
     }
+
     &.@{prefix}-checkbox-checked {
       .@{prefix}-checkbox-icon {
         background: @fullDisableColor;
         border-color: @borderColor;
+
         &:after {
           background: @borderColor;
         }
@@ -50,9 +63,11 @@
       border-color: @borderColor;
       background: @fullDisableColor;
     }
+
     .@{prefix}-checkbox-content {
       color: @promptTextColor;
     }
+
     &:hover {
       .@{prefix}-checkbox-icon {
         border-color: @borderColor;

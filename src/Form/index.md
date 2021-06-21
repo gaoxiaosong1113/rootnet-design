@@ -13,7 +13,16 @@ group:
 
 ```tsx
 import React, { useState } from 'react';
-import { Form, Input, Button, Icon, Grid } from 'rootnet-design';
+import {
+  Form,
+  Input,
+  Select,
+  Radio,
+  Checkbox,
+  Button,
+  Icon,
+  Grid,
+} from 'rootnet-design';
 const { Row, Col } = Grid;
 
 export default () => {
@@ -22,10 +31,10 @@ export default () => {
   return (
     <div>
       <Row gutter={[16, 16]}>
-        <Col span={4}>
+        <Col span={24}>
           <Form
             name={'n2'}
-            initialValues={{ username: 12122, username2: 12123 }}
+            initialValues={{}}
             onSubmit={(form) => {
               console.log('校验成功');
               console.log(form);
@@ -42,26 +51,25 @@ export default () => {
                 {
                   required: true,
                   max: 2,
-                  message: '请输入电话号码',
+                  message: '请输入用户名',
                 },
               ]}
             >
               <Input
-                placeholder="请输入电话号码"
+                placeholder="请输入用户名"
                 icon={<Icon name="sk-order" />}
               />
             </Form.Item>
             <Form.Item
-              label="用户名"
-              name="username2"
+              label="电话号码"
+              name="phone"
               rules={[
                 {
                   required: true,
-                  max: 5,
                   message: '请输入电话号码',
                 },
                 {
-                  fields: '/^((0d{2,3}-d{7,8})|(1[3584]d{9}))$/',
+                  fields: /^[1][3,4,5,6,7,8,9][0-9]{9}$/,
                   message: '请输入11位电话号码',
                 },
               ]}
@@ -71,9 +79,589 @@ export default () => {
                 icon={<Icon name="sk-order" />}
               />
             </Form.Item>
+            <Form.Item
+              label="协议"
+              name="radio"
+              rules={[
+                {
+                  required: true,
+                  message: '请勾选协议',
+                },
+              ]}
+            >
+              <Radio>同意</Radio>
+            </Form.Item>
+            <Form.Item
+              label="选项"
+              name="checkbox"
+              rules={[
+                {
+                  required: true,
+                  message: '请输入电话号码',
+                },
+              ]}
+            >
+              <Checkbox.Group>
+                <div>
+                  <Checkbox value="1" disabled>
+                    Checkbox组
+                  </Checkbox>
+                </div>
+                <div>
+                  <Checkbox value="2">Checkbox组</Checkbox>
+                </div>
+                <div>
+                  <Checkbox value="3">Checkbox组</Checkbox>
+                </div>
+                <Checkbox value="4">Checkbox组</Checkbox>
+                <Checkbox value="5">Checkbox组</Checkbox>
+                <Checkbox value="6">Checkbox组</Checkbox>
+                <Checkbox value="7">Checkbox组</Checkbox>
+              </Checkbox.Group>
+            </Form.Item>
+            <Form.Item
+              label="选项"
+              name="select"
+              rules={[
+                {
+                  required: true,
+                  message: '请选择',
+                },
+              ]}
+            >
+              <Select
+                options={[
+                  {
+                    label: '选项一选项一选项一选项一选项一选项一选项一选项一',
+                    value: 1,
+                  },
+                  {
+                    label: '选项二',
+                    value: 2,
+                  },
+                  {
+                    label: '选项三',
+                    value: 3,
+                  },
+                ]}
+                placeholder={'默认下拉框'}
+              />
+            </Form.Item>
             <Form.Item>
               <Button type="primary" htmlType="submit">
-                左侧抽屉
+                提交
+              </Button>
+            </Form.Item>
+          </Form>
+        </Col>
+      </Row>
+    </div>
+  );
+};
+```
+
+Inline：
+
+```tsx
+import React, { useState } from 'react';
+import {
+  Form,
+  Input,
+  Select,
+  Radio,
+  Checkbox,
+  Button,
+  Icon,
+  Grid,
+} from 'rootnet-design';
+const { Row, Col } = Grid;
+
+export default () => {
+  const [visible, setVisible] = useState(false);
+
+  return (
+    <div>
+      <Row gutter={[16, 16]}>
+        <Col span={24}>
+          <Form
+            layout={'inline'}
+            name={'n2'}
+            initialValues={{}}
+            onSubmit={(form) => {
+              console.log('校验成功');
+              console.log(form);
+            }}
+            onError={(error) => {
+              console.log('校验错误');
+              console.log(error);
+            }}
+          >
+            <Form.Item
+              label="用户名"
+              name="username"
+              rules={[
+                {
+                  required: true,
+                  max: 2,
+                  message: '请输入用户名',
+                },
+              ]}
+            >
+              <Input
+                placeholder="请输入用户名"
+                icon={<Icon name="sk-order" />}
+              />
+            </Form.Item>
+            <Form.Item
+              label="电话号码"
+              name="phone"
+              rules={[
+                {
+                  required: true,
+                  message: '请输入电话号码',
+                },
+                {
+                  fields: /^[1][3,4,5,6,7,8,9][0-9]{9}$/,
+                  message: '请输入11位电话号码',
+                },
+              ]}
+            >
+              <Input
+                placeholder="请输入电话号码"
+                icon={<Icon name="sk-order" />}
+              />
+            </Form.Item>
+            <Form.Item
+              label="协议"
+              name="radio"
+              rules={[
+                {
+                  required: true,
+                  message: '请勾选协议',
+                },
+              ]}
+            >
+              <Radio>同意</Radio>
+            </Form.Item>
+            <Form.Item
+              label="选项"
+              name="checkbox"
+              rules={[
+                {
+                  required: true,
+                  message: '请选择',
+                },
+              ]}
+            >
+              <Checkbox.Group>
+                <div>
+                  <Checkbox value="1" disabled>
+                    Checkbox组
+                  </Checkbox>
+                </div>
+                <div>
+                  <Checkbox value="2">Checkbox组</Checkbox>
+                </div>
+                <div>
+                  <Checkbox value="3">Checkbox组</Checkbox>
+                </div>
+                <Checkbox value="4">Checkbox组</Checkbox>
+                <Checkbox value="5">Checkbox组</Checkbox>
+                <Checkbox value="6">Checkbox组</Checkbox>
+                <Checkbox value="7">Checkbox组</Checkbox>
+              </Checkbox.Group>
+            </Form.Item>
+            <Form.Item
+              label="选项"
+              name="radioGroup"
+              rules={[
+                {
+                  required: true,
+                  message: '请选择',
+                },
+              ]}
+            >
+              <Radio.Group>
+                <div>
+                  <Radio value="1" disabled>
+                    Radio组
+                  </Radio>
+                </div>
+                <div>
+                  <Radio value="2">Radio组</Radio>
+                </div>
+                <div>
+                  <Radio value="3">Radio组</Radio>
+                </div>
+                <Radio value="4">Radio组</Radio>
+                <Radio value="5">Radio组</Radio>
+                <Radio value="6">Radio组</Radio>
+                <Radio value="7">Radio组</Radio>
+              </Radio.Group>
+            </Form.Item>
+            <Form.Item
+              label="选项"
+              name="select"
+              rules={[
+                {
+                  required: true,
+                  message: '请选择',
+                },
+              ]}
+            >
+              <Select
+                options={[
+                  {
+                    label: '选项一选项一选项一选项一选项一选项一选项一选项一',
+                    value: 1,
+                  },
+                  {
+                    label: '选项二',
+                    value: 2,
+                  },
+                  {
+                    label: '选项三',
+                    value: 3,
+                  },
+                ]}
+                placeholder={'默认下拉框'}
+              />
+            </Form.Item>
+            <Form.Item>
+              <Button type="primary" htmlType="submit">
+                提交
+              </Button>
+            </Form.Item>
+          </Form>
+        </Col>
+      </Row>
+    </div>
+  );
+};
+```
+
+Vertical：
+
+```tsx
+import React, { useState } from 'react';
+import {
+  Form,
+  Input,
+  Select,
+  Radio,
+  Checkbox,
+  Button,
+  Icon,
+  Grid,
+} from 'rootnet-design';
+const { Row, Col } = Grid;
+
+export default () => {
+  const [visible, setVisible] = useState(false);
+
+  return (
+    <div>
+      <Row gutter={[16, 16]}>
+        <Col span={24}>
+          <Form
+            layout={'vertical'}
+            name={'n2'}
+            initialValues={{}}
+            onSubmit={(form) => {
+              console.log('校验成功');
+              console.log(form);
+            }}
+            onError={(error) => {
+              console.log('校验错误');
+              console.log(error);
+            }}
+          >
+            <Form.Item
+              label="用户名"
+              name="username"
+              rules={[
+                {
+                  required: true,
+                  max: 2,
+                  message: '请输入用户名',
+                },
+              ]}
+            >
+              <Input
+                placeholder="请输入用户名"
+                icon={<Icon name="sk-order" />}
+              />
+            </Form.Item>
+            <Form.Item
+              label="电话号码"
+              name="phone"
+              rules={[
+                {
+                  required: true,
+                  message: '请输入电话号码',
+                },
+                {
+                  fields: /^[1][3,4,5,6,7,8,9][0-9]{9}$/,
+                  message: '请输入11位电话号码',
+                },
+              ]}
+            >
+              <Input
+                placeholder="请输入电话号码"
+                icon={<Icon name="sk-order" />}
+              />
+            </Form.Item>
+            <Form.Item
+              label="协议"
+              name="radio"
+              rules={[
+                {
+                  required: true,
+                  message: '请勾选协议',
+                },
+              ]}
+            >
+              <Radio>同意</Radio>
+            </Form.Item>
+            <Form.Item
+              label="选项"
+              name="checkbox"
+              rules={[
+                {
+                  required: true,
+                  message: '请输入电话号码',
+                },
+              ]}
+            >
+              <Checkbox.Group>
+                <div>
+                  <Checkbox value="1" disabled>
+                    Checkbox组
+                  </Checkbox>
+                </div>
+                <div>
+                  <Checkbox value="2">Checkbox组</Checkbox>
+                </div>
+                <div>
+                  <Checkbox value="3">Checkbox组</Checkbox>
+                </div>
+                <Checkbox value="4">Checkbox组</Checkbox>
+                <Checkbox value="5">Checkbox组</Checkbox>
+                <Checkbox value="6">Checkbox组</Checkbox>
+                <Checkbox value="7">Checkbox组</Checkbox>
+              </Checkbox.Group>
+            </Form.Item>
+            <Form.Item
+              label="选项"
+              name="radioGroup"
+              rules={[
+                {
+                  required: true,
+                  message: '请选择',
+                },
+              ]}
+            >
+              <Radio.Group>
+                <div>
+                  <Radio value="1" disabled>
+                    Radio组
+                  </Radio>
+                </div>
+                <div>
+                  <Radio value="2">Radio组</Radio>
+                </div>
+                <div>
+                  <Radio value="3">Radio组</Radio>
+                </div>
+                <Radio value="4">Radio组</Radio>
+                <Radio value="5">Radio组</Radio>
+                <Radio value="6">Radio组</Radio>
+                <Radio value="7">Radio组</Radio>
+              </Radio.Group>
+            </Form.Item>
+            <Form.Item
+              label="选项"
+              name="select"
+              rules={[
+                {
+                  required: true,
+                  message: '请选择',
+                },
+              ]}
+            >
+              <Select
+                options={[
+                  {
+                    label: '选项一选项一选项一选项一选项一选项一选项一选项一',
+                    value: 1,
+                  },
+                  {
+                    label: '选项二',
+                    value: 2,
+                  },
+                  {
+                    label: '选项三',
+                    value: 3,
+                  },
+                ]}
+                placeholder={'默认下拉框'}
+              />
+            </Form.Item>
+            <Form.Item>
+              <Button type="primary" htmlType="submit">
+                提交
+              </Button>
+            </Form.Item>
+          </Form>
+        </Col>
+      </Row>
+    </div>
+  );
+};
+```
+
+Horizontal：
+
+```tsx
+import React, { useState } from 'react';
+import {
+  Form,
+  Input,
+  Select,
+  Radio,
+  Checkbox,
+  Button,
+  Icon,
+  Grid,
+} from 'rootnet-design';
+const { Row, Col } = Grid;
+
+export default () => {
+  const [visible, setVisible] = useState(false);
+
+  return (
+    <div>
+      <Row gutter={[16, 16]}>
+        <Col span={24}>
+          <Form
+            layout={'horizontal'}
+            name={'n2'}
+            initialValues={{}}
+            onSubmit={(form) => {
+              console.log('校验成功');
+              console.log(form);
+            }}
+            onError={(error) => {
+              console.log('校验错误');
+              console.log(error);
+            }}
+          >
+            <Form.Item
+              label="用户名"
+              name="username"
+              rules={[
+                {
+                  required: true,
+                  max: 2,
+                  message: '请输入用户名',
+                },
+              ]}
+            >
+              <Input
+                placeholder="请输入用户名"
+                icon={<Icon name="sk-order" />}
+              />
+            </Form.Item>
+            <Form.Item
+              label="电话号码"
+              name="phone"
+              rules={[
+                {
+                  required: true,
+                  message: '请输入电话号码',
+                },
+                {
+                  fields: /^[1][3,4,5,6,7,8,9][0-9]{9}$/,
+                  message: '请输入11位电话号码',
+                },
+              ]}
+            >
+              <Input
+                placeholder="请输入电话号码"
+                icon={<Icon name="sk-order" />}
+              />
+            </Form.Item>
+            <Form.Item
+              label="协议"
+              name="radio"
+              rules={[
+                {
+                  required: true,
+                  message: '请勾选协议',
+                },
+              ]}
+            >
+              <Radio>同意</Radio>
+            </Form.Item>
+            <Form.Item
+              label="选项"
+              name="checkbox"
+              rules={[
+                {
+                  required: true,
+                  message: '请输入电话号码',
+                },
+              ]}
+            >
+              <Checkbox.Group>
+                <div>
+                  <Checkbox value="1" disabled>
+                    Checkbox组
+                  </Checkbox>
+                </div>
+                <div>
+                  <Checkbox value="2">Checkbox组</Checkbox>
+                </div>
+                <div>
+                  <Checkbox value="3">Checkbox组</Checkbox>
+                </div>
+                <Checkbox value="4">Checkbox组</Checkbox>
+                <Checkbox value="5">Checkbox组</Checkbox>
+                <Checkbox value="6">Checkbox组</Checkbox>
+                <Checkbox value="7">Checkbox组</Checkbox>
+              </Checkbox.Group>
+            </Form.Item>
+            <Form.Item
+              label="选项"
+              name="select"
+              rules={[
+                {
+                  required: true,
+                  message: '请选择',
+                },
+              ]}
+            >
+              <Select
+                options={[
+                  {
+                    label: '选项一选项一选项一选项一选项一选项一选项一选项一',
+                    value: 1,
+                  },
+                  {
+                    label: '选项二',
+                    value: 2,
+                  },
+                  {
+                    label: '选项三',
+                    value: 3,
+                  },
+                ]}
+                placeholder={'默认下拉框'}
+              />
+            </Form.Item>
+            <Form.Item>
+              <Button type="primary" htmlType="submit">
+                提交
               </Button>
             </Form.Item>
           </Form>

@@ -8,175 +8,192 @@ import { prefix } from '../config';
 
 import { Icon } from '../index';
 
-interface CheckboxProps {
-  /**
-   * @description      样式命
-   * @default           -
-   */
-  className?: string;
+import Group from './Group';
+import Checkbox from './Checkbox';
 
-  /**
-   * @description      按钮的类型
-   * @default           -
-   */
-  type?: string;
+// interface CheckboxProps {
+//   /**
+//    * @description      样式命
+//    * @default           -
+//    */
+//   className?: string;
 
-  /**
-   * @description      需要显示的图标
-   * @default           -
-   */
-  icon?: string;
+//   /**
+//    * @description      按钮的类型
+//    * @default           -
+//    */
+//   type?: string;
 
-  /**
-   * @description      是否禁用按钮
-   * @default           false
-   */
-  disabled?: boolean;
+//   /**
+//    * @description      需要显示的图标
+//    * @default           -
+//    */
+//   icon?: string;
 
-  children?: React.ReactChild;
+//   /**
+//    * @description      是否禁用按钮
+//    * @default           false
+//    */
+//   disabled?: boolean;
 
-  /**
-   * @description      Checkbox 更改事件
-   * @default           -
-   */
-  onChange?: Function;
+//   children?: React.ReactChild;
 
-  /**
-   * @description      是否选中
-   * @default           -
-   */
-  checked?: boolean;
+//   /**
+//    * @description      Checkbox 更改事件
+//    * @default           -
+//    */
+//   onChange?: Function;
 
-  /**
-   * @description      Checkbox 的值
-   * @default           -
-   */
-  value?: string;
+//   /**
+//    * @description      是否选中
+//    * @default           -
+//    */
+//   checked?: boolean;
 
-  /**
-   * @description      Checkbox的尺寸
-   * @default           -
-   */
-  size?: string;
-}
+//   /**
+//    * @description      Checkbox 的值
+//    * @default           -
+//    */
+//   value?: string;
 
-function Checkbox(props: CheckboxProps) {
-  const { type, icon, disabled, children, onChange, size, ...prop } = props;
-  const [checked, setChecked] = useState(props.checked || false);
-  const [value, setValue] = useState(props.value || '');
+//   /**
+//    * @description      Checkbox的尺寸
+//    * @default           -
+//    */
+//   size?: string;
+// }
 
-  function handleClick(e: any) {
-    if (!disabled) {
-      setChecked(e.target.checked);
-      if (onChange) {
-        onChange(e.target.checked, value);
-      }
-    }
-  }
+// function Checkbox(props: CheckboxProps) {
+//   const { type, icon, disabled, children, onChange, size, ...prop } = props;
+//   const [checked, setChecked] = useState(props.checked || false);
+//   const [value, setValue] = useState(props.value || '');
 
-  useEffect(() => {
-    setChecked(props.checked || false);
-  }, [props.checked]);
+//   function handleClick(e: any) {
+//     if (!disabled) {
+//       setChecked(e.target.checked);
+//       if (onChange) {
+//         onChange(e.target.checked, value);
+//       }
+//     }
+//   }
 
-  useEffect(() => {
-    setValue(props.value || '');
-  }, [props.value]);
+//   useEffect(() => {
+//     setChecked(props.checked || false);
+//   }, [props.checked]);
 
-  return (
-    <label
-      className={clsx({
-        [`${prefix}-checkbox`]: true,
-        [`${prefix}-checkbox-default`]: !type && !disabled,
-        [`${prefix}-checkbox-${type}`]: type,
-        [`${prefix}-checkbox-disabled`]: disabled,
-        [`${prefix}-checkbox-${size}`]: size,
-        [`${prefix}-checkbox-checked`]: checked,
-      })}
-      // onClick={handleClick}
-      {...prop}
-    >
-      <input type="checkbox" checked={checked} onChange={handleClick} />
-      <span
-        className={clsx({
-          [`${prefix}-checkbox-icon`]: true,
-        })}
-      ></span>
-      <span
-        className={clsx({
-          [`${prefix}-checkbox-content`]: true,
-        })}
-      >
-        {children}
-      </span>
-    </label>
-  );
-}
+//   useEffect(() => {
+//     setChecked(props.checked || false);
+//   }, [props.value]);
 
-function loopChildren(children: any, props: any, value: Array<any>): any {
-  return React.Children.map(children, (item: any) => {
-    if (item.type.name == 'Checkbox') {
-      return React.cloneElement(item, {
-        ...props,
-        checked: value.indexOf(item.props.value) != -1,
-      });
-    } else {
-      if (item.props.children) {
-        return React.cloneElement(item, {
-          children: loopChildren(item.props.children, props, value),
-        });
-      }
-      return item;
-    }
-  });
-}
+//   return (
+//     <label
+//       className={clsx({
+//         [`${prefix}-checkbox`]: true,
+//         [`${prefix}-checkbox-default`]: !type && !disabled,
+//         [`${prefix}-checkbox-${type}`]: type,
+//         [`${prefix}-checkbox-disabled`]: disabled,
+//         [`${prefix}-checkbox-${size}`]: size,
+//         [`${prefix}-checkbox-checked`]: checked,
+//       })}
+//       // onClick={handleClick}
+//       {...prop}
+//     >
+//       <input type="checkbox" checked={checked} onChange={handleClick} />
+//       <span
+//         className={clsx({
+//           [`${prefix}-checkbox-icon`]: true,
+//         })}
+//       ></span>
+//       <span
+//         className={clsx({
+//           [`${prefix}-checkbox-content`]: true,
+//         })}
+//       >
+//         {children}
+//       </span>
+//     </label>
+//   );
+// }
 
-interface GroupProps {
-  /**
-   * @description      样式命
-   * @default           -
-   */
-  className?: string;
+// function loopChildren(children: any, props: any, value: Array<any>): any {
+//   return React.Children.map(children, (item: any) => {
+//     if (item.type.name == 'Checkbox') {
+//       return React.cloneElement(item, {
+//         ...props,
+//         checked: value && value.indexOf(item.props.value) != -1,
+//       });
+//     } else {
+//       if (item.props.children) {
+//         return React.cloneElement(item, {
+//           children: loopChildren(item.props.children, props, value),
+//         });
+//       }
+//       return item;
+//     }
+//   });
+// }
 
-  children?: React.ReactChild;
+// interface GroupProps {
+//   /**
+//    * @description      样式命
+//    * @default           -
+//    */
+//   className?: string;
 
-  /**
-   * @description      Checkbox 更改事件
-   * @default           -
-   */
-  onChange?: Function;
+//   children?: React.ReactChild;
 
-  /**
-   * @description      是否选中
-   * @default           -
-   */
-  checked: [];
-}
+//   /**
+//    * @description      Checkbox 更改事件
+//    * @default           -
+//    */
+//   onChange?: Function;
 
-function Group(props: GroupProps) {
-  const { children, onChange } = props;
+//   /**
+//    * @description      是否选中
+//    * @default           -
+//    */
+//   checked: [];
 
-  const [checked, setChecked] = useState(props.checked || []);
+//   value: [];
+// }
 
-  function handleChange(e: any, v: never) {
-    let findIndex = checked.indexOf(v);
-    if (!e && findIndex != -1) {
-      checked.splice(findIndex, 1);
-    } else {
-      checked.push(v);
-    }
-    setChecked([...checked]);
-    if (onChange) {
-      onChange([...checked]);
-    }
-  }
+// function Group(props: GroupProps) {
+//   const { children, onChange } = props;
 
-  const child = useMemo(() => {
-    // 临时解决方案，最好使用context上下文解决传递值的问题
-    return loopChildren(children, { onChange: handleChange }, props.checked);
-  }, [props.checked]);
+//   const [checked, setChecked] = useState(props.checked || []);
 
-  return <div>{child}</div>;
-}
+//   function handleChange(e: any, v: never) {
+//     let findIndex = checked.indexOf(v);
+//     if (!e && findIndex != -1) {
+//       checked.splice(findIndex, 1);
+//     } else {
+//       checked.push(v);
+//     }
+//     setChecked([...checked]);
+//     if (onChange) {
+//       onChange([...checked]);
+//     }
+//   }
+
+//   useEffect(() => {
+//     setChecked(props.value || []);
+//   }, [props.value]);
+
+//   const child = useMemo(() => {
+//     // 临时解决方案，最好使用context上下文解决传递值的问题
+//     return loopChildren(children, { onChange: handleChange }, props.checked);
+//   }, [props.checked]);
+
+//   return (
+//     <div
+//       className={clsx({
+//         [`${prefix}-checkbox-group`]: true,
+//       })}
+//     >
+//       {child}
+//     </div>
+//   );
+// }
 
 Checkbox.Group = Group;
 

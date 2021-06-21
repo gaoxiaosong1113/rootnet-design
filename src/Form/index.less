@@ -2,3 +2,114 @@
 
 .@{prefix}-t {
 }
+
+.@{prefix}-form {
+  &&-inline {
+    display: flex;
+    flex-wrap: wrap;
+
+    .@{prefix}-form-item {
+      margin-right: 16px;
+      display: flex;
+
+      &-laber {
+        &:after {
+          content: '：';
+        }
+      }
+    }
+  }
+
+  &&-horizontal {
+    .@{prefix}-form-item {
+      display: flex;
+
+      &-laber {
+        min-width: 200px;
+        text-align: right;
+
+        &:after {
+          content: '：';
+        }
+      }
+
+      &-control {
+        flex: 1;
+      }
+    }
+  }
+
+  &&-vertical {
+    .@{prefix}-form-item {
+      &-laber {
+        &:after {
+          content: '：';
+        }
+      }
+    }
+  }
+
+  &-item {
+    margin-bottom: 24px;
+
+    &-laber {
+      font-size: 14px;
+      color: #7a8199;
+      line-height: 32px;
+
+      &-none {
+        &::after {
+          display: none;
+        }
+      }
+    }
+
+    &-required {
+      color: #f5221b;
+    }
+
+    &-control {
+    }
+
+    &&-errors {
+      margin-bottom: 0;
+
+      .@{prefix}-form-item {
+      }
+
+      .@{prefix}-input:not(.@{prefix}-input-disabled) {
+        background-color: #fff;
+        border-color: #ff4d4f !important;
+        transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+      }
+
+      .@{prefix}-select-target:not(.@{prefix}-select-target-disabled) {
+        background-color: #fff;
+        border-color: #ff4d4f !important;
+        transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+      }
+
+      .@{prefix}-checkbox:not(.@{prefix}-checkbox-disabled) {
+        .@{prefix}-checkbox-icon {
+          background-color: #fff;
+          border-color: #ff4d4f !important;
+          transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+        }
+      }
+
+      .@{prefix}-radio:not(.@{prefix}-radio-disabled) {
+        .@{prefix}-radio-icon {
+          background-color: #fff;
+          border-color: #ff4d4f !important;
+          transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+        }
+      }
+    }
+
+    &-error {
+      font-size: 14px;
+      color: #f5221b;
+      line-height: 24px;
+    }
+  }
+}

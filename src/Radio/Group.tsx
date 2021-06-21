@@ -15,19 +15,12 @@ export const GroupContext = React.createContext({} as any);
 function Group(props: any) {
   const { children, onChange } = props;
 
-  const [checked, setChecked] = useState(props.checked || []);
+  const [checked, setChecked] = useState(props.checked || null);
 
   function handleChange(e: any, v: any) {
-    console.log(e, v);
-    let findIndex = checked.indexOf(v);
-    if (!e && findIndex != -1) {
-      checked.splice(findIndex, 1);
-    } else {
-      checked.push(v);
-    }
-    setChecked([...checked]);
+    setChecked(v);
     if (onChange) {
-      onChange([...checked]);
+      onChange(v);
     }
   }
 
@@ -41,7 +34,7 @@ function Group(props: any) {
   return (
     <div
       className={clsx({
-        [`${prefix}-checkbox-group`]: true,
+        [`${prefix}-radio-group`]: true,
       })}
     >
       <GroupContext.Provider value={context}>{children}</GroupContext.Provider>
