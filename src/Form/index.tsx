@@ -26,7 +26,7 @@ const themes = {
   },
 };
 
-const ThemeContext = React.createContext({});
+const ThemeContext = React.createContext({} as any);
 
 const Form = (props: any) => {
   const {

@@ -57,7 +57,7 @@ interface ButtonProps {
    * @description      按钮的类型
    * @default           -
    */
-  htmlType?: string;
+  htmlType?: 'button' | 'submit' | 'reset' | undefined;
 }
 
 function Button(props: ButtonProps) {
