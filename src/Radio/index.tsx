@@ -9,7 +9,13 @@ import { prefix } from '../config';
 import { Icon } from '../index';
 
 import Group from './Group';
-import Radio from './Radio';
+import InternalRadio from './Radio';
+
+interface CompoundedComponent extends React.ForwardRefExoticComponent<any> {
+  Group: typeof Group;
+}
+
+const Radio = InternalRadio as CompoundedComponent;
 
 Radio.Group = Group;
 

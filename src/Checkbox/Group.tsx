@@ -8,11 +8,9 @@ import { prefix } from '../config';
 
 import { Icon } from '../index';
 
-interface CheckboxProps {}
-
 export const GroupContext = React.createContext({} as any);
 
-function Group(props: any) {
+function Group(props: any): any {
   const { children, onChange } = props;
 
   const [checked, setChecked] = useState(props.checked || []);

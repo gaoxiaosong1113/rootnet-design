@@ -9,7 +9,7 @@ import { prefix } from '../config';
 import { Icon } from '../index';
 
 import Group from './Group';
-import Checkbox from './Checkbox';
+import InternalCheckbox from './Checkbox';
 
 // interface CheckboxProps {
 //   /**
@@ -194,6 +194,12 @@ import Checkbox from './Checkbox';
 //     </div>
 //   );
 // }
+
+interface CompoundedComponent extends React.ForwardRefExoticComponent<any> {
+  Group: typeof Group;
+}
+
+const Checkbox = InternalCheckbox as CompoundedComponent;
 
 Checkbox.Group = Group;
 

@@ -64,7 +64,7 @@ interface CheckboxProps {
   Group?: any;
 }
 
-function Checkbox(props: CheckboxProps) {
+function Checkbox(props: CheckboxProps): any {
   const { type, icon, disabled, children, onChange, size, ...prop } = props;
   const [checked, setChecked] = useState(props.checked || false);
   const [value, setValue] = useState(props.value || '');

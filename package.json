@@ -1,7 +1,7 @@
 {
   "private": false,
   "name": "rootnet-design",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "files": [
     "dist"
   ],
@@ -34,8 +34,8 @@
   },
   "dependencies": {
     "clsx": "^1.1.1",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2"
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0"
   },
   "devDependencies": {
     "@umijs/test": "^3.0.5",

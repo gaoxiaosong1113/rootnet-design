@@ -84,12 +84,6 @@ interface InputProps {
   before?: any;
 
   /**
-   * @description      设置icon
-   * @default           -
-   */
-  icon?: any;
-
-  /**
    * @description      change
    * @default           -
    */
@@ -112,6 +106,12 @@ interface InputProps {
    * @default           -
    */
   name?: string;
+
+  /**
+   * @description      value
+   * @default           -
+   */
+  value?: string;
 }
 
 function Input(props: InputProps) {
@@ -133,19 +133,19 @@ function Input(props: InputProps) {
 
   const [value, setValue] = useState(props.value);
 
-  const handleChange = (e) => {
+  const handleChange = (e: any) => {
     setValue(e.target.value);
     if (onChange) {
       onChange(e.target.value);
     }
   };
 
-  const handleFocus = (e) => {
+  const handleFocus = (e: any) => {
     if (onFocus) {
       onFocus(e);
     }
   };
-  const handleBlur = (e) => {
+  const handleBlur = (e: any) => {
     if (onBlur) {
       onBlur(e);
     }
