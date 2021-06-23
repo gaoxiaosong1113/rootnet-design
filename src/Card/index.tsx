@@ -141,7 +141,16 @@ export default function Card(props: CardProps) {
       >
         {tabList
           ? React.Children.map(children, (item, index) => {
-              if (index == activeTabKey) return item;
+              return (
+                <div
+                  className={clsx({
+                    [`${prefix}-card-tab-item`]: true,
+                    [`${prefix}-card-tab-item-active`]: index == activeTabKey,
+                  })}
+                >
+                  {item}
+                </div>
+              );
             })
           : children}
       </div>
