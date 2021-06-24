@@ -76,31 +76,23 @@ export default () => {
       <Row gutter={[16, 16]}>
         <Col span={24}>
           <Descriptions border gutter={[16, 16]} title="带边框的信息：">
-            <Descriptions.Item span={8} label={'流程号'}>
-              100001
-            </Descriptions.Item>
-            <Descriptions.Item span={8} label={'授权人'}>
-              章散
-            </Descriptions.Item>
-            <Descriptions.Item span={8} label={'代授权人'}>
-              admin
-            </Descriptions.Item>
-            <Descriptions.Item span={8} label={'生效时间'}>
+            <Descriptions.Item label={'流程号'}>100001</Descriptions.Item>
+            <Descriptions.Item label={'授权人'}>章散</Descriptions.Item>
+            <Descriptions.Item label={'代授权人'}>admin</Descriptions.Item>
+            <Descriptions.Item span={2} label={'生效时间'}>
               2021-01-19 00:01:00
             </Descriptions.Item>
-            <Descriptions.Item span={8} label={'失效时间'}>
+            <Descriptions.Item span={2} label={'失效时间'}>
               2021-01-31 24:00:00
             </Descriptions.Item>
-            <Descriptions.Item span={8} label={'授权模式'}>
-              转授权
-            </Descriptions.Item>
-            <Descriptions.Item span={8} label={'授权时间'}>
+            <Descriptions.Item label={'授权模式'}>转授权</Descriptions.Item>
+            <Descriptions.Item span={2} label={'授权时间'}>
               2021-01-19 07:01:00
             </Descriptions.Item>
-            <Descriptions.Item span={8} label={'更新时间'}>
+            <Descriptions.Item span={2} label={'更新时间'}>
               2021-01-31 08:00:00
             </Descriptions.Item>
-            <Descriptions.Item span={8} label={'备注'}>
+            <Descriptions.Item span={3} label={'备注'}>
               章散出差2天，临时授权王武
             </Descriptions.Item>
           </Descriptions>
@@ -133,35 +125,33 @@ export default () => {
             title="自定义背景颜色："
           >
             <Descriptions.Item
-              span={8}
               label={'流程号'}
               background={'hsla(0, 100%, 50%, 0.3)'}
               fontColor={'#fff'}
+              span={3}
             >
               100001
             </Descriptions.Item>
-            <Descriptions.Item span={8} label={'授权人'}>
+            <Descriptions.Item span={3} label={'授权人'}>
               章散章散章散章散章散章散章散章散章散章散章散章散章散章散章散章散章散章散章散章散章散章散章散章散章散章散章散章散章散章散章散章散章散章散章散章散章散章散章散章散章散章散章散章散章散章散章散章散章散章散章散
             </Descriptions.Item>
-            <Descriptions.Item span={8} label={'代授权人'}>
+            <Descriptions.Item span={2} label={'代授权人'}>
               admin
             </Descriptions.Item>
-            <Descriptions.Item span={8} label={'生效时间'}>
+            <Descriptions.Item span={2} label={'生效时间'}>
               2021-01-19 00:01:00
             </Descriptions.Item>
-            <Descriptions.Item span={16} label={'失效时间'}>
+            <Descriptions.Item span={2} label={'失效时间'}>
               2021-01-31 24:00:00
             </Descriptions.Item>
-            <Descriptions.Item span={24} label={'授权模式'}>
-              转授权
-            </Descriptions.Item>
-            <Descriptions.Item span={12} label={'授权时间'}>
+            <Descriptions.Item label={'授权模式'}>转授权</Descriptions.Item>
+            <Descriptions.Item span={2} label={'授权时间'}>
               2021-01-19 07:01:00
             </Descriptions.Item>
-            <Descriptions.Item span={12} label={'更新时间'}>
+            <Descriptions.Item span={2} label={'更新时间'}>
               2021-01-31 08:00:00
             </Descriptions.Item>
-            <Descriptions.Item span={24} label={'备注'}>
+            <Descriptions.Item span={3} label={'备注'}>
               章散出差2天，临时授权王武
             </Descriptions.Item>
           </Descriptions>
@@ -171,5 +161,9 @@ export default () => {
   );
 };
 ```
+
+<!-- 
+
+
 
 <API />

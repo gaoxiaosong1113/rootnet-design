@@ -42,10 +42,24 @@ interface DescriptionsProps {
    * @default           120
    */
   labelWidth?: number;
+
+  /**
+   * @description      一行的列数
+   * @default           3
+   */
+  column?: number;
 }
 
 function Descriptions(props: DescriptionsProps) {
-  const { title, children, border, gutter, labelWidth, ...prop } = props;
+  const {
+    title,
+    children,
+    border,
+    gutter,
+    labelWidth,
+    column = 3,
+    ...prop
+  } = props;
 
   const newGutter = useMemo(() => {
     if (border) {
@@ -53,6 +67,87 @@ function Descriptions(props: DescriptionsProps) {
     }
     return gutter;
   }, [gutter]);
+
+  const child = useMemo(() => {
+    return React.Children.map(children, (item) => {
+      return React.cloneElement(item, {
+        labelWidth,
+        border,
+        gutter,
+        column,
+      });
+    });
+  }, [children]);
+
+  function getFilledItem(
+    node: React.ReactElement,
+    span: number | undefined,
+    rowRestCol: number,
+  ): React.ReactElement {
+    let clone = React.cloneElement(node, {
+      span,
+      labelWidth,
+      border,
+      gutter,
+      column,
+    });
+
+    if (span === undefined || span > rowRestCol) {
+      clone = React.cloneElement(node, {
+        span: rowRestCol,
+        labelWidth,
+        border,
+        gutter,
+        column,
+      });
+    }
+
+    return clone;
+  }
+
+  const childBorder = useMemo(() => {
+    if (!border) return;
+    // 所有的子节点
+    const childNodes = React.Children.toArray(children).filter((n) => n);
+    // 总行
+    const rows: React.ReactElement[][] = [];
+    // 行内元素
+    let tmpRow: React.ReactElement[] = [];
+    // 一行总列
+    let rowRestCol = column;
+
+    childNodes.forEach((node: any, index) => {
+      const span: number | undefined = node.props?.span;
+      const mergedSpan = span || 1;
+
+      // Additional handle last one
+      if (index === childNodes.length - 1) {
+        tmpRow.push(getFilledItem(node, span, rowRestCol));
+        rows.push(tmpRow);
+        return;
+      }
+
+      if (mergedSpan < rowRestCol) {
+        rowRestCol -= mergedSpan;
+        tmpRow.push(
+          React.cloneElement(node, {
+            border,
+            column,
+            gutter,
+          }),
+        );
+      } else {
+        tmpRow.push(getFilledItem(node, mergedSpan, rowRestCol));
+        rows.push(tmpRow);
+        rowRestCol = column;
+        tmpRow = [];
+      }
+    });
+
+    return rows.map((item: any, index: any) => {
+      return <tr>{item}</tr>;
+    });
+  }, [children, column, border]);
 
   return (
     <div
@@ -71,19 +166,20 @@ function Descriptions(props: DescriptionsProps) {
           {title}
         </div>
       )}
-      <div
-        className={clsx({
-          [`${prefix}-descriptions-content`]: true,
-        })}
-      >
-        <Row gutter={newGutter}>
-          {React.Children.map(children, (item) => {
-            return React.cloneElement(item, {
-              labelWidth,
-            });
+      {children && (
+        <div
+          className={clsx({
+            [`${prefix}-descriptions-content`]: true,
           })}
-        </Row>
-      </div>
+        >
+          {border && (
+            <table>
+              <tbody>{childBorder}</tbody>
+            </table>
+          )}
+          {!border && <Row gutter={newGutter}>{child}</Row>}
+        </div>
+      )}
     </div>
   );
 }
@@ -96,7 +192,34 @@ Descriptions.Item = ({
   background,
   fontColor,
   labelWidth,
+  border,
+  column,
 }: any) => {
+  if (border) {
+    console.log(span);
+    return (
+      <>
+        <th
+          style={{
+            width: labelWidth,
+            flex: `0 0 ${labelWidth}px`,
+          }}
+        >
+          {label}
+        </th>
+        <td
+          colSpan={span * 2 - 1}
+          // colSpan={span}
+          style={{
+            background,
+            color: fontColor,
+          }}
+        >
+          {children}
+        </td>
+      </>
+    );
+  }
   return (
     <Col gutter={gutter} span={span}>
       <div

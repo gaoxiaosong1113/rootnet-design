@@ -128,7 +128,6 @@ const dataSource = [
     children: [
       {
         productNum: 'a001',
-        stkIndustryNames: '私募产品',
         productName: '交易市场',
         productStatus: '1',
         pm: [
@@ -151,7 +150,7 @@ const dataSource = [
       },
       {
         productNum: 'a001',
-        stkIndustryNames: '市场交易日',
+        productName: '市场交易日',
         productStatus: '1',
         pm: [
           {
