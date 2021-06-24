@@ -46,6 +46,13 @@ function ModalContent(props: ModalProps) {
 
   console.log(props);
 
+  useEffect(() => {
+    document.body.addEventListener('click', (e) => {
+      // console.log(e.target.path)
+      // handleCancel()
+    });
+  }, []);
+
   function handleCancel() {
     handleUnRender();
     onCancel ? onCancel() : null;
@@ -68,7 +75,7 @@ function ModalContent(props: ModalProps) {
         })}
         style={{
           left: getOffsetLeft(event.target) + event.target.offsetWidth / 2,
-          top: getOffsetTop(event.target) - event.target.offsetHeight,
+          top: getOffsetTop(event.target) - event.target.offsetHeight + 10,
         }}
       >
         <div

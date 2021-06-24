@@ -53,6 +53,17 @@ interface ModalProps {
    * @default           -
    */
   onCancel: Function;
+
+  /**
+   * @description      页脚
+   * @default           -
+   */
+  footer: any;
+  /**
+   * @description      modal 宽度
+   * @default           340
+   */
+  width: number;
 }
 
 function ModalContent(props: ModalProps) {
@@ -64,6 +75,8 @@ function ModalContent(props: ModalProps) {
     visible,
     onConfirm,
     onCancel,
+    footer,
+    width,
     ...prop
   } = props;
 
@@ -89,6 +102,7 @@ function ModalContent(props: ModalProps) {
           [`${prefix}-modal`]: true,
           [`${prefix}-modal-${type}`]: type,
         })}
+        style={{ width }}
       >
         <div
           className={clsx({
@@ -107,7 +121,7 @@ function ModalContent(props: ModalProps) {
               [`${prefix}-modal-head-close`]: true,
             })}
             onClick={() => {
-              onCancel ? onCancel() : null;
+              handleCancel();
             }}
           >
             <Icon name="sk-order" />
@@ -120,16 +134,24 @@ function ModalContent(props: ModalProps) {
         >
           <span>{type ? content : children}</span>
         </div>
-        <div
-          className={clsx({
-            [`${prefix}-modal-footer`]: true,
-          })}
-        >
-          <Button onClick={handleCancel}>取消</Button>
-          <Button type="primary" onClick={handleConfirm}>
-            确定
-          </Button>
-        </div>
+        {footer !== null && (
+          <div
+            className={clsx({
+              [`${prefix}-modal-footer`]: true,
+            })}
+          >
+            {footer ? (
+              footer
+            ) : (
+              <>
+                <Button onClick={handleCancel}>取消</Button>
+                <Button type="primary" onClick={handleConfirm}>
+                  确定
+                </Button>
+              </>
+            )}
+          </div>
+        )}
       </div>
       <div
         className={clsx({

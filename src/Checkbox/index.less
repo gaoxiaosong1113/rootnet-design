@@ -18,6 +18,23 @@
     display: none;
   }
 
+  &-indeterminate {
+    .@{prefix}-checkbox-icon {
+      position: relative;
+      &::before {
+        position: absolute;
+        display: table;
+        width: 8px;
+        height: 8px;
+        background: @primaryColor;
+        content: ' ';
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+    }
+  }
+
   &-icon {
     width: 16px;
     height: 16px;

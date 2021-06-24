@@ -34,6 +34,9 @@ export default () => {
         <Col span={4}>
           <Checkbox checked={true}>默认选中</Checkbox>
         </Col>
+        <Col span={4}>
+          <Checkbox indeterminate={true}>半选</Checkbox>
+        </Col>
       </Row>
     </div>
   );

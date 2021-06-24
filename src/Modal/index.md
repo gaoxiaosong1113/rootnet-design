@@ -54,6 +54,37 @@ export default () => {
       <Modal
         title="First Demo"
         visible={visible}
+        footer={'自定义页脚'}
+        onCancel={() => {
+          console.log('关闭');
+          setVisible(false);
+        }}
+        onConfirm={() => {
+          setVisible(false);
+        }}
+      />
+    </div>
+  );
+};
+```
+
+不显示页脚：
+
+```tsx
+import React, { useState } from 'react';
+import { Modal, Button } from 'rootnet-design';
+
+export default () => {
+  const [visible, setVisible] = useState(false);
+  return (
+    <div>
+      <Button title="First Demo" onClick={() => setVisible(true)}>
+        打开弹窗
+      </Button>
+      <Modal
+        title="First Demo"
+        visible={visible}
+        footer={null}
         onCancel={() => {
           console.log('关闭');
           setVisible(false);

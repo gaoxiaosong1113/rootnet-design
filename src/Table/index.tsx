@@ -7,7 +7,7 @@ import './index.less';
 
 import { prefix } from '../config';
 
-import { Icon } from '../index';
+import { Icon, Checkbox } from '../index';
 
 interface TableItemProps {
   /**
@@ -56,13 +56,13 @@ interface TableItemProps {
    * @description      表格行 key 的取值，可以是字符串或一个函数
    * @default           false
    */
-  rowKey?: string;
+  rowKey: string;
 
   /**
    * @description      表格行是否可选择，配置项
    * @default           false
    */
-  rowSelection?: string;
+  rowSelection?: any;
 
   /**
    * @description      表格大小	default | middle | small
@@ -80,7 +80,7 @@ interface TableItemProps {
    * @description      设置行属性
    * @default           false
    */
-  onRow?: string;
+  onRow?: any;
 
   /**
    * @description      表格的数据
@@ -99,6 +99,30 @@ interface TableItemProps {
    * @default           false
    */
   index: number;
+
+  /**
+   * @description      选中
+   * @default           []
+   */
+  selectedRowKeys: Array<any>;
+
+  /**
+   * @description      修改选中
+   * @default           -
+   */
+  setSelectedRowKeys: any;
+
+  /**
+   * @description      选中行
+   * @default           []
+   */
+  selectedRows: Array<any>;
+
+  /**
+   * @description      修改选中行
+   * @default           -
+   */
+  setSelectedRows: any;
 }
 
 function TableItem(props: TableItemProps) {
@@ -127,16 +151,77 @@ function TableItem(props: TableItemProps) {
     data,
     // 是否树形结构
     isTree,
+    selectedRowKeys,
+    setSelectedRowKeys,
+    selectedRows,
+    setSelectedRows,
     index,
   } = props;
 
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(expandable?.indexOf(data[rowKey]) != -1);
+
+  const [checked, setChecked] = useState(() => {
+    return selectedRowKeys.indexOf(data[rowKey]) != -1;
+  });
+  const [indeterminate, setIndeterminate] = useState(false);
+
+  function unchecked(key: any) {
+    let index = selectedRowKeys.indexOf(key);
+    if (index > -1) {
+      selectedRowKeys.splice(index, 1);
+    }
+    setChecked(false);
+  }
+
+  // 处理多选
+  useEffect(() => {
+    console.log(selectedRowKeys);
+    if (data.children) {
+      let checkData = loopData(data.children, selectedRowKeys, rowKey);
+      let allData = checkAllData(data.children, rowKey);
+      if (checkData.length === allData.length) {
+        console.log('child');
+        setChecked(true);
+        setIndeterminate(false);
+      } else if (checkData.length > 0) {
+        setIndeterminate(true);
+      } else {
+        setIndeterminate(false);
+        unchecked(data[rowKey]);
+        setChecked(false);
+      }
+    } else {
+      setChecked(selectedRowKeys.indexOf(data[rowKey]) != -1);
+    }
+  }, [selectedRowKeys]);
 
   const handleOpen = () => {
     setOpen(!open);
   };
 
   let child: any = data.children && data.children.length > 0;
+  // let isExpandable = expandable?.indexOf(data[rowKey]) != -1;
+
+  function checkChildren(data: any, value: any) {
+    setChecked(value);
+    let childrenKeys = [];
+    if (data.children) {
+      childrenKeys = data.children.map((item: any) => {
+        return item[rowKey];
+      });
+    }
+    childrenKeys.push(data[rowKey]);
+    childrenKeys.forEach((item: any) => {
+      if (value) {
+        if (selectedRowKeys.indexOf(item) === -1) {
+          selectedRowKeys.push(item);
+        }
+      } else {
+        unchecked(item);
+      }
+    });
+    return selectedRowKeys;
+  }
 
   return (
     <>
@@ -157,6 +242,23 @@ function TableItem(props: TableItemProps) {
             )}
           </td>
         )}
+        {rowSelection && (
+          <th
+            className={`${prefix}-table-td ${prefix}-table-checkbox`}
+            style={{ width: '40px' }}
+          >
+            <Checkbox
+              checked={checked}
+              indeterminate={indeterminate}
+              onChange={(v: any) => {
+                if (rowSelection.onSelect) {
+                  rowSelection.onSelect(data[rowKey], data);
+                }
+                setSelectedRowKeys([...checkChildren(data, v)]);
+              }}
+            />
+          </th>
+        )}
         {indexEq && (
           <td
             className={`${prefix}-table-td ${prefix}-table-index`}
@@ -166,6 +268,7 @@ function TableItem(props: TableItemProps) {
           </td>
         )}
         {columns &&
+          !onRow &&
           columns.map((item: any, index: any) => {
             return (
               <td
@@ -179,6 +282,7 @@ function TableItem(props: TableItemProps) {
               </td>
             );
           })}
+        {columns && onRow && onRow(data)}
       </tr>
       {open && child && (
         <TableChildren
@@ -201,6 +305,30 @@ function TableChildren(props: any) {
       return <TableItem {...props} index={index} key={index} data={dataItem} />;
     })
   );
+}
+
+function loopData(data: any, keys: any, rowKey: any) {
+  let findData: any = [];
+  data.forEach((item: any) => {
+    if (keys.indexOf(item[rowKey]) != -1) {
+      findData.push(item);
+    }
+    if (item.children) {
+      findData = findData.concat(loopData(item.children, keys, rowKey));
+    }
+  });
+  return findData;
+}
+
+function checkAllData(data: any, rowKey: any) {
+  let findData: any = [];
+  data.forEach((item: any) => {
+    findData.push(item[rowKey]);
+    if (item.children) {
+      findData = findData.concat(checkAllData(item.children, rowKey));
+    }
+  });
+  return findData;
 }
 
 export default function Table(props: any) {
@@ -230,7 +358,7 @@ export default function Table(props: any) {
     // 表格行的类名
     rowClassName,
     // 表格行 key 的取值，可以是字符串或一个函数
-    rowKey,
+    rowKey = 'id',
     // 表格行是否可选择，配置项
     rowSelection,
     // 表格是否可滚动，也可以指定滚动区域的宽、高，配置项
@@ -261,19 +389,16 @@ export default function Table(props: any) {
   } = props;
 
   const [isTree, setIsTree] = useState(false);
+  const [selectedRowKeys, setSelectedRowKeys] = useState(() => {
+    if (rowSelection && rowSelection.selectedRowKeys) {
+      return rowSelection.selectedRowKeys;
+    }
+    return [];
+  });
+  const [selectedRows, setSelectedRows] = useState([]);
+  const [checkAll, setCheckAll] = useState(false);
 
-  // useEffect(() => {
-  //     // dataSource.map(item=>{})
-  //     for (let i = 0; i < dataSource.length; i++) {
-  //         if (dataSource[i].children && dataSource[i].children.length > 0) {
-  //             setIsTree(true)
-  //             break;
-  //         }
-  //     }
-  // }, [dataSource])
   useEffect(() => {
-    // dataSource.map(item=>{})
-    console.log(dataSource);
     for (let i = 0; i < dataSource.length; i++) {
       if (dataSource[i].children && dataSource[i].children.length > 0) {
         setIsTree(true);
@@ -281,6 +406,29 @@ export default function Table(props: any) {
       }
     }
   }, []);
+
+  useEffect(() => {
+    if (rowSelection && rowSelection.onChange) {
+      rowSelection.onChange(selectedRowKeys, selectedRows);
+    }
+  }, [selectedRows]);
+
+  useEffect(() => {
+    if (selectedRowKeys.length == 0) return;
+    setCheckAll(
+      selectedRowKeys.length === checkAllData(dataSource, rowKey).length,
+    );
+    setSelectedRows(loopData(dataSource, selectedRowKeys, rowKey));
+  }, [selectedRowKeys]);
+
+  function handleCheckAll(value: any) {
+    setCheckAll(value);
+    if (value) {
+      setSelectedRowKeys(checkAllData(dataSource, rowKey));
+    } else {
+      setSelectedRowKeys([]);
+    }
+  }
 
   return (
     <div className={`${prefix}-tables`}>
@@ -305,6 +453,19 @@ export default function Table(props: any) {
                   />
                 </th>
               )}
+              {rowSelection && (
+                <th
+                  className={`${prefix}-table-th ${prefix}-table-checkbox`}
+                  style={{ width: '40px' }}
+                >
+                  <Checkbox
+                    checked={checkAll}
+                    onChange={(v: any) => {
+                      handleCheckAll(v);
+                    }}
+                  />
+                </th>
+              )}
               {indexEq && (
                 <th
                   className={`${prefix}-table-th ${prefix}-table-index`}
@@ -326,7 +487,7 @@ export default function Table(props: any) {
                       key={item.dataIndex}
                       style={{ width: item.width || 'auto' }}
                     >
-                      {item.title}
+                      {onHeaderRow ? onHeaderRow(item, index) : item.title}
                     </th>
                   );
                 })}
@@ -336,13 +497,16 @@ export default function Table(props: any) {
         <tbody className={`${prefix}-table-body`}>
           <TableChildren
             {...props}
+            selectedRowKeys={selectedRowKeys}
+            setSelectedRowKeys={setSelectedRowKeys}
+            selectedRows={selectedRows}
+            setSelectedRows={setSelectedRows}
             data={dataSource}
             layer={0}
             isTree={isTree}
           />
         </tbody>
       </table>
-      {/* {loading && <Loader fill />} */}
     </div>
   );
 }

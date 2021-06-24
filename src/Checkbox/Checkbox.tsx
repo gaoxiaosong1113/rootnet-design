@@ -62,10 +62,20 @@ interface CheckboxProps {
   size?: string;
 
   Group?: any;
+  indeterminate?: boolean;
 }
 
 function Checkbox(props: CheckboxProps): any {
-  const { type, icon, disabled, children, onChange, size, ...prop } = props;
+  const {
+    type,
+    icon,
+    disabled,
+    children,
+    onChange,
+    size,
+    indeterminate,
+    ...prop
+  } = props;
   const [checked, setChecked] = useState(props.checked || false);
   const [value, setValue] = useState(props.value || '');
 
@@ -116,7 +126,9 @@ function Checkbox(props: CheckboxProps): any {
         [`${prefix}-checkbox-${type}`]: type,
         [`${prefix}-checkbox-disabled`]: disabled,
         [`${prefix}-checkbox-${size}`]: size,
-        [`${prefix}-checkbox-checked`]: checkboxProps.checked,
+        [`${prefix}-checkbox-indeterminate`]:
+          !checkboxProps.checked && indeterminate,
+        [`${prefix}-checkbox-checked`]: !indeterminate && checkboxProps.checked,
       })}
       // onClick={handleChange}
       {...prop}
