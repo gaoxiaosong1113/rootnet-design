@@ -136,7 +136,7 @@ function TableItem(props: TableItemProps) {
     setOpen(!open);
   };
 
-  let child: any = data.childList && data.childList.length > 0;
+  let child: any = data.children && data.children.length > 0;
 
   return (
     <>
@@ -184,7 +184,7 @@ function TableItem(props: TableItemProps) {
         <TableChildren
           {...props}
           key={index + layer + ''}
-          data={data.childList}
+          data={data.children}
           layer={layer + 1}
         />
       )}
@@ -265,7 +265,7 @@ export default function Table(props: any) {
   // useEffect(() => {
   //     // dataSource.map(item=>{})
   //     for (let i = 0; i < dataSource.length; i++) {
-  //         if (dataSource[i].childList && dataSource[i].childList.length > 0) {
+  //         if (dataSource[i].children && dataSource[i].children.length > 0) {
   //             setIsTree(true)
   //             break;
   //         }
@@ -275,7 +275,7 @@ export default function Table(props: any) {
     // dataSource.map(item=>{})
     console.log(dataSource);
     for (let i = 0; i < dataSource.length; i++) {
-      if (dataSource[i].childList && dataSource[i].childList.length > 0) {
+      if (dataSource[i].children && dataSource[i].children.length > 0) {
         setIsTree(true);
         break;
       }

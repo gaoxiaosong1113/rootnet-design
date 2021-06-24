@@ -73,3 +73,107 @@ const dataSource = [
 
 export default () => <Table columns={columns} dataSource={dataSource} />;
 ```
+
+折叠树:
+
+```tsx
+import React from 'react';
+import { Table, Checkbox } from 'rootnet-design';
+
+const columns = [
+  {
+    title: <Checkbox>{'菜单列表'}</Checkbox>,
+    dataIndex: 'productName',
+    width: 105,
+    render: (r) => {
+      if (r.productName) {
+        return <Checkbox>{r.productName}</Checkbox>;
+      }
+    },
+  },
+  {
+    title: <Checkbox>{'功能列表'}</Checkbox>,
+    dataIndex: 'pm',
+    width: 200,
+    render: (r, index, columns) => {
+      if (r.children) {
+        return null;
+      } else {
+        console.log(r, index, columns);
+        return r.pm.map((item, index) => {
+          return (
+            <Checkbox
+              onChange={(v) => {
+                console.log(v);
+              }}
+            >
+              {item.stkIndustryNames}
+            </Checkbox>
+          );
+        });
+      }
+    },
+  },
+  {
+    title: '',
+    dataIndex: '',
+  },
+];
+
+const dataSource = [
+  {
+    productNum: 'a001',
+    productName: '系统基础',
+    productStatus: '1',
+    children: [
+      {
+        productNum: 'a001',
+        stkIndustryNames: '私募产品',
+        productName: '交易市场',
+        productStatus: '1',
+        pm: [
+          {
+            productNum: 'a001',
+            stkIndustryNames: '新增',
+            productStatus: '1',
+          },
+          {
+            productNum: 'a001',
+            stkIndustryNames: '编辑',
+            productStatus: '1',
+          },
+          {
+            productNum: 'a001',
+            stkIndustryNames: '删除',
+            productStatus: '1',
+          },
+        ],
+      },
+      {
+        productNum: 'a001',
+        stkIndustryNames: '市场交易日',
+        productStatus: '1',
+        pm: [
+          {
+            productNum: 'a001',
+            stkIndustryNames: '新增',
+            productStatus: '1',
+          },
+          {
+            productNum: 'a001',
+            stkIndustryNames: '编辑',
+            productStatus: '1',
+          },
+          {
+            productNum: 'a001',
+            stkIndustryNames: '删除',
+            productStatus: '1',
+          },
+        ],
+      },
+    ],
+  },
+];
+
+export default () => <Table columns={columns} dataSource={dataSource} isTree />;
+```
