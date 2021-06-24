@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import ReactDom from 'react-dom';
 
 import clsx from 'clsx';
@@ -44,13 +44,20 @@ interface ModalProps {
 function ModalContent(props: ModalProps) {
   const { content, children, onConfirm, onCancel, event, ...prop } = props;
 
-  console.log(props);
+  const refEl = useRef<any>(null);
 
   useEffect(() => {
-    document.body.addEventListener('click', (e) => {
-      // console.log(e.target.path)
-      // handleCancel()
-    });
+    function handleClick(e: any) {
+      if (!refEl.current) return;
+      if (!ReactDom.findDOMNode(refEl.current)?.contains(e.target)) {
+        handleCancel();
+      }
+    }
+
+    document.body.addEventListener('click', handleClick);
+    return () => {
+      document.body.removeEventListener('click', handleClick);
+    };
   }, []);
 
   function handleCancel() {
@@ -77,6 +84,7 @@ function ModalContent(props: ModalProps) {
           left: getOffsetLeft(event.target) + event.target.offsetWidth / 2,
           top: getOffsetTop(event.target) - event.target.offsetHeight + 10,
         }}
+        ref={refEl}
       >
         <div
           className={clsx({
@@ -134,7 +142,6 @@ function Popconfirm(props: ModalProps) {
         [`${prefix}-popconfirm-target`]: true,
       })}
       onClick={(event) => {
-        console.log(event);
         handleAppendRender({
           ...props,
           event,

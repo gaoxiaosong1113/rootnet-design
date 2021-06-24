@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import ReactDom from 'react-dom';
 
 import clsx from 'clsx';
@@ -68,29 +68,12 @@ interface SelectProps {
   event?: any;
 }
 
-var popup: any;
-
-// 挂载弹窗
-function handleRender(props: any) {
-  ReactDom.render(<SelectContent {...props} />, popup);
-}
-
-// 首次挂载弹窗
-function handleAppendRender(props: any) {
-  popup = document.createElement('div');
-  document.body.appendChild(popup);
-  handleRender(props);
-}
-
-// 卸载弹窗
-function handleUnRender(props?: any) {
-  if (popup) ReactDom.unmountComponentAtNode(popup);
-}
-
 function Select(props: SelectProps) {
   const { placeholder, disabled, onChange, onCancel, close, ...prop } = props;
 
   const [value, setValue] = useState(props.value || '');
+  const [open, setOpen] = useState(false);
+  const [ev, setEv] = useState<any>();
 
   function handleOnChange(e: any) {
     // onChange
@@ -113,12 +96,10 @@ function Select(props: SelectProps) {
       <div
         onClick={(event) => {
           if (disabled) return;
-          handleAppendRender({
-            ...props,
-            value,
-            onChange: handleOnChange,
-            event,
-          });
+          console.log(event);
+          setOpen(true);
+          setEv(event);
+          return false;
         }}
         className={clsx({
           [`${prefix}-select-target-content`]: true,
@@ -127,6 +108,22 @@ function Select(props: SelectProps) {
         <SelectValue value={value} {...props} />
       </div>
       {close && <Icon onClick={() => setValue(null)} name="sk-order" />}
+      {open &&
+        ReactDom.createPortal(
+          <SelectContent
+            {...props}
+            event={ev}
+            onCancel={() => {
+              setOpen(false);
+              onCancel && onCancel();
+            }}
+            onChange={(v: any) => {
+              setOpen(false);
+              handleOnChange(v);
+            }}
+          />,
+          document.body,
+        )}
     </div>
   );
 }
@@ -135,14 +132,28 @@ function SelectContent(props: SelectProps) {
   const { options, multiple, value, onChange, onCancel, event, ...prop } =
     props;
 
+  const refEl = useRef<any>(null);
+
+  useEffect(() => {
+    function handleClick(e: any) {
+      if (!refEl.current) return;
+      if (!ReactDom.findDOMNode(refEl.current)?.contains(e.target)) {
+        handleCancel(e);
+      }
+    }
+
+    document.body.addEventListener('click', handleClick);
+    return () => {
+      document.body.removeEventListener('click', handleClick);
+    };
+  }, []);
+
   function handleCancel(e: any) {
-    handleUnRender();
-    onCancel ? onCancel(e) : null;
+    onCancel();
   }
 
-  function handleChange(e: any) {
-    handleUnRender();
-    onChange ? onChange(e) : null;
+  function handleChange(v: any) {
+    onChange(v);
   }
 
   return (
@@ -150,6 +161,7 @@ function SelectContent(props: SelectProps) {
       className={clsx({
         [`${prefix}-select-warp`]: true,
       })}
+      ref={refEl}
     >
       <div
         className={clsx({
