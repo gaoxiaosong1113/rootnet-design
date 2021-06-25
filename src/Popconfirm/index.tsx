@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import ReactDom from 'react-dom';
+import ReactDOM from 'react-dom';
 
 import clsx from 'clsx';
 
@@ -44,12 +44,12 @@ interface ModalProps {
 function ModalContent(props: ModalProps) {
   const { content, children, onConfirm, onCancel, event, ...prop } = props;
 
-  const refEl = useRef<any>(null);
+  const popconfirmEl = useRef<any>(null);
 
   useEffect(() => {
     function handleClick(e: any) {
-      if (!refEl.current) return;
-      if (!ReactDom.findDOMNode(refEl.current)?.contains(e.target)) {
+      if (!popconfirmEl.current) return;
+      if (!ReactDOM.findDOMNode(popconfirmEl.current)?.contains(e.target)) {
         handleCancel();
       }
     }
@@ -84,7 +84,7 @@ function ModalContent(props: ModalProps) {
           left: getOffsetLeft(event.target) + event.target.offsetWidth / 2,
           top: getOffsetTop(event.target) - event.target.offsetHeight + 10,
         }}
-        ref={refEl}
+        ref={popconfirmEl}
       >
         <div
           className={clsx({
@@ -118,7 +118,7 @@ var popup: any;
 
 // 挂载弹窗
 function handleRender(props: any) {
-  ReactDom.render(<ModalContent {...props} />, popup);
+  ReactDOM.render(<ModalContent {...props} />, popup);
 }
 
 // 首次挂载弹窗
@@ -130,7 +130,7 @@ function handleAppendRender(props: any) {
 
 // 卸载弹窗
 function handleUnRender(props?: any) {
-  if (popup) ReactDom.unmountComponentAtNode(popup);
+  if (popup) ReactDOM.unmountComponentAtNode(popup);
 }
 
 function Popconfirm(props: ModalProps) {

@@ -1,4 +1,31 @@
 @import '../index.less';
 
-.@{prefix}-t {
+.@{prefix}-pageHeader {
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #f9fafe;
+  &-left {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+
+    & > * {
+      margin-right: 8px;
+    }
+
+    span {
+      font-size: 14px;
+      color: #15171f;
+      line-height: 18px;
+    }
+  }
+
+  &-content {
+    display: flex;
+    & > * {
+      margin-left: 16px;
+    }
+  }
 }

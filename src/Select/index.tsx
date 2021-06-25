@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import ReactDom from 'react-dom';
+import ReactDOM from 'react-dom';
 
 import clsx from 'clsx';
 
@@ -109,7 +109,7 @@ function Select(props: SelectProps) {
       </div>
       {close && <Icon onClick={() => setValue(null)} name="sk-order" />}
       {open &&
-        ReactDom.createPortal(
+        ReactDOM.createPortal(
           <SelectContent
             {...props}
             event={ev}
@@ -137,7 +137,7 @@ function SelectContent(props: SelectProps) {
   useEffect(() => {
     function handleClick(e: any) {
       if (!refEl.current) return;
-      if (!ReactDom.findDOMNode(refEl.current)?.contains(e.target)) {
+      if (!ReactDOM.findDOMNode(refEl.current)?.contains(e.target)) {
         handleCancel(e);
       }
     }

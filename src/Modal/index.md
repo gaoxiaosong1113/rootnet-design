@@ -115,6 +115,12 @@ export default () => {
             title: '通知信息标题',
             content:
               '一系列的信息描述，可能会很长。也可以是很短同样也可以带标点。',
+            onCancel: () => {
+              console.log('取消');
+            },
+            onConfirm: () => {
+              console.log('确认');
+            },
           })
         }
       >

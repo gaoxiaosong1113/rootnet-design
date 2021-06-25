@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import ReactDOM from 'react-dom';
 
 import clsx from 'clsx';
@@ -64,6 +64,9 @@ interface ModalProps {
    * @default           340
    */
   width: number;
+
+  event: any;
+  isFastOpen?: any;
 }
 
 function ModalContent(props: ModalProps) {
@@ -81,12 +84,10 @@ function ModalContent(props: ModalProps) {
   } = props;
 
   function handleCancel() {
-    if (type) handleUnRender();
     onCancel ? onCancel() : null;
   }
 
   function handleConfirm() {
-    if (type) handleUnRender();
     onConfirm ? onConfirm() : null;
   }
 
@@ -163,58 +164,60 @@ function ModalContent(props: ModalProps) {
   );
 }
 
-var popup: any;
-
-// 挂载弹窗
-function handleRender(props: any) {
-  ReactDOM.render(<ModalContent {...props} />, popup);
-}
-
-// 首次挂载弹窗
-function handleAppendRender(props: any) {
-  popup = document.createElement('div');
-  document.body.appendChild(popup);
-  handleRender(props);
-}
-
-// 卸载弹窗
-function handleUnRender(props?: any) {
-  if (popup) ReactDOM.unmountComponentAtNode(popup);
-}
-
 function Modal(props: ModalProps) {
   const { title, children, visible, onConfirm, onCancel, ...prop } = props;
 
   // 判断是否已经挂载
-  const [append, setAppend] = useState(false);
+  const [isFastOpen, setIsFastOpen] = useState(props.isFastOpen || false);
+  const [ev, setEv] = useState<any>();
+  const refEl = useRef<any>(null);
 
   useEffect(() => {
-    if (visible) {
-      if (append) {
-        handleRender(props);
-      } else {
-        handleAppendRender(props);
-        setAppend(true);
-      }
-    } else {
-      if (popup) {
-        console.log('关闭');
-        handleRender(props);
-      }
+    if (!visible) return;
+    if (!isFastOpen) {
+      setIsFastOpen(true);
     }
-    return () => {
-      handleUnRender();
-    };
   }, [visible]);
-
-  return null;
+  return (
+    isFastOpen &&
+    ReactDOM.createPortal(
+      <ModalContent
+        {...props}
+        visible={visible}
+        event={ev}
+        onCancel={() => {
+          onCancel && onCancel();
+        }}
+        onConfirm={() => {
+          onConfirm && onConfirm();
+        }}
+      />,
+      document.body,
+    )
+  );
 }
 
-Modal.confirm = (props: any) =>
-  handleAppendRender({
-    ...props,
-    visible: true,
-    type: 'confirm',
-  });
+Modal.confirm = (props: any) => {
+  const { onCancel, onConfirm } = props;
 
+  const div = document.createElement('div');
+  document.body.appendChild(div);
+
+  function handleClick(callback: any) {
+    ReactDOM.unmountComponentAtNode(div);
+    document.body.removeChild(div);
+    callback();
+  }
+
+  return ReactDOM.render(
+    <ModalContent
+      {...props}
+      visible={true}
+      isFastOpen={true}
+      onCancel={() => handleClick(() => onCancel && onCancel())}
+      onConfirm={() => handleClick(() => onConfirm && onConfirm())}
+    />,
+    div,
+  );
+};
 export default Modal;

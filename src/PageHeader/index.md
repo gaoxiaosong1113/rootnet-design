@@ -13,7 +13,21 @@ group:
 
 ```tsx
 import React from 'react';
-import { Foo } from 'rootnet-design';
+import { PageHeader } from 'rootnet-design';
 
-export default () => <Foo title="First Demo" />;
+export default () => <PageHeader title="返回" />;
+```
+
+示例：
+
+```tsx
+import React from 'react';
+import { PageHeader, Button } from 'rootnet-design';
+
+export default () => (
+  <PageHeader title="返回">
+    <Button>取消</Button>
+    <Button type="primary">保存</Button>
+  </PageHeader>
+);
 ```

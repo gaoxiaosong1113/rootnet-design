@@ -15,24 +15,6 @@ interface PageHeaderProps {
    */
   className?: string;
 
-  /**
-   * @description      按钮的类型
-   * @default           -
-   */
-  type?: string;
-
-  /**
-   * @description      需要显示的图标
-   * @default           -
-   */
-  icon?: string;
-
-  /**
-   * @description      是否禁用按钮
-   * @default           false
-   */
-  disabled?: boolean;
-
   children?: React.ReactChild;
 
   /**
@@ -42,42 +24,43 @@ interface PageHeaderProps {
   onClick?: Function;
 
   /**
-   * @description      PageHeader左右的间隔
+   * @description      PageHeader的title
    * @default           -
    */
-  interval?: string;
-
-  /**
-   * @description      PageHeader的尺寸
-   * @default           -
-   */
-  size?: string;
+  title?: string;
 }
 
 function PageHeader(props: PageHeaderProps) {
-  const { type, icon, disabled, children, onClick, interval, size, ...prop } =
-    props;
+  const { children, onClick, title, ...prop } = props;
 
   function handleClick() {
-    if (!disabled && onClick) {
+    if (onClick) {
       onClick();
     }
   }
   return (
     <div
       className={clsx({
-        [`${prefix}-PageHeader`]: true,
-        [`${prefix}-PageHeader-default`]: !type && !disabled,
-        [`${prefix}-PageHeader-${type}`]: type,
-        [`${prefix}-PageHeader-disabled`]: disabled,
-        [`${prefix}-PageHeader-${size}`]: size,
+        [`${prefix}-pageHeader`]: true,
       })}
-      style={{ margin: interval }}
       onClick={handleClick}
       {...prop}
     >
-      {icon && <Icon name={icon} />}
-      <span>{children}</span>
+      <div
+        className={clsx({
+          [`${prefix}-pageHeader-left`]: true,
+        })}
+      >
+        <Icon name={'sk-order'} />
+        <span>{title || '返回'}</span>
+      </div>
+      <div
+        className={clsx({
+          [`${prefix}-pageHeader-content`]: true,
+        })}
+      >
+        {children}
+      </div>
     </div>
   );
 }

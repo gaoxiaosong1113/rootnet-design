@@ -1,4 +1,11 @@
-import React from 'react';
+import React, {
+  useEffect,
+  useState,
+  useRef,
+  useMemo,
+  useCallback,
+} from 'react';
+import ReactDOM from 'react-dom';
 
 import clsx from 'clsx';
 
@@ -6,9 +13,11 @@ import './index.less';
 
 import { prefix } from '../config';
 
-import { Icon } from '../index';
+import { Icon, Button } from '../index';
 
-interface TooltipProps {
+import { getOffsetLeft, getOffsetTop } from '../_util';
+
+interface ModalProps {
   /**
    * @description      样式命
    * @default           -
@@ -16,70 +25,150 @@ interface TooltipProps {
   className?: string;
 
   /**
-   * @description      按钮的类型
+   * @description      主体内容
    * @default           -
    */
-  type?: string;
+  content: any;
+
+  children: any;
+
+  onCancel: Function;
+
+  event: any;
 
   /**
-   * @description      需要显示的图标
+   * @description      弹出方式
    * @default           -
    */
-  icon?: string;
+  position?: string;
 
-  /**
-   * @description      是否禁用按钮
-   * @default           false
-   */
-  disabled?: boolean;
-
-  children?: React.ReactChild;
-
-  /**
-   * @description      Tooltip点击事件
-   * @default           -
-   */
-  onClick?: Function;
-
-  /**
-   * @description      Tooltip左右的间隔
-   * @default           -
-   */
-  interval?: string;
-
-  /**
-   * @description      Tooltip的尺寸
-   * @default           -
-   */
-  size?: string;
+  visible: any;
 }
 
-function Tooltip(props: TooltipProps) {
-  const { type, icon, disabled, children, onClick, interval, size, ...prop } =
-    props;
+function ModalContent(props: ModalProps) {
+  const {
+    content,
+    children,
+    visible,
+    onCancel,
+    event,
+    position = 'top',
+    ...prop
+  } = props;
 
-  function handleClick() {
-    if (!disabled && onClick) {
-      onClick();
+  const refEl = useRef<any>(null);
+
+  useEffect(() => {
+    function handleClick(e: any) {
+      if (!refEl.current) return;
+      if (!ReactDOM.findDOMNode(refEl.current)?.contains(e.target)) {
+        handleCancel(e);
+      }
     }
+
+    document.body.addEventListener('click', handleClick);
+    return () => {
+      document.body.removeEventListener('click', handleClick);
+    };
+  }, []);
+
+  const style = useMemo(() => {
+    switch (position) {
+      case 'top':
+        return {
+          left: getOffsetLeft(event.target) + event.target.offsetWidth / 2,
+          top: getOffsetTop(event.target) - 5,
+        };
+      case 'left':
+        return {
+          left: getOffsetLeft(event.target) - 12,
+          top: getOffsetTop(event.target) + event.target.offsetHeight / 2,
+        };
+      case 'right':
+        return {
+          left: getOffsetLeft(event.target) + event.target.offsetWidth + 12,
+          top: getOffsetTop(event.target) + event.target.offsetHeight / 2,
+        };
+      case 'bottom':
+        return {
+          left: getOffsetLeft(event.target) + event.target.offsetWidth / 2,
+          top: getOffsetTop(event.target),
+        };
+    }
+  }, [position]);
+
+  function handleCancel(e: any) {
+    onCancel ? onCancel(e) : null;
   }
+
   return (
     <div
       className={clsx({
-        [`${prefix}-Tooltip`]: true,
-        [`${prefix}-Tooltip-default`]: !type && !disabled,
-        [`${prefix}-Tooltip-${type}`]: type,
-        [`${prefix}-Tooltip-disabled`]: disabled,
-        [`${prefix}-Tooltip-${size}`]: size,
+        [`${prefix}-tooltip-warp`]: true,
       })}
-      style={{ margin: interval }}
-      onClick={handleClick}
-      {...prop}
     >
-      {icon && <Icon name={icon} />}
-      <span>{children}</span>
+      <div
+        className={clsx({
+          [`${prefix}-tooltip`]: true,
+          [`${prefix}-tooltip-${position}`]: position,
+          [`${prefix}-tooltip-visible`]: visible,
+        })}
+        style={style}
+        ref={refEl}
+      >
+        <div
+          className={clsx({
+            [`${prefix}-tooltip-body`]: true,
+          })}
+        >
+          <span>{content}</span>
+        </div>
+      </div>
     </div>
   );
 }
 
-export default Tooltip;
+function Popconfirm(props: ModalProps) {
+  const { children, onCancel, ...prop } = props;
+  const [isFastOpen, setIsFastOpen] = useState(false);
+  const [visible, setVisible] = useState(false);
+  const [ev, setEv] = useState<any>();
+  const refEl = useRef<any>(null);
+
+  return (
+    <>
+      <span
+        className={clsx({
+          [`${prefix}-tooltip-target`]: true,
+        })}
+        onClick={(event) => {
+          setIsFastOpen(true);
+          setVisible((prevOpen) => {
+            return !prevOpen;
+          });
+          setEv(event);
+        }}
+        ref={refEl}
+      >
+        {children}
+      </span>
+      {isFastOpen &&
+        ReactDOM.createPortal(
+          <ModalContent
+            {...props}
+            visible={visible}
+            event={ev}
+            onCancel={(e: any) => {
+              if (!ReactDOM.findDOMNode(refEl.current)?.contains(e.target)) {
+                setVisible(false);
+                onCancel && onCancel();
+              }
+            }}
+          />,
+          document.body,
+        )}
+    </>
+  );
+}
+
+export default Popconfirm;
