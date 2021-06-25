@@ -21,26 +21,26 @@ export default () => {
     <div>
       <Row gutter={[16, 16]}>
         <Col span={4}>
-          <Tooltip content={'删除后将无法恢复'}>删除</Tooltip>
+          <Tooltip content={'我是一段提示，并且字数不是很多'}>默认提示</Tooltip>
         </Col>
         <Col span={4}>
-          <Tooltip position="top" content={'删除后将无法恢复'}>
-            删除
+          <Tooltip position="top" content={'我是一段提示，并且字数不是很多'}>
+            顶部提示
           </Tooltip>
         </Col>
         <Col span={4}>
-          <Tooltip position="left" content={'删除后将无法恢复'}>
-            删除
+          <Tooltip position="left" content={'我是一段提示，并且字数不是很多'}>
+            左侧提示
           </Tooltip>
         </Col>
         <Col span={4}>
-          <Tooltip position="right" content={'删除后将无法恢复'}>
-            删除
+          <Tooltip position="right" content={'我是一段提示，并且字数不是很多'}>
+            右侧提示
           </Tooltip>
         </Col>
         <Col span={4}>
-          <Tooltip position="bottom" content={'删除后将无法恢复'}>
-            删除
+          <Tooltip position="bottom" content={'我是一段提示，并且字数不是很多'}>
+            底部提示
           </Tooltip>
         </Col>
       </Row>
