@@ -13,9 +13,33 @@ group:
 
 ```tsx
 import React from 'react';
-import { Foo } from 'rootnet-design';
+import { Collapse, Grid } from 'rootnet-design';
+const { Row, Col } = Grid;
 
-export default () => <Foo title="First Demo" />;
+export default () => {
+  return (
+    <div>
+      <Row gutter={[16, 16]}>
+        <Col span={4}>
+          <Collapse>
+            <Collapse.Item title="列表一" open>
+              这里是折叠面板的内容，这里是折叠面板的内容。
+            </Collapse.Item>
+            <Collapse.Item title="列表二">
+              这里是折叠面板的内容，这里是折叠面板的内容。
+            </Collapse.Item>
+            <Collapse.Item title="列表三">
+              这里是折叠面板的内容，这里是折叠面板的内容。
+            </Collapse.Item>
+            <Collapse.Item title="列表四">
+              这里是折叠面板的内容，这里是折叠面板的内容。
+            </Collapse.Item>
+          </Collapse>
+        </Col>
+      </Row>
+    </div>
+  );
+};
 ```
 
 <API />
