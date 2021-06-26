@@ -37,10 +37,16 @@ interface ModalProps {
   event: any;
 
   /**
-   * @description      弹出方式
+   * @description      弹出位置
    * @default           -
    */
   position?: string;
+
+  /**
+   * @description      弹出方式
+   * @default           -
+   */
+  trigger?: string;
 
   visible: any;
 }
@@ -129,11 +135,22 @@ function ModalContent(props: ModalProps) {
 }
 
 function Popconfirm(props: ModalProps) {
-  const { children, onCancel, ...prop } = props;
+  const { children, onCancel, trigger = 'click', ...prop } = props;
   const [isFastOpen, setIsFastOpen] = useState(false);
   const [visible, setVisible] = useState(false);
   const [ev, setEv] = useState<any>();
   const refEl = useRef<any>(null);
+
+  function handleOpen(event: any) {
+    setIsFastOpen(true);
+    setVisible(true);
+    setEv(event);
+  }
+  function handleClose() {
+    setIsFastOpen(false);
+    setVisible(false);
+    onCancel && onCancel();
+  }
 
   return (
     <>
@@ -141,27 +158,41 @@ function Popconfirm(props: ModalProps) {
         className={clsx({
           [`${prefix}-tooltip-target`]: true,
         })}
-        onClick={(event) => {
-          setIsFastOpen(true);
-          setVisible((prevOpen) => {
-            return !prevOpen;
-          });
-          setEv(event);
-        }}
-        // onMouseOver={(event) => {
-        //   setIsFastOpen(true);
-        //   setVisible((prevOpen) => {
-        //     return !prevOpen;
-        //   });
-        //   setEv(event);
-        // }}
-        // onMouseOut={(e) => {
-        //   setVisible(false);
-        //   onCancel && onCancel();
-        // }}
         ref={refEl}
       >
-        {children}
+        {React.Children.map(children, (item) => {
+          return React.cloneElement(item, {
+            onClick: (event: any) => {
+              if (trigger == 'click') {
+                setIsFastOpen(true);
+                setVisible((prevOpen) => {
+                  return !prevOpen;
+                });
+                setEv(event);
+              }
+            },
+            onMouseOver: (event: any) => {
+              if (trigger == 'hover') {
+                handleOpen(event);
+              }
+            },
+            onMouseOut: (event: any) => {
+              if (trigger == 'hover') {
+                handleClose();
+              }
+            },
+            onFocus: (event: any) => {
+              if (trigger == 'focus') {
+                handleOpen(event);
+              }
+            },
+            onBlur: (event: any) => {
+              if (trigger == 'focus') {
+                handleClose();
+              }
+            },
+          });
+        })}
       </span>
       {isFastOpen &&
         ReactDOM.createPortal(

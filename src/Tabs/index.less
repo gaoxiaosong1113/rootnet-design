@@ -1,4 +1,83 @@
 @import '../index.less';
 
-.@{prefix}-t {
+.@{prefix}-tabs {
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  &-head {
+    flex: 0 0 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid @dividerColor;
+    &-content {
+      display: flex;
+      align-items: center;
+    }
+  }
+  &-title {
+    font-size: 14px;
+    font-weight: 500;
+    color: #15171f;
+    line-height: 14px;
+    margin-left: 16px;
+    margin-right: 16px;
+    &::before {
+      content: '';
+      display: inline-block;
+      width: 2px;
+      height: 14px;
+      background: #5477ff;
+      border-radius: 2px;
+      vertical-align: middle;
+      margin-right: 8px;
+    }
+    span {
+      vertical-align: middle;
+    }
+  }
+  &-nav {
+    display: flex;
+    align-items: center;
+    &-item {
+      cursor: pointer;
+      height: 40px;
+      margin: 0 12px;
+      font-size: 14px;
+      color: #15171f;
+      line-height: 40px;
+      &-disabled {
+        cursor: not-allowed;
+        color: #d0d1d9;
+      }
+      &&-active {
+        position: relative;
+        &:after {
+          content: '';
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          height: 2px;
+          background: #5477ff;
+          border-radius: 2px;
+        }
+      }
+    }
+  }
+
+  &-extra {
+  }
+  &-body {
+    flex: 1;
+  }
+  &-tab-item {
+    display: none;
+    &-active {
+      display: block;
+    }
+  }
+  &-footer {
+  }
 }

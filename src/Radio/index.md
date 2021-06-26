@@ -51,7 +51,7 @@ export default () => {
   return (
     <div>
       <Row gutter={[16, 16]}>
-        <Col span={4}>
+        <Col span={24}>
           <Radio.Group
             onChange={(v) => {
               console.log(v);

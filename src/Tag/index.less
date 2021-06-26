@@ -1,4 +1,80 @@
 @import '../index.less';
 
-.@{prefix}-t {
+.@{prefix}-tag {
+  width: auto;
+  border-radius: 2px;
+  padding: 4px 8px;
+  cursor: pointer;
+  font-size: 12px;
+  border: 1px solid;
+  box-sizing: border-box;
+  transition: all 0.3s;
+  white-space: nowrap;
+
+  display: inline-flex;
+  align-items: center;
+  .iconfont {
+    // display: block;
+    & + span {
+      margin-left: 4px;
+    }
+  }
+  span {
+    line-height: 14px;
+    & + .iconfont {
+      margin-left: 4px;
+    }
+  }
+
+  &&-default {
+    background: #fff;
+    border-color: @borderColor;
+    color: @fullDarkColor;
+  }
+
+  &&-dashed {
+    background: #fff;
+    border-style: dashed;
+    border-color: @borderColor;
+  }
+
+  &.@{prefix}-tag-color {
+    &-default {
+      background: #fff;
+      border-color: @borderColor;
+      color: @fullDarkColor;
+    }
+
+    &-primary {
+      color: @primaryColor;
+      border-color: @primaryColor;
+    }
+    &-success {
+      color: @successColor;
+      border-color: @successColor;
+    }
+    &-error {
+      color: @errorColor;
+      border-color: @errorColor;
+    }
+    &-warning {
+      color: @warningColor;
+      border-color: @warningColor;
+    }
+  }
+
+  &&-disabled {
+    cursor: not-allowed;
+    background: @fullDisableColor !important;
+    color: #d0d1da !important;
+  }
+  &&-lg {
+    padding: 10px 16px;
+  }
+  &&-sm {
+    padding: 4px 16px;
+    font-size: 12px;
+  }
+  &&-inline {
+  }
 }

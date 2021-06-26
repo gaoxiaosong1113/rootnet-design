@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import clsx from 'clsx';
 
@@ -20,12 +20,6 @@ interface TagProps {
    * @default           -
    */
   type?: string;
-
-  /**
-   * @description      需要显示的图标
-   * @default           -
-   */
-  icon?: string;
 
   /**
    * @description      是否禁用按钮
@@ -52,32 +46,87 @@ interface TagProps {
    * @default           -
    */
   size?: string;
+
+  /**
+   * @description      Tag的颜色
+   * @default           -
+   */
+  color?: string;
+
+  /**
+   * @description      是否可以关闭
+   * @default           -
+   */
+  close?: any;
+
+  /**
+   * @description      是否新增
+   * @default           -
+   */
+  add?: any;
+
+  /**
+   * @description      是否新增
+   * @default           -
+   */
+  onClose?: Function;
 }
 
 function Tag(props: TagProps) {
-  const { type, icon, disabled, children, onClick, interval, size, ...prop } =
-    props;
+  const {
+    type = 'default',
+    disabled,
+    children,
+    onClick,
+    interval,
+    size,
+    color,
+    close,
+    add,
+    onClose,
+    ...prop
+  } = props;
+
+  const [isClose, setIsClose] = useState(false);
 
   function handleClick() {
     if (!disabled && onClick) {
       onClick();
+      if (onClose) {
+        onClose();
+      }
     }
   }
+
+  function handleClose() {
+    if (!disabled) {
+      setIsClose(true);
+      onClose && onClose();
+    }
+  }
+
+  if (close && isClose) {
+    return null;
+  }
+
   return (
     <div
       className={clsx({
-        [`${prefix}-Tag`]: true,
-        [`${prefix}-Tag-default`]: !type && !disabled,
-        [`${prefix}-Tag-${type}`]: type,
-        [`${prefix}-Tag-disabled`]: disabled,
-        [`${prefix}-Tag-${size}`]: size,
+        [`${prefix}-tag`]: true,
+        [`${prefix}-tag-${type}`]: type,
+        [`${prefix}-tag-disabled`]: disabled,
+        [`${prefix}-tag-${size}`]: size,
+        [`${prefix}-tag-color-${color}`]: color,
       })}
       style={{ margin: interval }}
       onClick={handleClick}
       {...prop}
     >
-      {icon && <Icon name={icon} />}
+      {add && <Icon name={'sk-order'} size={14} />}
       <span>{children}</span>
+      {close && (
+        <Icon name={'sk-order'} size={14} onClick={() => handleClose()} />
+      )}
     </div>
   );
 }
