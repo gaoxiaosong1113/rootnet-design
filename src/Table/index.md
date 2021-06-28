@@ -102,6 +102,7 @@ const columns = [
         return r.pm.map((item, index) => {
           return (
             <Checkbox
+              key={index}
               onChange={(v) => {
                 console.log(v);
               }}
@@ -204,6 +205,7 @@ const columns = [
         return r.pm.map((item, index) => {
           return (
             <Checkbox
+              key={index}
               onChange={(v) => {
                 console.log(v);
               }}
@@ -364,6 +366,7 @@ const columns = [
         return r.pm.map((item, index) => {
           return (
             <Checkbox
+              key={index}
               onChange={(v) => {
                 console.log(v);
               }}

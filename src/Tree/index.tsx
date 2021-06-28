@@ -246,9 +246,7 @@ function TableItem(props: TableItemProps) {
                   rowSelection.onSelect(data[rowKey], data);
                 }
 
-                let ndata = checkChildren(data, v);
-                console.log(ndata);
-                setSelectedRowKeys([...ndata]);
+                setSelectedRowKeys([...checkChildren(data, v)]);
               }}
             />
           </div>

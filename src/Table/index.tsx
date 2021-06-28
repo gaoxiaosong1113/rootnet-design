@@ -9,6 +9,14 @@ import { prefix } from '../config';
 
 import { Icon, Checkbox } from '../index';
 
+import {
+  loopData,
+  checkAllData,
+  farmatSelectedRowKeys,
+  unchecked,
+  onchecked,
+} from '../_util';
+
 interface TableItemProps {
   /**
    * @description      样式命
@@ -123,6 +131,8 @@ interface TableItemProps {
    * @default           -
    */
   setSelectedRows: any;
+
+  dataSource: any;
 }
 
 function TableItem(props: TableItemProps) {
@@ -149,6 +159,7 @@ function TableItem(props: TableItemProps) {
     // 设置行属性
     onRow,
     data,
+    dataSource,
     // 是否树形结构
     isTree,
     selectedRowKeys,
@@ -165,34 +176,22 @@ function TableItem(props: TableItemProps) {
   });
   const [indeterminate, setIndeterminate] = useState(false);
 
-  function unchecked(key: any) {
-    let index = selectedRowKeys.indexOf(key);
-    if (index > -1) {
-      selectedRowKeys.splice(index, 1);
-    }
-    setChecked(false);
-  }
-
   // 处理多选
   useEffect(() => {
-    console.log(selectedRowKeys);
     if (data.children) {
       let checkData = loopData(data.children, selectedRowKeys, rowKey);
-      let allData = checkAllData(data.children, rowKey);
-      if (checkData.length === allData.length) {
-        console.log('child');
-        setChecked(true);
-        setIndeterminate(false);
-      } else if (checkData.length > 0) {
-        setIndeterminate(true);
+      let allChildrenData = checkAllData(data.children, rowKey);
+      if (checkData.length > 0) {
+        if (checkData.length === allChildrenData.length) {
+          setIndeterminate(true);
+        } else {
+          setIndeterminate(true);
+        }
       } else {
         setIndeterminate(false);
-        unchecked(data[rowKey]);
-        setChecked(false);
       }
-    } else {
-      setChecked(selectedRowKeys.indexOf(data[rowKey]) != -1);
     }
+    setChecked(selectedRowKeys.indexOf(data[rowKey]) != -1);
   }, [selectedRowKeys]);
 
   const handleOpen = () => {
@@ -203,23 +202,28 @@ function TableItem(props: TableItemProps) {
   // let isExpandable = expandable?.indexOf(data[rowKey]) != -1;
 
   function checkChildren(data: any, value: any) {
+    console.log(value);
     setChecked(value);
     let childrenKeys = [];
+
+    // 获取所有的子项
     if (data.children) {
-      childrenKeys = data.children.map((item: any) => {
-        return item[rowKey];
+      childrenKeys = checkAllData(data.children, rowKey);
+    }
+
+    childrenKeys.push(data[rowKey]);
+
+    // 判断是否选中
+    if (value) {
+      childrenKeys.forEach((item: any) => {
+        onchecked(selectedRowKeys, item);
+      });
+    } else {
+      childrenKeys.forEach((item: any) => {
+        unchecked(selectedRowKeys, item);
       });
     }
-    childrenKeys.push(data[rowKey]);
-    childrenKeys.forEach((item: any) => {
-      if (value) {
-        if (selectedRowKeys.indexOf(item) === -1) {
-          selectedRowKeys.push(item);
-        }
-      } else {
-        unchecked(item);
-      }
-    });
+    farmatSelectedRowKeys(props.dataSource, selectedRowKeys, rowKey);
     return selectedRowKeys;
   }
 
@@ -243,7 +247,7 @@ function TableItem(props: TableItemProps) {
           </td>
         )}
         {rowSelection && (
-          <th
+          <td
             className={`${prefix}-table-td ${prefix}-table-checkbox`}
             style={{ width: '40px' }}
           >
@@ -257,7 +261,7 @@ function TableItem(props: TableItemProps) {
                 setSelectedRowKeys([...checkChildren(data, v)]);
               }}
             />
-          </th>
+          </td>
         )}
         {indexEq && (
           <td
@@ -305,30 +309,6 @@ function TableChildren(props: any) {
       return <TableItem {...props} index={index} key={index} data={dataItem} />;
     })
   );
-}
-
-function loopData(data: any, keys: any, rowKey: any) {
-  let findData: any = [];
-  data.forEach((item: any) => {
-    if (keys.indexOf(item[rowKey]) != -1) {
-      findData.push(item);
-    }
-    if (item.children) {
-      findData = findData.concat(loopData(item.children, keys, rowKey));
-    }
-  });
-  return findData;
-}
-
-function checkAllData(data: any, rowKey: any) {
-  let findData: any = [];
-  data.forEach((item: any) => {
-    findData.push(item[rowKey]);
-    if (item.children) {
-      findData = findData.concat(checkAllData(item.children, rowKey));
-    }
-  });
-  return findData;
 }
 
 export default function Table(props: any) {

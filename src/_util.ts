@@ -52,40 +52,24 @@ export function farmatSelectedRowKeys(
   selectedRowKeys: any,
   rowKey: any,
 ) {
-  // function loop(data: any, keys: any, rowKey: any) {
-  //   data.map((item: any) => {
-  //     if (item.children) {
-  //       let checkData = loopData(item.children, keys, rowKey);
-  //       let allData = checkAllData(item.children, rowKey);
-  //       if (checkData.length === allData.length) {
-  //         onchecked(keys, item[rowKey]);
-  //       } else {
-  //         unchecked(keys, item[rowKey]);
-  //       }
-  //       farmatSelectedRowKeys(item.children, keys, rowKey);
-  //     }
-  //   });
-  // }
-  // loop(formatData, selectedRowKeys, rowKey);
-  // loop(formatData, selectedRowKeys, rowKey);
+  /*
+   * 由于直接递归处理选中逻辑会有不同步的问题，所以先抽取所有带children的项，然后反转后重新format
+   * 相当于从底层往上遍历
+   */
 
-  // let data = [];
-
-  let data2: any = [];
-  function loop(data: any, keys: any, rowKey: any) {
+  let loopChildrenData: any = [];
+  function loopChildren(data: any, keys: any, rowKey: any) {
     data.map((item: any) => {
       if (item.children) {
-        data2.push(item);
-        loop(item.children, keys, rowKey);
+        loopChildrenData.push(item);
+        loopChildren(item.children, keys, rowKey);
       }
     });
   }
-  // loop(formatData, selectedRowKeys, rowKey);
-  loop(formatData, selectedRowKeys, rowKey);
 
-  console.log(data2);
+  loopChildren(formatData, selectedRowKeys, rowKey);
 
-  function loop2(data: any, keys: any, rowKey: any) {
+  function loopCheck(data: any, keys: any, rowKey: any) {
     data.map((item: any) => {
       if (item.children) {
         let checkData = loopData(item.children, keys, rowKey);
@@ -95,12 +79,12 @@ export function farmatSelectedRowKeys(
         } else {
           unchecked(keys, item[rowKey]);
         }
-        loop2(item.children, keys, rowKey);
+        loopCheck(item.children, keys, rowKey);
       }
     });
   }
 
-  loop2(data2.reverse(), selectedRowKeys, rowKey);
+  loopCheck(loopChildrenData.reverse(), selectedRowKeys, rowKey);
 }
 
 // 删除
