@@ -65,7 +65,7 @@ interface SelectProps {
    */
   multiple?: boolean;
 
-  event?: any;
+  target?: any;
 }
 
 function Select(props: SelectProps) {
@@ -90,20 +90,20 @@ function Select(props: SelectProps) {
       className={clsx({
         [`${prefix}-select-target`]: true,
         [`${prefix}-select-target-disabled`]: disabled,
+        [`${prefix}-select-target-open`]: open,
         [`${prefix}-select-placeholder`]: !value,
       })}
     >
       <div
-        onClick={(event) => {
-          if (disabled) return;
-          console.log(event);
-          setOpen(true);
-          setEv(event);
-          return false;
-        }}
         className={clsx({
           [`${prefix}-select-target-content`]: true,
         })}
+        onClick={(event) => {
+          if (disabled) return;
+          setOpen(true);
+          setEv(event.target);
+          return false;
+        }}
       >
         <SelectValue value={value} {...props} />
       </div>
@@ -129,7 +129,8 @@ function Select(props: SelectProps) {
         ReactDOM.createPortal(
           <SelectContent
             {...props}
-            event={ev}
+            target={ev}
+            value={value}
             onCancel={() => {
               setOpen(false);
               onCancel && onCancel();
@@ -146,7 +147,7 @@ function Select(props: SelectProps) {
 }
 
 function SelectContent(props: SelectProps) {
-  const { options, multiple, value, onChange, onCancel, event, ...prop } =
+  const { options, multiple, value, onChange, onCancel, target, ...prop } =
     props;
 
   const refEl = useRef<any>(null);
@@ -185,9 +186,9 @@ function SelectContent(props: SelectProps) {
           [`${prefix}-select`]: true,
         })}
         style={{
-          minWidth: event.target.offsetWidth,
-          left: getOffsetLeft(event.target),
-          top: getOffsetTop(event.target) + event.target.offsetHeight,
+          minWidth: target.offsetWidth,
+          left: getOffsetLeft(target),
+          top: getOffsetTop(target) + target.offsetHeight,
         }}
       >
         <div
@@ -233,7 +234,7 @@ function SelectContent(props: SelectProps) {
 }
 
 function SelectValue(props: SelectProps) {
-  const { options, value, placeholder, onChange, onCancel, event, ...prop } =
+  const { options, value, placeholder, onChange, onCancel, target, ...prop } =
     props;
   if (value) {
     if (value !== undefined && value !== null) {
