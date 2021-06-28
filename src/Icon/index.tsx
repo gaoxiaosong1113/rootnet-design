@@ -2,6 +2,8 @@ import React from 'react';
 
 import './index.less';
 
+import './resources/iconfont.js';
+
 import { prefix } from '../config';
 
 export interface IconProps {
@@ -46,7 +48,7 @@ function Icon(props: IconProps) {
   const { name, size, color, onClick, ...prop } = props;
   return (
     <span
-      className={`${prefix}-iconfont iconfont icon-${name}`}
+      className={`${prefix}-iconfont iconfont`}
       style={{
         fontSize: size || 16,
         color,
@@ -55,7 +57,11 @@ function Icon(props: IconProps) {
       }}
       onClick={() => (onClick ? onClick() : null)}
       {...prop}
-    />
+    >
+      <svg className="icon" aria-hidden="true">
+        <use xlinkHref={`#icon-${name}`}></use>
+      </svg>
+    </span>
   );
 }
 

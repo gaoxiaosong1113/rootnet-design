@@ -99,30 +99,30 @@ export default () => {
         </Col>
 
         <Col span={4}>
-          <Button icon="sk-order" type="primary">
+          <Button icon="Rootnet" type="primary">
             按钮
           </Button>
         </Col>
         <Col span={4}>
-          <Button icon="sk-order">按钮</Button>
+          <Button icon="Rootnet">按钮</Button>
         </Col>
         <Col span={4}>
-          <Button icon="sk-order" type="dashed">
+          <Button icon="Rootnet" type="dashed">
             按钮
           </Button>
         </Col>
         <Col span={4}>
-          <Button icon="sk-order" disabled="disabled">
+          <Button icon="Rootnet" disabled="disabled">
             按钮
           </Button>
         </Col>
         <Col span={4}>
-          <Button icon="sk-order" type="text">
+          <Button icon="Rootnet" type="text">
             按钮
           </Button>
         </Col>
         <Col span={4}>
-          <Button icon="sk-order" type="link">
+          <Button icon="Rootnet" type="link">
             按钮
           </Button>
         </Col>

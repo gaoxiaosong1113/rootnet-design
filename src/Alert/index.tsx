@@ -80,7 +80,7 @@ export default function Alert(props: AlertProps) {
           [`${prefix}-alert-head`]: true,
         })}
       >
-        <Icon name={type || 'sk-order'} />
+        <Icon name={type || 'jinggao1'} />
       </div>
       <div
         className={clsx({
@@ -116,7 +116,7 @@ export default function Alert(props: AlertProps) {
             onClose ? onClose() : null;
           }}
         >
-          <Icon name={'sk-order'} />
+          <Icon name={'cuowu'} />
         </div>
       )}
       <div

@@ -4,6 +4,7 @@
   display: flex;
   border: 1px solid #cfd3e3;
   border-radius: 4px;
+  transition: border 0.3s;
   &.horizontal {
     flex-direction: row;
   }
@@ -19,6 +20,9 @@
       line-height: 32px;
       margin-right: 4px;
     }
+  }
+  &-focus {
+    border-color: @primaryColor;
   }
   &-icon {
     line-height: 32px;

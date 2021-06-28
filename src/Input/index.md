@@ -51,7 +51,7 @@ export default () => {
         <Col span={8}>
           <Input
             placeholder="请输入内容"
-            before={<Icon name="sk-order" />}
+            before={<Icon name="jinggao1" />}
             after={'%'}
           />
         </Col>
@@ -74,7 +74,7 @@ export default () => {
     <div>
       <Row gutter={[16, 16]}>
         <Col span={8}>
-          <Input placeholder="请输入内容" icon={<Icon name="sk-order" />} />
+          <Input placeholder="请输入内容" icon={<Icon name="jinggao1" />} />
         </Col>
       </Row>
     </div>
@@ -100,7 +100,7 @@ export default () => {
             onChange={(value) => {
               console.log(value);
             }}
-            icon={<Icon name="sk-order" />}
+            icon={<Icon name="jinggao1" />}
           />
         </Col>
       </Row>
@@ -128,7 +128,7 @@ export default () => {
             placeholder="请输入内容"
             onChange={(v) => setValue(v)}
             value={value}
-            icon={<Icon name="sk-order" />}
+            icon={<Icon name="jinggao1" />}
           />
         </Col>
       </Row>

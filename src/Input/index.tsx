@@ -112,6 +112,12 @@ interface InputProps {
    * @default           -
    */
   value?: string;
+
+  /**
+   * @description      是否默认获取焦点
+   * @default           -
+   */
+  focus?: boolean;
 }
 
 function Input(props: InputProps) {
@@ -132,6 +138,7 @@ function Input(props: InputProps) {
   } = props;
 
   const [value, setValue] = useState(props.value);
+  const [focus, setFocus] = useState(props.focus);
 
   const handleChange = (e: any) => {
     setValue(e.target.value);
@@ -141,11 +148,13 @@ function Input(props: InputProps) {
   };
 
   const handleFocus = (e: any) => {
+    setFocus(true);
     if (onFocus) {
       onFocus(e);
     }
   };
   const handleBlur = (e: any) => {
+    setFocus(false);
     if (onBlur) {
       onBlur(e);
     }
@@ -155,10 +164,15 @@ function Input(props: InputProps) {
     setValue(props.value);
   }, [props.value]);
 
+  useEffect(() => {
+    setFocus(props.focus);
+  }, [props.focus]);
+
   return (
     <div
       className={clsx({
         [`${prefix}-input`]: true,
+        [`${prefix}-input-focus`]: focus,
       })}
     >
       {before && (

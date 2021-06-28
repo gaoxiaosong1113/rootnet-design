@@ -107,7 +107,24 @@ function Select(props: SelectProps) {
       >
         <SelectValue value={value} {...props} />
       </div>
-      {close && <Icon onClick={() => setValue(null)} name="sk-order" />}
+      {value !== undefined && close ? (
+        <div
+          onClick={() => setValue(null)}
+          className={clsx({
+            [`${prefix}-select-target-close`]: true,
+          })}
+        >
+          <Icon name="shibai1" size={14} />
+        </div>
+      ) : (
+        <div
+          className={clsx({
+            [`${prefix}-select-target-arrow`]: true,
+          })}
+        >
+          <Icon name="xuanzexiala" size={14} />
+        </div>
+      )}
       {open &&
         ReactDOM.createPortal(
           <SelectContent

@@ -122,11 +122,9 @@ function Tag(props: TagProps) {
       onClick={handleClick}
       {...prop}
     >
-      {add && <Icon name={'sk-order'} size={14} />}
+      {add && <Icon name={'cuowu'} size={14} />}
       <span>{children}</span>
-      {close && (
-        <Icon name={'sk-order'} size={14} onClick={() => handleClose()} />
-      )}
+      {close && <Icon name={'cuowu'} size={14} onClick={() => handleClose()} />}
     </div>
   );
 }

@@ -150,7 +150,7 @@ function Drawer(props: DrawerProps): any {
                 onCancel ? onCancel() : null;
               }}
             >
-              <Icon name="sk-order" />
+              <Icon name="cuowu" />
             </div>
           )}
         </div>

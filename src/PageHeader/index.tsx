@@ -51,7 +51,7 @@ function PageHeader(props: PageHeaderProps) {
           [`${prefix}-pageHeader-left`]: true,
         })}
       >
-        <Icon name={'sk-order'} />
+        <Icon name={'cuowu'} />
         <span>{title || '返回'}</span>
       </div>
       <div
