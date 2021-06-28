@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useMemo } from 'react';
 import ReactDOM from 'react-dom';
 
 import clsx from 'clsx';
@@ -38,11 +38,25 @@ interface ModalProps {
    */
   onCancel: Function;
 
+  /**
+   * @description      弹出位置
+   * @default           -
+   */
+  position?: string;
+
   event: any;
 }
 
 function ModalContent(props: ModalProps) {
-  const { content, children, onConfirm, onCancel, event, ...prop } = props;
+  const {
+    content,
+    children,
+    onConfirm,
+    onCancel,
+    event,
+    position = 'top',
+    ...prop
+  } = props;
 
   const popconfirmEl = useRef<any>(null);
 
@@ -70,6 +84,31 @@ function ModalContent(props: ModalProps) {
     onConfirm ? onConfirm() : null;
   }
 
+  const style = useMemo(() => {
+    switch (position) {
+      case 'top':
+        return {
+          left: getOffsetLeft(event.target) + event.target.offsetWidth / 2,
+          top: getOffsetTop(event.target) - 5,
+        };
+      case 'left':
+        return {
+          left: getOffsetLeft(event.target) - 12,
+          top: getOffsetTop(event.target) + event.target.offsetHeight / 2,
+        };
+      case 'right':
+        return {
+          left: getOffsetLeft(event.target) + event.target.offsetWidth + 12,
+          top: getOffsetTop(event.target) + event.target.offsetHeight / 2,
+        };
+      case 'bottom':
+        return {
+          left: getOffsetLeft(event.target) + event.target.offsetWidth / 2,
+          top: getOffsetTop(event.target) + event.target.offsetHeight + 12,
+        };
+    }
+  }, [position]);
+
   return (
     <div
       className={clsx({
@@ -79,11 +118,9 @@ function ModalContent(props: ModalProps) {
       <div
         className={clsx({
           [`${prefix}-popconfirm`]: true,
+          [`${prefix}-popconfirm-${position}`]: position,
         })}
-        style={{
-          left: getOffsetLeft(event.target) + event.target.offsetWidth / 2,
-          top: getOffsetTop(event.target) - event.target.offsetHeight + 10,
-        }}
+        style={style}
         ref={popconfirmEl}
       >
         <div

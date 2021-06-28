@@ -45,7 +45,7 @@ export interface IconProps {
 }
 
 function Icon(props: IconProps) {
-  const { name, size, color, onClick, ...prop } = props;
+  const { name, size, color, onClick, style, ...prop } = props;
   return (
     <span
       className={`${prefix}-iconfont iconfont`}
@@ -54,6 +54,7 @@ function Icon(props: IconProps) {
         color,
         width: size || 16,
         height: size || 16,
+        ...style,
       }}
       onClick={() => (onClick ? onClick() : null)}
       {...prop}

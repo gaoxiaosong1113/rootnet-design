@@ -128,7 +128,7 @@ function Checkbox(props: CheckboxProps): any {
         [`${prefix}-checkbox-${size}`]: size,
         [`${prefix}-checkbox-indeterminate`]:
           !checkboxProps.checked && indeterminate,
-        [`${prefix}-checkbox-checked`]: !indeterminate && checkboxProps.checked,
+        [`${prefix}-checkbox-checked`]: checkboxProps.checked,
       })}
       // onClick={handleChange}
       {...prop}

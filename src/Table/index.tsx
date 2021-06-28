@@ -234,9 +234,9 @@ function TableItem(props: TableItemProps) {
           >
             {child && (
               <Icon
-                name="dropdown"
+                name="xuanzexiala"
                 className={`${prefix}-table-collapsed-icon`}
-                style={{ transform: `rotate(${open ? 0 : -95}deg)` }}
+                style={{ transform: `rotate(${open ? 0 : -180}deg)` }}
                 size={10}
               />
             )}

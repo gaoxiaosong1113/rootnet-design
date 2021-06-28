@@ -21,11 +21,6 @@ export default () => {
     <div>
       <Row gutter={[16, 16]}>
         <Col span={4}>
-          <Tooltip content={'我是一段提示，并且字数不是很多'}>
-            <span>默认提示</span>
-          </Tooltip>
-        </Col>
-        <Col span={4}>
           <Tooltip position="top" content={'我是一段提示，并且字数不是很多'}>
             <span>顶部提示</span>
           </Tooltip>

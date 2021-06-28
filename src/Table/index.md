@@ -434,7 +434,7 @@ const dataSource = [
     ],
   },
   {
-    id: '002',
+    id: '003',
     productName: '系统基础',
     productStatus: '1',
     children: [
@@ -479,6 +479,30 @@ const dataSource = [
             id: 'a001',
             stkIndustryNames: '删除',
             productStatus: '1',
+          },
+        ],
+        children: [
+          {
+            id: '00221',
+            productName: '市场交易日',
+            productStatus: '1',
+            pm: [
+              {
+                id: 'a0011',
+                stkIndustryNames: '新增',
+                productStatus: '1',
+              },
+              {
+                id: 'a0012',
+                stkIndustryNames: '编辑',
+                productStatus: '1',
+              },
+              {
+                id: 'a0013',
+                stkIndustryNames: '删除',
+                productStatus: '1',
+              },
+            ],
           },
         ],
       },
