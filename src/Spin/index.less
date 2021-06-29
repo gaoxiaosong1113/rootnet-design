@@ -1,4 +1,128 @@
 @import '../index.less';
 
-.@{prefix}-t {
+.@{prefix}-spin {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  color: #000000d9;
+  font-size: 14px;
+  font-variant: tabular-nums;
+  line-height: 1.5715;
+  list-style: none;
+  font-feature-settings: 'tnum';
+  color: #1890ff;
+  transition: transform 0.3s cubic-bezier(0.78, 0.14, 0.15, 0.86);
+  width: 100%;
+  height: 100%;
+  position: relative;
+
+  &-loading {
+    width: 100%;
+    height: 100%;
+    // display: flex;
+    // align-items: center;
+    // justify-content: center;
+    // flex-direction: column;
+    text-align: center;
+    position: static;
+    opacity: 0;
+    display: none;
+  }
+
+  &-spinning {
+    .@{prefix}-spin-loading {
+      opacity: 1;
+      display: block;
+    }
+  }
+
+  &-dot {
+    position: relative;
+    display: inline-block;
+    font-size: 20px;
+    width: 1em;
+    height: 1em;
+    margin-bottom: 5px;
+
+    &-spin {
+      transform: rotate(45deg);
+      animation: rootRotate 1.2s infinite linear;
+    }
+
+    &-item {
+      position: absolute;
+      display: block;
+      width: 9px;
+      height: 9px;
+      background-color: #1890ff;
+      border-radius: 100%;
+      transform: scale(0.75);
+      transform-origin: 50% 50%;
+      opacity: 0.3;
+      animation: rootSpinMove 1s infinite linear alternate;
+
+      &:nth-child(1) {
+        top: 0;
+        left: 0;
+      }
+
+      &:nth-child(2) {
+        top: 0;
+        right: 0;
+        animation-delay: 0.4s;
+      }
+
+      &:nth-child(3) {
+        right: 0;
+        bottom: 0;
+        animation-delay: 0.8s;
+      }
+
+      &:nth-child(4) {
+        bottom: 0;
+        left: 0;
+        animation-delay: 1.2s;
+      }
+    }
+  }
+
+  &-container {
+    & + .@{prefix}-spin-loading {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 98;
+
+      .@{prefix}-spin-dot {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        margin: 0;
+        margin-left: -10px;
+        margin-top: -22px;
+      }
+
+      .@{prefix}-spin-text {
+        margin-top: 4px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, 0);
+      }
+    }
+  }
+}
+
+@keyframes rootRotate {
+  to {
+    transform: rotate(405deg);
+  }
+}
+
+@keyframes rootSpinMove {
+  to {
+    opacity: 1;
+  }
 }

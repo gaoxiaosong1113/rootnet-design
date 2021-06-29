@@ -15,37 +15,7 @@ interface SpinProps {
    */
   className?: string;
 
-  /**
-   * @description      按钮的类型
-   * @default           -
-   */
-  type?: string;
-
-  /**
-   * @description      需要显示的图标
-   * @default           -
-   */
-  icon?: string;
-
-  /**
-   * @description      是否禁用按钮
-   * @default           false
-   */
-  disabled?: boolean;
-
   children?: React.ReactChild;
-
-  /**
-   * @description      Spin点击事件
-   * @default           -
-   */
-  onClick?: Function;
-
-  /**
-   * @description      Spin左右的间隔
-   * @default           -
-   */
-  interval?: string;
 
   /**
    * @description      Spin的尺寸
@@ -55,29 +25,65 @@ interface SpinProps {
 }
 
 function Spin(props: SpinProps) {
-  const { type, icon, disabled, children, onClick, interval, size, ...prop } =
-    props;
+  const { children, size, ...prop } = props;
 
-  function handleClick() {
-    if (!disabled && onClick) {
-      onClick();
-    }
-  }
   return (
     <div
       className={clsx({
-        [`${prefix}-Spin`]: true,
-        [`${prefix}-Spin-default`]: !type && !disabled,
-        [`${prefix}-Spin-${type}`]: type,
-        [`${prefix}-Spin-disabled`]: disabled,
-        [`${prefix}-Spin-${size}`]: size,
+        [`${prefix}-spin`]: true,
+        [`${prefix}-spin-spinning`]: true,
       })}
-      style={{ margin: interval }}
-      onClick={handleClick}
-      {...prop}
     >
-      {icon && <Icon name={icon} />}
-      <span>{children}</span>
+      {children && (
+        <div
+          className={clsx({
+            [`${prefix}-spin-container`]: true,
+            [`${prefix}-spin-blur`]: true,
+          })}
+        >
+          {children}
+        </div>
+      )}
+      <div
+        className={clsx({
+          [`${prefix}-spin-loading`]: true,
+        })}
+      >
+        <span
+          className={clsx({
+            [`${prefix}-spin-dot`]: true,
+            [`${prefix}-spin-dot-spin`]: true,
+          })}
+        >
+          <i
+            className={clsx({
+              [`${prefix}-spin-dot-item`]: true,
+            })}
+          ></i>
+          <i
+            className={clsx({
+              [`${prefix}-spin-dot-item`]: true,
+            })}
+          ></i>
+          <i
+            className={clsx({
+              [`${prefix}-spin-dot-item`]: true,
+            })}
+          ></i>
+          <i
+            className={clsx({
+              [`${prefix}-spin-dot-item`]: true,
+            })}
+          ></i>
+        </span>
+        <p
+          className={clsx({
+            [`${prefix}-spin-text`]: true,
+          })}
+        >
+          加载中...
+        </p>
+      </div>
     </div>
   );
 }

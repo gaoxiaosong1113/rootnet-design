@@ -42,13 +42,7 @@ export default () => {
           <Empty type="requestError"></Empty>
         </Col>
         <Col span={6}>
-          <Empty></Empty>
-        </Col>
-        <Col span={6}>
           <Empty type="review"></Empty>
-        </Col>
-        <Col span={6}>
-          <Empty></Empty>
         </Col>
         <Col span={6}>
           <Empty type="searchEmptyData"></Empty>
