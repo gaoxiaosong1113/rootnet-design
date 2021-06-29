@@ -99,6 +99,7 @@ function Select(props: SelectProps) {
           [`${prefix}-select-target-content`]: true,
         })}
         onClick={(event) => {
+          event.persist();
           if (disabled) return;
           setOpen(true);
           setEv(event.target);

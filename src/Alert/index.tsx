@@ -89,7 +89,7 @@ export default function Alert(props: AlertProps) {
           [`${prefix}-alert-head`]: true,
         })}
       >
-        <Icon name={type || 'jinggao1'} />
+        <Icon name={'jinggao'} color="red" />
       </div>
       <div
         className={clsx({

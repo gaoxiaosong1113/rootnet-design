@@ -224,19 +224,17 @@ function TableItem(props: TableItemProps) {
         key={rowKey}
         style={{ marginLeft: layer * 20 }}
       >
-        {isTree && (
+        {isTree && child && (
           <div
             className={`${prefix}-tree-collapsed`}
             onClick={child && handleOpen}
           >
-            {child && (
-              <Icon
-                name="xuanzexiala"
-                className={`${prefix}-tree-collapsed-icon`}
-                style={{ transform: `rotate(${open ? 0 : -180}deg)` }}
-                size={16}
-              />
-            )}
+            <Icon
+              name={open ? 'xuanzexiala' : 'xuanzeyou'}
+              className={`${prefix}-tree-collapsed-icon`}
+              style={{ transform: `rotate(${open ? 0 : -180}deg)` }}
+              size={16}
+            />
           </div>
         )}
         {rowSelection && (

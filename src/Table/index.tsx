@@ -233,20 +233,18 @@ function TableItem(props: TableItemProps) {
   return (
     <>
       <tr className={`${prefix}-table-row`} key={rowKey}>
-        {isTree && (
+        {isTree && child && (
           <td
             className={`${prefix}-table-td ${prefix}-table-collapsed`}
             style={{ width: '40px' }}
             onClick={child && handleOpen}
           >
-            {child && (
-              <Icon
-                name="xuanzexiala"
-                className={`${prefix}-table-collapsed-icon`}
-                style={{ transform: `rotate(${open ? 0 : -180}deg)` }}
-                size={10}
-              />
-            )}
+            <Icon
+              name={open ? 'biaogeshouqi' : 'biaogezhankai'}
+              className={`${prefix}-table-collapsed-icon`}
+              style={{ transform: `rotate(${open ? 0 : -180}deg)` }}
+              size={16}
+            />
           </td>
         )}
         {rowSelection && (
@@ -428,13 +426,7 @@ export default function Table(props: any) {
                 <th
                   className={`${prefix}-table-th ${prefix}-table-collapsed`}
                   style={{ width: '40px' }}
-                >
-                  <Icon
-                    name="dropdown"
-                    className={`${prefix}-table-collapsed-icon`}
-                    size={10}
-                  />
-                </th>
+                ></th>
               )}
               {rowSelection && (
                 <th

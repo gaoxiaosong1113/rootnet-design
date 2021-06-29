@@ -6,6 +6,27 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "22557342",
+      "name": "发布",
+      "font_class": "fabu",
+      "unicode": "e66e",
+      "unicode_decimal": 58990
+    },
+    {
+      "icon_id": "22557341",
+      "name": "撤销发布",
+      "font_class": "chexiaofabu",
+      "unicode": "e66d",
+      "unicode_decimal": 58989
+    },
+    {
+      "icon_id": "22557076",
+      "name": "追加",
+      "font_class": "zhuijia1",
+      "unicode": "e66c",
+      "unicode_decimal": 58988
+    },
+    {
       "icon_id": "22554615",
       "name": "降序",
       "font_class": "jiangxu",
@@ -433,25 +454,11 @@
       "unicode_decimal": 58915
     },
     {
-      "icon_id": "22485282",
-      "name": "追加",
-      "font_class": "zhuijia",
-      "unicode": "e624",
-      "unicode_decimal": 58916
-    },
-    {
       "icon_id": "22485283",
       "name": "上传",
       "font_class": "shangchuan",
       "unicode": "e625",
       "unicode_decimal": 58917
-    },
-    {
-      "icon_id": "22485284",
-      "name": "撤销发布",
-      "font_class": "chexiaofabu",
-      "unicode": "e626",
-      "unicode_decimal": 58918
     },
     {
       "icon_id": "22485212",
@@ -533,7 +540,7 @@
     {
       "icon_id": "22477535",
       "name": "调取筛选模版",
-      "font_class": "tiaoqushaixuanmoban-copy",
+      "font_class": "tiaoqushaixuanmoban",
       "unicode": "e7a8",
       "unicode_decimal": 59304
     },
@@ -557,20 +564,6 @@
       "font_class": "tiaojianshouqi",
       "unicode": "e613",
       "unicode_decimal": 58899
-    },
-    {
-      "icon_id": "3041570",
-      "name": "arrow_drop_down",
-      "font_class": "arrow_drop_down",
-      "unicode": "e6f8",
-      "unicode_decimal": 59128
-    },
-    {
-      "icon_id": "3041584",
-      "name": "arrow_drop_up",
-      "font_class": "arrow_drop_up",
-      "unicode": "e6f9",
-      "unicode_decimal": 59129
     },
     {
       "icon_id": "7040967",
@@ -666,49 +659,49 @@
     {
       "icon_id": "17377374",
       "name": "icon-pc",
-      "font_class": "icon-pc",
+      "font_class": "pc",
       "unicode": "e6d1",
       "unicode_decimal": 59089
     },
     {
       "icon_id": "17378040",
       "name": "icon-pad",
-      "font_class": "icon-pad",
+      "font_class": "pad",
       "unicode": "e6d2",
       "unicode_decimal": 59090
     },
     {
       "icon_id": "17378422",
       "name": "icon-mobile",
-      "font_class": "icon-mobile",
+      "font_class": "mobile",
       "unicode": "e6d4",
       "unicode_decimal": 59092
     },
     {
       "icon_id": "17381369",
       "name": "icon-forward",
-      "font_class": "icon-forward",
+      "font_class": "forward",
       "unicode": "e6d5",
       "unicode_decimal": 59093
     },
     {
       "icon_id": "17384260",
       "name": "icon-return",
-      "font_class": "icon-return",
+      "font_class": "return",
       "unicode": "e6d6",
       "unicode_decimal": 59094
     },
     {
       "icon_id": "17453758",
       "name": "icon-narrow",
-      "font_class": "icon-narrow",
+      "font_class": "narrow",
       "unicode": "e6db",
       "unicode_decimal": 59099
     },
     {
       "icon_id": "17453968",
       "name": "icon-enlarge",
-      "font_class": "icon-enlarge",
+      "font_class": "enlarge",
       "unicode": "e6dc",
       "unicode_decimal": 59100
     }

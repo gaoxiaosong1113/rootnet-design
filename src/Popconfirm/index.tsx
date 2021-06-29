@@ -179,6 +179,7 @@ function Popconfirm(props: ModalProps) {
         [`${prefix}-popconfirm-target`]: true,
       })}
       onClick={(event) => {
+        event.persist();
         handleAppendRender({
           ...props,
           event,

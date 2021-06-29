@@ -163,6 +163,7 @@ function Popconfirm(props: ModalProps) {
         {React.Children.map(children, (item) => {
           return React.cloneElement(item, {
             onClick: (event: any) => {
+              event.persist();
               if (trigger == 'click') {
                 setIsFastOpen(true);
                 setVisible((prevOpen) => {
@@ -172,21 +173,25 @@ function Popconfirm(props: ModalProps) {
               }
             },
             onMouseOver: (event: any) => {
+              event.persist();
               if (trigger == 'hover') {
                 handleOpen(event);
               }
             },
             onMouseOut: (event: any) => {
+              event.persist();
               if (trigger == 'hover') {
                 handleClose();
               }
             },
             onFocus: (event: any) => {
+              event.persist();
               if (trigger == 'focus') {
                 handleOpen(event);
               }
             },
             onBlur: (event: any) => {
+              event.persist();
               if (trigger == 'focus') {
                 handleClose();
               }
