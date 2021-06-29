@@ -22,23 +22,29 @@ interface SpinProps {
    * @default           -
    */
   size?: string;
+
+  /**
+   * @description      加载标识
+   * @default           false
+   */
+  loading: any;
 }
 
 function Spin(props: SpinProps) {
-  const { children, size, ...prop } = props;
+  const { children, size, loading = false, ...prop } = props;
 
   return (
     <div
       className={clsx({
         [`${prefix}-spin`]: true,
-        [`${prefix}-spin-spinning`]: true,
+        [`${prefix}-spin-spinning`]: loading,
       })}
     >
       {children && (
         <div
           className={clsx({
             [`${prefix}-spin-container`]: true,
-            [`${prefix}-spin-blur`]: true,
+            [`${prefix}-spin-blur`]: loading,
           })}
         >
           {children}

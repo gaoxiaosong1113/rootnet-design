@@ -21,7 +21,7 @@ export default () => {
     <div>
       <Row gutter={[16, 16]}>
         <Col span={24}>
-          <Spin></Spin>
+          <Spin loading></Spin>
         </Col>
       </Row>
     </div>
@@ -38,7 +38,7 @@ import { Spin } from 'rootnet-design';
 export default () => {
   return (
     <div style={{ width: '100%', height: 800 }}>
-      <Spin></Spin>
+      <Spin loading></Spin>
     </div>
   );
 };
@@ -53,7 +53,7 @@ import { Spin, Alert } from 'rootnet-design';
 export default () => {
   return (
     <div>
-      <Spin>
+      <Spin loading>
         <Alert
           content="恭喜！你所提交操作已通过，如有问题请联系客服。"
           type="info"
@@ -82,7 +82,7 @@ import {
 export default () => {
   return (
     <div>
-      <Spin>
+      <Spin loading>
         <Form
           layout={'horizontal'}
           name={'n2'}

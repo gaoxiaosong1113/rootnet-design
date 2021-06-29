@@ -10,7 +10,7 @@
   line-height: 1.5715;
   list-style: none;
   font-feature-settings: 'tnum';
-  color: #1890ff;
+  color: @primaryColor;
   transition: transform 0.3s cubic-bezier(0.78, 0.14, 0.15, 0.86);
   width: 100%;
   height: 100%;
@@ -35,14 +35,25 @@
       display: block;
     }
   }
+  &-text {
+    margin-top: 4px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, 0);
+  }
 
   &-dot {
-    position: relative;
-    display: inline-block;
     font-size: 20px;
     width: 1em;
     height: 1em;
     margin-bottom: 5px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin: 0;
+    margin-left: -10px;
+    margin-top: -22px;
 
     &-spin {
       transform: rotate(45deg);
@@ -54,7 +65,7 @@
       display: block;
       width: 9px;
       height: 9px;
-      background-color: #1890ff;
+      background-color: @primaryColor;
       border-radius: 100%;
       transform: scale(0.75);
       transform-origin: 50% 50%;
@@ -94,24 +105,14 @@
       width: 100%;
       height: 100%;
       z-index: 98;
-
-      .@{prefix}-spin-dot {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        margin: 0;
-        margin-left: -10px;
-        margin-top: -22px;
-      }
-
-      .@{prefix}-spin-text {
-        margin-top: 4px;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, 0);
-      }
     }
+  }
+  &-blur {
+    clear: both;
+    overflow: hidden;
+    opacity: 0.5;
+    user-select: none;
+    pointer-events: none;
   }
 }
 
