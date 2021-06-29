@@ -40,7 +40,7 @@ interface TableItemProps {
    * @description      配置是否展开属性
    * @default           false
    */
-  expandable?: string;
+  expandable?: any;
 
   /**
    * @description      设置tree内各类浮层的渲染节点，如筛选菜单
@@ -156,7 +156,10 @@ function TableItem(props: TableItemProps) {
     index,
   } = props;
 
-  const [open, setOpen] = useState(expandable?.indexOf(data[rowKey]) != -1);
+  const [open, setOpen] = useState(() => {
+    if (!expandable) return false;
+    return expandable?.indexOf(data[rowKey]) != -1;
+  });
 
   const [checked, setChecked] = useState(() => {
     return selectedRowKeys.indexOf(data[rowKey]) != -1;
@@ -245,7 +248,6 @@ function TableItem(props: TableItemProps) {
                 if (rowSelection.onSelect) {
                   rowSelection.onSelect(data[rowKey], data);
                 }
-
                 setSelectedRowKeys([...checkChildren(data, v)]);
               }}
             />
@@ -285,7 +287,7 @@ export default function Table(props: any) {
     // 数据数组
     dataSource = [],
     // 配置展开属性
-    expandable,
+    expandable = [],
     // tree行 key 的取值，可以是字符串或一个函数
     rowKey = 'id',
     // tree行是否可选择，配置项

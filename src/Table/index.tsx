@@ -46,7 +46,7 @@ interface TableItemProps {
    * @description      配置是否展开属性
    * @default           false
    */
-  expandable?: string;
+  expandable?: any;
 
   /**
    * @description      设置表格内各类浮层的渲染节点，如筛选菜单
@@ -169,7 +169,10 @@ function TableItem(props: TableItemProps) {
     index,
   } = props;
 
-  const [open, setOpen] = useState(expandable?.indexOf(data[rowKey]) != -1);
+  const [open, setOpen] = useState(() => {
+    if (!expandable) return false;
+    return expandable?.indexOf(data[rowKey]) != -1;
+  });
 
   const [checked, setChecked] = useState(() => {
     return selectedRowKeys.indexOf(data[rowKey]) != -1;
@@ -324,7 +327,7 @@ export default function Table(props: any) {
     // 数据数组
     dataSource = [],
     // 配置展开属性
-    expandable,
+    expandable = [],
     // 表格尾部
     footer,
     // 设置表格内各类浮层的渲染节点，如筛选菜单

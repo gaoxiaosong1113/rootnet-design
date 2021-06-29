@@ -59,7 +59,16 @@ interface AlertProps {
 }
 
 export default function Alert(props: AlertProps) {
-  const { title, content, type, close, extra, width, onClose, ...prop } = props;
+  const {
+    title,
+    content,
+    type = 'info',
+    close,
+    extra,
+    width,
+    onClose,
+    ...prop
+  } = props;
   const [closed, setClosed] = useState(false);
 
   return (

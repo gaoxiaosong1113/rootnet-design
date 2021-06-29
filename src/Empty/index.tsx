@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 
 import clsx from 'clsx';
 
@@ -8,6 +8,16 @@ import { prefix } from '../config';
 
 import { Icon } from '../index';
 
+import approved from './resources/approved.svg';
+import auditFailure from './resources/auditFailure.svg';
+import connectInterrupt from './resources/connectInterrupt.svg';
+import development from './resources/development.svg';
+import emptyData from './resources/emptyData.svg';
+import error from './resources/error.svg';
+import requestError from './resources/requestError.svg';
+import review from './resources/review.svg';
+import searchEmptyData from './resources/searchEmptyData.svg';
+
 interface EmptyProps {
   /**
    * @description      样式命
@@ -16,10 +26,10 @@ interface EmptyProps {
   className?: string;
 
   /**
-   * @description      按钮的类型
-   * @default           -
+   * @description      Empty的类型
+   * @default           emptyData
    */
-  type?: string;
+  type: string;
 
   /**
    * @description      需要显示的图标
@@ -28,56 +38,70 @@ interface EmptyProps {
   icon?: string;
 
   /**
-   * @description      是否禁用按钮
+   * @description      是否禁用Empty
    * @default           false
    */
   disabled?: boolean;
 
   children?: React.ReactChild;
 
-  /**
-   * @description      Empty点击事件
-   * @default           -
-   */
-  onClick?: Function;
-
-  /**
-   * @description      Empty左右的间隔
-   * @default           -
-   */
-  interval?: string;
-
-  /**
-   * @description      Empty的尺寸
-   * @default           -
-   */
-  size?: string;
+  data?: Array<any>;
 }
 
 function Empty(props: EmptyProps) {
-  const { type, icon, disabled, children, onClick, interval, size, ...prop } =
-    props;
+  const { type, icon, disabled, data, children, ...prop } = props;
 
-  function handleClick() {
-    if (!disabled && onClick) {
-      onClick();
-    }
-  }
+  let show = useMemo(() => {
+    let config: any = {
+      approved: {
+        image: approved,
+        describe: '审核通过',
+      },
+      auditFailure: {
+        image: auditFailure,
+        describe: '审核失败',
+      },
+      connectInterrupt: {
+        image: connectInterrupt,
+        describe: '好像断开连接了<br/>刷新一下吧',
+      },
+      development: {
+        image: development,
+        describe: '该模块功能正在开发中<br/>敬请期待',
+      },
+      emptyData: {
+        image: emptyData,
+        describe: '暂无相关数据',
+      },
+      error: {
+        image: error,
+        describe: '加载失败',
+      },
+      requestError: {
+        image: requestError,
+        describe: '请设置好相关条件<br/>再来查看数据吧',
+      },
+      review: {
+        image: review,
+        describe: '审核中',
+      },
+      searchEmptyData: {
+        image: searchEmptyData,
+        describe: '没有找到相关数据',
+      },
+    };
+    console.log(config[type] || config['emptyData']);
+    return config[type] || config['emptyData'];
+  }, [type]);
   return (
     <div
       className={clsx({
-        [`${prefix}-Empty`]: true,
-        [`${prefix}-Empty-default`]: !type && !disabled,
-        [`${prefix}-Empty-${type}`]: type,
-        [`${prefix}-Empty-disabled`]: disabled,
-        [`${prefix}-Empty-${size}`]: size,
+        [`${prefix}-empty`]: true,
       })}
-      style={{ margin: interval }}
-      onClick={handleClick}
       {...prop}
     >
-      {icon && <Icon name={icon} />}
-      <span>{children}</span>
+      <img src={show.image} alt="" />
+      <p dangerouslySetInnerHTML={{ __html: show.describe }}></p>
     </div>
   );
 }
