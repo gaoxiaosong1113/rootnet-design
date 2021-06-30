@@ -51,7 +51,7 @@ interface PopupProps {
   trigger: string;
 }
 
-function Popup(props: PopupProps) {
+function Popup(props: PopupProps): any {
   const {
     children,
     visible,

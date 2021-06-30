@@ -263,18 +263,11 @@ export default () => {
           setSelectedRowKeys(key);
           // console.log(key, row, 'onSelect');
         },
-        onSelectAll: (key, row) => {
-          // console.log(key, row, 'onSelectAll');
-        },
-        onSelectInvert: (key, row) => {
-          // console.log(key, row, 'onSelectInvert');
-        },
-        renderCell: (key, row) => {
-          // console.log(key, row, 'renderCell');
-        },
       }}
       rowKey="id"
     />
   );
 };
 ```
+
+<API />
