@@ -12,7 +12,7 @@ import { getOffsetLeft, getOffsetTop } from '../_util';
 
 interface SelectProps {
   /**
-   * @description      样式命
+   * @description      类名
    * @default           -
    */
   className?: string;

@@ -19,13 +19,17 @@ import { getOffsetLeft, getOffsetTop } from '../_util';
 
 interface PopupProps {
   /**
-   * @description      样式命
+   * @description      类名
    * @default           -
    */
   className?: string;
 
   children: any;
 
+  /**
+   * @description      弹层触发关闭
+   * @default           -
+   */
   onClose: Function;
 
   /**
@@ -36,20 +40,20 @@ interface PopupProps {
 
   /**
    * @description      是否显示
-   * @default           -
+   * @default           false
    */
-  visible: any;
+  visible: boolean;
   /**
    * @description      触发的元素
    * @default           -
    */
-  refEl: any;
+  refEl: React.RefAttributes<any>;
 
   /**
    * @description      触发的方式
-   * @default           -
+   * @default           click
    */
-  trigger: any;
+  trigger: string;
 }
 
 function Popup(props: PopupProps) {

@@ -8,7 +8,7 @@ import { prefix } from '../config';
 
 interface RowProps {
   /**
-   * @description      样式命
+   * @description      类名
    * @default           -
    */
   className?: string;
@@ -70,7 +70,7 @@ const Row = (props: RowProps) => {
 
 interface ColProps {
   /**
-   * @description      样式命
+   * @description      类名
    * @default           -
    */
   className?: string;

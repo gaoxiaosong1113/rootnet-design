@@ -12,7 +12,7 @@ import { GroupContext } from './Group';
 
 interface CheckboxProps {
   /**
-   * @description      样式命
+   * @description      类名
    * @default           -
    */
   className?: string;

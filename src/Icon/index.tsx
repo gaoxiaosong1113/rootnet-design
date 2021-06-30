@@ -8,7 +8,7 @@ import { prefix } from '../config';
 
 export interface IconProps {
   /**
-   * @description 样式命
+   * @description 类名
    * @default -
    */
   className?: string;

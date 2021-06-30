@@ -13,7 +13,7 @@ import InternalCheckbox from './Checkbox';
 
 // interface CheckboxProps {
 //   /**
-//    * @description      样式命
+//    * @description      类名
 //    * @default           -
 //    */
 //   className?: string;
@@ -135,7 +135,7 @@ import InternalCheckbox from './Checkbox';
 
 // interface GroupProps {
 //   /**
-//    * @description      样式命
+//    * @description      类名
 //    * @default           -
 //    */
 //   className?: string;

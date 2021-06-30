@@ -10,7 +10,7 @@ import { Icon } from '../index';
 
 interface LayoutProps {
   /**
-   * @description      样式命
+   * @description      类名
    * @default           -
    */
   className?: string;

@@ -19,7 +19,7 @@ import {
 
 interface TableItemProps {
   /**
-   * @description      样式命
+   * @description      类名
    * @default           -
    */
   className?: string;
