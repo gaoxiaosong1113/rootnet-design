@@ -18,4 +18,4 @@ import { Foo } from 'rootnet-design';
 export default () => <Foo title="First Demo" />;
 ```
 
-<API />
+<!-- <API /> -->

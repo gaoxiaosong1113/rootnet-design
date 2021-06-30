@@ -120,7 +120,7 @@ function Descriptions(props: DescriptionsProps) {
       const span: number | undefined = node.props?.span;
       const mergedSpan = span || 1;
 
-      // Additional handle last one
+      // 最后一个
       if (index === childNodes.length - 1) {
         tmpRow.push(getFilledItem(node, span, rowRestCol));
         rows.push(tmpRow);
@@ -145,7 +145,7 @@ function Descriptions(props: DescriptionsProps) {
     });
 
     return rows.map((item: any, index: any) => {
-      return <tr>{item}</tr>;
+      return <tr key={index}>{item}</tr>;
     });
   }, [children, column, border]);
 
@@ -196,7 +196,6 @@ Descriptions.Item = ({
   column,
 }: any) => {
   if (border) {
-    console.log(span);
     return (
       <>
         <th
@@ -208,8 +207,7 @@ Descriptions.Item = ({
           {label}
         </th>
         <td
-          colSpan={span * 2 - 1}
-          // colSpan={span}
+          colSpan={(span || 0) * 2 - 1}
           style={{
             background,
             color: fontColor,

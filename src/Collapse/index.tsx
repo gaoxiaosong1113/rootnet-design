@@ -56,7 +56,8 @@ Collapse.Item = function Item(props: any) {
           });
         }}
       >
-        {title}
+        <Icon name={open ? 'xuanzeshouqi' : 'xuanzexiala'} />
+        <span>{title}</span>
       </div>
       <div
         className={clsx({
