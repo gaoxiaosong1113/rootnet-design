@@ -394,7 +394,7 @@ function TreeItem(props: any) {
       let allChildrenData = checkAllData(data.children, rowKey);
       if (checkData.length > 0) {
         if (checkData.length === allChildrenData.length) {
-          setIndeterminate(true);
+          setIndeterminate(false);
         } else {
           setIndeterminate(true);
         }
@@ -414,6 +414,7 @@ function TreeItem(props: any) {
   // 处理选中事件
   function checkChildren(data: any, value: any) {
     setChecked(value);
+
     let childrenKeys = [];
 
     // 获取所有的子项
@@ -601,7 +602,6 @@ export default function Tree(props: TreeProps) {
   }, [selectedRows]);
 
   useEffect(() => {
-    if (selectedRowKeys.length == 0) return;
     setSelectedRows(loopData(dataSource, selectedRowKeys, rowKey));
   }, [selectedRowKeys]);
 

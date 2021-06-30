@@ -126,9 +126,8 @@ function Checkbox(props: CheckboxProps): any {
         [`${prefix}-checkbox-${type}`]: type,
         [`${prefix}-checkbox-disabled`]: disabled,
         [`${prefix}-checkbox-${size}`]: size,
-        [`${prefix}-checkbox-indeterminate`]:
-          !checkboxProps.checked && indeterminate,
-        [`${prefix}-checkbox-checked`]: checkboxProps.checked,
+        [`${prefix}-checkbox-indeterminate`]: indeterminate,
+        [`${prefix}-checkbox-checked`]: !indeterminate && checkboxProps.checked,
       })}
       // onClick={handleChange}
       {...prop}
