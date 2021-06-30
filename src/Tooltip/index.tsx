@@ -13,7 +13,7 @@ import './index.less';
 
 import { prefix } from '../config';
 
-import { Icon, Button } from '../index';
+import { Icon, Button, Popup } from '../index';
 
 import { getOffsetLeft, getOffsetTop } from '../_util';
 
@@ -51,61 +51,8 @@ interface ModalProps {
   visible: any;
 }
 
-function ModalContent(props: ModalProps) {
-  const {
-    content,
-    children,
-    visible,
-    onCancel,
-    event,
-    position = 'top',
-    ...prop
-  } = props;
-
-  const refEl = useRef<any>(null);
-
-  useEffect(() => {
-    function handleClick(e: any) {
-      if (!refEl.current) return;
-      if (!ReactDOM.findDOMNode(refEl.current)?.contains(e.target)) {
-        handleCancel(e);
-      }
-    }
-
-    document.body.addEventListener('click', handleClick);
-    return () => {
-      document.body.removeEventListener('click', handleClick);
-    };
-  }, []);
-
-  const style = useMemo(() => {
-    switch (position) {
-      case 'top':
-        return {
-          left: getOffsetLeft(event.target) + event.target.offsetWidth / 2,
-          top: getOffsetTop(event.target) - 5,
-        };
-      case 'left':
-        return {
-          left: getOffsetLeft(event.target) - 12,
-          top: getOffsetTop(event.target) + event.target.offsetHeight / 2,
-        };
-      case 'right':
-        return {
-          left: getOffsetLeft(event.target) + event.target.offsetWidth + 12,
-          top: getOffsetTop(event.target) + event.target.offsetHeight / 2,
-        };
-      case 'bottom':
-        return {
-          left: getOffsetLeft(event.target) + event.target.offsetWidth / 2,
-          top: getOffsetTop(event.target),
-        };
-    }
-  }, [position]);
-
-  function handleCancel(e: any) {
-    onCancel ? onCancel(e) : null;
-  }
+function Content(props: ModalProps) {
+  const { content, children, visible, position = 'top', ...prop } = props;
 
   return (
     <div
@@ -119,8 +66,6 @@ function ModalContent(props: ModalProps) {
           [`${prefix}-tooltip-${position}`]: position,
           [`${prefix}-tooltip-visible`]: visible,
         })}
-        style={style}
-        ref={refEl}
       >
         <div
           className={clsx({
@@ -134,20 +79,16 @@ function ModalContent(props: ModalProps) {
   );
 }
 
-function Popconfirm(props: ModalProps) {
-  const { children, onCancel, trigger = 'click', ...prop } = props;
-  const [isFastOpen, setIsFastOpen] = useState(false);
+function Tooltip(props: ModalProps) {
+  const { children, onCancel, trigger = 'click', position, ...prop } = props;
   const [visible, setVisible] = useState(false);
-  const [ev, setEv] = useState<any>();
-  const refEl = useRef<any>(null);
 
-  function handleOpen(event: any) {
-    setIsFastOpen(true);
+  const refEl = useRef(null);
+
+  function handleOpen() {
     setVisible(true);
-    setEv(event);
   }
   function handleClose() {
-    setIsFastOpen(false);
     setVisible(false);
     onCancel && onCancel();
   }
@@ -165,17 +106,15 @@ function Popconfirm(props: ModalProps) {
             onClick: (event: any) => {
               event.persist();
               if (trigger == 'click') {
-                setIsFastOpen(true);
                 setVisible((prevOpen) => {
                   return !prevOpen;
                 });
-                setEv(event);
               }
             },
             onMouseOver: (event: any) => {
               event.persist();
               if (trigger == 'hover') {
-                handleOpen(event);
+                handleOpen();
               }
             },
             onMouseOut: (event: any) => {
@@ -187,7 +126,7 @@ function Popconfirm(props: ModalProps) {
             onFocus: (event: any) => {
               event.persist();
               if (trigger == 'focus') {
-                handleOpen(event);
+                handleOpen();
               }
             },
             onBlur: (event: any) => {
@@ -199,23 +138,20 @@ function Popconfirm(props: ModalProps) {
           });
         })}
       </span>
-      {isFastOpen &&
-        ReactDOM.createPortal(
-          <ModalContent
-            {...props}
-            visible={visible}
-            event={ev}
-            onCancel={(e: any) => {
-              if (!ReactDOM.findDOMNode(refEl.current)?.contains(e.target)) {
-                setVisible(false);
-                onCancel && onCancel();
-              }
-            }}
-          />,
-          document.body,
-        )}
+      <Popup
+        onClose={() => {
+          setVisible(false);
+          onCancel && onCancel();
+        }}
+        visible={visible}
+        refEl={refEl}
+        position={position}
+        trigger={trigger}
+      >
+        <Content {...props} visible={visible} />
+      </Popup>
     </>
   );
 }
 
-export default Popconfirm;
+export default Tooltip;

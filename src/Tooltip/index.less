@@ -5,10 +5,11 @@
 
 .@{prefix}-tooltip-target {
   cursor: pointer;
+  display: inline-block;
 }
 
 .@{prefix}-tooltip {
-  position: absolute;
+  position: relative;
   border-radius: 4px;
   background: rgba(0, 0, 0, 0.75);
   box-shadow: 0px 3px 10px 0px rgba(117, 125, 150, 0.2);
@@ -57,7 +58,7 @@
   }
 
   &-bottom {
-    transform: translate(-50%, 100%);
+    transform: translate(-50%, 0%);
 
     &.@{prefix}-tooltip {
       &:after {
@@ -90,6 +91,6 @@
     color: #fff;
     font-size: 14px;
     color: #ffffff;
-    line-height: 1em;
+    line-height: 1.5em;
   }
 }

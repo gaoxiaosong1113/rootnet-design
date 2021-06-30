@@ -152,6 +152,7 @@ function Input(props: InputProps) {
     if (onFocus) {
       onFocus(e);
     }
+    return false;
   };
   const handleBlur = (e: any) => {
     setFocus(false);

@@ -77,3 +77,34 @@ export default () => {
   );
 };
 ```
+
+边界：
+
+```tsx
+import React from 'react';
+import { Tooltip, Input, Grid } from 'rootnet-design';
+const { Row, Col } = Grid;
+
+export default () => {
+  return (
+    <div>
+      <Row gutter={[16, 16]}>
+        <Col span={4}>
+          <Tooltip content={'我是'}>
+            <span>click</span>
+          </Tooltip>
+        </Col>
+        <Col span={4}>
+          <Tooltip
+            content={
+              '我是一段提示，并且字数很多我是一段提示，并且字数很多我是一段提示，并且字数很多我是一段提示，并且字数很多我是一段提示，并且字数很多我是一段提示，并且字数很多我是一段提示，并且字数很多我是一段提示，并且字数很多我是一段提示，并且字数很多我是一段提示，并且字数很多我是一段提示，并且字数很多我是一段提示，并且字数很多我是一段提示，并且字数很多我是一段提示，并且字数很多我是一段提示，并且字数很多我是一段提示，并且字数很多'
+            }
+          >
+            <span>click</span>
+          </Tooltip>
+        </Col>
+      </Row>
+    </div>
+  );
+};
+```

@@ -7,7 +7,7 @@ import './index.less';
 
 import { prefix } from '../config';
 
-import { Icon, Button } from '../index';
+import { Icon, Button, Popup } from '../index';
 
 import { getOffsetLeft, getOffsetTop } from '../_util';
 
@@ -47,7 +47,7 @@ interface ModalProps {
   event: any;
 }
 
-function ModalContent(props: ModalProps) {
+function Content(props: ModalProps) {
   const {
     content,
     children,
@@ -58,56 +58,13 @@ function ModalContent(props: ModalProps) {
     ...prop
   } = props;
 
-  const popconfirmEl = useRef<any>(null);
-
-  useEffect(() => {
-    function handleClick(e: any) {
-      if (!popconfirmEl.current) return;
-      if (!ReactDOM.findDOMNode(popconfirmEl.current)?.contains(e.target)) {
-        handleCancel();
-      }
-    }
-
-    document.body.addEventListener('click', handleClick);
-    return () => {
-      document.body.removeEventListener('click', handleClick);
-    };
-  }, []);
-
   function handleCancel() {
-    handleUnRender();
     onCancel ? onCancel() : null;
   }
 
   function handleConfirm() {
-    handleUnRender();
     onConfirm ? onConfirm() : null;
   }
-
-  const style = useMemo(() => {
-    switch (position) {
-      case 'top':
-        return {
-          left: getOffsetLeft(event.target) + event.target.offsetWidth / 2,
-          top: getOffsetTop(event.target) - 5,
-        };
-      case 'left':
-        return {
-          left: getOffsetLeft(event.target) - 12,
-          top: getOffsetTop(event.target) + event.target.offsetHeight / 2,
-        };
-      case 'right':
-        return {
-          left: getOffsetLeft(event.target) + event.target.offsetWidth + 12,
-          top: getOffsetTop(event.target) + event.target.offsetHeight / 2,
-        };
-      case 'bottom':
-        return {
-          left: getOffsetLeft(event.target) + event.target.offsetWidth / 2,
-          top: getOffsetTop(event.target) + event.target.offsetHeight + 12,
-        };
-    }
-  }, [position]);
 
   return (
     <div
@@ -120,8 +77,6 @@ function ModalContent(props: ModalProps) {
           [`${prefix}-popconfirm`]: true,
           [`${prefix}-popconfirm-${position}`]: position,
         })}
-        style={style}
-        ref={popconfirmEl}
       >
         <div
           className={clsx({
@@ -151,43 +106,47 @@ function ModalContent(props: ModalProps) {
   );
 }
 
-var popup: any;
-
-// 挂载弹窗
-function handleRender(props: any) {
-  ReactDOM.render(<ModalContent {...props} />, popup);
-}
-
-// 首次挂载弹窗
-function handleAppendRender(props: any) {
-  popup = document.createElement('div');
-  document.body.appendChild(popup);
-  handleRender(props);
-}
-
-// 卸载弹窗
-function handleUnRender(props?: any) {
-  if (popup) ReactDOM.unmountComponentAtNode(popup);
-}
-
 function Popconfirm(props: ModalProps) {
-  const { children, onConfirm, onCancel, ...prop } = props;
+  const { children, onConfirm, onCancel, position, ...prop } = props;
+  // const { children, onCancel, trigger = 'click',position, ...prop } = props;
+  const [visible, setVisible] = useState(false);
+
+  const refEl = useRef(null);
+  function handleOpen() {
+    setVisible(true);
+  }
+  function handleClose() {
+    setVisible(false);
+    onCancel && onCancel();
+  }
 
   return (
-    <span
-      className={clsx({
-        [`${prefix}-popconfirm-target`]: true,
-      })}
-      onClick={(event) => {
-        event.persist();
-        handleAppendRender({
-          ...props,
-          event,
-        });
-      }}
-    >
-      {children}
-    </span>
+    <>
+      <span
+        className={clsx({
+          [`${prefix}-popconfirm-target`]: true,
+        })}
+        onClick={(event) => {
+          event.persist();
+          setVisible(true);
+        }}
+        ref={refEl}
+      >
+        {children}
+      </span>
+      <Popup
+        onClose={() => {
+          setVisible(false);
+          onCancel && onCancel();
+        }}
+        visible={visible}
+        refEl={refEl}
+        position={position}
+        trigger={'click'}
+      >
+        <Content {...props} onCancel={handleClose} />
+      </Popup>
+    </>
   );
 }
 

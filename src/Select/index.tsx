@@ -72,8 +72,9 @@ function Select(props: SelectProps) {
   const { placeholder, disabled, onChange, onCancel, close, ...prop } = props;
 
   const [value, setValue] = useState(props.value || '');
-  const [open, setOpen] = useState(false);
-  const [ev, setEv] = useState<any>();
+  const [visible, setVisible] = useState(false);
+
+  const refEl = useRef(null);
 
   function handleOnChange(e: any) {
     // onChange
@@ -90,9 +91,10 @@ function Select(props: SelectProps) {
       className={clsx({
         [`${prefix}-select-target`]: true,
         [`${prefix}-select-target-disabled`]: disabled,
-        [`${prefix}-select-target-open`]: open,
+        [`${prefix}-select-target-visible`]: visible,
         [`${prefix}-select-placeholder`]: !value,
       })}
+      ref={refEl}
     >
       <div
         className={clsx({
@@ -101,14 +103,13 @@ function Select(props: SelectProps) {
         onClick={(event) => {
           event.persist();
           if (disabled) return;
-          setOpen(true);
-          setEv(event.target);
+          setVisible(true);
           return false;
         }}
       >
         <SelectValue value={value} {...props} />
       </div>
-      {value !== undefined && close ? (
+      {value && value != undefined && close ? (
         <div
           onClick={() => setValue(null)}
           className={clsx({
@@ -126,18 +127,18 @@ function Select(props: SelectProps) {
           <Icon name="xuanzexiala" size={14} />
         </div>
       )}
-      {open &&
+      {visible &&
         ReactDOM.createPortal(
           <SelectContent
             {...props}
-            target={ev}
+            target={refEl}
             value={value}
             onCancel={() => {
-              setOpen(false);
+              setVisible(false);
               onCancel && onCancel();
             }}
             onChange={(v: any) => {
-              setOpen(false);
+              setVisible(false);
               handleOnChange(v);
             }}
           />,
@@ -187,9 +188,9 @@ function SelectContent(props: SelectProps) {
           [`${prefix}-select`]: true,
         })}
         style={{
-          minWidth: target.offsetWidth,
-          left: getOffsetLeft(target),
-          top: getOffsetTop(target) + target.offsetHeight,
+          minWidth: target.current.offsetWidth,
+          left: getOffsetLeft(target.current),
+          top: getOffsetTop(target.current) + target.current.offsetHeight,
         }}
       >
         <div

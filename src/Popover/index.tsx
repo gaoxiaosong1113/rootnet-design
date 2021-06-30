@@ -16,7 +16,7 @@ interface PopoverProps {
   className?: string;
 
   /**
-   * @description      按钮的类型
+   * @description      Popover的类型
    * @default           -
    */
   type?: string;
@@ -28,7 +28,7 @@ interface PopoverProps {
   icon?: string;
 
   /**
-   * @description      是否禁用按钮
+   * @description      是否禁用Popover
    * @default           false
    */
   disabled?: boolean;
