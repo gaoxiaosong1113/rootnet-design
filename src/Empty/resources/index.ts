@@ -1,0 +1,9 @@
+export { default as approved } from './resources/approved.svg';
+export { default as auditFailure } from './resources/auditFailure.svg';
+export { default as connectInterrupt } from './resources/connectInterrupt.svg';
+export { default as development } from './resources/development.svg';
+export { default as emptyData } from './resources/emptyData.svg';
+export { default as error } from './resources/error.svg';
+export { default as requestError } from './resources/requestError.svg';
+export { default as review } from './resources/review.svg';
+export { default as searchEmptyData } from './resources/searchEmptyData.svg';

@@ -17,7 +17,7 @@ import {
   onchecked,
 } from '../_util';
 
-interface TableItemProps {
+interface TreeItemProps {
   /**
    * @description      类名
    * @default           -
@@ -129,7 +129,7 @@ interface TableItemProps {
   dataSource: any;
 }
 
-function TableItem(props: TableItemProps) {
+function TreeItem(props: TreeItemProps) {
   const {
     // 层级
     layer,
@@ -259,7 +259,7 @@ function TableItem(props: TableItemProps) {
         {onRow && onRow(data)}
       </div>
       {open && child && (
-        <TableChildren
+        <TreeChildren
           {...props}
           key={index + layer + ''}
           data={data.children}
@@ -270,17 +270,17 @@ function TableItem(props: TableItemProps) {
   );
 }
 
-function TableChildren(props: any) {
+function TreeChildren(props: any) {
   const { data } = props;
   return (
     data &&
     data.map((dataItem: any, index: any) => {
-      return <TableItem {...props} index={index} key={index} data={dataItem} />;
+      return <TreeItem {...props} index={index} key={index} data={dataItem} />;
     })
   );
 }
 
-export default function Table(props: any) {
+export default function Tree(props: any) {
   const {
     // 数据数组
     dataSource = [],
@@ -323,7 +323,7 @@ export default function Table(props: any) {
 
   return (
     <div className={`${prefix}-trees`}>
-      <TableChildren
+      <TreeChildren
         {...props}
         selectedRowKeys={selectedRowKeys}
         setSelectedRowKeys={setSelectedRowKeys}

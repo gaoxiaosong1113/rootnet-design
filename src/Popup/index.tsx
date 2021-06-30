@@ -1,10 +1,5 @@
-import React, {
-  useEffect,
-  useState,
-  useRef,
-  useMemo,
-  useCallback,
-} from 'react';
+import React, { useEffect, useState, useRef, useMemo } from 'react';
+
 import ReactDOM from 'react-dom';
 
 import clsx from 'clsx';
@@ -47,7 +42,7 @@ interface PopupProps {
    * @description      触发的元素
    * @default           -
    */
-  refEl: React.RefAttributes<any>;
+  refEl: any;
 
   /**
    * @description      触发的方式
@@ -66,6 +61,7 @@ function Popup(props: PopupProps) {
     trigger,
     ...prop
   } = props;
+
   const style = useMemo(() => {
     if (!visible || !refEl.current) return {};
     switch (position) {
