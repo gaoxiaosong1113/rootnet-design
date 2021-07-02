@@ -10,7 +10,7 @@ import { Icon } from '../index';
 
 import { GroupContext } from './Group';
 
-interface RadioProps {
+export interface RadioProps {
   /**
    * @description      类名
    * @default           -

@@ -10,7 +10,7 @@ import { Grid } from '../index';
 
 const { Row, Col } = Grid;
 
-interface DescriptionsProps {
+export interface DescriptionsProps {
   /**
    * @description      类名
    * @default           -

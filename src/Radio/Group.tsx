@@ -8,7 +8,7 @@ import { prefix } from '../config';
 
 import { Icon } from '../index';
 
-interface CheckboxProps {}
+export interface CheckboxProps {}
 
 export const GroupContext = React.createContext({} as any);
 

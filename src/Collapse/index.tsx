@@ -8,7 +8,7 @@ import { prefix } from '../config';
 
 import { Icon } from '../index';
 
-interface CollapseProps {
+export interface CollapseProps {
   /**
    * @description      类名
    * @default           -

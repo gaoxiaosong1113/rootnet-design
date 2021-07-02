@@ -15,6 +15,10 @@ function Group(props: any): any {
 
   const [checked, setChecked] = useState(props.checked || []);
 
+  useEffect(() => {
+    setChecked(props.checked);
+  }, [props.checked]);
+
   function handleChange(e: any, v: any) {
     console.log(e, v);
     let findIndex = checked.indexOf(v);

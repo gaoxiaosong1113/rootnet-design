@@ -8,7 +8,7 @@ import { prefix } from '../config';
 
 import { Icon } from '../index';
 
-interface CarouselProps {
+export interface CarouselProps {
   /**
    * @description      类名
    * @default           -

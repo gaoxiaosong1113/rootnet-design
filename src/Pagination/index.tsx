@@ -8,7 +8,7 @@ import { prefix } from '../config';
 
 import { Icon } from '../index';
 
-interface PaginationProps {
+export interface PaginationProps {
   /**
    * @description      类名
    * @default           -

@@ -8,7 +8,7 @@ import { prefix } from '../config';
 
 import { Icon } from '../index';
 
-interface PageHeaderProps {
+export interface PageHeaderProps {
   /**
    * @description      类名
    * @default           -
@@ -51,7 +51,7 @@ function PageHeader(props: PageHeaderProps) {
           [`${prefix}-pageHeader-left`]: true,
         })}
       >
-        <Icon name={'cuowu'} />
+        <Icon name={'fanhui'} />
         <span>{title || '返回'}</span>
       </div>
       <div

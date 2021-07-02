@@ -8,7 +8,7 @@ import { prefix } from '../config';
 
 import { Icon } from '../index';
 
-interface BreadcrumbProps {
+export interface BreadcrumbProps {
   /**
    * @description      面包屑导航的样式名
    * @default           -
@@ -48,7 +48,7 @@ function Breadcrumb(props: BreadcrumbProps) {
   );
 }
 
-interface BreadcrumbItemProps {
+export interface BreadcrumbItemProps {
   /**
    * @description      面包屑导航的样式名
    * @default           -

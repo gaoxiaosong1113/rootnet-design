@@ -394,9 +394,9 @@ export default () => {
       dataSource={dataSource}
       rowSelection={{
         selectedRowKeys: selectedRowKeys,
-        onChange: (key, row) => {
+        onChange: (key, row, indeterminate) => {
           setSelectedRowKeys(key);
-          console.log(key, row, 'onChange');
+          console.log(key, row, indeterminate, 'onChange');
         },
         onSelect: (key, row) => {
           setSelectedRowKeys(key);
@@ -415,4 +415,4 @@ export default () => {
 };
 ```
 
-<API />
+<API exports='["default"]'/>

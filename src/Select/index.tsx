@@ -10,7 +10,7 @@ import { prefix } from '../config';
 import { Icon, Button } from '../index';
 import { getOffsetLeft, getOffsetTop } from '../_util';
 
-interface SelectProps {
+export interface SelectProps {
   /**
    * @description      类名
    * @default           -

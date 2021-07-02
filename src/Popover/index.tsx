@@ -8,7 +8,7 @@ import { prefix } from '../config';
 
 import { Icon } from '../index';
 
-interface PopoverProps {
+export interface PopoverProps {
   /**
    * @description      类名
    * @default           -

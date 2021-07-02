@@ -18,7 +18,7 @@ import requestError from './resources/requestError.svg';
 import review from './resources/review.svg';
 import searchEmptyData from './resources/searchEmptyData.svg';
 
-interface EmptyProps {
+export interface EmptyProps {
   /**
    * @description      类名
    * @default           -

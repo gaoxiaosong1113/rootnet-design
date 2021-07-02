@@ -17,7 +17,7 @@ import {
   onchecked,
 } from '../_util';
 
-interface TableItemProps {
+export interface TableItemProps {
   /**
    * @description      类名
    * @default           -

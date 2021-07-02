@@ -8,7 +8,7 @@ import { prefix } from '../config';
 
 import { Icon } from '../index';
 
-interface TreeSelectProps {
+export interface TreeSelectProps {
   /**
    * @description      类名
    * @default           -

@@ -8,7 +8,7 @@ import { prefix } from '../config';
 
 import { Icon } from '../index';
 
-interface ProgressProps {
+export interface ProgressProps {
   /**
    * @description      类名
    * @default           -

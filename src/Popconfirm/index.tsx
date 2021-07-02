@@ -11,7 +11,7 @@ import { Icon, Button, Popup } from '../index';
 
 import { getOffsetLeft, getOffsetTop } from '../_util';
 
-interface ModalProps {
+export interface ModalProps {
   /**
    * @description      类名
    * @default           -

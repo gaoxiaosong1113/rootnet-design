@@ -10,7 +10,7 @@ import { Icon } from '../index';
 
 import { GroupContext } from './Group';
 
-interface CheckboxProps {
+export interface CheckboxProps {
   /**
    * @description      类名
    * @default           -

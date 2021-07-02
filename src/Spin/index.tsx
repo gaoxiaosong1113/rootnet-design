@@ -8,7 +8,7 @@ import { prefix } from '../config';
 
 import { Icon } from '../index';
 
-interface SpinProps {
+export interface SpinProps {
   /**
    * @description      类名
    * @default           -

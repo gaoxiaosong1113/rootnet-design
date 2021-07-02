@@ -12,7 +12,7 @@ import { Icon, Button } from '../index';
 
 import { getOffsetLeft, getOffsetTop } from '../_util';
 
-interface PopupProps {
+export interface PopupProps {
   /**
    * @description      类名
    * @default           -

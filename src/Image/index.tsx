@@ -8,7 +8,7 @@ import { prefix } from '../config';
 
 import { Icon } from '../index';
 
-interface ImageProps {
+export interface ImageProps {
   /**
    * @description      类名
    * @default           -

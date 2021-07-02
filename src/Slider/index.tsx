@@ -8,7 +8,7 @@ import { prefix } from '../config';
 
 import { Icon } from '../index';
 
-interface SliderProps {
+export interface SliderProps {
   /**
    * @description      类名
    * @default           -

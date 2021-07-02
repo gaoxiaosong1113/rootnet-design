@@ -8,7 +8,7 @@ import { prefix } from '../config';
 
 import { Icon } from '../index';
 
-interface NotificationProps {
+export interface NotificationProps {
   /**
    * @description      类名
    * @default           -

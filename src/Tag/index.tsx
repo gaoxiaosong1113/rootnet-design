@@ -8,7 +8,7 @@ import { prefix } from '../config';
 
 import { Icon } from '../index';
 
-interface TagProps {
+export interface TagProps {
   /**
    * @description      类名
    * @default           -
@@ -122,9 +122,11 @@ function Tag(props: TagProps) {
       onClick={handleClick}
       {...prop}
     >
-      {add && <Icon name={'cuowu'} size={14} />}
+      {add && <Icon name={'cuowu1'} size={14} />}
       <span>{children}</span>
-      {close && <Icon name={'cuowu'} size={14} onClick={() => handleClose()} />}
+      {close && (
+        <Icon name={'cuowu1'} size={14} onClick={() => handleClose()} />
+      )}
     </div>
   );
 }

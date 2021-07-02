@@ -11,7 +11,8 @@ import { Icon } from '../index';
 import Group from './Group';
 import InternalRadio from './Radio';
 
-interface CompoundedComponent extends React.ForwardRefExoticComponent<any> {
+export interface CompoundedComponent
+  extends React.ForwardRefExoticComponent<any> {
   Group: typeof Group;
 }
 
@@ -21,7 +22,7 @@ Radio.Group = Group;
 
 export default Radio;
 
-// interface RadioProps {
+// export interface RadioProps {
 //   /**
 //    * @description      类名
 //    * @default           -

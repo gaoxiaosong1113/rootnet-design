@@ -8,7 +8,7 @@ import { prefix } from '../config';
 
 import { Icon } from '../index';
 
-interface StepsProps {
+export interface StepsProps {
   /**
    * @description      类名
    * @default           -

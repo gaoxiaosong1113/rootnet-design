@@ -8,7 +8,7 @@ import { prefix } from '../config';
 
 import { Icon } from '../index';
 
-interface ButtonProps {
+export interface ButtonProps {
   /**
    * @description      按钮的样式名
    * @default           -

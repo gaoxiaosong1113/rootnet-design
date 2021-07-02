@@ -102,3 +102,15 @@ export function onchecked(selectedRowKeys: any, key: any) {
     selectedRowKeys.push(key);
   }
 }
+
+// 铺平数组
+export function pavingArray(data: Array<any>) {
+  let newData: Array<any> = [];
+  data.map((item) => {
+    if (item.children) {
+      newData = newData.concat(pavingArray(item.children));
+    }
+    newData.push(item);
+  });
+  return newData;
+}

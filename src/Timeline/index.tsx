@@ -8,7 +8,7 @@ import { prefix } from '../config';
 
 import { Icon } from '../index';
 
-interface TimelineProps {
+export interface TimelineProps {
   /**
    * @description      类名
    * @default           -

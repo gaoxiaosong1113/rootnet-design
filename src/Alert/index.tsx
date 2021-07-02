@@ -8,7 +8,7 @@ import { prefix } from '../config';
 
 import { Icon } from '../index';
 
-interface AlertProps {
+export interface AlertProps {
   /**
    * @description      alert的样式名
    * @default           -
@@ -125,7 +125,7 @@ export default function Alert(props: AlertProps) {
             onClose ? onClose() : null;
           }}
         >
-          <Icon name={'cuowu'} />
+          <Icon name={'cuowu1'} />
         </div>
       )}
       <div

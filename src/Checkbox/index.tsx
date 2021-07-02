@@ -11,7 +11,7 @@ import { Icon } from '../index';
 import Group from './Group';
 import InternalCheckbox from './Checkbox';
 
-// interface CheckboxProps {
+// export interface CheckboxProps {
 //   /**
 //    * @description      类名
 //    * @default           -
@@ -133,7 +133,7 @@ import InternalCheckbox from './Checkbox';
 //   });
 // }
 
-// interface GroupProps {
+// export interface GroupProps {
 //   /**
 //    * @description      类名
 //    * @default           -
@@ -195,7 +195,8 @@ import InternalCheckbox from './Checkbox';
 //   );
 // }
 
-interface CompoundedComponent extends React.ForwardRefExoticComponent<any> {
+export interface CompoundedComponent
+  extends React.ForwardRefExoticComponent<any> {
   Group: typeof Group;
 }
 

@@ -10,7 +10,7 @@ import { prefix } from '../config';
 
 import { Icon, Button } from '../index';
 
-interface DrawerProps {
+export interface DrawerProps {
   /**
    * @description      drawer 的样式名
    * @default           -
@@ -150,7 +150,7 @@ function Drawer(props: DrawerProps): any {
                 onCancel ? onCancel() : null;
               }}
             >
-              <Icon name="cuowu" />
+              <Icon name="cuowu1" />
             </div>
           )}
         </div>

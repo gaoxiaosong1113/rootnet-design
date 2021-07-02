@@ -9,7 +9,7 @@ import { prefix } from '../config';
 
 import { Icon, Button } from '../index';
 
-interface ModalProps {
+export interface ModalProps {
   /**
    * @description      modal 的样式名
    * @default           -
@@ -125,7 +125,7 @@ function ModalContent(props: ModalProps) {
               handleCancel();
             }}
           >
-            <Icon name="cuowu" />
+            <Icon name="cuowu1" />
           </div>
         </div>
         <div

@@ -8,7 +8,7 @@ import { prefix } from '../config';
 
 import { Icon } from '../index';
 
-interface DatePickerProps {
+export interface DatePickerProps {
   /**
    * @description      类名
    * @default           -

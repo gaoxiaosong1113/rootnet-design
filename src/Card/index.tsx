@@ -6,7 +6,7 @@ import './index.less';
 
 import { prefix } from '../config';
 
-interface CardProps {
+export interface CardProps {
   /**
    * @description      卡片的样式名
    * @default           -

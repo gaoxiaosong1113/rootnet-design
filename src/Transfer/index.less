@@ -1,4 +1,92 @@
 @import '../index.less';
 
-.@{prefix}-t {
+.@{prefix}-transfer {
+  display: flex;
+
+  &-title {
+    font-size: 14px;
+    color: #15171f;
+    line-height: 1em;
+    height: 40px;
+    line-height: 40px;
+    padding: 0 8px;
+    border-bottom: 1px solid #f0f1f5;
+  }
+
+  &-search {
+    .@{prefix}-input {
+      border-left: 0;
+      border-top: 0;
+      border-right: 0;
+      border-radius: 0;
+      border-color: #f0f1f5;
+    }
+  }
+
+  &-container {
+    background: #ffffff;
+    border-radius: 4px;
+    border: 1px solid #cfd3e3;
+  }
+
+  &-checkbox {
+    .@{prefix}-trees {
+      margin: 0 8px;
+    }
+  }
+  &-checkbox {
+    .@{prefix}-checkbox-group {
+      display: flex;
+      flex-direction: column;
+
+      .@{prefix}-checkbox {
+        margin: 0 8px;
+      }
+    }
+  }
+
+  &-left {
+    flex: 1;
+  }
+
+  &-operation {
+    width: 56px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &-right {
+    flex: 1;
+  }
+
+  &-allCheckbox {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 8px;
+  }
+
+  &-allCheckbox-cotnent {
+    display: flex;
+    align-items: center;
+    .num {
+      font-size: 14px;
+      color: #7a8199;
+      margin-left: 6px;
+    }
+  }
+
+  &-invertSelection {
+    font-size: 14px;
+    color: #5477ff;
+    cursor: pointer;
+  }
+  &-noData {
+    .@{prefix}-transfer-invertSelection {
+      color: #d0d1d9;
+      cursor: not-allowed;
+    }
+  }
 }

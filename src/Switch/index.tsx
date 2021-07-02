@@ -8,7 +8,7 @@ import { prefix } from '../config';
 
 import { Icon } from '../index';
 
-interface SwitchProps {
+export interface SwitchProps {
   /**
    * @description      类名
    * @default           -

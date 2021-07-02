@@ -1,14 +1,16 @@
-import React from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 import clsx from 'clsx';
 
 import './index.less';
 
 import { prefix } from '../config';
+import { pavingArray } from '../_util';
 
-import { Icon } from '../index';
+import { Icon, Checkbox, Input, Tree } from '../index';
 
-interface TreeSelectProps {
+export interface TransferProps {
+  children: any;
   /**
    * @description      类名
    * @default           -
@@ -16,70 +18,419 @@ interface TreeSelectProps {
   className?: string;
 
   /**
-   * @description      按钮的类型
+   * @description      标题
    * @default           -
    */
-  type?: string;
+  title?: string;
 
   /**
-   * @description      需要显示的图标
+   * @description      样式
    * @default           -
    */
-  icon?: string;
+  style?: any;
 
   /**
-   * @description      是否禁用按钮
+   * @description      开启搜索
    * @default           false
    */
-  disabled?: boolean;
-
-  children?: React.ReactChild;
+  search?: boolean;
 
   /**
-   * @description      TreeSelect点击事件
+   * @description      穿梭框的数据
    * @default           -
    */
-  onClick?: Function;
+  dataSource?: Array<any>;
 
   /**
-   * @description      TreeSelect左右的间隔
+   * @description      穿梭框选中项
    * @default           -
    */
-  interval?: string;
+  selectRowKeys?: Array<any>;
 
   /**
-   * @description      TreeSelect的尺寸
+   * @description      穿梭框右侧数据
    * @default           -
    */
-  size?: string;
+  targetKeys?: Array<any>;
+
+  /**
+   * @description      选项在两栏之间转移时的回调函数
+   * @default           -
+   */
+  onChange?: Function;
+
+  /**
+   * @description      选中项发生改变时的回调函数
+   * @default           -
+   */
+  onSelectChange?: Function;
+
+  /**
+   * @description      搜索框内容时改变时的回调函数
+   * @default           -
+   */
+  onSearch?: Function;
 }
 
-function TreeSelect(props: TreeSelectProps) {
-  const { type, icon, disabled, children, onClick, interval, size, ...prop } =
-    props;
+function Transfer(props: TransferProps) {
+  const {
+    title,
+    children,
+    className,
+    style,
+    selectRowKeys = [],
+    dataSource = [],
+    search = false,
+    ...prop
+  } = props;
 
-  function handleClick() {
-    if (!disabled && onClick) {
-      onClick();
+  const [sourceSelectedKeys, setSourceSelectedKeys] = useState(
+    [] as Array<any>,
+  );
+  const [targetSelectedKeys, setTargetSelectedKeys] = useState(
+    [] as Array<any>,
+  );
+
+  const [sourceSearch, setSourceSearch] = useState('');
+  const [targetSearch, setTargetSearch] = useState('');
+
+  const [targetKeys, setTargetKeys] = useState(props.targetKeys || []);
+
+  useEffect(() => {
+    console.log(selectRowKeys);
+    // setSourceSelectedKeys(selectRowKeys);
+    // setTargetSelectedKeys(selectRowKeys);
+  }, [selectRowKeys]);
+
+  useEffect(() => {
+    // setTargetKeys(props.targetKeys);
+  }, [props.targetKeys]);
+
+  const source = useMemo(() => {
+    if (sourceSearch) {
+      let newData = pavingArray(dataSource);
+      return newData.filter(
+        (item) =>
+          targetKeys.indexOf(item.id) === -1 &&
+          item.title.indexOf(sourceSearch) !== -1,
+      );
     }
+    return dataSource.filter((item) => targetKeys.indexOf(item.id) === -1);
+  }, [dataSource, targetKeys, sourceSelectedKeys, sourceSearch]);
+
+  const target = useMemo(() => {
+    let newData = pavingArray(dataSource);
+    if (targetSearch) {
+      return newData.filter((item) => {
+        let index = targetKeys.indexOf(item.id);
+        if (
+          targetKeys[index] === item.id &&
+          item.title.indexOf(targetSearch) !== -1
+        ) {
+          return item;
+        }
+      });
+    }
+    return newData
+      .filter((item) => {
+        let index = targetKeys.indexOf(item.id);
+        if (targetKeys[index] === item.id) {
+          return item;
+        }
+      })
+      .map((item) => ({
+        id: item.id,
+        title: item.title,
+      }));
+  }, [dataSource, targetKeys, sourceSelectedKeys, targetSearch]);
+
+  function handleChange(value: any) {}
+
+  function addKeys() {
+    setTargetKeys(
+      targetKeys.concat(
+        sourceSelectedKeys.filter((item) => targetKeys.indexOf(item) == -1),
+      ),
+    );
+    setSourceSelectedKeys([]);
+    setTargetSelectedKeys([]);
   }
+
+  function deleteKeys() {
+    setTargetKeys(
+      targetKeys.filter((item) => targetSelectedKeys.indexOf(item) == -1),
+    );
+    setSourceSelectedKeys([]);
+    setTargetSelectedKeys([]);
+  }
+
+  const Title = useCallback(() => {
+    if (!title) return null;
+    return (
+      <div
+        className={clsx({
+          [`${prefix}-transfer-title`]: true,
+        })}
+      >
+        {title}
+      </div>
+    );
+  }, [title]);
+
+  const Search = useCallback(
+    ({ type }) => {
+      if (!search) return null;
+      return (
+        <div
+          className={clsx({
+            [`${prefix}-transfer-search`]: true,
+          })}
+        >
+          <Input
+            icon={<Icon name="enlarge" />}
+            value={sourceSearch}
+            onChange={(v: any) => {
+              if (type == 'source') {
+                setSourceSearch(v);
+              }
+              if (type == 'target') {
+                setTargetSearch(v);
+              }
+            }}
+          />
+        </div>
+      );
+    },
+    [search],
+  );
+
+  const AllCheckbox = useCallback(
+    ({ type }) => {
+      if (!search) return null;
+      return (
+        <div
+          className={clsx({
+            [`${prefix}-transfer-allCheckbox`]: true,
+          })}
+        >
+          {type == 'source' && (
+            <>
+              <div
+                className={clsx({
+                  [`${prefix}-transfer-allCheckbox-cotnent`]: true,
+                })}
+              >
+                <Checkbox
+                  checked={
+                    sourceSelectedKeys.length > 0 &&
+                    sourceSelectedKeys.length == source.length
+                  }
+                  indeterminate={
+                    sourceSelectedKeys.length > 0 &&
+                    sourceSelectedKeys.length < source.length
+                  }
+                  disabled={!source.length}
+                  onChange={(v: any) => {
+                    if (v) {
+                      setSourceSelectedKeys(source.map((item) => item.id));
+                    } else {
+                      setSourceSelectedKeys([]);
+                    }
+                  }}
+                >
+                  全部
+                </Checkbox>
+                <div className="num">
+                  {sourceSelectedKeys.length}/{source.length}
+                </div>
+              </div>
+              <div
+                className={clsx({
+                  [`${prefix}-transfer-invertSelection`]: true,
+                })}
+                onClick={() => {
+                  setSourceSelectedKeys(
+                    source
+                      .filter(
+                        (item) => sourceSelectedKeys.indexOf(item.id) == -1,
+                      )
+                      .map((item) => item.id),
+                  );
+                }}
+              >
+                反选
+              </div>
+            </>
+          )}
+          {type == 'target' && (
+            <>
+              <div
+                className={clsx({
+                  [`${prefix}-transfer-allCheckbox-cotnent`]: true,
+                })}
+              >
+                <Checkbox
+                  checked={
+                    targetSelectedKeys.length > 0 &&
+                    targetSelectedKeys.length == target.length
+                  }
+                  indeterminate={
+                    targetSelectedKeys.length > 0 &&
+                    targetSelectedKeys.length < target.length
+                  }
+                  disabled={!target.length}
+                  onChange={(v: any) => {
+                    if (v) {
+                      setTargetSelectedKeys(target.map((item) => item.id));
+                    } else {
+                      setTargetSelectedKeys([]);
+                    }
+                  }}
+                >
+                  全部
+                </Checkbox>
+                <div className="num">
+                  {targetSelectedKeys.length}/{target.length}
+                </div>
+              </div>
+              <div
+                className={clsx({
+                  [`${prefix}-transfer-invertSelection`]: true,
+                })}
+                onClick={() => {
+                  setTargetSelectedKeys(
+                    target
+                      .filter(
+                        (item) => targetSelectedKeys.indexOf(item.id) == -1,
+                      )
+                      .map((item) => item.id),
+                  );
+                }}
+              >
+                反选
+              </div>
+            </>
+          )}
+        </div>
+      );
+    },
+    [search, sourceSelectedKeys, source, targetSelectedKeys, target],
+  );
+
   return (
     <div
-      className={clsx({
-        [`${prefix}-TreeSelect`]: true,
-        [`${prefix}-TreeSelect-default`]: !type && !disabled,
-        [`${prefix}-TreeSelect-${type}`]: type,
-        [`${prefix}-TreeSelect-disabled`]: disabled,
-        [`${prefix}-TreeSelect-${size}`]: size,
-      })}
-      style={{ margin: interval }}
-      onClick={handleClick}
-      {...prop}
+      className={clsx(
+        {
+          [`${prefix}-transfer`]: true,
+        },
+        className,
+      )}
+      style={style}
     >
-      {icon && <Icon name={icon} />}
-      <span>{children}</span>
+      <div
+        className={clsx({
+          [`${prefix}-transfer-left`]: true,
+          [`${prefix}-transfer-container`]: true,
+          [`${prefix}-transfer-noData`]: source.length <= 0,
+        })}
+      >
+        <Title />
+        <Search type="source" />
+        <AllCheckbox type="source" />
+        <div
+          className={clsx({
+            [`${prefix}-transfer-checkbox`]: true,
+          })}
+        >
+          <Tree
+            dataSource={source}
+            rowSelection={{
+              selectedRowKeys: sourceSelectedKeys,
+              onChange: (key: any, row: any, indeterminate: any) => {
+                setSourceSelectedKeys(key);
+              },
+            }}
+          />
+
+          {/* <Checkbox.Group
+            onChange={(v: any) => {
+              console.log(v);
+              setSourceSelectedKeys(v);
+            }}
+            checked={sourceSelectedKeys}
+          >
+            {source.map((item) => {
+              return (
+                <Checkbox value={item.id} key={item.id}>
+                  {item.title}
+                </Checkbox>
+              );
+            })}
+          </Checkbox.Group> */}
+        </div>
+      </div>
+      <div
+        className={clsx({
+          [`${prefix}-transfer-operation`]: true,
+        })}
+      >
+        <Icon
+          name={'jiahao'}
+          onClick={() => {
+            if (sourceSelectedKeys.length == 0) return;
+            addKeys();
+          }}
+        />
+        <Icon
+          name={'jianhao'}
+          onClick={() => {
+            if (targetSelectedKeys.length == 0) return;
+            deleteKeys();
+          }}
+        />
+      </div>
+      <div
+        className={clsx({
+          [`${prefix}-transfer-right`]: true,
+          [`${prefix}-transfer-container`]: true,
+          [`${prefix}-transfer-noData`]: target.length <= 0,
+        })}
+      >
+        <Title />
+        <Search type="target" />
+        <AllCheckbox type="target" />
+        <div
+          className={clsx({
+            [`${prefix}-transfer-checkbox`]: true,
+          })}
+        >
+          <Tree
+            dataSource={target}
+            rowSelection={{
+              selectedRowKeys: targetSelectedKeys,
+              onChange: (key: any, row: any, indeterminate: any) => {
+                setTargetSelectedKeys(key);
+              },
+            }}
+          />
+          {/* <Checkbox.Group
+            onChange={(v: any) => {
+              setTargetSelectedKeys(v);
+            }}
+            checked={targetSelectedKeys}
+          >
+            {target.map((item) => {
+              return (
+                <Checkbox value={item.id} key={item.id}>
+                  {item.title}
+                </Checkbox>
+              );
+            })}
+          </Checkbox.Group> */}
+        </div>
+      </div>
     </div>
   );
 }
 
-export default TreeSelect;
+export default Transfer;

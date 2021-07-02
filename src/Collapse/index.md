@@ -20,7 +20,7 @@ export default () => {
   return (
     <div>
       <Row gutter={[16, 16]}>
-        <Col span={4}>
+        <Col span={24}>
           <Collapse>
             <Collapse.Item title="列表一" open>
               这里是折叠面板的内容，这里是折叠面板的内容。
@@ -32,6 +32,30 @@ export default () => {
               这里是折叠面板的内容，这里是折叠面板的内容。
             </Collapse.Item>
             <Collapse.Item title="列表四">
+              这里是折叠面板的内容，这里是折叠面板的内容。
+            </Collapse.Item>
+          </Collapse>
+        </Col>
+      </Row>
+    </div>
+  );
+};
+```
+
+示例：
+
+```tsx
+import React from 'react';
+import { Collapse, Grid } from 'rootnet-design';
+const { Row, Col } = Grid;
+
+export default () => {
+  return (
+    <div>
+      <Row gutter={[16, 16]}>
+        <Col span={24}>
+          <Collapse>
+            <Collapse.Item title="列表一">
               这里是折叠面板的内容，这里是折叠面板的内容。
             </Collapse.Item>
           </Collapse>

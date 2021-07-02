@@ -6,7 +6,7 @@ import './index.less';
 
 import { prefix } from '../config';
 
-interface RowProps {
+export interface RowProps {
   /**
    * @description      类名
    * @default           -
@@ -68,7 +68,7 @@ const Row = (props: RowProps) => {
   );
 };
 
-interface ColProps {
+export interface ColProps {
   /**
    * @description      类名
    * @default           -

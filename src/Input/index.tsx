@@ -8,7 +8,7 @@ import { prefix } from '../config';
 
 import { Icon } from '../index';
 
-interface InputProps {
+export interface InputProps {
   /**
    * @description      类名
    * @default           -
@@ -25,7 +25,7 @@ interface InputProps {
    * @description      需要显示的图标
    * @default           -
    */
-  icon?: string;
+  icon?: any;
 
   /**
    * @description      是否禁用按钮
