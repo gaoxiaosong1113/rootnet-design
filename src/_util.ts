@@ -114,3 +114,20 @@ export function pavingArray(data: Array<any>) {
   });
   return newData;
 }
+
+// 查找数据
+export function findKey(data: Array<any>, key: any) {
+  let val: any = null;
+  function find(loopData: any) {
+    loopData.map((item: any) => {
+      if (item.children) {
+        find(item.children);
+      }
+      if (item.value === key) {
+        val = item;
+      }
+    });
+  }
+  find(data);
+  return val;
+}

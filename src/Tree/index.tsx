@@ -23,6 +23,7 @@ function TreeItem(props: any) {
     layer,
     // 配置展开属性
     expandable,
+    rowTitle,
     // tree行 key 的取值，可以是字符串或一个函数
     rowKey,
     // tree行是否可选择，配置项
@@ -37,6 +38,9 @@ function TreeItem(props: any) {
     setSelectedRowKeys,
     indeterminateKeys,
     setIndeterminateKeys,
+    checkable,
+    value,
+    setValue,
     index,
   } = props;
 
@@ -48,6 +52,7 @@ function TreeItem(props: any) {
   const [checked, setChecked] = useState(() => {
     return selectedRowKeys.indexOf(data[rowKey]) != -1;
   });
+
   const [indeterminate, setIndeterminate] = useState(false);
 
   // 处理多选
@@ -108,7 +113,10 @@ function TreeItem(props: any) {
   return (
     <>
       <div
-        className={`${prefix}-tree-row`}
+        className={clsx({
+          [`${prefix}-tree-row`]: true,
+          [`${prefix}-tree-row-checked`]: checked || value == data[rowKey],
+        })}
         key={rowKey}
         style={{ marginLeft: layer * 20 }}
       >
@@ -139,8 +147,16 @@ function TreeItem(props: any) {
           </div>
         )}
         {!onRow && (
-          <div className={`${prefix}-tree-title`} key={data.dataIndex}>
-            {data.render ? data.render(data, index) : data.title}
+          <div
+            className={`${prefix}-tree-title`}
+            key={data.dataIndex}
+            onClick={() => {
+              if (checkable) {
+                setValue(data[rowKey]);
+              }
+            }}
+          >
+            {data.render ? data.render(data, index) : data[rowTitle]}
           </div>
         )}
         {onRow && onRow(data)}
@@ -189,6 +205,12 @@ export interface TreeProps {
   rowClassName?: string;
 
   /**
+   * @description      tree行 title 的取值
+   * @default           title
+   */
+  rowTitle?: string;
+
+  /**
    * @description      tree行 key 的取值
    * @default           id
    */
@@ -232,6 +254,24 @@ export interface TreeProps {
    * @default           false
    */
   dataSource?: any;
+
+  /**
+   * @description      开启单选
+   * @default           false
+   */
+  checkable?: boolean;
+
+  /**
+   * @description      单选回调
+   * @default           -
+   */
+  onCheck?: Function;
+
+  /**
+   * @description      单选值
+   * @default           -
+   */
+  value?: any;
 }
 
 export default function Tree(props: TreeProps) {
@@ -240,8 +280,10 @@ export default function Tree(props: TreeProps) {
     // 数据数组
     dataSource = [],
     rowKey = 'id',
+    rowTitle = 'title',
     rowSelection,
     onRow,
+    onCheck,
     ...prop
   } = props;
 
@@ -254,6 +296,7 @@ export default function Tree(props: TreeProps) {
   });
   const [selectedRows, setSelectedRows] = useState([]);
   const [indeterminateKeys, setIndeterminateKeys] = useState([]);
+  const [value, setValue] = useState();
 
   useEffect(() => {
     for (let i = 0; i < dataSource.length; i++) {
@@ -265,27 +308,52 @@ export default function Tree(props: TreeProps) {
   }, []);
 
   useEffect(() => {
-    if (rowSelection && rowSelection.onChange) {
-      rowSelection.onChange(selectedRowKeys, selectedRows, indeterminateKeys);
-    }
+    // debugger
+    // if(!selectedRows) return
+    // if (rowSelection && rowSelection.onChange) {
+    //   rowSelection.onChange(selectedRowKeys, selectedRows, indeterminateKeys);
+    // }
   }, [selectedRows]);
 
   useEffect(() => {
-    setSelectedRows(loopData(dataSource, selectedRowKeys, rowKey));
+    let loopRows = loopData(dataSource, selectedRowKeys, rowKey);
+    if (loopRows.length == 0 && selectedRows.length == 0) {
+      // 无变化
+    } else {
+      setSelectedRows(loopRows);
+      if (rowSelection && rowSelection.onChange) {
+        rowSelection.onChange(selectedRowKeys, loopRows, indeterminateKeys);
+      }
+    }
   }, [selectedRowKeys]);
 
   useEffect(() => {
     if (rowSelection) {
-      console.log(rowSelection.selectedRowKeys || []);
+      console.log(rowSelection.selectedRowKeys, 'tree');
       setSelectedRowKeys(rowSelection.selectedRowKeys || []);
     }
   }, [rowSelection?.selectedRowKeys]);
+
+  useEffect(() => {
+    if (!value) return;
+    if (value == props.value) return;
+    if (onCheck) {
+      onCheck(value);
+    }
+  }, [value]);
+
+  useEffect(() => {
+    if (props.value) {
+      setValue(props.value);
+    }
+  }, [props.value]);
 
   return (
     <div className={clsx(`${prefix}-trees`, className)}>
       <TreeChildren
         {...prop}
         rowKey={rowKey}
+        rowTitle={rowTitle}
         indeterminateKeys={indeterminateKeys}
         setIndeterminateKeys={setIndeterminateKeys}
         selectedRowKeys={selectedRowKeys}
@@ -296,6 +364,8 @@ export default function Tree(props: TreeProps) {
         dataSource={dataSource}
         rowSelection={rowSelection}
         onRow={onRow}
+        value={value}
+        setValue={setValue}
         layer={0}
         isTree={isTree}
       />

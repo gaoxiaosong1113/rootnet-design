@@ -205,9 +205,6 @@ function TableItem(props: TableItemProps) {
   // let isExpandable = expandable?.indexOf(data[rowKey]) != -1;
 
   function checkChildren(data: any, value: any) {
-    console.log(data);
-    console.log(value);
-    console.log(rowKey);
     setChecked(value);
     let childrenKeys = [];
 
@@ -392,8 +389,6 @@ export default function Table(props: any) {
 
   useEffect(() => {
     if (rowSelection && rowSelection.onChange) {
-      console.log(dataSource);
-      console.log(selectedRowKeys);
       rowSelection.onChange(selectedRowKeys, selectedRows);
     }
   }, [selectedRows]);
@@ -421,7 +416,6 @@ export default function Table(props: any) {
 
   useEffect(() => {
     if (rowSelection) {
-      console.log(rowSelection.selectedRowKeys || []);
       setSelectedRowKeys(rowSelection.selectedRowKeys || []);
     }
   }, [rowSelection?.selectedRowKeys]);

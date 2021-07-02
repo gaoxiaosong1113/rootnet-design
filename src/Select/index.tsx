@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useMemo } from 'react';
 import ReactDOM from 'react-dom';
 
 import clsx from 'clsx';
@@ -7,8 +7,8 @@ import './index.less';
 
 import { prefix } from '../config';
 
-import { Icon, Button } from '../index';
-import { getOffsetLeft, getOffsetTop } from '../_util';
+import { Icon, Button, Tree } from '../index';
+import { getOffsetLeft, getOffsetTop, findKey } from '../_util';
 
 export interface SelectProps {
   /**
@@ -69,7 +69,15 @@ export interface SelectProps {
 }
 
 function Select(props: SelectProps) {
-  const { placeholder, disabled, onChange, onCancel, close, ...prop } = props;
+  const {
+    placeholder,
+    disabled,
+    onChange,
+    onCancel,
+    close,
+    multiple,
+    ...prop
+  } = props;
 
   const [value, setValue] = useState(props.value || '');
   const [visible, setVisible] = useState(false);
@@ -138,7 +146,10 @@ function Select(props: SelectProps) {
               onCancel && onCancel();
             }}
             onChange={(v: any) => {
-              setVisible(false);
+              console.log(v);
+              if (!multiple) {
+                setVisible(false);
+              }
               handleOnChange(v);
             }}
           />,
@@ -149,19 +160,19 @@ function Select(props: SelectProps) {
 }
 
 function SelectContent(props: SelectProps) {
-  const { options, multiple, value, onChange, onCancel, target, ...prop } =
+  const { options, value, multiple, onChange, onCancel, target, ...prop } =
     props;
 
   const refEl = useRef<any>(null);
 
-  useEffect(() => {
-    function handleClick(e: any) {
-      if (!refEl.current) return;
-      if (!ReactDOM.findDOMNode(refEl.current)?.contains(e.target)) {
-        handleCancel(e);
-      }
+  function handleClick(e: any) {
+    if (!refEl.current) return;
+    if (!ReactDOM.findDOMNode(refEl.current)?.contains(e.target)) {
+      handleCancel(e);
     }
+  }
 
+  useEffect(() => {
     document.body.addEventListener('click', handleClick);
     return () => {
       document.body.removeEventListener('click', handleClick);
@@ -175,7 +186,6 @@ function SelectContent(props: SelectProps) {
   function handleChange(v: any) {
     onChange(v);
   }
-
   return (
     <div
       className={clsx({
@@ -198,21 +208,48 @@ function SelectContent(props: SelectProps) {
             [`${prefix}-select-body`]: true,
           })}
         >
-          {options.map((item, index) => {
-            return (
-              <div
-                key={index}
-                onClick={() => handleChange(item.value)}
-                className={clsx({
-                  [`${prefix}-select-item`]: true,
-                  [`${prefix}-select-item-active`]: item.value === value,
-                })}
-              >
-                {multiple}
-                <span>{item.label}</span>
-              </div>
-            );
-          })}
+          {multiple ? (
+            <Tree
+              checkable={!multiple}
+              onCheck={(v: any) => {
+                handleChange(v);
+              }}
+              dataSource={options}
+              rowSelection={{
+                selectedRowKeys: value,
+                onChange: (key: any) => {
+                  handleChange(key);
+                },
+              }}
+              rowTitle="label"
+              rowKey="value"
+            />
+          ) : (
+            <Tree
+              checkable={true}
+              onCheck={(v: any) => {
+                handleChange(v);
+              }}
+              value={value}
+              dataSource={options}
+              rowTitle="label"
+              rowKey="value"
+            />
+            // options.map((item, index) => {
+            //   return (
+            //     <div
+            //       key={index}
+            //       onClick={() => handleChange(item.value)}
+            //       className={clsx({
+            //         [`${prefix}-select-item`]: true,
+            //         [`${prefix}-select-item-active`]: item.value === value,
+            //       })}
+            //     >
+            //       <span>{item.label}</span>
+            //     </div>
+            //   );
+            // })
+          )}
         </div>
         {/* <div
           className={clsx({
@@ -236,11 +273,27 @@ function SelectContent(props: SelectProps) {
 }
 
 function SelectValue(props: SelectProps) {
-  const { options, value, placeholder, onChange, onCancel, target, ...prop } =
-    props;
+  const {
+    options,
+    value,
+    placeholder,
+    onChange,
+    onCancel,
+    target,
+    multiple,
+    ...prop
+  } = props;
   if (value) {
-    if (value !== undefined && value !== null) {
-      return options.filter((item) => item.value === value)[0].label;
+    if (multiple) {
+      console.log(value);
+      if (value.length > 0) {
+        return `已选中${value.length}项`;
+      }
+    } else {
+      if (value !== undefined && value !== null) {
+        console.log(findKey(options, value));
+        return findKey(options, value).label;
+      }
     }
   }
   if (placeholder) {

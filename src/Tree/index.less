@@ -14,16 +14,29 @@
     box-sizing: border-box;
     line-height: 32px;
 
+    .@{prefix}-tree-title {
+      padding: 0 4px;
+      flex: 1;
+    }
+
+    &-checked {
+      .@{prefix}-tree-title {
+        background: #d9e3fa;
+      }
+    }
+
     .@{prefix}-tree-collapsed {
       cursor: pointer;
-      margin-right: 8px;
+      margin-right: 4px;
       text-align: center;
       display: flex;
       align-items: center;
+
       .@{prefix}-tree-collapsed-icon {
         transition: all 0.3s;
       }
     }
+
     p {
       font-size: 12px;
       color: #13151a;

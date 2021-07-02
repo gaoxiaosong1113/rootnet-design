@@ -97,7 +97,6 @@ function Transfer(props: TransferProps) {
   const [targetKeys, setTargetKeys] = useState(props.targetKeys || []);
 
   useEffect(() => {
-    console.log(selectRowKeys);
     // setSourceSelectedKeys(selectRowKeys);
     // setTargetSelectedKeys(selectRowKeys);
   }, [selectRowKeys]);
@@ -349,7 +348,6 @@ function Transfer(props: TransferProps) {
                 rowSelection: {
                   selectedRowKeys: sourceSelectedKeys,
                   onChange: (key: any) => {
-                    console.log(key);
                     setSourceSelectedKeys(key);
                   },
                 },
@@ -446,7 +444,6 @@ function Transfer(props: TransferProps) {
                 rowSelection: {
                   selectedRowKeys: targetSelectedKeys,
                   onChange: (key: any) => {
-                    console.group(key);
                     setTargetSelectedKeys(key);
                   },
                 },

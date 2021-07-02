@@ -18,11 +18,14 @@
   align-items: center;
   transition: border 0.3s;
   position: relative;
+
   &:hover:not(.@{prefix}-select-target-disabled) {
     border-color: @primaryColorHover;
+
     .@{prefix}-select-target-arrow {
     }
   }
+
   &-content {
     padding: 0 8px;
     overflow: hidden;
@@ -36,6 +39,7 @@
     height: 100%;
     z-index: 10;
   }
+
   &-arrow {
     position: absolute;
     z-index: 0;
@@ -43,6 +47,7 @@
     top: 0px;
     transition: all 0.3s;
   }
+
   &-close {
     position: absolute;
     z-index: 0;
@@ -50,6 +55,7 @@
     top: 0px;
     z-index: 11;
   }
+
   &-visible {
     border-color: @primaryColorActive;
 
@@ -57,9 +63,11 @@
       transform: rotate(-180deg);
     }
   }
+
   .iconfont {
     line-height: 1em;
   }
+
   &&-disabled {
     cursor: not-allowed;
     background: @fullDisableColor;
@@ -85,12 +93,15 @@
     padding: 0 12px;
     line-height: 34px;
     white-space: nowrap;
+
     &:hover {
       background: #f2f6fa;
     }
+
     &&-active {
       background: #d9e3fa;
     }
+
     &&-disabled {
       cursor: not-allowed;
       color: #d0d1d9;
@@ -109,6 +120,29 @@
     // right: 0;
     // top: 0;
     // bottom: 0;
+  }
+
+  .@{prefix}-trees {
+    width: 100%;
+
+    .@{prefix}-tree-row {
+      width: 100%;
+      padding: 0 8px;
+
+      &:hover {
+        background: #f2f6fa;
+      }
+
+      &&-active {
+        background: #d9e3fa;
+      }
+
+      &&-disabled {
+        cursor: not-allowed;
+        color: #d0d1d9;
+        background: #fff;
+      }
+    }
   }
 
   &-body {
