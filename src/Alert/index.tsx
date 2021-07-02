@@ -1,10 +1,16 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 
 import clsx from 'clsx';
 
 import './index.less';
 
-import { prefix } from '../config';
+import {
+  prefix,
+  primaryColor,
+  successColor,
+  warningColor,
+  errorColor,
+} from '../config';
 
 import { Icon } from '../index';
 
@@ -62,7 +68,7 @@ export default function Alert(props: AlertProps) {
   const {
     title,
     content,
-    type = 'info',
+    type = 'primary',
     close,
     extra,
     width,
@@ -70,6 +76,16 @@ export default function Alert(props: AlertProps) {
     ...prop
   } = props;
   const [closed, setClosed] = useState(false);
+
+  const color = useMemo(() => {
+    const colorObj: any = {
+      primaryColor,
+      successColor,
+      warningColor,
+      errorColor,
+    };
+    return colorObj[type + 'Color'];
+  }, [type]);
 
   return (
     <div
@@ -89,7 +105,7 @@ export default function Alert(props: AlertProps) {
           [`${prefix}-alert-head`]: true,
         })}
       >
-        <Icon name={'jinggao'} color="red" />
+        <Icon name={'jinggao'} color={color} />
       </div>
       <div
         className={clsx({

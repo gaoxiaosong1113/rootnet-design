@@ -17,10 +17,10 @@
     padding: 18px 26px;
   }
 
-  &&-info {
+  &&-primary {
     border-color: @primaryColor;
     .@{prefix}-alert-head {
-      .iconfont {
+      svg {
         color: @primaryColor;
       }
     }
@@ -30,7 +30,7 @@
     border-color: @successColor;
 
     .@{prefix}-alert-head {
-      .iconfont {
+      svg {
         color: @successColor;
       }
     }
@@ -40,7 +40,7 @@
     border-color: @warningColor;
 
     .@{prefix}-alert-head {
-      .iconfont {
+      svg {
         color: @warningColor;
       }
     }
@@ -49,7 +49,7 @@
   &&-error {
     border-color: @errorColor;
     .@{prefix}-alert-head {
-      .iconfont {
+      svg {
         color: @errorColor;
       }
     }
@@ -57,7 +57,7 @@
 
   &-head {
     .@{prefix}-alert-head {
-      .iconfont {
+      svg {
         display: block;
       }
     }
@@ -102,7 +102,7 @@
     top: 13px;
     cursor: pointer;
     line-height: 1em;
-    .iconfont {
+    svg {
       display: block;
     }
     & + .@{prefix}-alert-footer {

@@ -255,12 +255,12 @@ export default () => {
     <Tree
       dataSource={dataSource}
       rowSelection={{
-        selectedRowKeys: [],
-        onChange: (key, row) => {
-          // console.log(key, row, 'onChange');
+        selectedRowKeys: selectedRowKeys,
+        onChange: (key, row, indeterminate) => {
+          setSelectedRowKeys(key);
+          console.log(key, row, indeterminate, 'onChange');
         },
         onSelect: (key, row) => {
-          setSelectedRowKeys(key);
           // console.log(key, row, 'onSelect');
         },
       }}
@@ -399,7 +399,6 @@ export default () => {
           console.log(key, row, indeterminate, 'onChange');
         },
         onSelect: (key, row) => {
-          setSelectedRowKeys(key);
           // console.log(key, row, 'onSelect');
         },
       }}

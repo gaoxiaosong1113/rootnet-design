@@ -44,7 +44,7 @@ export default () => {
         <Col span={12}>
           <Alert
             content="恭喜！你所提交操作已通过，如有问题请联系客服。"
-            type="info"
+            type="primary"
           />
         </Col>
         <Col span={12}>
@@ -86,7 +86,7 @@ export default () => {
         <Col span={12}>
           <Alert
             content="恭喜！你所提交操作已通过，如有问题请联系客服。"
-            type="info"
+            type="primary"
           />
         </Col>
         <Col span={12}>
@@ -118,7 +118,7 @@ export default () => {
           <Alert
             close
             content="恭喜！你所提交操作已通过，如有问题请联系客服。"
-            type="info"
+            type="primary"
           />
         </Col>
         <Col span={12}>
@@ -151,7 +151,7 @@ export default () => {
           <Alert
             close
             content="恭喜！你所提交操作已通过，如有问题请联系客服。"
-            type="info"
+            type="primary"
             extra={<span>查看详情</span>}
           />
         </Col>

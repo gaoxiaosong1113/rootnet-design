@@ -275,7 +275,10 @@ export default function Tree(props: TreeProps) {
   }, [selectedRowKeys]);
 
   useEffect(() => {
-    if (rowSelection) setSelectedRowKeys(rowSelection.selectedRowKeys);
+    if (rowSelection) {
+      console.log(rowSelection.selectedRowKeys || []);
+      setSelectedRowKeys(rowSelection.selectedRowKeys || []);
+    }
   }, [rowSelection?.selectedRowKeys]);
 
   return (

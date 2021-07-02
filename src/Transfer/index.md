@@ -21,7 +21,7 @@ export default () => {
   return (
     <div>
       <Row gutter={[16, 16]}>
-        <Col span={8}>
+        <Col span={24}>
           <Transfer
             title="我是标题"
             search

@@ -187,7 +187,7 @@ function Transfer(props: TransferProps) {
           })}
         >
           <Input
-            icon={<Icon name="enlarge" />}
+            icon={<Icon color="#3A415C" name="enlarge" />}
             value={sourceSearch}
             onChange={(v: any) => {
               if (type == 'source') {
@@ -374,20 +374,40 @@ function Transfer(props: TransferProps) {
           [`${prefix}-transfer-operation`]: true,
         })}
       >
-        <Icon
-          name={'jiahao'}
-          onClick={() => {
-            if (sourceSelectedKeys.length == 0) return;
-            addKeys();
-          }}
-        />
-        <Icon
-          name={'jianhao'}
-          onClick={() => {
-            if (targetSelectedKeys.length == 0) return;
-            deleteKeys();
-          }}
-        />
+        <div
+          className={clsx({
+            [`${prefix}-transfer-operation-item`]: true,
+            [`${prefix}-transfer-operation-item-disabled`]:
+              sourceSelectedKeys.length <= 0,
+          })}
+        >
+          <Icon
+            name={'you'}
+            size={14}
+            color={sourceSelectedKeys.length <= 0 ? '#CFD3E3' : '#fff'}
+            onClick={() => {
+              if (sourceSelectedKeys.length == 0) return;
+              addKeys();
+            }}
+          />
+        </div>
+        <div
+          className={clsx({
+            [`${prefix}-transfer-operation-item`]: true,
+            [`${prefix}-transfer-operation-item-disabled`]:
+              targetSelectedKeys.length <= 0,
+          })}
+        >
+          <Icon
+            name={'zuo'}
+            size={14}
+            color={targetSelectedKeys.length <= 0 ? '#CFD3E3' : '#fff'}
+            onClick={() => {
+              if (targetSelectedKeys.length == 0) return;
+              deleteKeys();
+            }}
+          />
+        </div>
       </div>
       <div
         className={clsx({
