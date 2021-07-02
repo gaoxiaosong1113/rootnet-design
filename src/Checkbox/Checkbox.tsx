@@ -106,7 +106,9 @@ function Checkbox(props: CheckboxProps): any {
       }
     };
     checkboxProps.name = checkboxGroup.name;
-    checkboxProps.checked = checkboxGroup.checked.indexOf(props.value) !== -1;
+    checkboxProps.checked =
+      checkboxGroup.checked &&
+      checkboxGroup.checked.indexOf(props.value) !== -1;
     checkboxProps.disabled = props.disabled || checkboxGroup.disabled;
   }
 

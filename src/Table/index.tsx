@@ -150,7 +150,7 @@ function TableItem(props: TableItemProps) {
     // 表格行的类名
     rowClassName,
     // 表格行 key 的取值，可以是字符串或一个函数
-    rowKey,
+    rowKey = 'id',
     // 表格行是否可选择，配置项
     rowSelection,
     // 表格大小	default | middle | small
@@ -205,7 +205,9 @@ function TableItem(props: TableItemProps) {
   // let isExpandable = expandable?.indexOf(data[rowKey]) != -1;
 
   function checkChildren(data: any, value: any) {
+    console.log(data);
     console.log(value);
+    console.log(rowKey);
     setChecked(value);
     let childrenKeys = [];
 
@@ -390,15 +392,21 @@ export default function Table(props: any) {
 
   useEffect(() => {
     if (rowSelection && rowSelection.onChange) {
+      console.log(dataSource);
+      console.log(selectedRowKeys);
       rowSelection.onChange(selectedRowKeys, selectedRows);
     }
   }, [selectedRows]);
 
   useEffect(() => {
-    if (selectedRowKeys.length == 0) return;
-    setCheckAll(
-      selectedRowKeys.length === checkAllData(dataSource, rowKey).length,
-    );
+    if (selectedRowKeys.length === 0) {
+      setCheckAll(false);
+    } else if (
+      selectedRowKeys.length === checkAllData(dataSource, rowKey).length
+    ) {
+      setCheckAll(true);
+    }
+
     setSelectedRows(loopData(dataSource, selectedRowKeys, rowKey));
   }, [selectedRowKeys]);
 
@@ -410,6 +418,13 @@ export default function Table(props: any) {
       setSelectedRowKeys([]);
     }
   }
+
+  useEffect(() => {
+    if (rowSelection) {
+      console.log(rowSelection.selectedRowKeys || []);
+      setSelectedRowKeys(rowSelection.selectedRowKeys || []);
+    }
+  }, [rowSelection?.selectedRowKeys]);
 
   return (
     <div className={`${prefix}-tables`}>
@@ -478,6 +493,7 @@ export default function Table(props: any) {
             setSelectedRows={setSelectedRows}
             data={dataSource}
             layer={0}
+            rowKey={rowKey}
             isTree={isTree}
           />
         </tbody>

@@ -342,15 +342,30 @@ function Transfer(props: TransferProps) {
             [`${prefix}-transfer-checkbox`]: true,
           })}
         >
-          <Tree
-            dataSource={source}
-            rowSelection={{
-              selectedRowKeys: sourceSelectedKeys,
-              onChange: (key: any, row: any, indeterminate: any) => {
-                setSourceSelectedKeys(key);
-              },
-            }}
-          />
+          {children ? (
+            React.Children.map(children, (item: any, index) => {
+              return React.cloneElement(item, {
+                dataSource: source,
+                rowSelection: {
+                  selectedRowKeys: sourceSelectedKeys,
+                  onChange: (key: any) => {
+                    console.log(key);
+                    setSourceSelectedKeys(key);
+                  },
+                },
+              });
+            })
+          ) : (
+            <Tree
+              dataSource={source}
+              rowSelection={{
+                selectedRowKeys: sourceSelectedKeys,
+                onChange: (key: any, row: any, indeterminate: any) => {
+                  setSourceSelectedKeys(key);
+                },
+              }}
+            />
+          )}
 
           {/* <Checkbox.Group
             onChange={(v: any) => {
@@ -424,15 +439,31 @@ function Transfer(props: TransferProps) {
             [`${prefix}-transfer-checkbox`]: true,
           })}
         >
-          <Tree
-            dataSource={target}
-            rowSelection={{
-              selectedRowKeys: targetSelectedKeys,
-              onChange: (key: any, row: any, indeterminate: any) => {
-                setTargetSelectedKeys(key);
-              },
-            }}
-          />
+          {children ? (
+            React.Children.map(children, (item: any, index) => {
+              return React.cloneElement(item, {
+                dataSource: target,
+                rowSelection: {
+                  selectedRowKeys: targetSelectedKeys,
+                  onChange: (key: any) => {
+                    console.group(key);
+                    setTargetSelectedKeys(key);
+                  },
+                },
+              });
+            })
+          ) : (
+            <Tree
+              dataSource={target}
+              rowSelection={{
+                selectedRowKeys: targetSelectedKeys,
+                onChange: (key: any, row: any, indeterminate: any) => {
+                  setTargetSelectedKeys(key);
+                },
+              }}
+            />
+          )}
+
           {/* <Checkbox.Group
             onChange={(v: any) => {
               setTargetSelectedKeys(v);
