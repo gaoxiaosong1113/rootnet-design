@@ -663,17 +663,21 @@ const dataSource = [
 
 export default () => {
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
+  const [expandable, setExpandable] = useState([]);
   useEffect(() => {
     let time = setTimeout(() => {
       setSelectedRowKeys(['322', '3221', '3222', '3223']);
+      setExpandable(['2']);
     }, 200);
     () => {
       clearTimeout(time);
     };
   }, []);
+
   return (
     <Tree
       dataSource={dataSource}
+      expandable={expandable}
       rowSelection={{
         selectedRowKeys: selectedRowKeys,
         onChange: (key, row, indeterminate) => {

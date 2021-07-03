@@ -44,16 +44,17 @@ function TreeItem(props: any) {
     index,
   } = props;
 
-  const [open, setOpen] = useState(() => {
-    if (!expandable) return false;
-    return expandable?.indexOf(data[rowKey]) != -1;
-  });
+  const [open, setOpen] = useState(false);
 
   const [checked, setChecked] = useState(() => {
     return selectedRowKeys.indexOf(data[rowKey]) != -1;
   });
 
   const [indeterminate, setIndeterminate] = useState(false);
+
+  useEffect(() => {
+    setOpen(expandable && expandable?.indexOf(data[rowKey]) != -1);
+  }, [expandable]);
 
   // 处理多选
   useEffect(() => {
@@ -329,7 +330,6 @@ export default function Tree(props: TreeProps) {
 
   useEffect(() => {
     if (rowSelection) {
-      console.log(rowSelection.selectedRowKeys, 'tree');
       setSelectedRowKeys(rowSelection.selectedRowKeys || []);
     }
   }, [rowSelection?.selectedRowKeys]);
