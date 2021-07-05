@@ -678,6 +678,10 @@ export default () => {
     <Tree
       dataSource={dataSource}
       expandable={expandable}
+      onExpandableChange={(keys) => {
+        setExpandable(keys);
+        console.log(keys, 'expandable');
+      }}
       rowSelection={{
         selectedRowKeys: selectedRowKeys,
         onChange: (key, row, indeterminate) => {

@@ -346,37 +346,14 @@ import { Table, Checkbox } from 'rootnet-design';
 
 const columns = [
   {
-    title: <Checkbox>{'菜单列表'}</Checkbox>,
+    title: '菜单列表',
     dataIndex: 'productName',
-    width: 105,
-    render: (r) => {
-      if (r.productName) {
-        return <Checkbox>{r.productName}</Checkbox>;
-      }
-    },
+    width: 205,
   },
   {
-    title: <Checkbox>{'功能列表'}</Checkbox>,
-    dataIndex: 'pm',
+    title: '功能列表',
+    dataIndex: 'productStatus',
     width: 200,
-    render: (r, index, columns) => {
-      if (r.children) {
-        return null;
-      } else {
-        return r.pm.map((item, index) => {
-          return (
-            <Checkbox
-              key={index}
-              onChange={(v) => {
-                console.log(v);
-              }}
-            >
-              {item.stkIndustryNames}
-            </Checkbox>
-          );
-        });
-      }
-    },
   },
   {
     title: '',
@@ -394,45 +371,11 @@ const dataSource = [
         id: '0011',
         productName: '交易市场',
         productStatus: '1',
-        pm: [
-          {
-            id: 'a001',
-            stkIndustryNames: '新增',
-            productStatus: '1',
-          },
-          {
-            id: 'a001',
-            stkIndustryNames: '编辑',
-            productStatus: '1',
-          },
-          {
-            id: 'a001',
-            stkIndustryNames: '删除',
-            productStatus: '1',
-          },
-        ],
       },
       {
         id: '0012',
         productName: '市场交易日',
         productStatus: '1',
-        pm: [
-          {
-            id: 'a001',
-            stkIndustryNames: '新增',
-            productStatus: '1',
-          },
-          {
-            id: 'a001',
-            stkIndustryNames: '编辑',
-            productStatus: '1',
-          },
-          {
-            id: 'a001',
-            stkIndustryNames: '删除',
-            productStatus: '1',
-          },
-        ],
       },
     ],
   },
@@ -445,67 +388,16 @@ const dataSource = [
         id: '0021',
         productName: '交易市场',
         productStatus: '1',
-        pm: [
-          {
-            id: 'a001',
-            stkIndustryNames: '新增',
-            productStatus: '1',
-          },
-          {
-            id: 'a001',
-            stkIndustryNames: '编辑',
-            productStatus: '1',
-          },
-          {
-            id: 'a001',
-            stkIndustryNames: '删除',
-            productStatus: '1',
-          },
-        ],
       },
       {
         id: '0022',
         productName: '市场交易日',
         productStatus: '1',
-        pm: [
-          {
-            id: 'a001',
-            stkIndustryNames: '新增',
-            productStatus: '1',
-          },
-          {
-            id: 'a001',
-            stkIndustryNames: '编辑',
-            productStatus: '1',
-          },
-          {
-            id: 'a001',
-            stkIndustryNames: '删除',
-            productStatus: '1',
-          },
-        ],
         children: [
           {
             id: '00221',
             productName: '市场交易日',
             productStatus: '1',
-            pm: [
-              {
-                id: 'a0011',
-                stkIndustryNames: '新增',
-                productStatus: '1',
-              },
-              {
-                id: 'a0012',
-                stkIndustryNames: '编辑',
-                productStatus: '1',
-              },
-              {
-                id: 'a0013',
-                stkIndustryNames: '删除',
-                productStatus: '1',
-              },
-            ],
           },
         ],
       },
@@ -515,17 +407,19 @@ const dataSource = [
 
 export default () => {
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
+  const [expandable, setExpandable] = useState([]);
+
   return (
     <Table
       columns={columns}
       dataSource={dataSource}
       rowSelection={{
-        selectedRowKeys: [],
+        selectedRowKeys: selectedRowKeys,
         onChange: (key, row) => {
+          setSelectedRowKeys(key);
           console.log(key, row, 'onChange');
         },
         onSelect: (key, row) => {
-          setSelectedRowKeys(key);
           console.log(key, row, 'onSelect');
         },
         onSelectAll: (key, row) => {
@@ -539,8 +433,16 @@ export default () => {
         },
       }}
       rowKey="id"
-      expandable={['002']}
+      expandable={expandable}
+      onExpandableChange={(keys) => {
+        setExpandable(keys);
+        console.log(keys, 'expandable');
+      }}
     />
   );
 };
 ```
+
+UAC 临时授权：
+
+<code src="./dome.tsx"></code>

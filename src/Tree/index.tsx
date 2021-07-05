@@ -21,8 +21,6 @@ function TreeItem(props: any) {
   const {
     // 层级
     layer,
-    // 配置展开属性
-    expandable,
     rowTitle,
     // tree行 key 的取值，可以是字符串或一个函数
     rowKey,
@@ -38,6 +36,8 @@ function TreeItem(props: any) {
     setSelectedRowKeys,
     indeterminateKeys,
     setIndeterminateKeys,
+    expandable,
+    setExpandable,
     checkable,
     value,
     setValue,
@@ -79,7 +79,14 @@ function TreeItem(props: any) {
   }, [selectedRowKeys]);
 
   const handleOpen = () => {
-    setOpen(!open);
+    let targetOpen = !open;
+    if (targetOpen) {
+      onchecked(expandable, data[rowKey]);
+    } else {
+      unchecked(expandable, data[rowKey]);
+    }
+    setOpen(targetOpen);
+    setExpandable([...expandable]);
   };
 
   let child: any = data.children && data.children.length > 0;
@@ -197,7 +204,13 @@ export interface TreeProps {
    * @description      配置是否展开属性
    * @default           -
    */
-  expandable?: Array<any>;
+  expandable?: [];
+
+  /**
+   * @description      expandable更改回调
+   * @default           -
+   */
+  onExpandableChange?: [];
 
   /**
    * @description      tree行的类名
@@ -285,6 +298,7 @@ export default function Tree(props: TreeProps) {
     rowSelection,
     onRow,
     onCheck,
+    onExpandableChange,
     ...prop
   } = props;
 
@@ -299,6 +313,8 @@ export default function Tree(props: TreeProps) {
   const [indeterminateKeys, setIndeterminateKeys] = useState([]);
   const [value, setValue] = useState();
 
+  const [expandable, setExpandable] = useState([] as any);
+
   useEffect(() => {
     for (let i = 0; i < dataSource.length; i++) {
       if (dataSource[i].children && dataSource[i].children.length > 0) {
@@ -307,26 +323,6 @@ export default function Tree(props: TreeProps) {
       }
     }
   }, []);
-
-  useEffect(() => {
-    // debugger
-    // if(!selectedRows) return
-    // if (rowSelection && rowSelection.onChange) {
-    //   rowSelection.onChange(selectedRowKeys, selectedRows, indeterminateKeys);
-    // }
-  }, [selectedRows]);
-
-  useEffect(() => {
-    let loopRows = loopData(dataSource, selectedRowKeys, rowKey);
-    if (loopRows.length == 0 && selectedRows.length == 0) {
-      // 无变化
-    } else {
-      setSelectedRows(loopRows);
-      if (rowSelection && rowSelection.onChange) {
-        rowSelection.onChange(selectedRowKeys, loopRows, indeterminateKeys);
-      }
-    }
-  }, [selectedRowKeys]);
 
   useEffect(() => {
     if (rowSelection) {
@@ -348,16 +344,38 @@ export default function Tree(props: TreeProps) {
     }
   }, [props.value]);
 
+  useEffect(() => {
+    if (!props.expandable) return;
+    setExpandable(props.expandable);
+  }, [props.expandable]);
+
+  function handleChange(key: any) {
+    let loopRows = loopData(dataSource, key, rowKey);
+    setSelectedRows(loopRows);
+    if (rowSelection && rowSelection.onChange) {
+      rowSelection.onChange(key, loopRows, indeterminateKeys);
+    }
+  }
+
+  function handleChangeExpandable(keys: any) {
+    setExpandable(keys);
+    if (onExpandableChange) {
+      onExpandableChange(keys);
+    }
+  }
+
   return (
     <div className={clsx(`${prefix}-trees`, className)}>
       <TreeChildren
         {...prop}
+        expandable={expandable}
+        setExpandable={handleChangeExpandable}
         rowKey={rowKey}
         rowTitle={rowTitle}
         indeterminateKeys={indeterminateKeys}
         setIndeterminateKeys={setIndeterminateKeys}
         selectedRowKeys={selectedRowKeys}
-        setSelectedRowKeys={setSelectedRowKeys}
+        setSelectedRowKeys={handleChange}
         selectedRows={selectedRows}
         setSelectedRows={setSelectedRows}
         data={dataSource}

@@ -46,3 +46,7 @@ export { default as Tree } from './Tree';
 export { default as TreeSelect } from './TreeSelect';
 export { default as Upload } from './Upload';
 export { default as Popup } from './Popup';
+
+import * as _util from './_util';
+
+export const util = _util;

@@ -97,6 +97,7 @@ export function unchecked(selectedRowKeys: any, key: any) {
 
 // 添加
 export function onchecked(selectedRowKeys: any, key: any) {
+  console.log(selectedRowKeys);
   let index = selectedRowKeys.indexOf(key);
   if (index === -1) {
     selectedRowKeys.push(key);
@@ -116,14 +117,14 @@ export function pavingArray(data: Array<any>) {
 }
 
 // 查找数据
-export function findKey(data: Array<any>, key: any) {
+export function findKey(data: Array<any>, key: any, name: any = 'value') {
   let val: any = null;
   function find(loopData: any) {
     loopData.map((item: any) => {
       if (item.children) {
         find(item.children);
       }
-      if (item.value === key) {
+      if (item[name] === key) {
         val = item;
       }
     });

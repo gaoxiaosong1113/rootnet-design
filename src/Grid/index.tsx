@@ -81,7 +81,7 @@ export interface ColProps {
    * @description      对齐方式
    * @default           -
    */
-  span?: string;
+  span?: number;
 
   /**
    * @description      抵消

@@ -17,125 +17,7 @@ import {
   onchecked,
 } from '../_util';
 
-export interface TableItemProps {
-  /**
-   * @description      类名
-   * @default           -
-   */
-  className?: string;
-
-  /**
-   * @description      层级
-   * @default           -
-   */
-  layer: number;
-
-  /**
-   * @description      是否显示索引
-   * @default           false
-   */
-  indexEq?: string;
-
-  /**
-   * @description      表格列的配置
-   * @default           false
-   */
-  columns?: Array<any>;
-
-  /**
-   * @description      配置是否展开属性
-   * @default           false
-   */
-  expandable?: any;
-
-  /**
-   * @description      设置表格内各类浮层的渲染节点，如筛选菜单
-   * @default           false
-   */
-  getPopupContainer?: string;
-
-  /**
-   * @description      表格行的类名
-   * @default           false
-   */
-  rowClassName?: string;
-
-  /**
-   * @description      表格行 key 的取值，可以是字符串或一个函数
-   * @default           false
-   */
-  rowKey: string;
-
-  /**
-   * @description      表格行是否可选择，配置项
-   * @default           false
-   */
-  rowSelection?: any;
-
-  /**
-   * @description      表格大小	default | middle | small
-   * @default           default
-   */
-  size?: string;
-
-  /**
-   * @description      表格的头部
-   * @default           false
-   */
-  onHeaderRow?: string;
-
-  /**
-   * @description      设置行属性
-   * @default           false
-   */
-  onRow?: any;
-
-  /**
-   * @description      表格的数据
-   * @default           false
-   */
-  data?: any;
-
-  /**
-   * @description      是否树形结构
-   * @default           false
-   */
-  isTree?: string;
-
-  /**
-   * @description      当前行的索引值
-   * @default           false
-   */
-  index: number;
-
-  /**
-   * @description      选中
-   * @default           []
-   */
-  selectedRowKeys: Array<any>;
-
-  /**
-   * @description      修改选中
-   * @default           -
-   */
-  setSelectedRowKeys: any;
-
-  /**
-   * @description      选中行
-   * @default           []
-   */
-  selectedRows: Array<any>;
-
-  /**
-   * @description      修改选中行
-   * @default           -
-   */
-  setSelectedRows: any;
-
-  dataSource: any;
-}
-
-function TableItem(props: TableItemProps) {
+function TableItem(props: any) {
   const {
     // 层级
     layer,
@@ -143,8 +25,6 @@ function TableItem(props: TableItemProps) {
     indexEq = true,
     // 表格列的配置描述
     columns = [],
-    // 配置展开属性
-    expandable,
     // 设置表格内各类浮层的渲染节点，如筛选菜单
     getPopupContainer,
     // 表格行的类名
@@ -166,18 +46,23 @@ function TableItem(props: TableItemProps) {
     setSelectedRowKeys,
     selectedRows,
     setSelectedRows,
+    expandable,
+    setExpandable,
     index,
   } = props;
 
-  const [open, setOpen] = useState(() => {
-    if (!expandable) return false;
-    return expandable?.indexOf(data[rowKey]) != -1;
-  });
+  const [open, setOpen] = useState(false);
 
   const [checked, setChecked] = useState(() => {
     return selectedRowKeys.indexOf(data[rowKey]) != -1;
   });
   const [indeterminate, setIndeterminate] = useState(false);
+
+  useEffect(() => {
+    if (expandable != undefined) {
+      setOpen(expandable?.indexOf(data[rowKey]) != -1);
+    }
+  }, [expandable]);
 
   // 处理多选
   useEffect(() => {
@@ -186,7 +71,7 @@ function TableItem(props: TableItemProps) {
       let allChildrenData = checkAllData(data.children, rowKey);
       if (checkData.length > 0) {
         if (checkData.length === allChildrenData.length) {
-          setIndeterminate(true);
+          setIndeterminate(false);
         } else {
           setIndeterminate(true);
         }
@@ -198,7 +83,15 @@ function TableItem(props: TableItemProps) {
   }, [selectedRowKeys]);
 
   const handleOpen = () => {
-    setOpen(!open);
+    console.log(props);
+    let targetOpen = !open;
+    if (targetOpen) {
+      onchecked(expandable, data[rowKey]);
+    } else {
+      unchecked(expandable, data[rowKey]);
+    }
+    setOpen(targetOpen);
+    setExpandable([...expandable]);
   };
 
   let child: any = data.children && data.children.length > 0;
@@ -232,20 +125,6 @@ function TableItem(props: TableItemProps) {
   return (
     <>
       <tr className={`${prefix}-table-row`} key={rowKey}>
-        {isTree && child && (
-          <td
-            className={`${prefix}-table-td ${prefix}-table-collapsed`}
-            style={{ width: '40px' }}
-            onClick={child && handleOpen}
-          >
-            <Icon
-              name={open ? 'biaogeshouqi' : 'biaogezhankai'}
-              className={`${prefix}-table-collapsed-icon`}
-              style={{ transform: `rotate(${open ? 0 : -180}deg)` }}
-              size={16}
-            />
-          </td>
-        )}
         {rowSelection && (
           <td
             className={`${prefix}-table-td ${prefix}-table-checkbox`}
@@ -274,15 +153,33 @@ function TableItem(props: TableItemProps) {
         {columns &&
           !onRow &&
           columns.map((item: any, index: any) => {
+            let collapsed = index == 0 && isTree && child;
             return (
               <td
-                className={`${prefix}-table-td ${item.className || ''}`}
+                className={clsx(
+                  {
+                    [`${prefix}-table-td`]: true,
+                    [`${prefix}-table-collapsed`]: collapsed,
+                  },
+                  item.className,
+                )}
                 key={item.dataIndex}
                 style={{ width: item.width || 'auto' }}
               >
-                {item.render
-                  ? item.render(data, index, columns)
-                  : data[item.dataIndex]}
+                <span>
+                  {collapsed && (
+                    <Icon
+                      name={open ? 'biaogeshouqi1' : 'biaogezhankai1'}
+                      className={`${prefix}-table-collapsed-icon`}
+                      style={{ transform: `rotate(${open ? 0 : -180}deg)` }}
+                      size={16}
+                      onClick={child && handleOpen}
+                    />
+                  )}
+                  {item.render
+                    ? item.render(data, index, columns)
+                    : data[item.dataIndex]}
+                </span>
               </td>
             );
           })}
@@ -323,8 +220,6 @@ export default function Table(props: any) {
     components,
     // 数据数组
     dataSource = [],
-    // 配置展开属性
-    expandable = [],
     // 表格尾部
     footer,
     // 设置表格内各类浮层的渲染节点，如筛选菜单
@@ -366,6 +261,7 @@ export default function Table(props: any) {
     onHeaderRow,
     // 设置行属性
     onRow,
+    onExpandableChange,
   } = props;
 
   const [isTree, setIsTree] = useState(false);
@@ -377,8 +273,10 @@ export default function Table(props: any) {
   });
   const [selectedRows, setSelectedRows] = useState([]);
   const [checkAll, setCheckAll] = useState(false);
+  const [expandable, setExpandable] = useState([]);
 
   useEffect(() => {
+    // 判断是否为树形结构
     for (let i = 0; i < dataSource.length; i++) {
       if (dataSource[i].children && dataSource[i].children.length > 0) {
         setIsTree(true);
@@ -386,24 +284,6 @@ export default function Table(props: any) {
       }
     }
   }, []);
-
-  useEffect(() => {
-    if (rowSelection && rowSelection.onChange) {
-      rowSelection.onChange(selectedRowKeys, selectedRows);
-    }
-  }, [selectedRows]);
-
-  useEffect(() => {
-    if (selectedRowKeys.length === 0) {
-      setCheckAll(false);
-    } else if (
-      selectedRowKeys.length === checkAllData(dataSource, rowKey).length
-    ) {
-      setCheckAll(true);
-    }
-
-    setSelectedRows(loopData(dataSource, selectedRowKeys, rowKey));
-  }, [selectedRowKeys]);
 
   function handleCheckAll(value: any) {
     setCheckAll(value);
@@ -414,11 +294,40 @@ export default function Table(props: any) {
     }
   }
 
+  function handleChange(key: any) {
+    let loopRows = loopData(dataSource, key, rowKey);
+
+    if (key.length === 0) {
+      setCheckAll(false);
+    } else if (key.length === checkAllData(dataSource, rowKey).length) {
+      setCheckAll(true);
+    }
+
+    if (rowSelection && rowSelection.onChange) {
+      rowSelection.onChange(key, loopRows);
+    }
+
+    setSelectedRowKeys(key);
+    setSelectedRows(loopRows);
+  }
+
+  function handleChangeExpandable(keys: any) {
+    setExpandable(keys);
+    if (onExpandableChange) {
+      onExpandableChange(keys);
+    }
+  }
+
   useEffect(() => {
-    if (rowSelection) {
+    if (rowSelection && rowSelection.selectedRowKeys != undefined) {
       setSelectedRowKeys(rowSelection.selectedRowKeys || []);
     }
   }, [rowSelection?.selectedRowKeys]);
+
+  useEffect(() => {
+    if (!props.expandable) return;
+    setExpandable(props.expandable);
+  }, [props.expandable]);
 
   return (
     <div className={`${prefix}-tables`}>
@@ -431,12 +340,6 @@ export default function Table(props: any) {
         {showHeader && (
           <thead className={`${prefix}-table-thead`}>
             <tr className={`${prefix}-table-row`}>
-              {isTree && (
-                <th
-                  className={`${prefix}-table-th ${prefix}-table-collapsed`}
-                  style={{ width: '40px' }}
-                ></th>
-              )}
               {rowSelection && (
                 <th
                   className={`${prefix}-table-th ${prefix}-table-checkbox`}
@@ -482,9 +385,11 @@ export default function Table(props: any) {
           <TableChildren
             {...props}
             selectedRowKeys={selectedRowKeys}
-            setSelectedRowKeys={setSelectedRowKeys}
+            setSelectedRowKeys={handleChange}
             selectedRows={selectedRows}
             setSelectedRows={setSelectedRows}
+            expandable={expandable}
+            setExpandable={handleChangeExpandable}
             data={dataSource}
             layer={0}
             rowKey={rowKey}
