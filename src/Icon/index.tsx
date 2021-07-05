@@ -3,6 +3,7 @@ import React, { useMemo } from 'react';
 import './index.less';
 
 import { prefix } from '../config';
+import clsx from 'clsx';
 
 export interface IconProps {
   /**
@@ -63,7 +64,7 @@ export function Icon(props: IconProps) {
       width: size,
       onClick: (e: any) => handleClick(e),
       style: style,
-      className: className,
+      className: clsx(`${prefix}-icon`, className),
       fill: color,
     };
   }, [props]);
