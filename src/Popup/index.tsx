@@ -85,6 +85,13 @@ function Popup(props: PopupProps): any {
           left: getOffsetLeft(refEl.current) + refEl.current.offsetWidth / 2,
           top: getOffsetTop(refEl.current) + refEl.current.offsetHeight + 12,
         };
+      default:
+        return {
+          left: getOffsetLeft(refEl.current),
+          top: getOffsetTop(refEl.current),
+          width: refEl.current.offsetWidth,
+          height: refEl.current.offsetHeight,
+        };
     }
   }, [position, refEl.current, visible]);
 
