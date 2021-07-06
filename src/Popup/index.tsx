@@ -52,15 +52,8 @@ export interface PopupProps {
 }
 
 function Popup(props: PopupProps): any {
-  const {
-    children,
-    visible,
-    refEl,
-    position = 'top',
-    onClose,
-    trigger,
-    ...prop
-  } = props;
+  const { children, visible, refEl, position, onClose, trigger, ...prop } =
+    props;
 
   const style = useMemo(() => {
     if (!visible || !refEl.current) return {};

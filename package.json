@@ -16,7 +16,7 @@
     "test": "umi-test",
     "test:coverage": "umi-test --coverage",
     "patch": "npm version patch",
-    "upload": "npm publish --registry=http://192.168.1.56:8081/repository/npm-hosted/"
+    "upload": "npm run build && npm publish --registry=http://192.168.1.56:8081/repository/npm-hosted/"
   },
   "main": "dist/index.js",
   "module": "dist/index.esm.js",

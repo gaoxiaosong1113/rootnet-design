@@ -40,7 +40,7 @@ export interface ModalProps {
 
   /**
    * @description      弹出位置
-   * @default           -
+   * @default           top
    */
   position?: string;
 
@@ -107,8 +107,7 @@ function Content(props: ModalProps) {
 }
 
 function Popconfirm(props: ModalProps) {
-  const { children, onConfirm, onCancel, position, ...prop } = props;
-  // const { children, onCancel, trigger = 'click',position, ...prop } = props;
+  const { children, onConfirm, onCancel, position = 'top', ...prop } = props;
   const [visible, setVisible] = useState(false);
 
   const refEl = useRef(null);
