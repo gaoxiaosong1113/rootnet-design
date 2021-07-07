@@ -52,8 +52,16 @@ export interface PopupProps {
 }
 
 function Popup(props: PopupProps): any {
-  const { children, visible, refEl, position, onClose, trigger, ...prop } =
-    props;
+  const {
+    className,
+    children,
+    visible,
+    refEl,
+    position,
+    onClose,
+    trigger,
+    ...prop
+  } = props;
 
   const style = useMemo(() => {
     if (!visible || !refEl.current) return {};
@@ -110,9 +118,13 @@ function Popup(props: PopupProps): any {
     return ReactDOM.createPortal(
       <div
         style={style}
-        className={clsx({
-          [`${prefix}-popup`]: true,
-        })}
+        className={clsx(
+          {
+            [`${prefix}-popup`]: true,
+          },
+          className,
+        )}
+        {...prop}
       >
         {children}
       </div>,
