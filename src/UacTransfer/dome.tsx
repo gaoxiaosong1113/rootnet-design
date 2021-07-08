@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import {
-  Transfer,
+  UacTransfer,
   Checkbox,
   Icon,
   Button,
@@ -30,6 +30,10 @@ const dataSource = [
             id: '00111',
             stkIndustryNames: '新增',
             productStatus: '1',
+            // 禁用的
+            disabled: true,
+            // 临时授权不可转
+            temporary: true,
           },
           {
             id: '00112',
@@ -138,6 +142,7 @@ function columns(props) {
         if (r.productName) {
           return (
             <Checkbox
+              disabled={r.disabled || r.temporary}
               checked={props.selectedRowKeys.indexOf(r.id) != -1}
               onChange={(v) => props.menuItemChange(v, r)}
               indeterminate={props.isMenuIndeterminate(r)}
@@ -168,6 +173,7 @@ function columns(props) {
             return (
               <Checkbox
                 key={index}
+                disabled={item.disabled || item.temporary}
                 checked={props.selectedRowKeys.indexOf(item.id) != -1}
                 onChange={(v) => props.codeItemChange(v, item, r)}
               >
@@ -186,7 +192,6 @@ function columns(props) {
 }
 
 function UACTable(props: any) {
-  console.log(props);
   // 选中项
   const [selectedRowKeys, setSelectedRowKeys] = useState(
     props.rowSelection.selectedRowKeys,
@@ -215,17 +220,38 @@ function UACTable(props: any) {
     setMenuKeys(findMenu(dataSource));
   }, [dataSource]);
 
+  // 通过选中项判断是否全选了
   useEffect(() => {
     if (props.rowSelection.selectedRowKeys.length == 0) {
       setCodeAllindeterminate(false);
       setMenuAllindeterminate(false);
     }
+
+    // 找到所有选中的菜单权限
+    let menuSelectedKeys = props.rowSelection.selectedRowKeys.filter(
+      (item) => menuKeys.indexOf(item) != -1,
+    );
+    setMenuAllindeterminate(
+      menuSelectedKeys.length != 0 && menuKeys.length > menuSelectedKeys.length,
+    );
+    setMenuAllChecked(menuKeys.length == menuSelectedKeys.length);
+
+    // 找到所有选中的功能权限
+    let codeSelectedKeys = props.rowSelection.selectedRowKeys.filter(
+      (item) => codeKeys.indexOf(item) != -1,
+    );
+    setCodeAllindeterminate(
+      codeSelectedKeys.length != 0 && codeKeys.length > codeSelectedKeys.length,
+    );
+    setCodeAllChecked(codeKeys.length == codeSelectedKeys.length);
+
     setSelectedRowKeys(props.rowSelection.selectedRowKeys);
   }, [props.rowSelection.selectedRowKeys]);
 
+  // 处理菜单全选
   function menuChange(value) {
-    setMenuAllChecked(value);
     menuKeys.map((item) => {
+      if (item.disabled || item.temporary) return;
       if (value) {
         onchecked(selectedRowKeys, item);
       } else {
@@ -236,6 +262,7 @@ function UACTable(props: any) {
     setSelectedRowKeys([...selectedRowKeys]);
   }
 
+  // 处理菜单项选择
   function menuItemChange(value, row) {
     let childrenKeys = [];
 
@@ -257,25 +284,11 @@ function UACTable(props: any) {
       });
     }
     farmatSelectedRowKeys(dataSource, selectedRowKeys, 'id');
-
-    // 找到所有选中的菜单权限
-    let menuSelectedKeys = selectedRowKeys.filter(
-      (item) => menuKeys.indexOf(item) != -1,
-    );
-    setMenuAllindeterminate(
-      selectedRowKeys.length != 0 &&
-        menuSelectedKeys.length != 0 &&
-        menuKeys.length > menuSelectedKeys.length,
-    );
-    setMenuAllChecked(
-      menuSelectedKeys.length != 0 &&
-        menuKeys.length == menuSelectedKeys.length,
-    );
     setSelectedRowKeys([...selectedRowKeys]);
   }
 
+  // 处理功能权限全选
   function codeChange(value) {
-    setCodeAllChecked(value);
     codeKeys.map((item) => {
       if (value) {
         onchecked(selectedRowKeys, item);
@@ -286,29 +299,18 @@ function UACTable(props: any) {
     setSelectedRowKeys([...selectedRowKeys]);
   }
 
+  // 处理功能项选中
   function codeItemChange(value, row, parent) {
     if (value) {
+      onchecked(selectedRowKeys, parent.id);
       onchecked(selectedRowKeys, row.id);
     } else {
       unchecked(selectedRowKeys, row.id);
     }
-
-    // 找到所有选中的菜单权限
-    let codeSelectedKeys = selectedRowKeys.filter(
-      (item) => codeKeys.indexOf(item) != -1,
-    );
-    setCodeAllChecked(
-      codeSelectedKeys.length != 0 &&
-        codeKeys.length == codeSelectedKeys.length,
-    );
-    setCodeAllindeterminate(
-      selectedRowKeys.length != 0 &&
-        codeSelectedKeys.length != 0 &&
-        codeKeys.length > codeSelectedKeys.length,
-    );
     setSelectedRowKeys([...selectedRowKeys]);
   }
 
+  // 判断当前项是否为半选
   function isMenuIndeterminate(row) {
     if (selectedRowKeys.length == 0) return false;
     if (row.children) {
@@ -358,6 +360,7 @@ function findMenu(data: Array<any>) {
       if (item.children) {
         find(item.children);
       }
+      if (item.disabled || item.temporary) return;
       menuKeys.push(item.id);
     });
   }
@@ -375,6 +378,7 @@ function findCode(data: Array<any>) {
       }
       if (item.pm) {
         item.pm.map((pmItem) => {
+          if (pmItem.disabled || pmItem.temporary) return;
           menuKeys.push(pmItem.id);
         });
       }
@@ -389,9 +393,19 @@ export default () => {
     <div>
       <Row gutter={[16, 16]}>
         <Col span={24}>
-          <Transfer title="我是标题" mode="shared" dataSource={dataSource}>
+          <UacTransfer
+            leftTitle="我是标题"
+            rightTitle="我是右边标题"
+            dataSource={dataSource}
+            onCancel={(key) => {
+              console.log(key, '取消授权');
+            }}
+            onAuth={(key) => {
+              console.log(key, '给授权');
+            }}
+          >
             <UACTable />
-          </Transfer>
+          </UacTransfer>
         </Col>
       </Row>
     </div>

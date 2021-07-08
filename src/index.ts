@@ -46,6 +46,7 @@ export { default as Tree } from './Tree';
 export { default as TreeSelect } from './TreeSelect';
 export { default as Upload } from './Upload';
 export { default as Popup } from './Popup';
+export { default as UacTransfer } from './UacTransfer';
 
 import * as _util from './_util';
 
