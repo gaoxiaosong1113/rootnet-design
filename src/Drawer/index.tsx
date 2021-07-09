@@ -3,8 +3,8 @@ import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import ReactDOM from 'react-dom';
 
 // 引入第三方依赖
-import { CSSTransitionGroup } from 'react-transition-group'; // ES6
 import clsx from 'clsx';
+// import anim from 'css-animation';
 
 // 引入样式
 import './index.less';
@@ -113,6 +113,9 @@ function Drawer(props: DrawerProps): any {
     ...prop
   } = props;
 
+  // 判断是否已经挂载
+  const [isFastOpen, setIsFastOpen] = useState(false);
+
   function handleCancel() {
     onCancel ? onCancel() : null;
   }
@@ -121,8 +124,43 @@ function Drawer(props: DrawerProps): any {
     onConfirm ? onConfirm() : null;
   }
 
-  // 判断是否已经挂载
-  const [isFastOpen, setIsFastOpen] = useState(false);
+  //   useEffect(() => {
+
+  //     const drawer = drawer_ref.current;
+  //     const container = container_ref.current;
+  //     const mask = mask_ref.current;
+
+  //     if (first_ref.current) {
+  //         first_ref.current = false;
+
+  //         if (props.open) {
+  //             container.style.width = "100%";
+  //             drawer.style.transform = "translateX(0%)";
+  //             mask.style.opacity = 1;
+  //         }
+  //         return;
+  //     }
+
+  //     anim(drawer, "animate-open", {
+  //         start: () => {
+  //             container.style.width = "100%";
+  //             mask.classList.add("animate-open");
+  //             mask.style.opacity = props.open ? 0 : 1;
+  //             if (props.demount && props.open)
+  //                 setMount(props.open);
+  //         },
+  //         active: () => {
+  //             drawer.style.transform = props.open ? "translateX(0%)" : props.position === "left" ? "translateX(-100%)" : "translateX(100%)";
+  //             mask.style.opacity = props.open ? 1 : 0;
+  //         },
+  //         end: () => {
+  //             container.style.width = props.open ? "100%" : "0%";
+  //             mask.classList.remove("animate-open");
+  //             if (props.demount && !props.open)
+  //                 setMount(props.open);
+  //         }
+  //     })
+  // }, [props.open])
 
   useEffect(() => {
     if (!visible) return;
