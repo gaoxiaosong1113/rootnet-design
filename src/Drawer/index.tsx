@@ -1,10 +1,17 @@
 // 引入react依赖
-import React, { useState, useEffect, useMemo, useCallback } from 'react';
+import React, {
+  useState,
+  useEffect,
+  useMemo,
+  useCallback,
+  useRef,
+} from 'react';
 import ReactDOM from 'react-dom';
 
 // 引入第三方依赖
 import clsx from 'clsx';
-// import anim from 'css-animation';
+import { Transition } from 'react-transition-group';
+import gsap from 'gsap';
 
 // 引入样式
 import './index.less';
@@ -115,6 +122,9 @@ function Drawer(props: DrawerProps): any {
 
   // 判断是否已经挂载
   const [isFastOpen, setIsFastOpen] = useState(false);
+  const drawerRef = useRef(null);
+  const containerRef = useRef(null);
+  const maskRef = useRef(null);
 
   function handleCancel() {
     onCancel ? onCancel() : null;
@@ -124,43 +134,31 @@ function Drawer(props: DrawerProps): any {
     onConfirm ? onConfirm() : null;
   }
 
-  //   useEffect(() => {
+  useEffect(() => {
+    const drawer = drawerRef.current;
+    const container = containerRef.current;
+    const mRef = maskRef.current;
 
-  //     const drawer = drawer_ref.current;
-  //     const container = container_ref.current;
-  //     const mask = mask_ref.current;
-
-  //     if (first_ref.current) {
-  //         first_ref.current = false;
-
-  //         if (props.open) {
-  //             container.style.width = "100%";
-  //             drawer.style.transform = "translateX(0%)";
-  //             mask.style.opacity = 1;
-  //         }
-  //         return;
-  //     }
-
-  //     anim(drawer, "animate-open", {
-  //         start: () => {
-  //             container.style.width = "100%";
-  //             mask.classList.add("animate-open");
-  //             mask.style.opacity = props.open ? 0 : 1;
-  //             if (props.demount && props.open)
-  //                 setMount(props.open);
-  //         },
-  //         active: () => {
-  //             drawer.style.transform = props.open ? "translateX(0%)" : props.position === "left" ? "translateX(-100%)" : "translateX(100%)";
-  //             mask.style.opacity = props.open ? 1 : 0;
-  //         },
-  //         end: () => {
-  //             container.style.width = props.open ? "100%" : "0%";
-  //             mask.classList.remove("animate-open");
-  //             if (props.demount && !props.open)
-  //                 setMount(props.open);
-  //         }
-  //     })
-  // }, [props.open])
+    // anim(drawer, 'animate-open', {
+    //   start: () => {
+    //     container.style.width = '100%';
+    //     mRef.classList.add('animate-open');
+    //     mRef.style.opacity = visible ? 0 : 1;
+    //   },
+    //   active: () => {
+    //     drawer.style.transform = visible
+    //       ? 'translateX(0%)'
+    //       : props.position === 'left'
+    //       ? 'translateX(-100%)'
+    //       : 'translateX(100%)';
+    //     mRef.style.opacity = visible ? 1 : 0;
+    //   },
+    //   end: () => {
+    //     container.style.width = visible ? '100%' : '0%';
+    //     mRef.classList.remove('animate-open');
+    //   },
+    // });
+  }, [visible]);
 
   useEffect(() => {
     if (!visible) return;
@@ -197,68 +195,96 @@ function Drawer(props: DrawerProps): any {
     );
   }, [footer]);
 
+  const animation = (target, dur, type) => {
+    if (type == 'open') {
+      gsap.to(target, { rotation: 0, x: 100, duration: dur });
+    } else {
+      gsap.to(target, { rotation: 0, x: 0, duration: dur });
+    }
+  };
+
   return (
-    isFastOpen &&
-    ReactDOM.createPortal(
-      <div
-        className={clsx({
-          [`${prefix}-drawer-warp`]: true,
-          [`${prefix}-drawer-visible`]: visible,
-        })}
-      >
-        <div
-          className={clsx({
-            [`${prefix}-drawer`]: true,
-            [`${prefix}-drawer-${position}`]: position,
-          })}
-          style={{ top: offsetTop, width }}
-        >
+    <Transition
+      in={visible}
+      onEnter={(node) => {
+        animation(node, 400, 'open');
+      }}
+      onExit={(node) => {
+        animation(node, 400, 'close');
+      }}
+      unmountOnExit
+      timeout={400}
+    >
+      <div>
+        {ReactDOM.createPortal(
           <div
             className={clsx({
-              [`${prefix}-drawer-head`]: true,
+              [`${prefix}-drawer-warp`]: true,
+              [`${prefix}-drawer-visible`]: visible,
             })}
+            ref={containerRef}
           >
             <div
               className={clsx({
-                [`${prefix}-drawer-head-title`]: true,
+                [`${prefix}-drawer`]: true,
+                [`${prefix}-drawer-${position}`]: position,
               })}
+              style={{ top: offsetTop, width }}
+              ref={drawerRef}
             >
-              {title}
-            </div>
-            {close && (
               <div
                 className={clsx({
-                  [`${prefix}-drawer-head-close`]: true,
+                  [`${prefix}-drawer-head`]: true,
                 })}
-                onClick={() => {
-                  onCancel ? onCancel() : null;
-                }}
               >
-                <Icon name="cuowu1" />
+                <div
+                  className={clsx({
+                    [`${prefix}-drawer-head-title`]: true,
+                  })}
+                >
+                  {title}
+                </div>
+                {close && (
+                  <div
+                    className={clsx({
+                      [`${prefix}-drawer-head-close`]: true,
+                    })}
+                    onClick={() => {
+                      onCancel ? onCancel() : null;
+                    }}
+                  >
+                    <Icon name="cuowu1" />
+                  </div>
+                )}
               </div>
+              <div
+                className={clsx({
+                  [`${prefix}-drawer-body`]: true,
+                })}
+              >
+                <span>{children}</span>
+              </div>
+              <Footer />
+            </div>
+            {mask && (
+              <div
+                className={clsx({
+                  [`${prefix}-drawer-mask`]: true,
+                })}
+                onClick={handleCancel}
+                ref={maskRef}
+              ></div>
             )}
-          </div>
-          <div
-            className={clsx({
-              [`${prefix}-drawer-body`]: true,
-            })}
-          >
-            <span>{children}</span>
-          </div>
-          <Footer />
-        </div>
-        {mask && (
-          <div
-            className={clsx({
-              [`${prefix}-drawer-mask`]: true,
-            })}
-            onClick={handleCancel}
-          ></div>
+          </div>,
+          document.body,
         )}
-      </div>,
-      document.body,
-    )
+      </div>
+    </Transition>
   );
 }
+
+// function Drawer(){
+
+// }
 
 export default Drawer;
