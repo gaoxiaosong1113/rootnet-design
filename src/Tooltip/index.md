@@ -22,22 +22,54 @@ export default () => {
       <Row gutter={[16, 16]}>
         <Col span={4}>
           <Tooltip position="top" content={'我是一段提示，并且字数不是很多'}>
-            <span>顶部提示</span>
+            <span>top</span>
+          </Tooltip>
+        </Col>
+        <Col span={4}>
+          <Tooltip
+            position="top-left"
+            content={'我是一段提示，并且字数不是很多'}
+          >
+            <span>top-left</span>
+          </Tooltip>
+        </Col>
+        <Col span={4}>
+          <Tooltip
+            position="top-right"
+            content={'我是一段提示，并且字数不是很多'}
+          >
+            <span>top-right</span>
           </Tooltip>
         </Col>
         <Col span={4}>
           <Tooltip position="left" content={'我是一段提示，并且字数不是很多'}>
-            <span>左侧提示</span>
+            <span>left</span>
           </Tooltip>
         </Col>
         <Col span={4}>
           <Tooltip position="right" content={'我是一段提示，并且字数不是很多'}>
-            <span>右侧提示</span>
+            <span>right</span>
           </Tooltip>
         </Col>
         <Col span={4}>
           <Tooltip position="bottom" content={'我是一段提示，并且字数不是很多'}>
-            <span>底部提示</span>
+            <span>bottom</span>
+          </Tooltip>
+        </Col>
+        <Col span={4}>
+          <Tooltip
+            position="bottom-left"
+            content={'我是一段提示，并且字数不是很多'}
+          >
+            <span>bottom-left</span>
+          </Tooltip>
+        </Col>
+        <Col span={4}>
+          <Tooltip
+            position="bottom-right"
+            content={'我是一段提示，并且字数不是很多'}
+          >
+            <span>bottom-right</span>
           </Tooltip>
         </Col>
       </Row>

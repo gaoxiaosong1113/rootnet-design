@@ -69,7 +69,17 @@ function Popup(props: PopupProps): any {
       case 'top':
         return {
           left: getOffsetLeft(refEl.current) + refEl.current.offsetWidth / 2,
-          top: getOffsetTop(refEl.current) - 5,
+          top: getOffsetTop(refEl.current) - 12,
+        };
+      case 'top-left':
+        return {
+          left: getOffsetLeft(refEl.current) + refEl.current.offsetWidth,
+          top: getOffsetTop(refEl.current) - 12,
+        };
+      case 'top-right':
+        return {
+          left: getOffsetLeft(refEl.current),
+          top: getOffsetTop(refEl.current) - 12,
         };
       case 'left':
         return {
@@ -84,6 +94,16 @@ function Popup(props: PopupProps): any {
       case 'bottom':
         return {
           left: getOffsetLeft(refEl.current) + refEl.current.offsetWidth / 2,
+          top: getOffsetTop(refEl.current) + refEl.current.offsetHeight + 12,
+        };
+      case 'bottom-left':
+        return {
+          left: getOffsetLeft(refEl.current) + refEl.current.offsetWidth,
+          top: getOffsetTop(refEl.current) + refEl.current.offsetHeight + 12,
+        };
+      case 'bottom-right':
+        return {
+          left: getOffsetLeft(refEl.current),
           top: getOffsetTop(refEl.current) + refEl.current.offsetHeight + 12,
         };
       default:
@@ -121,6 +141,7 @@ function Popup(props: PopupProps): any {
         className={clsx(
           {
             [`${prefix}-popup`]: true,
+            [`${prefix}-popup-${position}`]: true,
           },
           className,
         )}

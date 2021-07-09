@@ -11,7 +11,7 @@ import { Icon, Button, Popup } from '../index';
 
 import { getOffsetLeft, getOffsetTop } from '../_util';
 
-export interface ModalProps {
+export interface PopconfirmProps {
   /**
    * @description      类名
    * @default           -
@@ -30,33 +30,23 @@ export interface ModalProps {
    * @description      确认按钮回调
    * @default           -
    */
-  onConfirm: Function;
+  onConfirm?: Function;
 
   /**
    * @description      取消按钮回调
    * @default           -
    */
-  onCancel: Function;
+  onCancel?: Function;
 
   /**
    * @description      弹出位置
    * @default           top
    */
   position?: string;
-
-  event: any;
 }
 
-function Content(props: ModalProps) {
-  const {
-    content,
-    children,
-    onConfirm,
-    onCancel,
-    event,
-    position = 'top',
-    ...prop
-  } = props;
+function Content(props: any) {
+  const { content, onConfirm, onCancel, position = 'top', ...prop } = props;
 
   function handleCancel() {
     onCancel ? onCancel() : null;
@@ -106,14 +96,12 @@ function Content(props: ModalProps) {
   );
 }
 
-function Popconfirm(props: ModalProps) {
+function Popconfirm(props: PopconfirmProps) {
   const { children, onConfirm, onCancel, position = 'top', ...prop } = props;
   const [visible, setVisible] = useState(false);
 
   const refEl = useRef(null);
-  function handleOpen() {
-    setVisible(true);
-  }
+
   function handleClose() {
     setVisible(false);
     onCancel && onCancel();

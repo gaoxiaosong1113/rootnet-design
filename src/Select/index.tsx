@@ -124,7 +124,7 @@ function Select(props: SelectProps) {
             [`${prefix}-select-target-close`]: true,
           })}
         >
-          <Icon name="shibai1" size={14} />
+          <Icon name="shibai" size={14} />
         </div>
       ) : (
         <div

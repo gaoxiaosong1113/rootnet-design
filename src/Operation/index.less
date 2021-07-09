@@ -1,0 +1,55 @@
+@import '../index.less';
+
+.@{prefix}-operation {
+  display: flex;
+  align-items: center;
+
+  & > &-item {
+    font-size: 12px;
+    font-weight: 500;
+    color: #5477ff;
+    line-height: 18px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+
+    &:last-child {
+      &:after {
+        display: none;
+      }
+    }
+
+    &:after {
+      content: '';
+      display: block;
+      width: 1px;
+      height: 12px;
+      background: #e9eaf2;
+      margin: 0 12px;
+    }
+
+    &-more {
+      margin-top: -0.5em;
+    }
+  }
+
+  &-popover {
+    margin: -16px;
+    padding: 2px 0;
+
+    .@{prefix}-operation-item {
+      cursor: pointer;
+      white-space: nowrap;
+      font-size: 14px;
+      font-weight: 400;
+      color: #15171f;
+      line-height: 32px;
+      padding: 0 12px;
+
+      &:hover {
+        height: 32px;
+        background: #f2f6fa;
+      }
+    }
+  }
+}

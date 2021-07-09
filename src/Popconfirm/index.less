@@ -8,12 +8,13 @@
 }
 
 .@{prefix}-popconfirm {
-  position: absolute;
+  // position: relative;
   z-index: 10;
   width: 172px;
   background: #ffffff;
   box-shadow: 0px 6px 20px 0px rgba(153, 161, 194, 0.3);
   border-radius: 2px;
+
   &:after {
     position: absolute;
     left: 50%;
@@ -23,6 +24,7 @@
     border-right: 5px solid transparent;
     border-top: 5px solid #fff;
   }
+
   &-mask {
     // position: fixed;
     // z-index: 1;
@@ -35,19 +37,20 @@
   &-body {
     padding: 16px;
   }
+
   &-footer {
     height: 48px;
     display: flex;
     align-items: center;
     justify-content: flex-end;
     padding: 0 16px;
+
     & > * {
       margin-left: 16px;
     }
   }
 
   &-top {
-    transform: translate(-50%, -100%);
     &.@{prefix}-popconfirm {
       &:after {
         filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.2));
@@ -55,9 +58,27 @@
     }
   }
 
-  &-left {
-    transform: translate(-100%, -50%);
+  &-top-left {
+    &.@{prefix}-popconfirm {
+      &:after {
+        left: auto;
+        right: 16px;
+        filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.2));
+      }
+    }
+  }
 
+  &-top-right {
+    &.@{prefix}-popconfirm {
+      &:after {
+        right: auto;
+        left: 16px;
+        filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.2));
+      }
+    }
+  }
+
+  &-left {
     &.@{prefix}-popconfirm {
       &:after {
         left: auto;
@@ -73,8 +94,6 @@
   }
 
   &-right {
-    transform: translate(0, -50%);
-
     &.@{prefix}-popconfirm {
       &:after {
         right: auto;
@@ -91,10 +110,40 @@
   }
 
   &-bottom {
-    transform: translate(-50%, 0%);
-
     &.@{prefix}-popconfirm {
       &:after {
+        top: -5px;
+        margin-top: -5px;
+        border-right: 5px solid transparent;
+        border-bottom: 5px solid #fff;
+        border-left: 5px solid transparent;
+        border-top: 5px solid transparent;
+        filter: drop-shadow(2px -2px 2px rgba(0, 0, 0, 0.2));
+      }
+    }
+  }
+
+  &-bottom-left {
+    &.@{prefix}-popconfirm {
+      &:after {
+        left: auto;
+        right: 16px;
+        top: -5px;
+        margin-top: -5px;
+        border-right: 5px solid transparent;
+        border-bottom: 5px solid #fff;
+        border-left: 5px solid transparent;
+        border-top: 5px solid transparent;
+        filter: drop-shadow(2px -2px 2px rgba(0, 0, 0, 0.2));
+      }
+    }
+  }
+
+  &-bottom-right {
+    &.@{prefix}-popconfirm {
+      &:after {
+        right: auto;
+        left: 16px;
         top: -5px;
         margin-top: -5px;
         border-right: 5px solid transparent;

@@ -1,4 +1,108 @@
 @import '../index.less';
 
-.@{prefix}-t {
+.@{prefix}-popover-warp {
+}
+
+.@{prefix}-popover-target {
+  cursor: pointer;
+}
+
+.@{prefix}-popover {
+  position: absolute;
+  width: auto;
+  z-index: 10;
+  background: #ffffff;
+  box-shadow: 0px 6px 20px 0px rgba(153, 161, 194, 0.3);
+  border-radius: 2px;
+  &:after {
+    position: absolute;
+    left: 50%;
+    margin-left: -5px;
+    content: '';
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid #fff;
+  }
+  &-mask {
+    // position: fixed;
+    // z-index: 1;
+    // left: 0;
+    // right: 0;
+    // top: 0;
+    // bottom: 0;
+  }
+
+  &-body {
+    padding: 16px;
+  }
+  &-footer {
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 0 16px;
+    & > * {
+      margin-left: 16px;
+    }
+  }
+
+  &-top {
+    transform: translate(-50%, -100%);
+    &.@{prefix}-popover {
+      &:after {
+        filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.2));
+      }
+    }
+  }
+
+  &-left {
+    transform: translate(-100%, -50%);
+
+    &.@{prefix}-popover {
+      &:after {
+        left: auto;
+        top: 50%;
+        margin-top: -5px;
+        right: -10px;
+        border-right: 5px solid transparent;
+        border-left: 5px solid #fff;
+        border-top: 5px solid transparent;
+        border-bottom: 5px solid transparent;
+      }
+    }
+  }
+
+  &-right {
+    transform: translate(0, -50%);
+
+    &.@{prefix}-popover {
+      &:after {
+        right: auto;
+        top: 50%;
+        margin-top: -5px;
+        left: -5px;
+        border-left: 5px solid transparent;
+        border-right: 5px solid #fff;
+        border-top: 5px solid transparent;
+        border-bottom: 5px solid transparent;
+        filter: drop-shadow(-2px 2px 2px rgba(0, 0, 0, 0.2));
+      }
+    }
+  }
+
+  &-bottom {
+    transform: translate(-50%, 0%);
+
+    &.@{prefix}-popover {
+      &:after {
+        top: -5px;
+        margin-top: -5px;
+        border-right: 5px solid transparent;
+        border-bottom: 5px solid #fff;
+        border-left: 5px solid transparent;
+        border-top: 5px solid transparent;
+        filter: drop-shadow(2px -2px 2px rgba(0, 0, 0, 0.2));
+      }
+    }
+  }
 }
