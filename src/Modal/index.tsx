@@ -170,7 +170,6 @@ function Modal(props: ModalProps) {
   // 判断是否已经挂载
   const [isFastOpen, setIsFastOpen] = useState(props.isFastOpen || false);
   const [ev, setEv] = useState<any>();
-  const refEl = useRef<any>(null);
 
   useEffect(() => {
     if (!visible) return;

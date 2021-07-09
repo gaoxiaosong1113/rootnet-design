@@ -1,5 +1,5 @@
 // 引入react依赖
-import React from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import ReactDOM from 'react-dom';
 
 // 引入第三方依赖
@@ -120,83 +120,106 @@ function Drawer(props: DrawerProps): any {
   function handleConfirm() {
     onConfirm ? onConfirm() : null;
   }
-  return ReactDOM.createPortal(
-    <div
-      className={clsx({
-        [`${prefix}-drawer-warp`]: true,
-        [`${prefix}-drawer-visible`]: visible,
-      })}
-    >
+
+  // 判断是否已经挂载
+  const [isFastOpen, setIsFastOpen] = useState(false);
+
+  useEffect(() => {
+    if (!visible) return;
+    if (!isFastOpen) {
+      setIsFastOpen(true);
+    }
+  }, [visible]);
+
+  const Footer = useCallback(() => {
+    if (footer === null) return null;
+    if (footer === undefined) {
+      return (
+        <div
+          className={clsx({
+            [`${prefix}-drawer-footer`]: true,
+          })}
+        >
+          <Button onClick={handleCancel}>取消</Button>
+          <Button type="primary" onClick={handleConfirm}>
+            确定
+          </Button>
+        </div>
+      );
+    }
+
+    return (
       <div
         className={clsx({
-          [`${prefix}-drawer`]: true,
-          [`${prefix}-drawer-${position}`]: position,
+          [`${prefix}-drawer-footer`]: true,
         })}
-        style={{ top: offsetTop, width }}
+      >
+        {footer}
+      </div>
+    );
+  }, [footer]);
+
+  return (
+    isFastOpen &&
+    ReactDOM.createPortal(
+      <div
+        className={clsx({
+          [`${prefix}-drawer-warp`]: true,
+          [`${prefix}-drawer-visible`]: visible,
+        })}
       >
         <div
           className={clsx({
-            [`${prefix}-drawer-head`]: true,
+            [`${prefix}-drawer`]: true,
+            [`${prefix}-drawer-${position}`]: position,
           })}
+          style={{ top: offsetTop, width }}
         >
           <div
             className={clsx({
-              [`${prefix}-drawer-head-title`]: true,
+              [`${prefix}-drawer-head`]: true,
             })}
           >
-            {title}
-          </div>
-          {close && (
             <div
               className={clsx({
-                [`${prefix}-drawer-head-close`]: true,
+                [`${prefix}-drawer-head-title`]: true,
               })}
-              onClick={() => {
-                onCancel ? onCancel() : null;
-              }}
             >
-              <Icon name="cuowu1" />
+              {title}
             </div>
-          )}
-        </div>
-        <div
-          className={clsx({
-            [`${prefix}-drawer-body`]: true,
-          })}
-        >
-          <span>{children}</span>
-        </div>
-        {footer ? (
+            {close && (
+              <div
+                className={clsx({
+                  [`${prefix}-drawer-head-close`]: true,
+                })}
+                onClick={() => {
+                  onCancel ? onCancel() : null;
+                }}
+              >
+                <Icon name="cuowu1" />
+              </div>
+            )}
+          </div>
           <div
             className={clsx({
-              [`${prefix}-drawer-footer`]: true,
+              [`${prefix}-drawer-body`]: true,
             })}
           >
-            {footer}
+            <span>{children}</span>
           </div>
-        ) : (
+          <Footer />
+        </div>
+        {mask && (
           <div
             className={clsx({
-              [`${prefix}-drawer-footer`]: true,
+              [`${prefix}-drawer-mask`]: true,
             })}
-          >
-            <Button onClick={handleCancel}>取消</Button>
-            <Button type="primary" onClick={handleConfirm}>
-              确定
-            </Button>
-          </div>
+            onClick={handleCancel}
+          ></div>
         )}
-      </div>
-      {mask && (
-        <div
-          className={clsx({
-            [`${prefix}-drawer-mask`]: true,
-          })}
-          onClick={handleCancel}
-        ></div>
-      )}
-    </div>,
-    document.body,
+      </div>,
+      document.body,
+    )
   );
 }
 
