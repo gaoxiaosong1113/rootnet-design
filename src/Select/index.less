@@ -90,7 +90,7 @@
     height: 34px;
     cursor: pointer;
     background: #ffffff;
-    padding: 0 12px;
+    padding: 0;
     line-height: 34px;
     white-space: nowrap;
 
@@ -127,7 +127,20 @@
 
     .@{prefix}-tree-row {
       width: 100%;
-      padding: 0 8px;
+      padding: 0 0px;
+
+      .@{prefix}-tree-checkbox {
+        margin-left: 12px;
+
+        & + .@{prefix}-tree-title {
+          padding-left: 0;
+          background: none;
+        }
+      }
+
+      .@{prefix}-tree-title {
+        padding: 0 12px;
+      }
 
       &:hover {
         background: #f2f6fa;

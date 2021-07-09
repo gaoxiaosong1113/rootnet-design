@@ -1,6 +1,7 @@
 @import '../index.less';
 
 .@{prefix}-tooltip-warp {
+  max-width: 300px;
 }
 
 .@{prefix}-tooltip-target {
@@ -15,17 +16,33 @@
   box-shadow: 0px 3px 10px 0px rgba(117, 125, 150, 0.2);
   display: none;
   z-index: @modalZIndex;
+
   &-visible {
     display: block;
   }
 
   &-top {
-    transform: translate(-50%, -100%);
+  }
+
+  &-top-left {
+    &.@{prefix}-tooltip {
+      &:after {
+        left: auto;
+        right: 16px;
+      }
+    }
+  }
+
+  &-top-right {
+    &.@{prefix}-tooltip {
+      &:after {
+        right: auto;
+        left: 16px;
+      }
+    }
   }
 
   &-left {
-    transform: translate(-100%, -50%);
-
     &.@{prefix}-tooltip {
       &:after {
         left: auto;
@@ -41,8 +58,6 @@
   }
 
   &-right {
-    transform: translate(0, -50%);
-
     &.@{prefix}-tooltip {
       &:after {
         right: auto;
@@ -58,10 +73,38 @@
   }
 
   &-bottom {
-    transform: translate(-50%, 0%);
-
     &.@{prefix}-tooltip {
       &:after {
+        top: -5px;
+        margin-top: -5px;
+        border-right: 5px solid transparent;
+        border-bottom: 5px solid rgba(0, 0, 0, 0.75);
+        border-left: 5px solid transparent;
+        border-top: 5px solid transparent;
+      }
+    }
+  }
+
+  &-bottom-left {
+    &.@{prefix}-tooltip {
+      &:after {
+        left: auto;
+        right: 16px;
+        top: -5px;
+        margin-top: -5px;
+        border-right: 5px solid transparent;
+        border-bottom: 5px solid rgba(0, 0, 0, 0.75);
+        border-left: 5px solid transparent;
+        border-top: 5px solid transparent;
+      }
+    }
+  }
+
+  &-bottom-right {
+    &.@{prefix}-tooltip {
+      &:after {
+        right: auto;
+        left: 16px;
         top: -5px;
         margin-top: -5px;
         border-right: 5px solid transparent;

@@ -210,7 +210,7 @@ export interface TreeProps {
    * @description      expandable更改回调
    * @default           -
    */
-  onExpandableChange?: [];
+  onExpandableChange?: Function;
 
   /**
    * @description      tree行的类名

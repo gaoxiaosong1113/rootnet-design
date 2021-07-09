@@ -364,22 +364,6 @@ function Transfer(props: TransferProps) {
               }}
             />
           )}
-
-          {/* <Checkbox.Group
-            onChange={(v: any) => {
-              console.log(v);
-              setSourceSelectedKeys(v);
-            }}
-            checked={sourceSelectedKeys}
-          >
-            {source.map((item) => {
-              return (
-                <Checkbox value={item.id} key={item.id}>
-                  {item.title}
-                </Checkbox>
-              );
-            })}
-          </Checkbox.Group> */}
         </div>
       </div>
       <div

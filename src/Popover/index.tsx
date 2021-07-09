@@ -1,9 +1,8 @@
 // 引入react依赖
-import React from 'react';
+import React, { useEffect, useState, useRef, useMemo } from 'react';
 import ReactDOM from 'react-dom';
 
 // 引入第三方依赖
-import { CSSTransitionGroup } from 'react-transition-group'; // ES6
 import clsx from 'clsx';
 
 // 引入样式
@@ -12,8 +11,9 @@ import './index.less';
 // 引入配置文件
 import { prefix } from '../config';
 
-// 引入组件
-import { Icon } from '../index';
+import { Icon, Button, Popup } from '../index';
+
+import { getOffsetLeft, getOffsetTop } from '../_util';
 
 export interface PopoverProps {
   /**
@@ -23,69 +23,130 @@ export interface PopoverProps {
   className?: string;
 
   /**
-   * @description      Popover的类型
+   * @description      主体内容
    * @default           -
    */
-  type?: string;
+  content: any;
+
+  children: any;
 
   /**
-   * @description      需要显示的图标
+   * @description      确认按钮回调
    * @default           -
    */
-  icon?: string;
+  onConfirm?: Function;
 
   /**
-   * @description      是否禁用Popover
-   * @default           false
-   */
-  disabled?: boolean;
-
-  children?: React.ReactChild;
-
-  /**
-   * @description      Popover点击事件
+   * @description      取消按钮回调
    * @default           -
    */
-  onClick?: Function;
+  onCancel?: Function;
 
   /**
-   * @description      Popover左右的间隔
-   * @default           -
+   * @description      弹出位置
+   * @default           top
    */
-  interval?: string;
-
-  /**
-   * @description      Popover的尺寸
-   * @default           -
-   */
-  size?: string;
+  position?: string;
 }
 
-function Popover(props: PopoverProps) {
-  const { type, icon, disabled, children, onClick, interval, size, ...prop } =
-    props;
+function Content(props: any) {
+  const {
+    content,
+    children,
+    onConfirm,
+    onCancel,
+    event,
+    position = 'top',
+    ...prop
+  } = props;
 
-  function handleClick() {
-    if (!disabled && onClick) {
-      onClick();
-    }
+  function handleCancel() {
+    onCancel ? onCancel() : null;
   }
+
+  function handleConfirm() {
+    onConfirm ? onConfirm() : null;
+  }
+
   return (
     <div
       className={clsx({
-        [`${prefix}-Popover`]: true,
-        [`${prefix}-Popover-default`]: !type && !disabled,
-        [`${prefix}-Popover-${type}`]: type,
-        [`${prefix}-Popover-disabled`]: disabled,
-        [`${prefix}-Popover-${size}`]: size,
+        [`${prefix}-popover-warp`]: true,
       })}
-      style={{ margin: interval }}
-      onClick={handleClick}
-      {...prop}
     >
-      {icon && <Icon name={icon} />}
-      <span>{children}</span>
+      <div
+        className={clsx({
+          [`${prefix}-popover`]: true,
+          [`${prefix}-popover-${position}`]: position,
+        })}
+      >
+        <div
+          className={clsx({
+            [`${prefix}-popover-body`]: true,
+          })}
+        >
+          <span>{content}</span>
+        </div>
+      </div>
+      <div
+        className={clsx({
+          [`${prefix}-popover-mask`]: true,
+        })}
+        onClick={handleCancel}
+      ></div>
     </div>
+  );
+}
+
+function Popover(props: PopoverProps) {
+  const { children, onConfirm, onCancel, position = 'top', ...prop } = props;
+  const [visible, setVisible] = useState(false);
+
+  const refEl = useRef(null);
+  function handleOpen() {
+    setVisible(true);
+  }
+  function handleClose() {
+    setVisible(false);
+    onCancel && onCancel();
+  }
+
+  return (
+    <>
+      {React.Children.map(children, (item) => {
+        return React.cloneElement(item, {
+          onClick: (event) => {
+            event.persist();
+            setVisible(true);
+          },
+          ref: refEl,
+        });
+      })}
+      {/* <span
+        className={clsx({
+          [`${prefix}-popover-target`]: true,
+        })}
+        onClick={(event) => {
+          event.persist();
+          setVisible(true);
+        }}
+        ref={refEl}
+      >
+        {children}
+      </span> */}
+      <Popup
+        onClose={() => {
+          setVisible(false);
+          onCancel && onCancel();
+        }}
+        visible={visible}
+        refEl={refEl}
+        position={position}
+        trigger={'click'}
+      >
+        <Content {...props} onCancel={handleClose} />
+      </Popup>
+    </>
   );
 }
 

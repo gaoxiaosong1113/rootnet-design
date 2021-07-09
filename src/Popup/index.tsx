@@ -53,10 +53,11 @@ export interface PopupProps {
 
 function Popup(props: PopupProps): any {
   const {
+    className,
     children,
     visible,
     refEl,
-    position = 'top',
+    position,
     onClose,
     trigger,
     ...prop
@@ -68,7 +69,17 @@ function Popup(props: PopupProps): any {
       case 'top':
         return {
           left: getOffsetLeft(refEl.current) + refEl.current.offsetWidth / 2,
-          top: getOffsetTop(refEl.current) - 5,
+          top: getOffsetTop(refEl.current) - 12,
+        };
+      case 'top-left':
+        return {
+          left: getOffsetLeft(refEl.current) + refEl.current.offsetWidth,
+          top: getOffsetTop(refEl.current) - 12,
+        };
+      case 'top-right':
+        return {
+          left: getOffsetLeft(refEl.current),
+          top: getOffsetTop(refEl.current) - 12,
         };
       case 'left':
         return {
@@ -84,6 +95,23 @@ function Popup(props: PopupProps): any {
         return {
           left: getOffsetLeft(refEl.current) + refEl.current.offsetWidth / 2,
           top: getOffsetTop(refEl.current) + refEl.current.offsetHeight + 12,
+        };
+      case 'bottom-left':
+        return {
+          left: getOffsetLeft(refEl.current) + refEl.current.offsetWidth,
+          top: getOffsetTop(refEl.current) + refEl.current.offsetHeight + 12,
+        };
+      case 'bottom-right':
+        return {
+          left: getOffsetLeft(refEl.current),
+          top: getOffsetTop(refEl.current) + refEl.current.offsetHeight + 12,
+        };
+      default:
+        return {
+          left: getOffsetLeft(refEl.current),
+          top: getOffsetTop(refEl.current),
+          width: refEl.current.offsetWidth,
+          height: refEl.current.offsetHeight,
         };
     }
   }, [position, refEl.current, visible]);
@@ -110,9 +138,14 @@ function Popup(props: PopupProps): any {
     return ReactDOM.createPortal(
       <div
         style={style}
-        className={clsx({
-          [`${prefix}-popup`]: true,
-        })}
+        className={clsx(
+          {
+            [`${prefix}-popup`]: true,
+            [`${prefix}-popup-${position}`]: true,
+          },
+          className,
+        )}
+        {...prop}
       >
         {children}
       </div>,

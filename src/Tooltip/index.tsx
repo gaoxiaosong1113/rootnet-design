@@ -80,7 +80,13 @@ function Content(props: ModalProps) {
 }
 
 function Tooltip(props: ModalProps) {
-  const { children, onCancel, trigger = 'click', position, ...prop } = props;
+  const {
+    children,
+    onCancel,
+    trigger = 'click',
+    position = 'top',
+    ...prop
+  } = props;
   const [visible, setVisible] = useState(false);
 
   const refEl = useRef(null);

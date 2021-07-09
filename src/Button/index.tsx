@@ -1,9 +1,8 @@
 // 引入react依赖
-import React from 'react';
+import React, { useRef, useImperativeHandle } from 'react';
 import ReactDOM from 'react-dom';
 
 // 引入第三方依赖
-import { CSSTransitionGroup } from 'react-transition-group'; // ES6
 import clsx from 'clsx';
 
 // 引入样式
@@ -21,6 +20,12 @@ export interface ButtonProps {
    * @default           -
    */
   className?: string;
+
+  /**
+   * @description      ref
+   * @default           -
+   */
+  ref?: any;
 
   /**
    * @description      按钮的类型
@@ -67,7 +72,7 @@ export interface ButtonProps {
   htmlType?: 'button' | 'submit' | 'reset' | undefined;
 }
 
-function Button(props: ButtonProps) {
+function Button(props: ButtonProps, ref: any) {
   const {
     type,
     icon,
@@ -85,6 +90,11 @@ function Button(props: ButtonProps) {
       onClick();
     }
   }
+
+  const eleRef = useRef();
+
+  useImperativeHandle(ref, () => eleRef.current);
+
   return (
     <button
       className={clsx({
@@ -97,6 +107,7 @@ function Button(props: ButtonProps) {
       style={{ margin: interval }}
       onClick={handleClick}
       type={htmlType || 'button'}
+      ref={eleRef}
       {...prop}
     >
       {icon && <Icon name={icon} />}
@@ -105,4 +116,4 @@ function Button(props: ButtonProps) {
   );
 }
 
-export default Button;
+export default React.forwardRef(Button);
