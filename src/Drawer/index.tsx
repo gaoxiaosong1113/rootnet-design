@@ -10,7 +10,7 @@ import ReactDOM from 'react-dom';
 
 // 引入第三方依赖
 import clsx from 'clsx';
-import { Transition } from 'react-transition-group';
+import { CSSTransition } from 'react-transition-group';
 import gsap from 'gsap';
 
 // 引入样式
@@ -135,32 +135,6 @@ function Drawer(props: DrawerProps): any {
   }
 
   useEffect(() => {
-    const drawer = drawerRef.current;
-    const container = containerRef.current;
-    const mRef = maskRef.current;
-
-    // anim(drawer, 'animate-open', {
-    //   start: () => {
-    //     container.style.width = '100%';
-    //     mRef.classList.add('animate-open');
-    //     mRef.style.opacity = visible ? 0 : 1;
-    //   },
-    //   active: () => {
-    //     drawer.style.transform = visible
-    //       ? 'translateX(0%)'
-    //       : props.position === 'left'
-    //       ? 'translateX(-100%)'
-    //       : 'translateX(100%)';
-    //     mRef.style.opacity = visible ? 1 : 0;
-    //   },
-    //   end: () => {
-    //     container.style.width = visible ? '100%' : '0%';
-    //     mRef.classList.remove('animate-open');
-    //   },
-    // });
-  }, [visible]);
-
-  useEffect(() => {
     if (!visible) return;
     if (!isFastOpen) {
       setIsFastOpen(true);
@@ -195,96 +169,71 @@ function Drawer(props: DrawerProps): any {
     );
   }, [footer]);
 
-  const animation = (target, dur, type) => {
-    if (type == 'open') {
-      gsap.to(target, { rotation: 0, x: 100, duration: dur });
-    } else {
-      gsap.to(target, { rotation: 0, x: 0, duration: dur });
-    }
-  };
-
   return (
-    <Transition
-      in={visible}
-      onEnter={(node) => {
-        animation(node, 400, 'open');
-      }}
-      onExit={(node) => {
-        animation(node, 400, 'close');
-      }}
-      unmountOnExit
-      timeout={400}
-    >
-      <div>
-        {ReactDOM.createPortal(
+    isFastOpen &&
+    ReactDOM.createPortal(
+      <div
+        className={clsx({
+          [`${prefix}-drawer-warp`]: true,
+          [`${prefix}-drawer-visible`]: visible,
+        })}
+        ref={containerRef}
+      >
+        <div
+          className={clsx({
+            [`${prefix}-drawer`]: true,
+            [`${prefix}-drawer-${position}`]: position,
+          })}
+          style={{ top: offsetTop, width }}
+          ref={drawerRef}
+        >
           <div
             className={clsx({
-              [`${prefix}-drawer-warp`]: true,
-              [`${prefix}-drawer-visible`]: visible,
+              [`${prefix}-drawer-head`]: true,
             })}
-            ref={containerRef}
           >
             <div
               className={clsx({
-                [`${prefix}-drawer`]: true,
-                [`${prefix}-drawer-${position}`]: position,
+                [`${prefix}-drawer-head-title`]: true,
               })}
-              style={{ top: offsetTop, width }}
-              ref={drawerRef}
             >
-              <div
-                className={clsx({
-                  [`${prefix}-drawer-head`]: true,
-                })}
-              >
-                <div
-                  className={clsx({
-                    [`${prefix}-drawer-head-title`]: true,
-                  })}
-                >
-                  {title}
-                </div>
-                {close && (
-                  <div
-                    className={clsx({
-                      [`${prefix}-drawer-head-close`]: true,
-                    })}
-                    onClick={() => {
-                      onCancel ? onCancel() : null;
-                    }}
-                  >
-                    <Icon name="cuowu1" />
-                  </div>
-                )}
-              </div>
-              <div
-                className={clsx({
-                  [`${prefix}-drawer-body`]: true,
-                })}
-              >
-                <span>{children}</span>
-              </div>
-              <Footer />
+              {title}
             </div>
-            {mask && (
+            {close && (
               <div
                 className={clsx({
-                  [`${prefix}-drawer-mask`]: true,
+                  [`${prefix}-drawer-head-close`]: true,
                 })}
-                onClick={handleCancel}
-                ref={maskRef}
-              ></div>
+                onClick={() => {
+                  onCancel ? onCancel() : null;
+                }}
+              >
+                <Icon name="cuowu1" />
+              </div>
             )}
-          </div>,
-          document.body,
+          </div>
+          <div
+            className={clsx({
+              [`${prefix}-drawer-body`]: true,
+            })}
+          >
+            <span>{children}</span>
+          </div>
+          <Footer />
+        </div>
+        {mask && (
+          <div
+            className={clsx({
+              [`${prefix}-drawer-mask`]: true,
+            })}
+            onClick={handleCancel}
+            ref={maskRef}
+          ></div>
         )}
-      </div>
-    </Transition>
+      </div>,
+      document.body,
+    )
   );
 }
-
-// function Drawer(){
-
-// }
 
 export default Drawer;

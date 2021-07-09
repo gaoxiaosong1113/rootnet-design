@@ -3,7 +3,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 // 引入第三方依赖
-import { CSSTransitionGroup } from 'react-transition-group'; // ES6
+
 import clsx from 'clsx';
 
 // 引入样式
