@@ -125,7 +125,3 @@ export default () => {
   );
 };
 ```
-
-UAC 临时授权：
-
-<code src="./dome.tsx"></code>
