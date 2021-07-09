@@ -164,9 +164,15 @@ function TableItem(props: any) {
                   item.className,
                 )}
                 key={item.dataIndex}
-                style={{ width: item.width || 'auto' }}
+                style={{
+                  width: item.width || 'auto',
+                }}
               >
-                <span>
+                <span
+                  style={{
+                    paddingLeft: isTree ? layer * 17 : 0,
+                  }}
+                >
                   {collapsed && (
                     <Icon
                       name={open ? 'biaogeshouqi1' : 'biaogezhankai1'}
