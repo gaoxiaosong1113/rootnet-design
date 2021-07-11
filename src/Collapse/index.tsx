@@ -1,11 +1,18 @@
+// 引入react依赖
 import React, { useState } from 'react';
+import ReactDOM from 'react-dom';
 
+// 引入第三方依赖
+import { CSSTransition } from 'react-transition-group';
 import clsx from 'clsx';
 
+// 引入样式
 import './index.less';
 
+// 引入配置文件
 import { prefix } from '../config';
 
+// 引入组件
 import { Icon } from '../index';
 
 export interface CollapseProps {
@@ -59,13 +66,24 @@ Collapse.Item = function Item(props: any) {
         <Icon name={open ? 'xuanzeshouqi' : 'xuanzexiala'} />
         <span>{title}</span>
       </div>
-      <div
-        className={clsx({
-          [`${prefix}-collapse-item-body`]: true,
-        })}
+      <CSSTransition
+        in={open}
+        className={clsx({})}
+        classNames={`collapse-transition`}
+        unmountOnExit
+        timeout={0}
+        // timeout={400}
       >
-        {children}
-      </div>
+        <div>
+          <div
+            className={clsx({
+              [`${prefix}-collapse-item-body`]: true,
+            })}
+          >
+            {children}
+          </div>
+        </div>
+      </CSSTransition>
     </div>
   );
 };

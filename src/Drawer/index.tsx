@@ -11,7 +11,6 @@ import ReactDOM from 'react-dom';
 // 引入第三方依赖
 import clsx from 'clsx';
 import { CSSTransition } from 'react-transition-group';
-import gsap from 'gsap';
 
 // 引入样式
 import './index.less';
@@ -104,7 +103,7 @@ export interface DrawerProps {
   close?: boolean;
 }
 
-function Drawer(props: DrawerProps): any {
+function DrawerContent(props: any): any {
   const {
     visible,
     title,
@@ -120,12 +119,6 @@ function Drawer(props: DrawerProps): any {
     ...prop
   } = props;
 
-  // 判断是否已经挂载
-  const [isFastOpen, setIsFastOpen] = useState(false);
-  const drawerRef = useRef(null);
-  const containerRef = useRef(null);
-  const maskRef = useRef(null);
-
   function handleCancel() {
     onCancel ? onCancel() : null;
   }
@@ -133,13 +126,6 @@ function Drawer(props: DrawerProps): any {
   function handleConfirm() {
     onConfirm ? onConfirm() : null;
   }
-
-  useEffect(() => {
-    if (!visible) return;
-    if (!isFastOpen) {
-      setIsFastOpen(true);
-    }
-  }, [visible]);
 
   const Footer = useCallback(() => {
     if (footer === null) return null;
@@ -169,70 +155,84 @@ function Drawer(props: DrawerProps): any {
     );
   }, [footer]);
 
-  return (
-    isFastOpen &&
-    ReactDOM.createPortal(
+  return ReactDOM.createPortal(
+    // <div
+    //   className={clsx({
+    //     [`${prefix}-drawer-warp`]: true,
+    //     // [`${prefix}-drawer-visible`]: visible,
+    //   })}
+    //   ref={containerRef}
+    // >
+    <>
       <div
         className={clsx({
-          [`${prefix}-drawer-warp`]: true,
-          [`${prefix}-drawer-visible`]: visible,
+          [`${prefix}-drawer`]: true,
+          [`${prefix}-drawer-${position}`]: position,
         })}
-        ref={containerRef}
+        style={{ top: offsetTop, width }}
       >
         <div
           className={clsx({
-            [`${prefix}-drawer`]: true,
-            [`${prefix}-drawer-${position}`]: position,
+            [`${prefix}-drawer-head`]: true,
           })}
-          style={{ top: offsetTop, width }}
-          ref={drawerRef}
         >
           <div
             className={clsx({
-              [`${prefix}-drawer-head`]: true,
+              [`${prefix}-drawer-head-title`]: true,
             })}
           >
+            {title}
+          </div>
+          {close && (
             <div
               className={clsx({
-                [`${prefix}-drawer-head-title`]: true,
+                [`${prefix}-drawer-head-close`]: true,
               })}
+              onClick={() => {
+                onCancel ? onCancel() : null;
+              }}
             >
-              {title}
+              <Icon name="cuowu1" />
             </div>
-            {close && (
-              <div
-                className={clsx({
-                  [`${prefix}-drawer-head-close`]: true,
-                })}
-                onClick={() => {
-                  onCancel ? onCancel() : null;
-                }}
-              >
-                <Icon name="cuowu1" />
-              </div>
-            )}
-          </div>
-          <div
-            className={clsx({
-              [`${prefix}-drawer-body`]: true,
-            })}
-          >
-            <span>{children}</span>
-          </div>
-          <Footer />
+          )}
         </div>
-        {mask && (
-          <div
-            className={clsx({
-              [`${prefix}-drawer-mask`]: true,
-            })}
-            onClick={handleCancel}
-            ref={maskRef}
-          ></div>
-        )}
-      </div>,
-      document.body,
-    )
+        <div
+          className={clsx({
+            [`${prefix}-drawer-body`]: true,
+          })}
+        >
+          <span>{children}</span>
+        </div>
+        <Footer />
+      </div>
+      {mask && (
+        <div
+          className={clsx({
+            [`${prefix}-drawer-mask`]: true,
+          })}
+          onClick={handleCancel}
+        ></div>
+      )}
+    </>,
+    document.body,
+  );
+}
+
+function Drawer(props: DrawerProps) {
+  const { visible, position = 'left', ...prop } = props;
+
+  return (
+    <CSSTransition
+      in={visible}
+      className={clsx({
+        [`drawer-transition-${position}`]: position,
+      })}
+      classNames={`drawer-transition-${position}`}
+      unmountOnExit
+      timeout={400}
+    >
+      <DrawerContent {...props} />
+    </CSSTransition>
   );
 }
 

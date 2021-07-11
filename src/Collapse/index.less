@@ -9,7 +9,6 @@
   &-item {
     &&-open {
       .@{prefix}-collapse-item-body {
-        display: block;
       }
     }
 
@@ -30,10 +29,48 @@
     }
 
     &-body {
+      box-sizing: border-box;
       background: #fff;
       padding: 12px;
-      display: none;
+      overflow: hidden;
       border-bottom: 1px solid #e9eaf2;
     }
   }
 }
+
+// .collapse-transition {
+//   // 准备进入
+//   &-enter {
+//     opacity: 0;
+//     max-height: 0;
+//   }
+
+//   // 进入中
+//   &-enter-active {
+//     transition: all 400ms;
+//     opacity: 1;
+//     max-height: 100vh;
+//   }
+
+//   // 进入结束
+//   &-enter-done {
+//     opacity: 1;
+//   }
+
+//   // 准备退出
+//   &-exit {
+//     opacity: 1;
+//     max-height: 100vh;
+//   }
+
+//   // 退出中
+//   &-exit-active {
+//     transition: all 400ms;
+//     max-height: 0;
+//     opacity: 0;
+//   }
+//   // 退出结束
+//   &-exit-done {
+//     display: none;
+//   }
+// }
