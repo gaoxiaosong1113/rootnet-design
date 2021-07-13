@@ -100,11 +100,15 @@ function UacTransfer(props: UacTransferProps) {
     // console.log('给权限');
     setTargetSelectedKeys(sourceSelectedKeys.concat([]));
     onAuth && onAuth(sourceSelectedKeys.concat([]));
+    setSourceSelectedKeys([]);
+    setTargetSelectedKeys([]);
   }
 
   function deleteKeys() {
     // console.log('去权限');
     onCancel && onCancel(targetSelectedKeys.concat([]));
+    setSourceSelectedKeys([]);
+    setTargetSelectedKeys([]);
   }
 
   const LTitle = useCallback(() => {
