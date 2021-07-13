@@ -68,6 +68,32 @@ export default () => {
             <Operation.Item>修改</Operation.Item>
             <Operation.Item>详情</Operation.Item>
             <Operation.Item>注销</Operation.Item>
+            <Operation.Popup position="top-left">
+              <Operation.Item>另存为pdf</Operation.Item>
+              <Operation.Item>另存为jpg</Operation.Item>
+              <Operation.Item>另存为png</Operation.Item>
+              <Operation.Item>另存为gif</Operation.Item>
+            </Operation.Popup>
+          </Operation>
+        </Col>
+        <Col span={4}>
+          <Operation>
+            <Operation.Item>修改</Operation.Item>
+            <Operation.Item>详情</Operation.Item>
+            <Operation.Item>注销</Operation.Item>
+            <Operation.Popup position="top-right">
+              <Operation.Item>另存为pdf</Operation.Item>
+              <Operation.Item>另存为jpg</Operation.Item>
+              <Operation.Item>另存为png</Operation.Item>
+              <Operation.Item>另存为gif</Operation.Item>
+            </Operation.Popup>
+          </Operation>
+        </Col>
+        <Col span={4}>
+          <Operation>
+            <Operation.Item>修改</Operation.Item>
+            <Operation.Item>详情</Operation.Item>
+            <Operation.Item>注销</Operation.Item>
             <Operation.Popup position="left">
               <Operation.Item>另存为pdf</Operation.Item>
               <Operation.Item>另存为jpg</Operation.Item>
@@ -95,6 +121,32 @@ export default () => {
             <Operation.Item>详情</Operation.Item>
             <Operation.Item>注销</Operation.Item>
             <Operation.Popup position="bottom">
+              <Operation.Item>另存为pdf</Operation.Item>
+              <Operation.Item>另存为jpg</Operation.Item>
+              <Operation.Item>另存为png</Operation.Item>
+              <Operation.Item>另存为gif</Operation.Item>
+            </Operation.Popup>
+          </Operation>
+        </Col>
+        <Col span={4}>
+          <Operation>
+            <Operation.Item>修改</Operation.Item>
+            <Operation.Item>详情</Operation.Item>
+            <Operation.Item>注销</Operation.Item>
+            <Operation.Popup position="bottom-left">
+              <Operation.Item>另存为pdf</Operation.Item>
+              <Operation.Item>另存为jpg</Operation.Item>
+              <Operation.Item>另存为png</Operation.Item>
+              <Operation.Item>另存为gif</Operation.Item>
+            </Operation.Popup>
+          </Operation>
+        </Col>
+        <Col span={4}>
+          <Operation>
+            <Operation.Item>修改</Operation.Item>
+            <Operation.Item>详情</Operation.Item>
+            <Operation.Item>注销</Operation.Item>
+            <Operation.Popup position="bottom-right">
               <Operation.Item>另存为pdf</Operation.Item>
               <Operation.Item>另存为jpg</Operation.Item>
               <Operation.Item>另存为png</Operation.Item>

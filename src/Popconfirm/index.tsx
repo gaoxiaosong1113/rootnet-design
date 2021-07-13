@@ -109,18 +109,14 @@ function Popconfirm(props: PopconfirmProps) {
 
   return (
     <>
-      <span
-        className={clsx({
-          [`${prefix}-popconfirm-target`]: true,
-        })}
-        onClick={(event) => {
+      {React.cloneElement(children, {
+        onClick: (event) => {
           event.persist();
           setVisible(true);
-        }}
-        ref={refEl}
-      >
-        {children}
-      </span>
+        },
+        className: `${prefix}-popconfirm-target`,
+        ref: refEl,
+      })}
       <Popup
         onClose={() => {
           setVisible(false);

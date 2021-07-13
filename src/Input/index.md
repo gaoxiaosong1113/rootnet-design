@@ -22,7 +22,13 @@ export default () => {
     <div>
       <Row gutter={[16, 16]}>
         <Col span={8}>
-          <Input placeholder="请输入内容" after={'%'} />
+          <Input
+            placeholder="请输入内容"
+            after={'%'}
+            onChange={(e) => {
+              console.log(e);
+            }}
+          />
         </Col>
       </Row>
     </div>
@@ -74,7 +80,13 @@ export default () => {
     <div>
       <Row gutter={[16, 16]}>
         <Col span={8}>
-          <Input placeholder="请输入内容" icon={<Icon name="mima1" />} />
+          <Input
+            placeholder="请输入内容"
+            icon={<Icon name="mima1" />}
+            onChange={(e) => {
+              console.log(e);
+            }}
+          />
         </Col>
       </Row>
     </div>

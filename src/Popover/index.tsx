@@ -1,14 +1,10 @@
-// 引入react依赖
 import React, { useEffect, useState, useRef, useMemo } from 'react';
 import ReactDOM from 'react-dom';
 
-// 引入第三方依赖
 import clsx from 'clsx';
 
-// 引入样式
 import './index.less';
 
-// 引入配置文件
 import { prefix } from '../config';
 
 import { Icon, Button, Popup } from '../index';
@@ -110,30 +106,16 @@ function Popover(props: PopoverProps) {
     setVisible(false);
     onCancel && onCancel();
   }
-
   return (
     <>
-      {React.Children.map(children, (item) => {
-        return React.cloneElement(item, {
-          onClick: (event) => {
-            event.persist();
-            setVisible(true);
-          },
-          ref: refEl,
-        });
-      })}
-      {/* <span
-        className={clsx({
-          [`${prefix}-popover-target`]: true,
-        })}
-        onClick={(event) => {
+      {React.cloneElement(children, {
+        onClick: (event) => {
           event.persist();
           setVisible(true);
-        }}
-        ref={refEl}
-      >
-        {children}
-      </span> */}
+        },
+        className: `${prefix}-popconfirm-target`,
+        ref: refEl,
+      })}
       <Popup
         onClose={() => {
           setVisible(false);

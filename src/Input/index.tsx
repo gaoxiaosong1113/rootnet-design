@@ -143,21 +143,21 @@ function Input(props: InputProps) {
   const handleChange = (e: any) => {
     setValue(e.target.value);
     if (onChange) {
-      onChange(e.target.value);
+      onChange(e.target.value, e);
     }
   };
 
   const handleFocus = (e: any) => {
     setFocus(true);
     if (onFocus) {
-      onFocus(e);
+      onFocus(props.value, e);
     }
     return false;
   };
   const handleBlur = (e: any) => {
     setFocus(false);
     if (onBlur) {
-      onBlur(e);
+      onBlur(props.value, e);
     }
   };
 
