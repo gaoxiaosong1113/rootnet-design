@@ -99,14 +99,10 @@ function UacTransfer(props: UacTransferProps) {
   function addKeys() {
     setTargetSelectedKeys(sourceSelectedKeys.concat([]));
     onAuth && onAuth(sourceSelectedKeys.concat([]));
-    setSourceSelectedKeys([]);
-    setTargetSelectedKeys([]);
   }
 
   function deleteKeys() {
     onCancel && onCancel(targetSelectedKeys.concat([]));
-    setSourceSelectedKeys([]);
-    setTargetSelectedKeys([]);
   }
 
   const LTitle = useCallback(() => {
