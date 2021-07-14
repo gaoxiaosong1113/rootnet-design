@@ -16,7 +16,7 @@ function Group(props: any): any {
   const [checked, setChecked] = useState(props.checked || []);
 
   useEffect(() => {
-    setChecked(props.checked);
+    setChecked(props.checked || []);
   }, [props.checked]);
 
   function handleChange(e: any, v: any) {

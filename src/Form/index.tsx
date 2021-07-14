@@ -189,7 +189,6 @@ const Item = (props: any, ref: any) => {
   const handleChange = (v: any) => {
     setValue(v);
     validationData(v);
-    console.log(name);
     if (name && onChange) {
       onChange(name, v);
     }
