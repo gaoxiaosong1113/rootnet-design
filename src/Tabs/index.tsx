@@ -6,7 +6,7 @@ import './index.less';
 
 import { prefix } from '../config';
 
-export interface CardProps {
+export interface TabsProps {
   /**
    * @description      卡片的样式名
    * @default           -
@@ -56,10 +56,17 @@ export interface CardProps {
    * @default           -
    */
   changeTabKey?: Function;
+
+  /**
+   * @description      tab 布局
+   * @default           vertical
+   */
+  layout?: 'horizontal' | 'vertical' | 'inline';
 }
 
-export default function Card(props: CardProps) {
+export default function Tabs(props: TabsProps) {
   const {
+    className,
     children,
     title,
     width,
@@ -68,13 +75,18 @@ export default function Card(props: CardProps) {
     activeTabKey,
     extra,
     changeTabKey,
+    layout = 'vertical',
     ...prop
   } = props;
   return (
     <div
-      className={clsx({
-        [`${prefix}-tabs`]: true,
-      })}
+      className={clsx(
+        {
+          [`${prefix}-tabs`]: true,
+          [`${prefix}-tabs-${layout}`]: layout,
+        },
+        className,
+      )}
       style={{ width, height }}
       {...prop}
     >

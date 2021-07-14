@@ -76,7 +76,7 @@ function Checkbox(props: CheckboxProps): any {
     indeterminate,
     ...prop
   } = props;
-  const [checked, setChecked] = useState(props.checked || false);
+  const [checked, setChecked] = useState(props.checked ? true : false);
   const [value, setValue] = useState(props.value || '');
 
   const checkboxGroup = useContext(GroupContext);
@@ -107,13 +107,14 @@ function Checkbox(props: CheckboxProps): any {
     };
     checkboxProps.name = checkboxGroup.name;
     checkboxProps.checked =
-      checkboxGroup.checked &&
-      checkboxGroup.checked.indexOf(props.value) !== -1;
-    checkboxProps.disabled = props.disabled || checkboxGroup.disabled;
+      (checkboxGroup.checked &&
+        checkboxGroup.checked.indexOf(props.value) !== -1) ||
+      false;
+    checkboxProps.disabled = props.disabled || checkboxGroup.disabled || false;
   }
 
   useEffect(() => {
-    setChecked(props.checked || false);
+    setChecked(props.checked ? true : false);
   }, [props.checked]);
 
   useEffect(() => {

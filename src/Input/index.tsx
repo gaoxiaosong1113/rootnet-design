@@ -137,7 +137,7 @@ function Input(props: InputProps) {
     ...prop
   } = props;
 
-  const [value, setValue] = useState(props.value);
+  const [value, setValue] = useState(props.value || '');
   const [focus, setFocus] = useState(props.focus);
 
   const handleChange = (e: any) => {
@@ -150,19 +150,19 @@ function Input(props: InputProps) {
   const handleFocus = (e: any) => {
     setFocus(true);
     if (onFocus) {
-      onFocus(props.value, e);
+      onFocus(value, e);
     }
     return false;
   };
   const handleBlur = (e: any) => {
     setFocus(false);
     if (onBlur) {
-      onBlur(props.value, e);
+      onBlur(value, e);
     }
   };
 
   useEffect(() => {
-    setValue(props.value);
+    setValue(props.value || '');
   }, [props.value]);
 
   useEffect(() => {
@@ -202,7 +202,7 @@ function Input(props: InputProps) {
         <input
           type="text"
           name={name}
-          value={value || ''}
+          value={value}
           onChange={handleChange}
           onFocus={handleFocus}
           onBlur={handleBlur}

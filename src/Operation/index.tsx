@@ -48,13 +48,16 @@ export interface OperationProps {
 }
 
 function Item(props: any) {
-  const { children, ...prop } = props;
+  const { className, children, ...prop } = props;
 
   return (
     <div
-      className={clsx({
-        [`${prefix}-operation-item`]: true,
-      })}
+      className={clsx(
+        {
+          [`${prefix}-operation-item`]: true,
+        },
+        className,
+      )}
       {...prop}
     >
       {children}

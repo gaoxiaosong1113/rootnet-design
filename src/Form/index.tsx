@@ -28,8 +28,9 @@ const themes = {
 
 const ThemeContext = React.createContext({} as any);
 
-const Form = (props: any) => {
+const InternalForm = (props: any, ref: any) => {
   const {
+    className,
     type,
     disabled,
     children,
@@ -46,7 +47,7 @@ const Form = (props: any) => {
   const formRef: any = useRef({});
 
   function handleSubmit(e: any) {
-    e.preventDefault();
+    e && e.preventDefault();
     let error: any = {};
     for (let attr in formRef.current) {
       let err = formRef.current[attr].validation();
@@ -63,6 +64,12 @@ const Form = (props: any) => {
     }
     return false;
   }
+
+  useImperativeHandle(ref, () => ({
+    onSubmit: () => {
+      handleSubmit(null);
+    },
+  }));
 
   return (
     <ThemeContext.Provider
@@ -82,11 +89,14 @@ const Form = (props: any) => {
       }}
     >
       <form
-        className={clsx({
-          [`${prefix}-form`]: true,
-          [`${prefix}-form-inline`]: !layout || layout == 'inline',
-          [`${prefix}-form-${layout}`]: layout,
-        })}
+        className={clsx(
+          {
+            [`${prefix}-form`]: true,
+            [`${prefix}-form-inline`]: !layout || layout == 'inline',
+            [`${prefix}-form-${layout}`]: layout,
+          },
+          className,
+        )}
         onSubmit={handleSubmit}
         {...prop}
       >
@@ -253,6 +263,13 @@ const Item = (props: any, ref: any) => {
     </div>
   );
 };
+
+export interface CompoundedComponent
+  extends React.ForwardRefExoticComponent<any> {
+  Item: any;
+}
+
+const Form = forwardRef(InternalForm) as CompoundedComponent;
 
 Form.Item = forwardRef(Item);
 
