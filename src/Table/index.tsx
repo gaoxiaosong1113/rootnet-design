@@ -83,7 +83,6 @@ function TableItem(props: any) {
   }, [selectedRowKeys]);
 
   const handleOpen = () => {
-    console.log(props);
     let targetOpen = !open;
     if (targetOpen) {
       onchecked(expandable, data[rowKey]);

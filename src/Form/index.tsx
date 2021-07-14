@@ -77,8 +77,6 @@ const InternalForm = (props: any, ref: any) => {
         onChange: (name: string, v: string) => {
           setValue((val: any) => {
             val[name] = v;
-            console.log(val);
-            console.log(v);
             return val;
           });
         },

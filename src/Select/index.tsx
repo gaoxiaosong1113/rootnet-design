@@ -146,7 +146,6 @@ function Select(props: SelectProps) {
               onCancel && onCancel();
             }}
             onChange={(v: any) => {
-              console.log(v);
               if (!multiple) {
                 setVisible(false);
               }
@@ -285,13 +284,11 @@ function SelectValue(props: SelectProps) {
   } = props;
   if (value) {
     if (multiple) {
-      console.log(value);
       if (value.length > 0) {
         return `已选中${value.length}项`;
       }
     } else {
       if (value !== undefined && value !== null) {
-        console.log(findKey(options, value));
         return findKey(options, value).label;
       }
     }

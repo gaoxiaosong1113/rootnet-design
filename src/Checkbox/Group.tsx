@@ -20,7 +20,6 @@ function Group(props: any): any {
   }, [props.checked]);
 
   function handleChange(e: any, v: any) {
-    console.log(e, v);
     let findIndex = checked.indexOf(v);
     if (!e && findIndex != -1) {
       checked.splice(findIndex, 1);

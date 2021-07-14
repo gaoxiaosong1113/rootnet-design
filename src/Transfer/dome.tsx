@@ -9,7 +9,6 @@ import {
   util,
 } from 'rootnet-design';
 
-// console.log(util)
 const { onchecked, unchecked, farmatSelectedRowKeys, checkAllData, loopData } =
   util;
 
@@ -186,7 +185,6 @@ function columns(props) {
 }
 
 function UACTable(props: any) {
-  console.log(props);
   // 选中项
   const [selectedRowKeys, setSelectedRowKeys] = useState(
     props.rowSelection.selectedRowKeys,

@@ -90,7 +90,6 @@ function Empty(props: EmptyProps) {
         describe: '没有找到相关数据',
       },
     };
-    console.log(config[type] || config['emptyData']);
     return config[type] || config['emptyData'];
   }, [type]);
   return (

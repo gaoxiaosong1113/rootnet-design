@@ -9,7 +9,6 @@ import {
   util,
 } from 'rootnet-design';
 
-// console.log(util)
 const { onchecked, unchecked, farmatSelectedRowKeys, checkAllData, loopData } =
   util;
 
