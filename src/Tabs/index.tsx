@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import clsx from 'clsx';
 
@@ -72,12 +72,25 @@ export default function Tabs(props: TabsProps) {
     width,
     height,
     tabList,
-    activeTabKey,
     extra,
-    changeTabKey,
     layout = 'vertical',
+    activeTabKey,
+    changeTabKey,
     ...prop
   } = props;
+  const [activeKey, setActiveKey] = useState(
+    props.activeTabKey || tabList[0].key,
+  );
+
+  useEffect(() => {
+    setActiveKey(props.activeTabKey || tabList[0].key);
+  }, [props.activeTabKey]);
+
+  function handleChange(key: any, index: any) {
+    setActiveKey(key);
+    changeTabKey && changeTabKey(key, index);
+  }
+
   return (
     <div
       className={clsx(
@@ -112,12 +125,10 @@ export default function Tabs(props: TabsProps) {
                     className={clsx({
                       [`${prefix}-tabs-nav-item`]: true,
                       [`${prefix}-tabs-nav-item-disabled`]: item.disabled,
-                      [`${prefix}-tabs-nav-item-active`]: activeTabKey == index,
+                      [`${prefix}-tabs-nav-item-active`]: activeKey == item.key,
                     })}
                     onClick={() =>
-                      changeTabKey && !item.disabled
-                        ? changeTabKey(index, item.key)
-                        : null
+                      !item.disabled ? handleChange(item.key, index) : null
                     }
                     key={index}
                   >
@@ -146,7 +157,8 @@ export default function Tabs(props: TabsProps) {
             <div
               className={clsx({
                 [`${prefix}-tabs-tab-item`]: true,
-                [`${prefix}-tabs-tab-item-active`]: index == activeTabKey,
+                [`${prefix}-tabs-tab-item-active`]:
+                  tabList[index].key == activeKey,
               })}
             >
               {item}

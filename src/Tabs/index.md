@@ -132,7 +132,7 @@ import { Tabs, Icon, Button, Grid } from 'rootnet-design';
 const { Row, Col } = Grid;
 
 export default () => {
-  const [activeTabKey, setActiveTabKey] = useState(1);
+  const [activeTabKey, setActiveTabKey] = useState();
 
   return (
     <div>
@@ -142,7 +142,7 @@ export default () => {
             layout="horizontal"
             tabList={[
               {
-                key: '1',
+                key: 'one',
                 name: (
                   <Button icon="Rootnet" type="primary" size="sm">
                     标签一
@@ -150,7 +150,7 @@ export default () => {
                 ),
               },
               {
-                key: '2',
+                key: 'tow',
                 name: <Icon name="Rootnet" />,
               },
               {
