@@ -22,16 +22,23 @@ export interface CollapseProps {
    */
   className?: string;
 
+  /**
+   * @description      是否显示边框
+   * @default           false
+   */
+  noBorder?: boolean;
+
   children?: React.ReactChild;
 }
 
 function Collapse(props: CollapseProps) {
-  const { children, ...prop } = props;
+  const { children, noBorder, ...prop } = props;
 
   return (
     <div
       className={clsx({
         [`${prefix}-collapse`]: true,
+        [`${prefix}-collapse-noBorder`]: noBorder,
       })}
       {...prop}
     >
@@ -41,7 +48,7 @@ function Collapse(props: CollapseProps) {
 }
 
 Collapse.Item = function Item(props: any) {
-  const { children, title, ...prop } = props;
+  const { children, title, extra, ...prop } = props;
 
   const [open, setOpen] = useState(props.open);
 
@@ -57,14 +64,34 @@ Collapse.Item = function Item(props: any) {
         className={clsx({
           [`${prefix}-collapse-item-head`]: true,
         })}
-        onClick={() => {
-          setOpen((prevOpen: any) => {
-            return !prevOpen;
-          });
-        }}
       >
-        <Icon name={open ? 'xuanzeshouqi' : 'xuanzexiala'} />
-        <span>{title}</span>
+        <div
+          className={clsx({
+            [`${prefix}-collapse-item-title`]: true,
+          })}
+          onClick={() => {
+            setOpen((prevOpen: any) => {
+              return !prevOpen;
+            });
+          }}
+        >
+          {title}
+        </div>
+        <div
+          className={clsx({
+            [`${prefix}-collapse-item-extra`]: true,
+          })}
+        >
+          {extra}
+          <Icon
+            onClick={() => {
+              setOpen((prevOpen: any) => {
+                return !prevOpen;
+              });
+            }}
+            name={open ? 'shang' : 'xia'}
+          />
+        </div>
       </div>
       <CSSTransition
         in={open}
