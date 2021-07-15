@@ -9,6 +9,6 @@ group:
 
 ## UacTransfer 权限穿梭框
 
-UAC 临时授权：
+UAC 临时授权：本组件已弃用
 
 <code src="./dome.tsx"></code>

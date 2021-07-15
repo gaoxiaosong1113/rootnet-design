@@ -82,14 +82,8 @@ function OperationPopup(props: any) {
         </div>
       }
     >
-      <div
-        className={clsx({
-          [`${prefix}-operation-item`]: true,
-          [`${prefix}-operation-item-more`]: true,
-        })}
-        onClick={(event) => {}}
-      >
-        ...
+      <div>
+        <Icon name="gengduo2" />
       </div>
     </Popover>
   );

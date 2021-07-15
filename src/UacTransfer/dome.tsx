@@ -212,7 +212,7 @@ function UACTable(props: any) {
   const [indeterminateKeys, setIndeterminateKeys] = useState([]);
 
   useEffect(() => {
-    props.rowSelection.onChange(selectedRowKeys);
+    props.rowSelection.onChange(selectedRowKeys, indeterminateKeys);
   }, [selectedRowKeys]);
 
   useEffect(() => {
@@ -388,11 +388,12 @@ function findCode(data: Array<any>) {
 }
 
 export default () => {
+  const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   return (
     <div>
       <Row gutter={[16, 16]}>
         <Col span={24}>
-          <UacTransfer
+          {/* <UacTransfer
             leftTitle="我是标题"
             rightTitle="我是右边标题"
             dataSource={dataSource}
@@ -402,9 +403,17 @@ export default () => {
             onAuth={(key) => {
               console.log(key, '给授权');
             }}
-          >
-            <UACTable />
-          </UacTransfer>
+          > */}
+          <UACTable
+            rowSelection={{
+              selectedRowKeys,
+              onChange: (keys, indeterminateKeys) => {
+                setSelectedRowKeys(keys);
+                console.log(keys, indeterminateKeys);
+              },
+            }}
+          />
+          {/* </UacTransfer> */}
         </Col>
       </Row>
     </div>

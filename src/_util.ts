@@ -97,7 +97,6 @@ export function unchecked(selectedRowKeys: any, key: any) {
 
 // 添加
 export function onchecked(selectedRowKeys: any, key: any) {
-  console.log(selectedRowKeys);
   let index = selectedRowKeys.indexOf(key);
   if (index === -1) {
     selectedRowKeys.push(key);
