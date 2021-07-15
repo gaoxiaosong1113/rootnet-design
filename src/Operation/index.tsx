@@ -83,7 +83,7 @@ function OperationPopup(props: any) {
       }
     >
       <div>
-        <Icon name="gengduo2" />
+        <Icon name="gengduo2" color="#5477ff" />
       </div>
     </Popover>
   );
