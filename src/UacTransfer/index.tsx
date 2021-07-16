@@ -160,17 +160,20 @@ function UacTransfer(props: UacTransferProps) {
         >
           {children ? (
             React.Children.map(children, (item: any, index) => {
-              return React.cloneElement(item, {
-                dataSource: dataSource,
-                key: 'left',
-                type: 'left',
-                rowSelection: {
-                  selectedRowKeys: sourceSelectedKeys,
-                  onChange: (key: any) => {
-                    setSourceSelectedKeys(key);
+              return (
+                item &&
+                React.cloneElement(item, {
+                  dataSource: dataSource,
+                  key: 'left',
+                  type: 'left',
+                  rowSelection: {
+                    selectedRowKeys: sourceSelectedKeys,
+                    onChange: (key: any) => {
+                      setSourceSelectedKeys(key);
+                    },
                   },
-                },
-              });
+                })
+              );
             })
           ) : (
             <Tree
@@ -240,17 +243,20 @@ function UacTransfer(props: UacTransferProps) {
         >
           {children ? (
             React.Children.map(children, (item: any, index) => {
-              return React.cloneElement(item, {
-                dataSource: dataSource,
-                key: 'right',
-                type: 'right',
-                rowSelection: {
-                  selectedRowKeys: targetSelectedKeys,
-                  onChange: (key: any) => {
-                    setTargetSelectedKeys(key);
+              return (
+                item &&
+                React.cloneElement(item, {
+                  dataSource: dataSource,
+                  key: 'right',
+                  type: 'right',
+                  rowSelection: {
+                    selectedRowKeys: targetSelectedKeys,
+                    onChange: (key: any) => {
+                      setTargetSelectedKeys(key);
+                    },
                   },
-                },
-              });
+                })
+              );
             })
           ) : (
             <Tree

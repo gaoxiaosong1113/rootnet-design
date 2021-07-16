@@ -118,13 +118,13 @@ import InternalCheckbox from './Checkbox';
 // function loopChildren(children: any, props: any, value: Array<any>): any {
 //   return React.Children.map(children, (item: any) => {
 //     if (item.type.name == 'Checkbox') {
-//       return React.cloneElement(item, {
+//       return item && React.cloneElement(item, {
 //         ...props,
 //         checked: value && value.indexOf(item.props.value) != -1,
 //       });
 //     } else {
 //       if (item.props.children) {
-//         return React.cloneElement(item, {
+//         return  item && React.cloneElement(item, {
 //           children: loopChildren(item.props.children, props, value),
 //         });
 //       }

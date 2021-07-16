@@ -70,12 +70,15 @@ function Descriptions(props: DescriptionsProps) {
 
   const child = useMemo(() => {
     return React.Children.map(children, (item) => {
-      return React.cloneElement(item, {
-        labelWidth,
-        border,
-        gutter,
-        column,
-      });
+      return (
+        item &&
+        React.cloneElement(item, {
+          labelWidth,
+          border,
+          gutter,
+          column,
+        })
+      );
     });
   }, [children]);
 

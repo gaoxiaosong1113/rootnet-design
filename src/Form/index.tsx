@@ -99,14 +99,17 @@ const InternalForm = (props: any, ref: any) => {
         {...prop}
       >
         {React.Children.map(children, (item) => {
-          return React.cloneElement(
-            item,
-            item.props.name
-              ? {
-                  ref: (r: any) => (formRef.current[item.props.name] = r),
-                  value: initialValues[item.props.name],
-                }
-              : {},
+          return (
+            item &&
+            React.cloneElement(
+              item,
+              item.props.name
+                ? {
+                    ref: (r: any) => (formRef.current[item.props.name] = r),
+                    value: initialValues[item.props.name],
+                  }
+                : {},
+            )
           );
         })}
       </form>

@@ -108,40 +108,43 @@ function Tooltip(props: ModalProps) {
         ref={refEl}
       >
         {React.Children.map(children, (item) => {
-          return React.cloneElement(item, {
-            onClick: (event: any) => {
-              event.persist();
-              if (trigger == 'click') {
-                setVisible((prevOpen) => {
-                  return !prevOpen;
-                });
-              }
-            },
-            onMouseOver: (event: any) => {
-              event.persist();
-              if (trigger == 'hover') {
-                handleOpen();
-              }
-            },
-            onMouseOut: (event: any) => {
-              event.persist();
-              if (trigger == 'hover') {
-                handleClose();
-              }
-            },
-            onFocus: (event: any) => {
-              event.persist();
-              if (trigger == 'focus') {
-                handleOpen();
-              }
-            },
-            onBlur: (event: any) => {
-              event.persist();
-              if (trigger == 'focus') {
-                handleClose();
-              }
-            },
-          });
+          return (
+            item &&
+            React.cloneElement(item, {
+              onClick: (event: any) => {
+                event.persist();
+                if (trigger == 'click') {
+                  setVisible((prevOpen) => {
+                    return !prevOpen;
+                  });
+                }
+              },
+              onMouseOver: (event: any) => {
+                event.persist();
+                if (trigger == 'hover') {
+                  handleOpen();
+                }
+              },
+              onMouseOut: (event: any) => {
+                event.persist();
+                if (trigger == 'hover') {
+                  handleClose();
+                }
+              },
+              onFocus: (event: any) => {
+                event.persist();
+                if (trigger == 'focus') {
+                  handleOpen();
+                }
+              },
+              onBlur: (event: any) => {
+                event.persist();
+                if (trigger == 'focus') {
+                  handleClose();
+                }
+              },
+            })
+          );
         })}
       </span>
       <Popup

@@ -39,10 +39,13 @@ function Breadcrumb(props: BreadcrumbProps) {
       {...prop}
     >
       {React.Children.map(children, (item: any, index) => {
-        return React.cloneElement(item, {
-          index,
-          lastChild: children && children.length - 1 == index,
-        });
+        return (
+          item &&
+          React.cloneElement(item, {
+            index,
+            lastChild: children && children.length - 1 == index,
+          })
+        );
       })}
     </div>
   );

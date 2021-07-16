@@ -62,7 +62,7 @@ const Row = (props: RowProps) => {
       }}
     >
       {React.Children.map(children, (item: any) => {
-        return React.cloneElement(item, { gutter: gutterData });
+        return item && React.cloneElement(item, { gutter: gutterData });
       })}
     </div>
   );

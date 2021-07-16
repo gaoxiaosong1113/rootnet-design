@@ -343,15 +343,18 @@ function Transfer(props: TransferProps) {
         >
           {children ? (
             React.Children.map(children, (item: any, index) => {
-              return React.cloneElement(item, {
-                dataSource: source,
-                rowSelection: {
-                  selectedRowKeys: sourceSelectedKeys,
-                  onChange: (key: any) => {
-                    setSourceSelectedKeys(key);
+              return (
+                item &&
+                React.cloneElement(item, {
+                  dataSource: source,
+                  rowSelection: {
+                    selectedRowKeys: sourceSelectedKeys,
+                    onChange: (key: any) => {
+                      setSourceSelectedKeys(key);
+                    },
                   },
-                },
-              });
+                })
+              );
             })
           ) : (
             <Tree
@@ -423,15 +426,18 @@ function Transfer(props: TransferProps) {
         >
           {children ? (
             React.Children.map(children, (item: any, index) => {
-              return React.cloneElement(item, {
-                dataSource: target,
-                rowSelection: {
-                  selectedRowKeys: targetSelectedKeys,
-                  onChange: (key: any) => {
-                    setTargetSelectedKeys(key);
+              return (
+                item &&
+                React.cloneElement(item, {
+                  dataSource: target,
+                  rowSelection: {
+                    selectedRowKeys: targetSelectedKeys,
+                    onChange: (key: any) => {
+                      setTargetSelectedKeys(key);
+                    },
                   },
-                },
-              });
+                })
+              );
             })
           ) : (
             <Tree
