@@ -18,7 +18,7 @@ const { Row, Col } = Grid;
 
 export default () => {
   return (
-    <div>
+    <div style={{ height: 300, overflowX: 'auto' }}>
       <Row gutter={[16, 16]}>
         <Col span={4}>
           <Popover content={'我是一段提示，并且字数不是很多'}>
@@ -26,6 +26,7 @@ export default () => {
           </Popover>
         </Col>
       </Row>
+      <div style={{ height: 999 }}></div>
     </div>
   );
 };

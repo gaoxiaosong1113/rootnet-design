@@ -112,7 +112,7 @@ function Tooltip(props: ModalProps) {
             item &&
             React.cloneElement(item, {
               onClick: (event: any) => {
-                event.persist();
+                event && event.persist();
                 if (trigger == 'click') {
                   setVisible((prevOpen) => {
                     return !prevOpen;
@@ -120,25 +120,25 @@ function Tooltip(props: ModalProps) {
                 }
               },
               onMouseOver: (event: any) => {
-                event.persist();
+                event && event.persist();
                 if (trigger == 'hover') {
                   handleOpen();
                 }
               },
               onMouseOut: (event: any) => {
-                event.persist();
+                event && event.persist();
                 if (trigger == 'hover') {
                   handleClose();
                 }
               },
               onFocus: (event: any) => {
-                event.persist();
+                event && event.persist();
                 if (trigger == 'focus') {
                   handleOpen();
                 }
               },
               onBlur: (event: any) => {
-                event.persist();
+                event && event.persist();
                 if (trigger == 'focus') {
                   handleClose();
                 }

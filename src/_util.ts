@@ -1,3 +1,5 @@
+import { useEffect, useState } from 'react';
+
 // 获取元素到屏幕左边的距离
 export const getOffsetLeft = function (obj: any): any {
   let tmp = obj.offsetLeft;
@@ -130,4 +132,31 @@ export function findKey(data: Array<any>, key: any, name: any = 'value') {
   }
   find(data);
   return val;
+}
+
+export function useGetElementParent(element: any) {
+  const [parent, setParent] = useState(null as any);
+
+  useEffect(() => {
+    if (element) {
+      let node = element;
+      let scrollElement = null;
+      while (node.parentElement) {
+        let style = window.getComputedStyle(node, null);
+        if (style.overflow == 'auto') {
+          scrollElement = node;
+        }
+        if (node.parentElement) {
+          node = node.parentElement;
+        }
+      }
+      if (!scrollElement) {
+        setParent(document);
+      } else {
+        setParent(scrollElement);
+      }
+    }
+  }, [element]);
+
+  return parent;
 }

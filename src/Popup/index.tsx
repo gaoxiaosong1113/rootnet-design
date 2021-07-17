@@ -1,4 +1,10 @@
-import React, { useEffect, useState, useRef, useMemo } from 'react';
+import React, {
+  useEffect,
+  useState,
+  useRef,
+  useMemo,
+  useCallback,
+} from 'react';
 
 import ReactDOM from 'react-dom';
 
@@ -10,7 +16,7 @@ import { prefix } from '../config';
 
 import { Icon, Button } from '../index';
 
-import { getOffsetLeft, getOffsetTop } from '../_util';
+import { getOffsetLeft, getOffsetTop, useGetElementParent } from '../_util';
 
 export interface PopupProps {
   /**
@@ -63,58 +69,75 @@ function Popup(props: PopupProps): any {
     ...prop
   } = props;
 
-  const style = useMemo(() => {
-    if (!visible || !refEl.current) return {};
-    switch (position) {
-      case 'top':
-        return {
-          left: getOffsetLeft(refEl.current) + refEl.current.offsetWidth / 2,
-          top: getOffsetTop(refEl.current) - 12,
-        };
-      case 'top-left':
-        return {
-          left: getOffsetLeft(refEl.current) + refEl.current.offsetWidth,
-          top: getOffsetTop(refEl.current) - 12,
-        };
-      case 'top-right':
-        return {
-          left: getOffsetLeft(refEl.current),
-          top: getOffsetTop(refEl.current) - 12,
-        };
-      case 'left':
-        return {
-          left: getOffsetLeft(refEl.current) - 12,
-          top: getOffsetTop(refEl.current) + refEl.current.offsetHeight / 2,
-        };
-      case 'right':
-        return {
-          left: getOffsetLeft(refEl.current) + refEl.current.offsetWidth + 12,
-          top: getOffsetTop(refEl.current) + refEl.current.offsetHeight / 2,
-        };
-      case 'bottom':
-        return {
-          left: getOffsetLeft(refEl.current) + refEl.current.offsetWidth / 2,
-          top: getOffsetTop(refEl.current) + refEl.current.offsetHeight + 12,
-        };
-      case 'bottom-left':
-        return {
-          left: getOffsetLeft(refEl.current) + refEl.current.offsetWidth,
-          top: getOffsetTop(refEl.current) + refEl.current.offsetHeight + 12,
-        };
-      case 'bottom-right':
-        return {
-          left: getOffsetLeft(refEl.current),
-          top: getOffsetTop(refEl.current) + refEl.current.offsetHeight + 12,
-        };
-      default:
-        return {
-          left: getOffsetLeft(refEl.current),
-          top: getOffsetTop(refEl.current),
-          width: refEl.current.offsetWidth,
-          height: refEl.current.offsetHeight,
-        };
+  const [left, setLeft] = useState(0);
+  const [top, setTop] = useState(0);
+  const [style, setStyle] = useState({});
+  const parent = useGetElementParent(refEl.current);
+
+  const ref = useRef(null as any);
+
+  useEffect(() => {
+    function handleStyle() {
+      if (!visible || !refEl.current || !ref.current) return {};
+      let refWidth = ref.current.offsetWidth;
+      let refHeight = ref.current.offsetHeight;
+      switch (position) {
+        case 'top':
+          return {
+            transform: `translate(${
+              left + refEl.current.offsetWidth / 2 - refWidth / 2
+            }px, ${top - 12 - refHeight}px)`,
+          };
+        case 'top-left':
+          return {
+            transform: `translate(${
+              left + refEl.current.offsetWidth - refWidth
+            }px, ${top - 12 - refHeight}px)`,
+          };
+        case 'top-right':
+          return {
+            transform: `translate(${left}px, ${top - 12 - refHeight}px)`,
+          };
+        case 'left':
+          return {
+            transform: `translate(${left - refWidth - 12}px, ${
+              top + refEl.current.offsetHeight / 2 - refHeight / 2
+            }px)`,
+          };
+        case 'right':
+          return {
+            transform: `translate(${left + refEl.current.offsetWidth + 12}px, ${
+              top + refEl.current.offsetHeight / 2 - refHeight / 2
+            }px)`,
+          };
+        case 'bottom':
+          return {
+            transform: `translate(${
+              left + refEl.current.offsetWidth / 2 - refWidth / 2
+            }px, ${top + refEl.current.offsetHeight + 12}px)`,
+          };
+        case 'bottom-left':
+          return {
+            transform: `translate(${
+              left + refEl.current.offsetWidth - refWidth
+            }px, ${top + refEl.current.offsetHeight + 12}px)`,
+          };
+        case 'bottom-right':
+          return {
+            transform: `translate(${left}px, ${
+              top + refEl.current.offsetHeight + 12
+            }px)`,
+          };
+        default:
+          return {
+            transform: `translate(${left}px, ${top}px)`,
+            width: refEl.current.offsetWidth,
+            height: refEl.current.offsetHeight,
+          };
+      }
     }
-  }, [position, refEl.current, visible]);
+    setStyle(handleStyle());
+  }, [visible, top, left]);
 
   useEffect(() => {
     function handleClick(e: any) {
@@ -127,12 +150,60 @@ function Popup(props: PopupProps): any {
     if (trigger == 'click') {
       document.addEventListener('click', handleClick);
     }
+
     return () => {
       if (trigger == 'click') {
         document.removeEventListener('click', handleClick);
       }
     };
   }, []);
+
+  function setPosition(ele: any) {
+    let left = getOffsetLeft(ele),
+      top = getOffsetTop(ele);
+    let isDocument = ele.nodeName == '#document';
+    let isBody = parent.nodeName == '#document';
+    if (isDocument) {
+      left = isBody ? getOffsetLeft(refEl.current) : getOffsetLeft(parent);
+      top = isBody ? getOffsetTop(refEl.current) : getOffsetTop(parent);
+    }
+    let bodyScrollLeft = document.documentElement.scrollLeft;
+    let bodyScrollTop = document.documentElement.scrollTop;
+    let targetScrollLeft = isDocument ? parent.scrollLeft : ele.scrollLeft;
+    let targetScrollTop = isDocument ? parent.scrollTop : ele.scrollTop;
+    if (isBody) {
+      // body滚动
+      left = left - bodyScrollLeft;
+      top = top - bodyScrollTop;
+    } else {
+      // 局部滚动
+      left = left - bodyScrollLeft - targetScrollLeft;
+      top = top - bodyScrollTop - targetScrollTop;
+    }
+    setLeft(left);
+    setTop(top);
+  }
+
+  useEffect(() => {
+    function handleScroll(e: any) {
+      setPosition(e.target);
+    }
+    function handleBodyScroll(e: any) {
+      setPosition(e.target);
+    }
+    if (parent) {
+      setPosition(parent);
+      parent.addEventListener('scroll', handleScroll);
+      if (parent.nodeName !== '#document') {
+        document.addEventListener('scroll', handleBodyScroll);
+      }
+    }
+    return () => {
+      if (!parent) return;
+      parent.removeEventListener('scroll', handleScroll);
+      document.removeEventListener('scroll', handleBodyScroll);
+    };
+  }, [parent]);
 
   if (visible) {
     return ReactDOM.createPortal(
@@ -145,6 +216,7 @@ function Popup(props: PopupProps): any {
           },
           className,
         )}
+        ref={ref}
         {...prop}
       >
         {children}
