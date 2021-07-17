@@ -171,6 +171,7 @@ function Popup(props: PopupProps): any {
     let bodyScrollTop = document.documentElement.scrollTop;
     let targetScrollLeft = isDocument ? parent.scrollLeft : ele.scrollLeft;
     let targetScrollTop = isDocument ? parent.scrollTop : ele.scrollTop;
+    console.log(isBody);
     if (isBody) {
       // body滚动
       left = left - bodyScrollLeft;
@@ -180,6 +181,7 @@ function Popup(props: PopupProps): any {
       left = left - bodyScrollLeft - targetScrollLeft;
       top = top - bodyScrollTop - targetScrollTop;
     }
+    console.log(left, top);
     setLeft(left);
     setTop(top);
   }

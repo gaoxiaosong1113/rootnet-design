@@ -150,6 +150,7 @@ export function useGetElementParent(element: any) {
           node = node.parentElement;
         }
       }
+      console.log(scrollElement);
       if (!scrollElement) {
         setParent(document);
       } else {
