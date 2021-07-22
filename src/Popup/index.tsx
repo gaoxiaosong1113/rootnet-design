@@ -137,7 +137,7 @@ function Popup(props: PopupProps): any {
       }
     }
     setStyle(handleStyle());
-  }, [visible, top, left]);
+  }, [top, left]);
 
   useEffect(() => {
     function handleClick(e: any) {
@@ -145,7 +145,6 @@ function Popup(props: PopupProps): any {
       if (!ReactDOM.findDOMNode(refEl.current)?.contains(e.target)) {
         onClose && onClose();
       }
-      // return false
     }
     if (trigger == 'click') {
       document.addEventListener('click', handleClick);
@@ -159,19 +158,18 @@ function Popup(props: PopupProps): any {
   }, []);
 
   function setPosition(ele: any) {
-    let left = getOffsetLeft(ele),
-      top = getOffsetTop(ele);
+    // 判断滚动区域是不是document
     let isDocument = ele.nodeName == '#document';
+    // 判断顶级元素是不是document
     let isBody = parent.nodeName == '#document';
-    if (isDocument) {
-      left = isBody ? getOffsetLeft(refEl.current) : getOffsetLeft(parent);
-      top = isBody ? getOffsetTop(refEl.current) : getOffsetTop(parent);
-    }
+
+    let left = getOffsetLeft(refEl.current);
+    let top = getOffsetTop(refEl.current);
+
     let bodyScrollLeft = document.documentElement.scrollLeft;
     let bodyScrollTop = document.documentElement.scrollTop;
     let targetScrollLeft = isDocument ? parent.scrollLeft : ele.scrollLeft;
     let targetScrollTop = isDocument ? parent.scrollTop : ele.scrollTop;
-    console.log(isBody);
     if (isBody) {
       // body滚动
       left = left - bodyScrollLeft;
@@ -181,12 +179,13 @@ function Popup(props: PopupProps): any {
       left = left - bodyScrollLeft - targetScrollLeft;
       top = top - bodyScrollTop - targetScrollTop;
     }
-    console.log(left, top);
     setLeft(left);
     setTop(top);
   }
 
   useEffect(() => {
+    if (!visible) return;
+    if (!refEl.current) return;
     function handleScroll(e: any) {
       setPosition(e.target);
     }
@@ -205,7 +204,7 @@ function Popup(props: PopupProps): any {
       parent.removeEventListener('scroll', handleScroll);
       document.removeEventListener('scroll', handleBodyScroll);
     };
-  }, [parent]);
+  }, [parent, visible, refEl.current]);
 
   if (visible) {
     return ReactDOM.createPortal(

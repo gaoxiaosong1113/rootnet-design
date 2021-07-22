@@ -48,16 +48,18 @@ export interface OperationProps {
 }
 
 function Item(props: any) {
-  const { className, children, ...prop } = props;
+  const { className, disabled, children, onClick, ...prop } = props;
 
   return (
     <div
       className={clsx(
         {
           [`${prefix}-operation-item`]: true,
+          [`${prefix}-operation-item-disabled`]: disabled,
         },
         className,
       )}
+      onClick={() => !disabled && onClick && onClick()}
       {...prop}
     >
       {children}

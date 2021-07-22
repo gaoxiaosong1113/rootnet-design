@@ -1,7 +1,7 @@
 {
   "private": false,
   "name": "rootnet-design",
-  "version": "0.0.26",
+  "version": "0.0.30",
   "files": [
     "dist"
   ],
@@ -16,7 +16,8 @@
     "test": "umi-test",
     "test:coverage": "umi-test --coverage",
     "patch": "npm version patch",
-    "upload": "npm run build && npm publish --registry=http://nexus.croot.com:8081/repository/npm-hosted/"
+    "upload": "npm run build && npm publish --registry=http://nexus.croot.com:8081/repository/npm-hosted/",
+    "unpublish": "npm unpublish rootnet-design --force"
   },
   "main": "dist/index.js",
   "module": "dist/index.esm.js",

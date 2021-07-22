@@ -143,14 +143,13 @@ export function useGetElementParent(element: any) {
       let scrollElement = null;
       while (node.parentElement) {
         let style = window.getComputedStyle(node, null);
-        if (style.overflow == 'auto') {
+        if (style.overflow.indexOf('auto') != -1) {
           scrollElement = node;
         }
         if (node.parentElement) {
           node = node.parentElement;
         }
       }
-      console.log(scrollElement);
       if (!scrollElement) {
         setParent(document);
       } else {

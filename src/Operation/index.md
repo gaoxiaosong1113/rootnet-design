@@ -39,6 +39,36 @@ export default () => {
 };
 ```
 
+禁用：
+
+```tsx
+import React from 'react';
+import { Operation, Grid } from 'rootnet-design';
+const { Row, Col } = Grid;
+
+export default () => {
+  return (
+    <div>
+      <Row gutter={[16, 16]}>
+        <Col span={4}>
+          <Operation>
+            <Operation.Item disabled>修改</Operation.Item>
+            <Operation.Item>详情</Operation.Item>
+            <Operation.Item>注销</Operation.Item>
+            <Operation.Popup>
+              <Operation.Item disabled>另存为pdf</Operation.Item>
+              <Operation.Item>另存为jpg</Operation.Item>
+              <Operation.Item>另存为png</Operation.Item>
+              <Operation.Item>另存为gif</Operation.Item>
+            </Operation.Popup>
+          </Operation>
+        </Col>
+      </Row>
+    </div>
+  );
+};
+```
+
 不同方向：
 
 ```tsx

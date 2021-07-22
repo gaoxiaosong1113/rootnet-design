@@ -47,7 +47,6 @@ const Row = (props: RowProps) => {
       gutterData = [gutter, gutter];
     }
   }
-
   return (
     <div
       className={clsx({

@@ -1,5 +1,5 @@
 // 引入react依赖
-import React from 'react';
+import React, { useMemo } from 'react';
 import ReactDOM from 'react-dom';
 
 // 引入第三方依赖
@@ -23,68 +23,134 @@ export interface ImageProps {
   className?: string;
 
   /**
-   * @description      按钮的类型
+   * @description      图片裁剪类型
    * @default           -
    */
-  type?: string;
+  mode?:
+    | 'scaleToFill'
+    | 'aspectFit'
+    | 'aspectFill'
+    | 'widthFix'
+    | 'heightFix'
+    | 'top'
+    | 'bottom'
+    | 'center'
+    | 'left'
+    | 'right'
+    | 'top left'
+    | 'top right'
+    | 'bottom left'
+    | 'bottom right';
 
   /**
-   * @description      需要显示的图标
+   * @description      图片路径
    * @default           -
    */
-  icon?: string;
-
-  /**
-   * @description      是否禁用按钮
-   * @default           false
-   */
-  disabled?: boolean;
-
-  children?: React.ReactChild;
-
-  /**
-   * @description      Image点击事件
-   * @default           -
-   */
-  onClick?: Function;
-
-  /**
-   * @description      Image左右的间隔
-   * @default           -
-   */
-  interval?: string;
-
-  /**
-   * @description      Image的尺寸
-   * @default           -
-   */
-  size?: string;
+  src?: string;
 }
 
 function Image(props: ImageProps) {
-  const { type, icon, disabled, children, onClick, interval, size, ...prop } =
-    props;
+  const { mode = 'scaleToFill', className, src, ...prop } = props;
 
-  function handleClick() {
-    if (!disabled && onClick) {
-      onClick();
+  const imgStyle = useMemo(() => {
+    switch (mode) {
+      case 'scaleToFill':
+        return {
+          backgroundPosition: '0% 0%',
+          backgroundSize: '100% 100%',
+          backgroundRepeat: 'no-repeat',
+        };
+      case 'aspectFit':
+        return {
+          backgroundPosition: 'center center',
+          backgroundSize: 'contain',
+          backgroundRepeat: 'no-repeat',
+        };
+      case 'aspectFill':
+        return {
+          backgroundPosition: 'center center',
+          backgroundSize: 'cover',
+          backgroundRepeat: 'no-repeat',
+        };
+      case 'widthFix':
+        return {
+          backgroundSize: '100% 100%',
+          backgroundRepeat: 'no-repeat',
+        };
+      case 'heightFix':
+        return {
+          backgroundSize: '100% 100%',
+          backgroundRepeat: 'no-repeat',
+        };
+      case 'top':
+        return {
+          backgroundPosition: 'center top',
+          backgroundSize: 'auto',
+          backgroundRepeat: 'no-repeat',
+        };
+      case 'bottom':
+        return {
+          backgroundPosition: 'center bottom',
+          backgroundSize: 'auto',
+          backgroundRepeat: 'no-repeat',
+        };
+      case 'center':
+        return {
+          backgroundPosition: 'center center',
+          backgroundSize: 'auto',
+          backgroundRepeat: 'no-repeat',
+        };
+      case 'left':
+        return {
+          backgroundPosition: 'left center',
+          backgroundSize: 'auto',
+          backgroundRepeat: 'no-repeat',
+        };
+      case 'right':
+        return {
+          backgroundPosition: 'right center',
+          backgroundSize: 'auto',
+          backgroundRepeat: 'no-repeat',
+        };
+      case 'top left':
+        return {
+          backgroundPosition: 'left top',
+          backgroundSize: 'auto',
+          backgroundRepeat: 'no-repeat',
+        };
+      case 'top right':
+        return {
+          backgroundPosition: 'right top',
+          backgroundSize: 'auto',
+          backgroundRepeat: 'no-repeat',
+        };
+      case 'bottom left':
+        return {
+          backgroundPosition: 'left bottom',
+          backgroundSize: 'auto',
+          backgroundRepeat: 'no-repeat',
+        };
+      case 'bottom right':
+        return {
+          backgroundPosition: 'right bottom',
+          backgroundSize: 'auto',
+          backgroundRepeat: 'no-repeat',
+        };
     }
-  }
+  }, [src, mode]);
+
   return (
     <div
       className={clsx({
-        [`${prefix}-Image`]: true,
-        [`${prefix}-Image-default`]: !type && !disabled,
-        [`${prefix}-Image-${type}`]: type,
-        [`${prefix}-Image-disabled`]: disabled,
-        [`${prefix}-Image-${size}`]: size,
+        [`${prefix}-image`]: true,
       })}
-      style={{ margin: interval }}
-      onClick={handleClick}
       {...prop}
     >
-      {icon && <Icon name={icon} />}
-      <span>{children}</span>
+      <div
+        className=""
+        style={{ backgroundImage: `url(${src})`, ...imgStyle }}
+      ></div>
+      <img src={src} />
     </div>
   );
 }

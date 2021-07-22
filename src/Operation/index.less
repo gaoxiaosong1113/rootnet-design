@@ -17,6 +17,10 @@
     display: flex;
     align-items: center;
     cursor: pointer;
+    &-disabled {
+      color: @disableColor;
+      cursor: no-drop;
+    }
 
     &:last-child {
       &:after {
@@ -50,8 +54,11 @@
       color: #15171f;
       line-height: 32px;
       padding: 0 12px;
-
-      &:hover {
+      &-disabled {
+        color: @disableColor;
+        cursor: no-drop;
+      }
+      &:not(.@{prefix}-operation-item-disabled):hover {
         height: 32px;
         background: #f2f6fa;
       }
