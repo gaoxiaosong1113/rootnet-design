@@ -141,21 +141,25 @@ function Popup(props: PopupProps): any {
 
   useEffect(() => {
     function handleClick(e: any) {
+      if (!visible) return;
       if (!refEl.current) return;
-      if (!ReactDOM.findDOMNode(refEl.current)?.contains(e.target)) {
+      if (!ref.current) return;
+      if (
+        !ReactDOM.findDOMNode(refEl.current)?.contains(e.target) &&
+        !ReactDOM.findDOMNode(ref.current)?.contains(e.target)
+      ) {
         onClose && onClose();
       }
     }
-    if (trigger == 'click') {
+    if (trigger == 'click' && visible) {
       document.addEventListener('click', handleClick);
     }
-
     return () => {
       if (trigger == 'click') {
         document.removeEventListener('click', handleClick);
       }
     };
-  }, []);
+  }, [visible]);
 
   function setPosition(ele: any) {
     // 判断滚动区域是不是document

@@ -48,14 +48,6 @@ export interface PopconfirmProps {
 function Content(props: any) {
   const { content, onConfirm, onCancel, position = 'top', ...prop } = props;
 
-  function handleCancel() {
-    onCancel ? onCancel() : null;
-  }
-
-  function handleConfirm() {
-    onConfirm ? onConfirm() : null;
-  }
-
   return (
     <div
       className={clsx({
@@ -80,18 +72,18 @@ function Content(props: any) {
             [`${prefix}-popconfirm-footer`]: true,
           })}
         >
-          <Button onClick={handleCancel}>取消</Button>
-          <Button type="primary" onClick={handleConfirm}>
+          <Button onClick={onCancel}>取消</Button>
+          <Button type="primary" onClick={onConfirm}>
             确定
           </Button>
         </div>
       </div>
-      <div
+      {/* <div
         className={clsx({
           [`${prefix}-popconfirm-mask`]: true,
         })}
         onClick={handleCancel}
-      ></div>
+      ></div> */}
     </div>
   );
 }
@@ -102,9 +94,18 @@ function Popconfirm(props: PopconfirmProps) {
 
   const refEl = useRef(null);
 
-  function handleClose() {
+  function handleCancel(e: any) {
     setVisible(false);
-    onCancel && onCancel();
+    if (onCancel) {
+      onCancel(e);
+    }
+  }
+
+  function handleConfirm(e: any) {
+    setVisible(false);
+    if (onConfirm) {
+      onConfirm(e);
+    }
   }
 
   return (
@@ -113,21 +114,19 @@ function Popconfirm(props: PopconfirmProps) {
         onClick: (event) => {
           event.persist();
           setVisible(true);
+          event.stopPropagation();
         },
         className: `${prefix}-popconfirm-target`,
         ref: refEl,
       })}
       <Popup
-        onClose={() => {
-          setVisible(false);
-          onCancel && onCancel();
-        }}
+        onClose={handleCancel}
         visible={visible}
         refEl={refEl}
         position={position}
         trigger={'click'}
       >
-        <Content {...props} onCancel={handleClose} />
+        <Content {...prop} onConfirm={handleConfirm} onCancel={handleCancel} />
       </Popup>
     </>
   );

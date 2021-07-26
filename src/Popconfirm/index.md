@@ -21,7 +21,15 @@ export default () => {
     <div>
       <Row gutter={[16, 16]}>
         <Col span={4}>
-          <Popconfirm content={'我是一段提示，并且字数不是很多'}>
+          <Popconfirm
+            content={'我是一段提示，并且字数不是很多'}
+            onConfirm={(e) => {
+              console.log('确认');
+            }}
+            onCancel={(e) => {
+              console.log('取消');
+            }}
+          >
             <span>默认</span>
           </Popconfirm>
         </Col>
@@ -43,7 +51,16 @@ export default () => {
     <div>
       <Row gutter={[16, 16]}>
         <Col span={4}>
-          <Popconfirm position="top" content={'我是一段提示，并且字数不是很多'}>
+          <Popconfirm
+            position="top"
+            content={'我是一段提示，并且字数不是很多'}
+            onConfirm={(e) => {
+              console.log('确认');
+            }}
+            onCancel={(e) => {
+              console.log('取消');
+            }}
+          >
             <span>top</span>
           </Popconfirm>
         </Col>
@@ -108,3 +125,5 @@ export default () => {
   );
 };
 ```
+
+<API />
