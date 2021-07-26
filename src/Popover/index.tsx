@@ -43,6 +43,12 @@ export interface PopoverProps {
    * @default           top
    */
   position?: string;
+
+  /**
+   * @description      点击弹出区域是否消失
+   * @default           false
+   */
+  targetHidden?: boolean;
 }
 
 function Content(props: any) {
@@ -53,6 +59,7 @@ function Content(props: any) {
     onCancel,
     event,
     position = 'top',
+    targetHidden,
     ...prop
   } = props;
 
@@ -95,7 +102,14 @@ function Content(props: any) {
 }
 
 function Popover(props: PopoverProps) {
-  const { children, onConfirm, onCancel, position = 'top', ...prop } = props;
+  const {
+    children,
+    onConfirm,
+    onCancel,
+    position = 'top',
+    targetHidden,
+    ...prop
+  } = props;
   const [visible, setVisible] = useState(false);
 
   const refEl = useRef(null);
@@ -121,6 +135,7 @@ function Popover(props: PopoverProps) {
           setVisible(false);
           onCancel && onCancel();
         }}
+        targetHidden={targetHidden}
         visible={visible}
         refEl={refEl}
         position={position}

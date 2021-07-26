@@ -55,6 +55,12 @@ export interface PopupProps {
    * @default           click
    */
   trigger: string;
+
+  /**
+   * @description      点击弹出区域是否消失
+   * @default           false
+   */
+  targetHidden?: boolean;
 }
 
 function Popup(props: PopupProps): any {
@@ -66,6 +72,7 @@ function Popup(props: PopupProps): any {
     position,
     onClose,
     trigger,
+    targetHidden = false,
     ...prop
   } = props;
 
@@ -144,11 +151,18 @@ function Popup(props: PopupProps): any {
       if (!visible) return;
       if (!refEl.current) return;
       if (!ref.current) return;
-      if (
-        !ReactDOM.findDOMNode(refEl.current)?.contains(e.target) &&
-        !ReactDOM.findDOMNode(ref.current)?.contains(e.target)
-      ) {
-        onClose && onClose();
+      // 判断选定区域
+      if (targetHidden) {
+        if (!ReactDOM.findDOMNode(refEl.current)?.contains(e.target)) {
+          onClose && onClose();
+        }
+      } else {
+        if (
+          !ReactDOM.findDOMNode(refEl.current)?.contains(e.target) &&
+          !ReactDOM.findDOMNode(ref.current)?.contains(e.target)
+        ) {
+          onClose && onClose();
+        }
       }
     }
     if (trigger == 'click' && visible) {

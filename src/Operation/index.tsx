@@ -91,6 +91,7 @@ function OperationPopup(props: any) {
   return (
     <Popover
       position={position}
+      targetHidden={true}
       content={
         <div
           className={clsx({

@@ -18,61 +18,69 @@ const { Row, Col } = Grid;
 
 export default () => {
   return (
-    <div>
-      <Row gutter={[16, 16]}>
-        <Col span={4}>
-          <Tooltip position="top" content={'我是一段提示，并且字数不是很多'}>
-            <span>top</span>
-          </Tooltip>
-        </Col>
-        <Col span={4}>
-          <Tooltip
-            position="top-left"
-            content={'我是一段提示，并且字数不是很多'}
-          >
-            <span>top-left</span>
-          </Tooltip>
-        </Col>
-        <Col span={4}>
-          <Tooltip
-            position="top-right"
-            content={'我是一段提示，并且字数不是很多'}
-          >
-            <span>top-right</span>
-          </Tooltip>
-        </Col>
-        <Col span={4}>
-          <Tooltip position="left" content={'我是一段提示，并且字数不是很多'}>
-            <span>left</span>
-          </Tooltip>
-        </Col>
-        <Col span={4}>
-          <Tooltip position="right" content={'我是一段提示，并且字数不是很多'}>
-            <span>right</span>
-          </Tooltip>
-        </Col>
-        <Col span={4}>
-          <Tooltip position="bottom" content={'我是一段提示，并且字数不是很多'}>
-            <span>bottom</span>
-          </Tooltip>
-        </Col>
-        <Col span={4}>
-          <Tooltip
-            position="bottom-left"
-            content={'我是一段提示，并且字数不是很多'}
-          >
-            <span>bottom-left</span>
-          </Tooltip>
-        </Col>
-        <Col span={4}>
-          <Tooltip
-            position="bottom-right"
-            content={'我是一段提示，并且字数不是很多'}
-          >
-            <span>bottom-right</span>
-          </Tooltip>
-        </Col>
-      </Row>
+    <div style={{ overflow: 'auto', height: 200 }}>
+      <div style={{ height: 800 }}>
+        <Row gutter={[16, 16]}>
+          <Col span={4}>
+            <Tooltip position="top" content={'我是一段提示，并且字数不是很多'}>
+              <span>top</span>
+            </Tooltip>
+          </Col>
+          <Col span={4}>
+            <Tooltip
+              position="top-left"
+              content={'我是一段提示，并且字数不是很多'}
+            >
+              <span>top-left</span>
+            </Tooltip>
+          </Col>
+          <Col span={4}>
+            <Tooltip
+              position="top-right"
+              content={'我是一段提示，并且字数不是很多'}
+            >
+              <span>top-right</span>
+            </Tooltip>
+          </Col>
+          <Col span={4}>
+            <Tooltip position="left" content={'我是一段提示，并且字数不是很多'}>
+              <span>left</span>
+            </Tooltip>
+          </Col>
+          <Col span={4}>
+            <Tooltip
+              position="right"
+              content={'我是一段提示，并且字数不是很多'}
+            >
+              <span>right</span>
+            </Tooltip>
+          </Col>
+          <Col span={4}>
+            <Tooltip
+              position="bottom"
+              content={'我是一段提示，并且字数不是很多'}
+            >
+              <span>bottom</span>
+            </Tooltip>
+          </Col>
+          <Col span={4}>
+            <Tooltip
+              position="bottom-left"
+              content={'我是一段提示，并且字数不是很多'}
+            >
+              <span>bottom-left</span>
+            </Tooltip>
+          </Col>
+          <Col span={4}>
+            <Tooltip
+              position="bottom-right"
+              content={'我是一段提示，并且字数不是很多'}
+            >
+              <span>bottom-right</span>
+            </Tooltip>
+          </Col>
+        </Row>
+      </div>
     </div>
   );
 };
