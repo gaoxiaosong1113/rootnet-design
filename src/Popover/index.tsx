@@ -63,11 +63,13 @@ function Content(props: any) {
     ...prop
   } = props;
 
-  function handleCancel() {
+  function handleCancel(event: any) {
+    event.stopPropagation();
     onCancel ? onCancel() : null;
   }
 
-  function handleConfirm() {
+  function handleConfirm(event: any) {
+    event.stopPropagation();
     onConfirm ? onConfirm() : null;
   }
 
@@ -113,17 +115,17 @@ function Popover(props: PopoverProps) {
   const [visible, setVisible] = useState(false);
 
   const refEl = useRef(null);
-  function handleOpen() {
-    setVisible(true);
-  }
-  function handleClose() {
+
+  function handleClose(e: any) {
+    e.stopPropagation();
     setVisible(false);
-    onCancel && onCancel();
+    onCancel && onCancel(e);
   }
   return (
     <>
       {React.cloneElement(children, {
         onClick: (event) => {
+          event.stopPropagation();
           event.persist();
           setVisible(true);
         },

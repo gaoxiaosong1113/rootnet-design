@@ -71,6 +71,7 @@ function Item(props: any, ref: any) {
           className,
         )}
         onClick={(e: any) => {
+          e.stopPropagation();
           if (!disabled && onClick) {
             onClick(e);
           }

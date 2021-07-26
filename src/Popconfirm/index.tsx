@@ -95,6 +95,7 @@ function Popconfirm(props: PopconfirmProps) {
   const refEl = useRef(null);
 
   function handleCancel(e: any) {
+    e?.stopPropagation();
     setVisible(false);
     if (onCancel) {
       onCancel(e);
@@ -102,6 +103,7 @@ function Popconfirm(props: PopconfirmProps) {
   }
 
   function handleConfirm(e: any) {
+    e?.stopPropagation();
     setVisible(false);
     if (onConfirm) {
       onConfirm(e);
