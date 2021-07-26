@@ -99,7 +99,9 @@ export default () => {
       <Row gutter={[16, 16]}>
         <Col span={4}>
           <Tooltip trigger="click" content={'我是一段提示，并且字数不是很多'}>
-            <span>click</span>
+            <span style={{ transform: 'translate(273.986px, 197.25px)' }}>
+              click
+            </span>
           </Tooltip>
         </Col>
         <Col span={4}>

@@ -152,6 +152,7 @@ function Popup(props: PopupProps): any {
       if (!refEl.current) return;
       if (!ref.current) return;
       // 判断选定区域
+
       if (targetHidden) {
         if (!ReactDOM.findDOMNode(refEl.current)?.contains(e.target)) {
           onClose && onClose();
@@ -176,27 +177,9 @@ function Popup(props: PopupProps): any {
   }, [visible]);
 
   function setPosition(ele: any) {
-    // 判断滚动区域是不是document
-    let isDocument = ele.nodeName == '#document';
-    // 判断顶级元素是不是document
-    let isBody = parent.nodeName == '#document';
-
-    let left = getOffsetLeft(refEl.current);
-    let top = getOffsetTop(refEl.current);
-
-    let bodyScrollLeft = document.documentElement.scrollLeft;
-    let bodyScrollTop = document.documentElement.scrollTop;
-    let targetScrollLeft = isDocument ? parent.scrollLeft : ele.scrollLeft;
-    let targetScrollTop = isDocument ? parent.scrollTop : ele.scrollTop;
-    if (isBody) {
-      // body滚动
-      left = left - bodyScrollLeft;
-      top = top - bodyScrollTop;
-    } else {
-      // 局部滚动
-      left = left - bodyScrollLeft - targetScrollLeft;
-      top = top - bodyScrollTop - targetScrollTop;
-    }
+    let offset = refEl.current.getBoundingClientRect();
+    let left = offset.left;
+    let top = offset.top;
     setLeft(left);
     setTop(top);
   }
@@ -207,20 +190,20 @@ function Popup(props: PopupProps): any {
     function handleScroll(e: any) {
       setPosition(e.target);
     }
-    function handleBodyScroll(e: any) {
-      setPosition(e.target);
-    }
-    if (parent) {
-      setPosition(parent);
-      parent.addEventListener('scroll', handleScroll);
-      if (parent.nodeName !== '#document') {
-        document.addEventListener('scroll', handleBodyScroll);
-      }
-    }
+    console.log(parent);
+    setPosition(parent);
+    parent.forEach((item: any) => {
+      item.addEventListener('scroll', handleScroll);
+    });
+    // parent.addEventListener('scroll', handleScroll);
+    // if (parent.nodeName !== '#document') {
+    //   document.addEventListener('scroll', handleBodyScroll);
+    // }
+    // document.documentElement.addEventListener('scroll', handleScroll);
     return () => {
-      if (!parent) return;
-      parent.removeEventListener('scroll', handleScroll);
-      document.removeEventListener('scroll', handleBodyScroll);
+      parent.forEach((item: any) => {
+        item.removeEventListener('scroll', handleScroll);
+      });
     };
   }, [parent, visible, refEl.current]);
 

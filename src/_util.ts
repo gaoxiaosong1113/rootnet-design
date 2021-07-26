@@ -135,27 +135,19 @@ export function findKey(data: Array<any>, key: any, name: any = 'value') {
 }
 
 export function useGetElementParent(element: any) {
-  const [parent, setParent] = useState(null as any);
+  const [parent, setParent] = useState([] as any);
 
   useEffect(() => {
     if (element) {
       let node = element;
-      let scrollElement = null;
+      let list = [];
       while (node && node.parentElement) {
-        let style = window.getComputedStyle(node, null);
-        if (style.overflow.indexOf('auto') != -1) {
-          scrollElement = node;
-          node = null;
-        }
-        if (node && node.parentElement) {
-          node = node.parentElement;
-        }
+        console.log(node);
+        node = node.parentElement;
+        list.push(node);
       }
-      if (!scrollElement) {
-        setParent(document);
-      } else {
-        setParent(scrollElement);
-      }
+      list.push(document);
+      setParent(list);
     }
   }, [element]);
 
