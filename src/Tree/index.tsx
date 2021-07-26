@@ -160,6 +160,7 @@ function TreeItem(props: any) {
             key={data.dataIndex}
             onClick={() => {
               if (checkable) {
+                console.log(data[rowKey]);
                 setValue(data[rowKey]);
               }
             }}
@@ -332,14 +333,14 @@ export default function Tree(props: TreeProps) {
 
   useEffect(() => {
     if (!value) return;
-    if (value == props.value) return;
     if (onCheck) {
       onCheck(value);
     }
   }, [value]);
 
   useEffect(() => {
-    if (props.value) {
+    if (!props.value) return;
+    if (props.value != value) {
       setValue(props.value);
     }
   }, [props.value]);

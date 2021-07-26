@@ -211,6 +211,7 @@ Modal.confirm = (props: any) => {
   return ReactDOM.render(
     <ModalContent
       {...props}
+      type="confirm"
       visible={true}
       isFastOpen={true}
       onCancel={() => handleClick(() => onCancel && onCancel())}
