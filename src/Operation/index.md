@@ -13,7 +13,7 @@ group:
 
 ```tsx
 import React from 'react';
-import { Operation, Grid } from 'rootnet-design';
+import { Operation, Popconfirm, Grid } from 'rootnet-design';
 const { Row, Col } = Grid;
 
 export default () => {
@@ -24,13 +24,17 @@ export default () => {
           <Operation>
             <Operation.Item>修改</Operation.Item>
             <Operation.Item>详情</Operation.Item>
-            <Operation.Item>注销</Operation.Item>
-            <Operation.Popup>
-              <Operation.Item>另存为pdf</Operation.Item>
-              <Operation.Item>另存为jpg</Operation.Item>
-              <Operation.Item>另存为png</Operation.Item>
-              <Operation.Item>另存为gif</Operation.Item>
-            </Operation.Popup>
+            <Popconfirm
+              content={'我是一段提示，并且字数不是很多'}
+              onConfirm={(e) => {
+                console.log('确认');
+              }}
+              onCancel={(e) => {
+                console.log('取消');
+              }}
+            >
+              <Operation.Item>注销</Operation.Item>
+            </Popconfirm>
           </Operation>
         </Col>
       </Row>

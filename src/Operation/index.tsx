@@ -1,4 +1,10 @@
-import React, { useEffect, useState, useRef, useMemo } from 'react';
+import React, {
+  useEffect,
+  useState,
+  useRef,
+  useMemo,
+  useImperativeHandle,
+} from 'react';
 import ReactDOM from 'react-dom';
 
 import clsx from 'clsx';
@@ -47,23 +53,35 @@ export interface OperationProps {
   event: any;
 }
 
-function Item(props: any) {
+function Item(props: any, ref: any) {
   const { className, disabled, children, onClick, ...prop } = props;
 
+  const refEl = useRef(null);
+
+  useImperativeHandle(ref, () => refEl.current);
+
   return (
-    <div
-      className={clsx(
-        {
-          [`${prefix}-operation-item`]: true,
-          [`${prefix}-operation-item-disabled`]: disabled,
-        },
-        className,
-      )}
-      onClick={() => !disabled && onClick && onClick()}
-      {...prop}
-    >
-      {children}
-    </div>
+    <>
+      <div
+        className={clsx(
+          {
+            [`${prefix}-operation-item`]: true,
+            [`${prefix}-operation-item-disabled`]: disabled,
+          },
+          className,
+        )}
+        onClick={(e: any) => {
+          if (!disabled && onClick) {
+            onClick(e);
+          }
+        }}
+        {...prop}
+        ref={refEl}
+      >
+        {children}
+      </div>
+      <div className="line"></div>
+    </>
   );
 }
 
@@ -120,7 +138,7 @@ function Operation(props: OperationProps) {
   );
 }
 
-Operation.Item = Item;
+Operation.Item = React.forwardRef(Item);
 Operation.Popup = OperationPopup;
 
 export default Operation;

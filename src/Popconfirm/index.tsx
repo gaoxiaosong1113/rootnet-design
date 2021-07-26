@@ -112,7 +112,6 @@ function Popconfirm(props: PopconfirmProps) {
     <>
       {React.cloneElement(children, {
         onClick: (event) => {
-          event.persist();
           setVisible(true);
           event.stopPropagation();
         },

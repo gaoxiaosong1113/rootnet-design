@@ -5,8 +5,10 @@
   align-items: center;
 
   .@{prefix}-popconfirm-target {
-    margin-left: -12px;
-    padding: 0 12px;
+    &:not(.@{prefix}-operation-item) {
+      // margin-left: -12px;
+      // padding: 0 12px;
+    }
   }
 
   & > &-item {
@@ -17,6 +19,8 @@
     display: flex;
     align-items: center;
     cursor: pointer;
+    white-space: nowrap;
+
     &-disabled {
       color: @disableColor;
       cursor: no-drop;
@@ -28,17 +32,18 @@
       }
     }
 
-    &:after {
-      content: '';
-      display: block;
-      width: 1px;
-      height: 12px;
-      background: #e9eaf2;
-      margin: 0 12px;
-    }
-
     &-more {
       margin-top: -0.5em;
+    }
+  }
+  .line {
+    display: block;
+    width: 1px;
+    height: 12px;
+    background: #e9eaf2;
+    margin: 0 12px;
+    &:last-child {
+      display: none;
     }
   }
 
@@ -54,6 +59,7 @@
       color: #15171f;
       line-height: 32px;
       padding: 0 12px;
+      white-space: nowrap;
       &-disabled {
         color: @disableColor;
         cursor: no-drop;
