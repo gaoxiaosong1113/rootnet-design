@@ -142,7 +142,6 @@ export function useGetElementParent(element: any) {
       let node = element;
       let list = [];
       while (node && node.parentElement) {
-        console.log(node);
         node = node.parentElement;
         list.push(node);
       }

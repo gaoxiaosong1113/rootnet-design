@@ -86,20 +86,24 @@ function Popup(props: PopupProps): any {
   useEffect(() => {
     function handleStyle() {
       if (!visible || !refEl.current || !ref.current) return {};
-      let refWidth = ref.current.offsetWidth;
-      let refHeight = ref.current.offsetHeight;
+      let refTarget = ref.current.getBoundingClientRect();
+      let refElTarget = refEl.current.getBoundingClientRect();
+      let refWidth = refTarget.width;
+      let refHeight = refTarget.height;
+      let refElWidth = refElTarget.width;
+      let refElHeight = refElTarget.height;
       switch (position) {
         case 'top':
           return {
-            transform: `translate(${
-              left + refEl.current.offsetWidth / 2 - refWidth / 2
-            }px, ${top - 12 - refHeight}px)`,
+            transform: `translate(${left + refElWidth / 2 - refWidth / 2}px, ${
+              top - 12 - refHeight
+            }px)`,
           };
         case 'top-left':
           return {
-            transform: `translate(${
-              left + refEl.current.offsetWidth - refWidth
-            }px, ${top - 12 - refHeight}px)`,
+            transform: `translate(${left + refElWidth - refWidth}px, ${
+              top - 12 - refHeight
+            }px)`,
           };
         case 'top-right':
           return {
@@ -108,38 +112,36 @@ function Popup(props: PopupProps): any {
         case 'left':
           return {
             transform: `translate(${left - refWidth - 12}px, ${
-              top + refEl.current.offsetHeight / 2 - refHeight / 2
+              top + refElHeight / 2 - refHeight / 2
             }px)`,
           };
         case 'right':
           return {
-            transform: `translate(${left + refEl.current.offsetWidth + 12}px, ${
-              top + refEl.current.offsetHeight / 2 - refHeight / 2
+            transform: `translate(${left + refElWidth + 12}px, ${
+              top + refElHeight / 2 - refHeight / 2
             }px)`,
           };
         case 'bottom':
           return {
-            transform: `translate(${
-              left + refEl.current.offsetWidth / 2 - refWidth / 2
-            }px, ${top + refEl.current.offsetHeight + 12}px)`,
+            transform: `translate(${left + refElWidth / 2 - refWidth / 2}px, ${
+              top + refElHeight + 12
+            }px)`,
           };
         case 'bottom-left':
           return {
-            transform: `translate(${
-              left + refEl.current.offsetWidth - refWidth
-            }px, ${top + refEl.current.offsetHeight + 12}px)`,
+            transform: `translate(${left + refElWidth - refWidth}px, ${
+              top + refElHeight + 12
+            }px)`,
           };
         case 'bottom-right':
           return {
-            transform: `translate(${left}px, ${
-              top + refEl.current.offsetHeight + 12
-            }px)`,
+            transform: `translate(${left}px, ${top + refElHeight + 12}px)`,
           };
         default:
           return {
             transform: `translate(${left}px, ${top}px)`,
-            width: refEl.current.offsetWidth,
-            height: refEl.current.offsetHeight,
+            width: refElWidth,
+            height: refElHeight,
           };
       }
     }
@@ -190,7 +192,6 @@ function Popup(props: PopupProps): any {
     function handleScroll(e: any) {
       setPosition(e.target);
     }
-    console.log(parent);
     setPosition(parent);
     parent.forEach((item: any) => {
       item.addEventListener('scroll', handleScroll);

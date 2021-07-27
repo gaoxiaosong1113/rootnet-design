@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 
 import clsx from 'clsx';
 
@@ -91,6 +91,26 @@ export default function Tabs(props: TabsProps) {
     changeTabKey && changeTabKey(key, index);
   }
 
+  const tabChildren = useMemo(() => {
+    return tabList.map((item: any, index: number) => {
+      return (
+        <div
+          className={clsx({
+            [`${prefix}-tabs-nav-item`]: true,
+            [`${prefix}-tabs-nav-item-disabled`]: item.disabled,
+            [`${prefix}-tabs-nav-item-active`]: activeKey == item.key,
+          })}
+          onClick={() =>
+            !item.disabled ? handleChange(item.key, index) : null
+          }
+          key={index}
+        >
+          {item.name}
+        </div>
+      );
+    });
+  }, [tabList]);
+
   return (
     <div
       className={clsx(
@@ -113,31 +133,13 @@ export default function Tabs(props: TabsProps) {
             [`${prefix}-tabs-head-content`]: true,
           })}
         >
-          {tabList && (
-            <div
-              className={clsx({
-                [`${prefix}-tabs-nav`]: true,
-              })}
-            >
-              {tabList.map((item: any, index: number) => {
-                return (
-                  <div
-                    className={clsx({
-                      [`${prefix}-tabs-nav-item`]: true,
-                      [`${prefix}-tabs-nav-item-disabled`]: item.disabled,
-                      [`${prefix}-tabs-nav-item-active`]: activeKey == item.key,
-                    })}
-                    onClick={() =>
-                      !item.disabled ? handleChange(item.key, index) : null
-                    }
-                    key={index}
-                  >
-                    {item.name}
-                  </div>
-                );
-              })}
-            </div>
-          )}
+          <div
+            className={clsx({
+              [`${prefix}-tabs-nav`]: true,
+            })}
+          >
+            {tabChildren}
+          </div>
         </div>
         <div
           className={clsx({
@@ -158,7 +160,7 @@ export default function Tabs(props: TabsProps) {
               className={clsx({
                 [`${prefix}-tabs-tab-item`]: true,
                 [`${prefix}-tabs-tab-item-active`]:
-                  tabList[index].key == activeKey,
+                  tabList[index] && tabList[index].key == activeKey,
               })}
             >
               {item}
