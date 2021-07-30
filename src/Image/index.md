@@ -19,7 +19,7 @@ const { Row, Col } = Grid;
 
 import img from './xtjgt.png';
 
-const style = { width: 400, height: 200, backgroundColor: '#000' };
+const style = { width: 500, height: 200, backgroundColor: '#000' };
 
 export default () => {
   return (

@@ -1,5 +1,5 @@
 // 引入react依赖
-import React, { useMemo } from 'react';
+import React, { useMemo, useRef, useState } from 'react';
 import ReactDOM from 'react-dom';
 
 // 引入第三方依赖
@@ -47,12 +47,22 @@ export interface ImageProps {
    * @default           -
    */
   src?: string;
+
+  style?: any;
 }
 
 function Image(props: ImageProps) {
-  const { mode = 'scaleToFill', className, src, ...prop } = props;
+  const { mode = 'scaleToFill', style, className, src, ...prop } = props;
+
+  const ref = useRef(null as any);
+
+  const [load, setLoad] = useState(false);
 
   const imgStyle = useMemo(() => {
+    let size = ref.current?.getBoundingClientRect();
+    if (!size) {
+      return {};
+    }
     switch (mode) {
       case 'scaleToFill':
         return {
@@ -137,20 +147,71 @@ function Image(props: ImageProps) {
           backgroundRepeat: 'no-repeat',
         };
     }
-  }, [src, mode]);
+  }, [src, mode, load]);
+
+  const warpStyle = useMemo(() => {
+    let size = ref.current?.getBoundingClientRect();
+    if (!size) {
+      return {};
+    }
+    switch (mode) {
+      case 'scaleToFill':
+        return {};
+      case 'aspectFit':
+        return {};
+      case 'aspectFill':
+        return {};
+      case 'widthFix':
+        return {
+          height:
+            (size.width / ref.current.naturalWidth) * ref.current.naturalHeight,
+        };
+      case 'heightFix':
+        return {
+          width:
+            (size.height / ref.current.naturalHeight) *
+            ref.current.naturalWidth,
+        };
+      case 'top':
+        return {};
+      case 'bottom':
+        return {};
+      case 'center':
+        return {};
+      case 'left':
+        return {};
+      case 'right':
+        return {};
+      case 'top left':
+        return {};
+      case 'top right':
+        return {};
+      case 'bottom left':
+        return {};
+      case 'bottom right':
+        return {};
+    }
+  }, [src, mode, load]);
 
   return (
     <div
       className={clsx({
         [`${prefix}-image`]: true,
       })}
+      style={{
+        ...style,
+        ...warpStyle,
+      }}
       {...prop}
     >
-      <div
-        className=""
-        style={{ backgroundImage: `url(${src})`, ...imgStyle }}
-      ></div>
-      <img src={src} />
+      <div style={{ backgroundImage: `url(${src})`, ...imgStyle }}></div>
+      <img
+        src={src}
+        ref={ref}
+        onLoad={(e) => {
+          setLoad(true);
+        }}
+      />
     </div>
   );
 }

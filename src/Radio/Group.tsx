@@ -15,7 +15,9 @@ export const GroupContext = React.createContext({} as any);
 function Group(props: any) {
   const { children, onChange } = props;
 
-  const [checked, setChecked] = useState(props.checked || null);
+  const [checked, setChecked] = useState(
+    props.checked === undefined ? null : props.checked,
+  );
 
   function handleChange(e: any, v: any) {
     setChecked(v);
@@ -23,6 +25,10 @@ function Group(props: any) {
       onChange(v);
     }
   }
+
+  useEffect(() => {
+    setChecked(props.checked);
+  }, [props.checked]);
 
   const context = {
     checked,

@@ -69,7 +69,7 @@ function Popup(props: PopupProps): any {
     children,
     visible,
     refEl,
-    position,
+    position = 'content',
     onClose,
     trigger,
     targetHidden = false,
@@ -99,13 +99,13 @@ function Popup(props: PopupProps): any {
               top - 12 - refHeight
             }px)`,
           };
-        case 'top-left':
+        case 'top-right':
           return {
             transform: `translate(${left + refElWidth - refWidth}px, ${
               top - 12 - refHeight
             }px)`,
           };
-        case 'top-right':
+        case 'top-left':
           return {
             transform: `translate(${left}px, ${top - 12 - refHeight}px)`,
           };
@@ -146,7 +146,11 @@ function Popup(props: PopupProps): any {
       }
     }
     setStyle(handleStyle());
-  }, [top, left]);
+  }, [top, left, refEl.current]);
+
+  useEffect(() => {
+    console.log('目标修改');
+  }, [refEl.current]);
 
   useEffect(() => {
     function handleClick(e: any) {
