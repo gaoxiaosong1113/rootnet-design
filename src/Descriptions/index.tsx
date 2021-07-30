@@ -41,7 +41,19 @@ export interface DescriptionsProps {
    * @description      label宽度
    * @default           120
    */
-  labelWidth?: number;
+  labelWidth?: any;
+
+  /**
+   * @description      table label 占据列宽
+   * @default           -
+   */
+  labelSpan?: any;
+
+  /**
+   * @description      table value 占据列宽
+   * @default           -
+   */
+  valueSpan?: any;
 
   /**
    * @description      一行的列数
@@ -56,7 +68,9 @@ function Descriptions(props: DescriptionsProps) {
     children,
     border,
     gutter,
-    labelWidth,
+    labelWidth = 120,
+    labelSpan,
+    valueSpan,
     column = 3,
     ...prop
   } = props;
@@ -74,6 +88,8 @@ function Descriptions(props: DescriptionsProps) {
         item &&
         React.cloneElement(item, {
           labelWidth,
+          labelSpan,
+          valueSpan,
           border,
           gutter,
           column,
@@ -90,6 +106,8 @@ function Descriptions(props: DescriptionsProps) {
     let clone = React.cloneElement(node, {
       span,
       labelWidth,
+      labelSpan,
+      valueSpan,
       border,
       gutter,
       column,
@@ -99,6 +117,8 @@ function Descriptions(props: DescriptionsProps) {
       clone = React.cloneElement(node, {
         span: rowRestCol,
         labelWidth,
+        labelSpan,
+        valueSpan,
         border,
         gutter,
         column,
@@ -134,6 +154,9 @@ function Descriptions(props: DescriptionsProps) {
         rowRestCol -= mergedSpan;
         tmpRow.push(
           React.cloneElement(node, {
+            labelWidth,
+            labelSpan,
+            valueSpan,
             border,
             column,
             gutter,
@@ -195,16 +218,19 @@ Descriptions.Item = ({
   background,
   fontColor,
   labelWidth,
+  labelSpan,
+  valueSpan,
   border,
   column,
 }: any) => {
   if (border) {
+    console.log(labelSpan, valueSpan);
+    console.log(label);
     return (
       <>
         <th
           style={{
-            width: labelWidth,
-            flex: `0 0 ${labelWidth}px`,
+            width: labelSpan ? (labelSpan / 24) * 100 + '%' : 'auto',
           }}
         >
           {label}
@@ -212,6 +238,7 @@ Descriptions.Item = ({
         <td
           colSpan={(span || 0) * 2 - 1}
           style={{
+            width: valueSpan ? (valueSpan / 24) * 100 + '%' : 'auto',
             background,
             color: fontColor,
           }}

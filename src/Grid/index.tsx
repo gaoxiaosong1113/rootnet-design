@@ -13,7 +13,7 @@ export interface RowProps {
    */
   className?: string;
 
-  children?: React.ReactChild;
+  children?: any;
 
   /**
    * @description      对齐方式
