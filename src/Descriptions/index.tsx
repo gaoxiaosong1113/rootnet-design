@@ -44,13 +44,13 @@ export interface DescriptionsProps {
   labelWidth?: any;
 
   /**
-   * @description      table label 占据列宽
+   * @description      table label 占据列宽 总列为24
    * @default           -
    */
   labelSpan?: any;
 
   /**
-   * @description      table value 占据列宽
+   * @description      table value 占据列宽 总列为24
    * @default           -
    */
   valueSpan?: any;
