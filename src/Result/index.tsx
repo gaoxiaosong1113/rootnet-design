@@ -1,20 +1,12 @@
-// 引入react依赖
-import React from 'react';
-import ReactDOM from 'react-dom';
-
-// 引入第三方依赖
+import React, { useMemo } from 'react';
 
 import clsx from 'clsx';
 
-// 引入样式
 import './index.less';
 
-// 引入配置文件
 import { prefix } from '../config';
 
-// 引入组件
 import { Icon } from '../index';
-
 export interface ResultProps {
   /**
    * @description      类名
@@ -23,10 +15,10 @@ export interface ResultProps {
   className?: string;
 
   /**
-   * @description      按钮的类型
-   * @default           -
+   * @description      Result的类型
+   * @default           emptyData
    */
-  type?: string;
+  type: string;
 
   /**
    * @description      需要显示的图标
@@ -35,56 +27,80 @@ export interface ResultProps {
   icon?: string;
 
   /**
-   * @description      是否禁用按钮
+   * @description      是否禁用Result
    * @default           false
    */
   disabled?: boolean;
 
+  /**
+   * @description      附加信息
+   * @default           -
+   */
+  extra?: any;
+
+  /**
+   * @description      左侧图片路径
+   * @default           -
+   */
+  src?: any;
+
   children?: React.ReactChild;
 
-  /**
-   * @description      Result点击事件
-   * @default           -
-   */
-  onClick?: Function;
-
-  /**
-   * @description      Result左右的间隔
-   * @default           -
-   */
-  interval?: string;
-
-  /**
-   * @description      Result的尺寸
-   * @default           -
-   */
-  size?: string;
+  data?: Array<any>;
 }
 
 function Result(props: ResultProps) {
-  const { type, icon, disabled, children, onClick, interval, size, ...prop } =
-    props;
+  const { src, type, icon, disabled, data, children, extra, ...prop } = props;
 
-  function handleClick() {
-    if (!disabled && onClick) {
-      onClick();
-    }
-  }
+  let show = useMemo(() => {
+    let config: any = {
+      403: {
+        title: '403',
+        describe: '抱歉，你无权访问该页面',
+      },
+      404: {
+        title: '404',
+        describe: '抱歉，你访问的页面不存在',
+      },
+      500: {
+        title: '500',
+        describe: '抱歉，服务器出错了',
+      },
+      compatibility: {
+        title: '浏览器版本不兼容',
+        describe:
+          '浏览器版本过低，为避免可能存在的安全隐患，<br/>推荐升级以下浏览器',
+      },
+    };
+    return type ? config[type] : null;
+  }, [type]);
+
+  if (!show) return null;
+
   return (
     <div
       className={clsx({
-        [`${prefix}-Result`]: true,
-        [`${prefix}-Result-default`]: !type && !disabled,
-        [`${prefix}-Result-${type}`]: type,
-        [`${prefix}-Result-disabled`]: disabled,
-        [`${prefix}-Result-${size}`]: size,
+        [`${prefix}-result`]: true,
       })}
-      style={{ margin: interval }}
-      onClick={handleClick}
       {...prop}
     >
-      {icon && <Icon name={icon} />}
-      <span>{children}</span>
+      <div
+        className={clsx({
+          [`${prefix}-result-content`]: true,
+        })}
+      >
+        {src && <img src={src} alt="" />}
+
+        <div
+          className={clsx({
+            [`${prefix}-result-info`]: true,
+          })}
+        >
+          <h2>{show.title}</h2>
+          <p dangerouslySetInnerHTML={{ __html: show.describe }}></p>
+          {extra}
+        </div>
+      </div>
     </div>
   );
 }
