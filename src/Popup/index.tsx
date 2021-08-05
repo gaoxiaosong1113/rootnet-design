@@ -92,7 +92,6 @@ function Popup(props: PopupProps): any {
 
   useEffect(() => {
     function handleStyle() {
-      console.log(offset);
       if (!visible || !refEl.current || !ref.current) return {};
       let refTarget = ref.current.getBoundingClientRect();
       let refElTarget = refEl.current.getBoundingClientRect();
@@ -160,13 +159,12 @@ function Popup(props: PopupProps): any {
     setStyle(handleStyle());
   }, [top, left, refEl.current]);
 
-  useEffect(() => {
-    console.log('目标修改');
-  }, [refEl.current]);
+  useEffect(() => {}, [refEl.current]);
 
   useEffect(() => {
     function handleClick(e: any) {
       if (!visible) return;
+
       if (!refEl.current) return;
       if (!ref.current) return;
       // 判断选定区域

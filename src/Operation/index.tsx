@@ -54,7 +54,7 @@ export interface OperationProps {
 }
 
 function Item(props: any, ref: any) {
-  const { className, disabled, children, onClick, ...prop } = props;
+  const { className, disabled, active, children, onClick, ...prop } = props;
 
   const refEl = useRef(null);
 
@@ -67,11 +67,11 @@ function Item(props: any, ref: any) {
           {
             [`${prefix}-operation-item`]: true,
             [`${prefix}-operation-item-disabled`]: disabled,
+            [`${prefix}-operation-item-active`]: active,
           },
           className,
         )}
         onClick={(e: any) => {
-          e.stopPropagation();
           if (!disabled && onClick) {
             onClick(e);
           }

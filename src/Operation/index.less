@@ -67,7 +67,10 @@
         color: @disableColor;
         cursor: no-drop;
       }
-      &:not(.@{prefix}-operation-item-disabled):hover {
+      &-active {
+        background: #d9e3fa;
+      }
+      &:not(.@{prefix}-operation-item-disabled):not(.@{prefix}-operation-item-active):hover {
         height: 32px;
         background: #f2f6fa;
       }

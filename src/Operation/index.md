@@ -61,7 +61,7 @@ export default () => {
             <Operation.Item>注销</Operation.Item>
             <Operation.Popup>
               <Operation.Item disabled>另存为pdf</Operation.Item>
-              <Operation.Item>另存为jpg</Operation.Item>
+              <Operation.Item active>另存为jpg</Operation.Item>
               <Operation.Item>另存为png</Operation.Item>
               <Operation.Item>另存为gif</Operation.Item>
             </Operation.Popup>
