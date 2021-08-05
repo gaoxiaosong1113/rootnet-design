@@ -127,7 +127,12 @@ function Popconfirm(props: PopconfirmProps) {
         position={position}
         trigger={'click'}
       >
-        <Content {...prop} onConfirm={handleConfirm} onCancel={handleCancel} />
+        <Content
+          {...prop}
+          position={position}
+          onConfirm={handleConfirm}
+          onCancel={handleCancel}
+        />
       </Popup>
     </>
   );

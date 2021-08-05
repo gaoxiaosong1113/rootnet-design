@@ -91,6 +91,10 @@ function OperationPopup(props: any) {
 
   return (
     <Popover
+      popupClassNmae={clsx({
+        [`${prefix}-operation-poop`]: true,
+      })}
+      offset={13}
       position={position}
       targetHidden={true}
       content={

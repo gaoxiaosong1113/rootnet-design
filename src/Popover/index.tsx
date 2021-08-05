@@ -49,6 +49,18 @@ export interface PopoverProps {
    * @default           false
    */
   targetHidden?: boolean;
+
+  /**
+   * @description      自定义弹出区域class
+   * @default           false
+   */
+  popupClassNmae?: any;
+
+  /**
+   * @description      自定义弹出区域偏移量
+   * @default           false
+   */
+  offset?: any;
 }
 
 function Content(props: any) {
@@ -110,6 +122,8 @@ function Popover(props: PopoverProps) {
     onCancel,
     position = 'top',
     targetHidden,
+    popupClassNmae,
+    offset,
     ...prop
   } = props;
   const [visible, setVisible] = useState(false);
@@ -142,6 +156,8 @@ function Popover(props: PopoverProps) {
         refEl={refEl}
         position={position}
         trigger={'click'}
+        className={popupClassNmae}
+        offset={offset}
       >
         <Content {...props} onCancel={handleClose} />
       </Popup>

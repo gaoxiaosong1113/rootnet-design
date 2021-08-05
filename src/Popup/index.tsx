@@ -61,6 +61,12 @@ export interface PopupProps {
    * @default           false
    */
   targetHidden?: boolean;
+
+  /**
+   * @description      自定义偏移量
+   * @default           0
+   */
+  offset?: any;
 }
 
 function Popup(props: PopupProps): any {
@@ -73,6 +79,7 @@ function Popup(props: PopupProps): any {
     onClose,
     trigger,
     targetHidden = false,
+    offset = 0,
     ...prop
   } = props;
 
@@ -85,6 +92,7 @@ function Popup(props: PopupProps): any {
 
   useEffect(() => {
     function handleStyle() {
+      console.log(offset);
       if (!visible || !refEl.current || !ref.current) return {};
       let refTarget = ref.current.getBoundingClientRect();
       let refElTarget = refEl.current.getBoundingClientRect();
@@ -101,13 +109,15 @@ function Popup(props: PopupProps): any {
           };
         case 'top-right':
           return {
-            transform: `translate(${left + refElWidth - refWidth}px, ${
+            transform: `translate(${left + refElWidth - refWidth + offset}px, ${
               top - 12 - refHeight
             }px)`,
           };
         case 'top-left':
           return {
-            transform: `translate(${left}px, ${top - 12 - refHeight}px)`,
+            transform: `translate(${left - offset}px, ${
+              top - 12 - refHeight
+            }px)`,
           };
         case 'left':
           return {
@@ -129,13 +139,15 @@ function Popup(props: PopupProps): any {
           };
         case 'bottom-left':
           return {
-            transform: `translate(${left + refElWidth - refWidth}px, ${
+            transform: `translate(${left + refElWidth - refWidth + offset}px, ${
               top + refElHeight + 12
             }px)`,
           };
         case 'bottom-right':
           return {
-            transform: `translate(${left}px, ${top + refElHeight + 12}px)`,
+            transform: `translate(${left - offset}px, ${
+              top + refElHeight + 12
+            }px)`,
           };
         default:
           return {
