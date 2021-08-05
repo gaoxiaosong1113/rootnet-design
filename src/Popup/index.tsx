@@ -138,13 +138,13 @@ function Popup(props: PopupProps): any {
           };
         case 'bottom-left':
           return {
-            transform: `translate(${left + refElWidth - refWidth + offset}px, ${
+            transform: `translate(${left - offset}px, ${
               top + refElHeight + 12
             }px)`,
           };
         case 'bottom-right':
           return {
-            transform: `translate(${left - offset}px, ${
+            transform: `translate(${left + refElWidth - refWidth + offset}px, ${
               top + refElHeight + 12
             }px)`,
           };

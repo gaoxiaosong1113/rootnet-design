@@ -59,7 +59,7 @@ export default () => {
             <Operation.Item disabled>修改</Operation.Item>
             <Operation.Item>详情</Operation.Item>
             <Operation.Item>注销</Operation.Item>
-            <Operation.Popup>
+            <Operation.Popup component={<span>更多</span>}>
               <Operation.Item disabled>另存为pdf</Operation.Item>
               <Operation.Item active>另存为jpg</Operation.Item>
               <Operation.Item>另存为png</Operation.Item>

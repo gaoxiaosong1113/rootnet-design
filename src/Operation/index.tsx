@@ -87,7 +87,7 @@ function Item(props: any, ref: any) {
 }
 
 function OperationPopup(props: any) {
-  const { children, position = 'top', ...prop } = props;
+  const { children, position = 'top', component, ...prop } = props;
 
   return (
     <Popover
@@ -108,9 +108,7 @@ function OperationPopup(props: any) {
         </div>
       }
     >
-      <div>
-        <Icon name="gengduo2" color="#5477ff" />
-      </div>
+      <div>{component || <Icon name="gengduo2" color="#5477ff" />}</div>
     </Popover>
   );
 }

@@ -7,7 +7,7 @@ import './index.less';
 
 import { prefix } from '../config';
 
-import { Icon, Button, Tree } from '../index';
+import { Icon, Button, Tree, Popup } from '../index';
 import { getOffsetLeft, getOffsetTop, findKey } from '../_util';
 
 export interface SelectProps {
@@ -135,25 +135,33 @@ function Select(props: SelectProps) {
           <Icon name="xuanzexiala" size={14} />
         </div>
       )}
-      {visible &&
-        ReactDOM.createPortal(
-          <SelectContent
-            {...props}
-            target={refEl}
-            value={value}
-            onCancel={() => {
+      <Popup
+        onClose={() => {
+          setVisible(false);
+          onCancel && onCancel();
+        }}
+        targetHidden={false}
+        visible={visible}
+        refEl={refEl}
+        position={'bottom-left'}
+        trigger={'click'}
+      >
+        <SelectContent
+          {...props}
+          target={refEl}
+          value={value}
+          onCancel={() => {
+            setVisible(false);
+            onCancel && onCancel();
+          }}
+          onChange={(v: any) => {
+            if (!multiple) {
               setVisible(false);
-              onCancel && onCancel();
-            }}
-            onChange={(v: any) => {
-              if (!multiple) {
-                setVisible(false);
-              }
-              handleOnChange(v);
-            }}
-          />,
-          document.body,
-        )}
+            }
+            handleOnChange(v);
+          }}
+        />
+      </Popup>
     </div>
   );
 }
@@ -199,8 +207,6 @@ function SelectContent(props: SelectProps) {
         })}
         style={{
           minWidth: target.current.offsetWidth,
-          left: getOffsetLeft(target.current),
-          top: getOffsetTop(target.current) + target.current.offsetHeight,
         }}
       >
         <div
@@ -276,7 +282,11 @@ function SelectValue(props: SelectProps) {
   if (value) {
     if (multiple) {
       if (value.length > 0) {
-        return `已选中${value.length}项`;
+        return value.map(
+          (item: any, index: any) =>
+            findKey(options, item).label +
+            (index + 1 < value.length ? '，' : ''),
+        );
       }
     } else {
       if (value !== undefined && value !== null) {
