@@ -59,11 +59,18 @@ export interface ModalProps {
    * @default           -
    */
   footer: any;
+
   /**
    * @description      modal 宽度
    * @default           340
    */
   width: number;
+
+  /**
+   * @description      关闭时是否销毁内容
+   * @default           false
+   */
+  destroyOnClose?: boolean;
 
   event: any;
   isFastOpen?: any;
@@ -165,18 +172,32 @@ function ModalContent(props: ModalProps) {
 }
 
 function Modal(props: ModalProps) {
-  const { title, children, visible, onConfirm, onCancel, ...prop } = props;
+  const {
+    title,
+    children,
+    visible,
+    onConfirm,
+    onCancel,
+    destroyOnClose = false,
+    ...prop
+  } = props;
 
   // 判断是否已经挂载
   const [isFastOpen, setIsFastOpen] = useState(props.isFastOpen || false);
   const [ev, setEv] = useState<any>();
 
   useEffect(() => {
+    if (!visible && destroyOnClose) {
+      setIsFastOpen(false);
+      return;
+    }
     if (!visible) return;
+
     if (!isFastOpen) {
       setIsFastOpen(true);
     }
   }, [visible]);
+
   return (
     isFastOpen &&
     ReactDOM.createPortal(

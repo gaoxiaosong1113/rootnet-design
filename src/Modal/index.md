@@ -38,6 +38,36 @@ export default () => {
 };
 ```
 
+关闭时销毁弹窗：
+
+```tsx
+import React, { useState } from 'react';
+import { Modal, Button } from 'rootnet-design';
+
+export default () => {
+  const [visible, setVisible] = useState(false);
+  return (
+    <div>
+      <Button title="First Demo" onClick={() => setVisible(true)}>
+        打开弹窗
+      </Button>
+      <Modal
+        title="First Demo"
+        visible={visible}
+        destroyOnClose
+        onCancel={() => {
+          console.log('关闭');
+          setVisible(false);
+        }}
+        onConfirm={() => {
+          setVisible(false);
+        }}
+      />
+    </div>
+  );
+};
+```
+
 自定义页脚：
 
 ```tsx

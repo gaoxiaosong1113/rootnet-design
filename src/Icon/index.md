@@ -21,6 +21,122 @@ export default () => {
     <div>
       <Row gutter={[16, 16]}>
         <Col span={6}>
+          <Icon size={36} name="icon-link" />
+          <p>icon-link</p>
+          <p>{'<Icon size={36} name="icon-link" />'}</p>
+        </Col>
+        <Col span={6}>
+          <Icon size={36} name="liangduanduiqi" />
+          <p>两端对齐</p>
+          <p>{'<Icon size={36} name="liangduanduiqi" />'}</p>
+        </Col>
+        <Col span={6}>
+          <Icon size={36} name="hangjianju" />
+          <p>行间距</p>
+          <p>{'<Icon size={36} name="hangjianju" />'}</p>
+        </Col>
+        <Col span={6}>
+          <Icon size={36} name="icon-fontbold" />
+          <p>icon-font bold</p>
+          <p>{'<Icon size={36} name="icon-fontbold" />'}</p>
+        </Col>
+        <Col span={6}>
+          <Icon size={36} name="icon-fontitalics" />
+          <p>icon-font italics</p>
+          <p>{'<Icon size={36} name="icon-fontitalics" />'}</p>
+        </Col>
+        <Col span={6}>
+          <Icon size={36} name="icon-fontunderline" />
+          <p>icon-font underline</p>
+          <p>{'<Icon size={36} name="icon-fontunderline" />'}</p>
+        </Col>
+        <Col span={6}>
+          <Icon size={36} name="icon-fontcenter" />
+          <p>icon-font center</p>
+          <p>{'<Icon size={36} name="icon-fontcenter" />'}</p>
+        </Col>
+        <Col span={6}>
+          <Icon size={36} name="icon-fontright" />
+          <p>icon-font right</p>
+          <p>{'<Icon size={36} name="icon-fontright" />'}</p>
+        </Col>
+        <Col span={6}>
+          <Icon size={36} name="icon-fontleft" />
+          <p>icon-font left</p>
+          <p>{'<Icon size={36} name="icon-fontleft" />'}</p>
+        </Col>
+        <Col span={6}>
+          <Icon size={36} name="icon-fontcolor" />
+          <p>icon-font color</p>
+          <p>{'<Icon size={36} name="icon-fontcolor" />'}</p>
+        </Col>
+        <Col span={6}>
+          <Icon size={36} name="shaixuanmian" />
+          <p>筛选面</p>
+          <p>{'<Icon size={36} name="shaixuanmian" />'}</p>
+        </Col>
+        <Col span={6}>
+          <Icon size={36} name="chazhaomian" />
+          <p>查找面</p>
+          <p>{'<Icon size={36} name="chazhaomian" />'}</p>
+        </Col>
+        <Col span={6}>
+          <Icon size={36} name="dayudengyu" />
+          <p>大于等于</p>
+          <p>{'<Icon size={36} name="dayudengyu" />'}</p>
+        </Col>
+        <Col span={6}>
+          <Icon size={36} name="xiaoyudengyu" />
+          <p>小于等于</p>
+          <p>{'<Icon size={36} name="xiaoyudengyu" />'}</p>
+        </Col>
+        <Col span={6}>
+          <Icon size={36} name="border" />
+          <p>border</p>
+          <p>{'<Icon size={36} name="border" />'}</p>
+        </Col>
+        <Col span={6}>
+          <Icon size={36} name="hengxiangjuzhong" />
+          <p>横向居中</p>
+          <p>{'<Icon size={36} name="hengxiangjuzhong" />'}</p>
+        </Col>
+        <Col span={6}>
+          <Icon size={36} name="zuoyoujuzhong" />
+          <p>左右居中</p>
+          <p>{'<Icon size={36} name="zuoyoujuzhong" />'}</p>
+        </Col>
+        <Col span={6}>
+          <Icon size={36} name="zuoduiqi" />
+          <p>左对齐</p>
+          <p>{'<Icon size={36} name="zuoduiqi" />'}</p>
+        </Col>
+        <Col span={6}>
+          <Icon size={36} name="xiaduiqi" />
+          <p>下对齐</p>
+          <p>{'<Icon size={36} name="xiaduiqi" />'}</p>
+        </Col>
+        <Col span={6}>
+          <Icon size={36} name="shangduiqi" />
+          <p>上对齐</p>
+          <p>{'<Icon size={36} name="shangduiqi" />'}</p>
+        </Col>
+        <Col span={6}>
+          <Icon size={36} name="zongxiangjuzhong" />
+          <p>纵向居中</p>
+          <p>{'<Icon size={36} name="zongxiangjuzhong" />'}</p>
+        </Col>
+        <Col span={6}>
+          <Icon size={36} name="shangxiajuzhong" />
+          <p>上下居中</p>
+          <p>{'<Icon size={36} name="shangxiajuzhong" />'}</p>
+        </Col>
+        <Col span={6}>
+          <Icon size={36} name="youduiqi" />
+          <p>右对齐</p>
+          <p>{'<Icon size={36} name="youduiqi" />'}</p>
+        </Col>
+
+        <Col span={6}>
           <Icon size={36} name="mima1" />
           <p>密码</p>
           <p>{'<Icon size={36} name="mima1" />'}</p>

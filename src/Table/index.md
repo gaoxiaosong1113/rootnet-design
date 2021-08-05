@@ -12,7 +12,7 @@ group:
 示例:
 
 ```tsx
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Table } from 'rootnet-design';
 
 const columns = [
@@ -50,28 +50,55 @@ const columns = [
   },
 ];
 
-const dataSource = [
-  {
-    id: 'a001',
-    productName: '我是产品名称',
-    stkIndustryNames: '私募产品',
-    productStatus: '1',
-  },
-  {
-    id: 'a001',
-    productName: '我是产品名称',
-    stkIndustryNames: '私募产品',
-    productStatus: '2',
-  },
-  {
-    id: 'a001',
-    productName: '我是产品名称',
-    stkIndustryNames: '私募产品',
-    productStatus: '1',
-  },
-];
+export default () => {
+  const [dataSource, setDataSource] = useState([
+    {
+      id: 'a001',
+      productName: '我是产品名称',
+      stkIndustryNames: '私募产品',
+      productStatus: '1',
+    },
+    {
+      id: 'a001',
+      productName: '我是产品名称',
+      stkIndustryNames: '私募产品',
+      productStatus: '2',
+    },
+    {
+      id: 'a001',
+      productName: '我是产品名称',
+      stkIndustryNames: '私募产品',
+      productStatus: '1',
+    },
+  ]);
 
-export default () => <Table columns={columns} dataSource={dataSource} />;
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     setDataSource([
+  //       {
+  //         id: 'a001',
+  //         productName: '我是产品名称',
+  //         stkIndustryNames: '私募产品',
+  //         productStatus: '1',
+  //       },
+  //       {
+  //         id: 'a002',
+  //         productName: '我是产品名称',
+  //         stkIndustryNames: '私募产品',
+  //         productStatus: '2',
+  //       },
+  //       {
+  //         id: 'a003',
+  //         productName: '我是产品名称',
+  //         stkIndustryNames: '私募产品',
+  //         productStatus: '1',
+  //       },
+  //     ]);
+  //   }, 1000);
+  // }, []);
+
+  return <Table columns={columns} dataSource={dataSource} />;
+};
 ```
 
 折叠 table:
