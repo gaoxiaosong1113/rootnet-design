@@ -54,7 +54,7 @@ export interface OperationProps {
 }
 
 function Item(props: any, ref: any) {
-  const { className, disabled, active, children, onClick, ...prop } = props;
+  const { className, disabled, select, children, onClick, ...prop } = props;
 
   const refEl = useRef(null);
 
@@ -67,7 +67,7 @@ function Item(props: any, ref: any) {
           {
             [`${prefix}-operation-item`]: true,
             [`${prefix}-operation-item-disabled`]: disabled,
-            [`${prefix}-operation-item-active`]: active,
+            [`${prefix}-operation-item-select`]: select,
           },
           className,
         )}
