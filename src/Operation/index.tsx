@@ -87,7 +87,7 @@ function Item(props: any, ref: any) {
 }
 
 function OperationPopup(props: any) {
-  const { children, position = 'top', component, ...prop } = props;
+  const { children, position = 'top', component, scrollRef, ...prop } = props;
 
   return (
     <Popover
@@ -97,6 +97,7 @@ function OperationPopup(props: any) {
       offset={13}
       position={position}
       targetHidden={true}
+      scrollRef={scrollRef}
       content={
         <div
           className={clsx({

@@ -67,6 +67,8 @@ export interface PopupProps {
    * @default           0
    */
   offset?: any;
+
+  scrollRef?: any;
 }
 
 function Popup(props: PopupProps): any {
@@ -80,6 +82,7 @@ function Popup(props: PopupProps): any {
     trigger,
     targetHidden = false,
     offset = 0,
+    scrollRef,
     ...prop
   } = props;
 
@@ -206,6 +209,9 @@ function Popup(props: PopupProps): any {
     function handleScroll(e: any) {
       setPosition(e.target);
     }
+    if (scrollRef) {
+      scrollRef.addEventListener('scroll', handleScroll);
+    }
     setPosition(parent);
     parent.forEach((item: any) => {
       item.addEventListener('scroll', handleScroll);
@@ -219,6 +225,9 @@ function Popup(props: PopupProps): any {
       parent.forEach((item: any) => {
         item.removeEventListener('scroll', handleScroll);
       });
+      if (scrollRef) {
+        scrollRef.removeEventListener('scroll', handleScroll);
+      }
     };
   }, [parent, visible, refEl.current]);
 

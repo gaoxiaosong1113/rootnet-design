@@ -160,7 +160,6 @@ function TreeItem(props: any) {
             key={data.dataIndex}
             onClick={() => {
               if (checkable) {
-                console.log(data[rowKey]);
                 setValue(data[rowKey]);
               }
             }}

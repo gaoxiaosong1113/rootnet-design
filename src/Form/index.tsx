@@ -82,7 +82,6 @@ const InternalForm = (props: any, ref: any) => {
         },
         onError: (error: any) => {
           // setError(error);
-          // console.log('error');
         },
       }}
     >

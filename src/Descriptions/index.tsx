@@ -224,8 +224,6 @@ Descriptions.Item = ({
   column,
 }: any) => {
   if (border) {
-    console.log(labelSpan, valueSpan);
-    console.log(label);
     return (
       <>
         <th

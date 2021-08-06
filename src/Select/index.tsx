@@ -65,6 +65,8 @@ export interface SelectProps {
    */
   multiple?: boolean;
 
+  scrollRef?: any;
+
   target?: any;
 }
 
@@ -76,6 +78,7 @@ function Select(props: SelectProps) {
     onCancel,
     close,
     multiple,
+    scrollRef,
     ...prop
   } = props;
 
@@ -93,7 +96,6 @@ function Select(props: SelectProps) {
   useEffect(() => {
     setValue(props.value);
   }, [props.value]);
-
   return (
     <div
       className={clsx({
@@ -140,11 +142,15 @@ function Select(props: SelectProps) {
           setVisible(false);
           onCancel && onCancel();
         }}
+        scrollRef={scrollRef}
         targetHidden={false}
         visible={visible}
         refEl={refEl}
         position={'bottom-left'}
         trigger={'click'}
+        className={clsx({
+          [`${prefix}-select-popup`]: true,
+        })}
       >
         <SelectContent
           {...props}

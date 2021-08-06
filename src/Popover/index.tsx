@@ -61,6 +61,8 @@ export interface PopoverProps {
    * @default           false
    */
   offset?: any;
+
+  scrollRef?: any;
 }
 
 function Content(props: any) {
@@ -86,11 +88,7 @@ function Content(props: any) {
   }
 
   return (
-    <div
-      className={clsx({
-        [`${prefix}-popover-warp`]: true,
-      })}
-    >
+    <>
       <div
         className={clsx({
           [`${prefix}-popover`]: true,
@@ -111,7 +109,7 @@ function Content(props: any) {
         })}
         onClick={handleCancel}
       ></div>
-    </div>
+    </>
   );
 }
 
@@ -124,6 +122,7 @@ function Popover(props: PopoverProps) {
     targetHidden,
     popupClassNmae,
     offset,
+    scrollRef,
     ...prop
   } = props;
   const [visible, setVisible] = useState(false);
@@ -135,6 +134,7 @@ function Popover(props: PopoverProps) {
     setVisible(false);
     onCancel && onCancel(e);
   }
+
   return (
     <>
       {React.cloneElement(children, {
@@ -143,7 +143,7 @@ function Popover(props: PopoverProps) {
           event.persist();
           setVisible(true);
         },
-        className: `${prefix}-popconfirm-target`,
+        className: `${children.props.className} ${prefix}-popconfirm-target`,
         ref: refEl,
       })}
       <Popup
@@ -151,6 +151,7 @@ function Popover(props: PopoverProps) {
           setVisible(false);
           onCancel && onCancel();
         }}
+        scrollRef={scrollRef}
         targetHidden={targetHidden}
         visible={visible}
         refEl={refEl}
