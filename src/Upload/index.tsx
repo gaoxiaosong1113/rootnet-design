@@ -1,5 +1,5 @@
 // 引入react依赖
-import React, { useMemo, useRef, useState } from 'react';
+import React, { useCallback, useMemo, useRef, useState } from 'react';
 import ReactDOM from 'react-dom';
 
 // 引入第三方依赖
@@ -107,7 +107,7 @@ export interface UploadProps {
    * @default           -
    */
   itemRender?: (
-    file: File,
+    file: UploadFile,
     fileList: Array<{}>,
     index: number,
   ) => React.ReactNode;
@@ -176,9 +176,9 @@ function Upload(props: UploadProps) {
     defaultFileList,
     disabled,
     itemRender,
-    listType,
+    listType = 'text',
     maxCount,
-    multiple,
+    multiple = false,
     previewFile,
     showUploadList = true,
     onChange,
@@ -191,6 +191,108 @@ function Upload(props: UploadProps) {
   const uploadFile = useRef(null as any);
 
   const [fileList, setFileList] = useState(props.fileList || []);
+
+  const operation = useCallback(
+    (uploadItem) => {
+      return (
+        <div
+          className={clsx({
+            [`${prefix}-upload-item-operation`]: true,
+          })}
+        >
+          <span onClick={() => handlePreview(uploadItem)}>
+            <Icon size={36} name="xianshi" />
+          </span>
+          <span onClick={() => handleDelete(uploadItem)}>
+            <Icon size={36} name="shanchu" />
+          </span>
+        </div>
+      );
+    },
+    [fileList],
+  );
+
+  const fileListJSX = useMemo(() => {
+    return fileList.map((item, index) => {
+      if (itemRender) {
+        return itemRender(item, fileList, index);
+      }
+      return (
+        <div
+          className={clsx({
+            [`${prefix}-upload-item`]: true,
+            [`${prefix}-upload-item-${item.status}`]: item.status,
+          })}
+          key={index}
+        >
+          {listType == 'text' && (
+            <div
+              className={clsx({
+                [`${prefix}-upload-icon`]: true,
+              })}
+            >
+              <Icon
+                size={36}
+                name="lianjie"
+                color={clsx({
+                  '#F5221B': item.status == 'error',
+                  '#1890FF': item.status == 'uploading',
+                  '#3A415C':
+                    item.status == 'removed' ||
+                    item.status == 'success' ||
+                    item.status == 'done',
+                })}
+              />
+            </div>
+          )}
+          {listType == 'picture' && (
+            <div
+              className={clsx({
+                [`${prefix}-upload-picture-img`]: true,
+              })}
+            >
+              <img src={item.thumbUrl} alt="" />
+            </div>
+          )}
+          <div
+            className={clsx({
+              [`${prefix}-upload-fillName`]: true,
+            })}
+          >
+            {item.name}
+          </div>
+          {operation(item)}
+        </div>
+      );
+    });
+  }, [fileList]);
+
+  async function handlePreview(data: any) {
+    if (previewFile) {
+      data.url = await previewFile(data);
+      // .then((res) => {
+      //   console.log(res);
+      //   console.log('展示的内容');
+      // });
+    }
+    if (onPreview) {
+      onPreview(data);
+    }
+  }
+
+  function handleDelete(data: any) {
+    let newFileList = [...fileList];
+    let index = newFileList.indexOf(data);
+    newFileList.splice(index, 1);
+    setFileList(newFileList);
+    uploadFile.current.value = null;
+    if (onRemove) {
+      onRemove({ ...data });
+    }
+    if (onChange) {
+      onChange(newFileList);
+    }
+  }
 
   function handleClick(event: any) {
     uploadFile.current.click();
@@ -206,9 +308,6 @@ function Upload(props: UploadProps) {
         return;
       }
     }
-    if (onChange) {
-      onChange(event.target.files);
-    }
 
     let reader = new FileReader();
     reader.readAsDataURL(file);
@@ -221,7 +320,6 @@ function Upload(props: UploadProps) {
         uid: uuid(),
         file: event.target.files[0],
       };
-      console.log(uploadData);
       fileList.push(uploadData);
       setFileList([...fileList]);
       handleUploadFile(uploadData);
@@ -230,7 +328,9 @@ function Upload(props: UploadProps) {
 
   function handleUploadFile(file: any) {
     if (action) {
-      let upItem = fileList.filter((item: any) => item.uuid == file.uuid)[0];
+      let newFileList = [...fileList];
+      let upItem = newFileList.filter((item: any) => item.uuid == file.uuid)[0];
+      upItem.status = 'uploading';
       action(file, {
         // 监听上传进度
         onUploadProgress(progressEvent: any) {
@@ -238,19 +338,25 @@ function Upload(props: UploadProps) {
             (progressEvent.loaded * 100) / progressEvent.total,
           );
           upItem.percent = percentCompleted;
-          setFileList([...fileList]);
+          setFileList(newFileList);
           console.log(percentCompleted);
         },
       })
         .then((res: any) => {
           upItem.status = 'success';
           upItem.url = res.data;
-          setFileList([...fileList]);
+          setFileList(newFileList);
+          if (onChange) {
+            onChange(newFileList);
+          }
         })
         .catch((error: any) => {
           upItem.status = 'error';
           upItem.percent = 0;
-          setFileList([...fileList]);
+          setFileList(newFileList);
+          if (onChange) {
+            onChange(newFileList);
+          }
         });
     }
   }
@@ -299,55 +405,7 @@ function Upload(props: UploadProps) {
             [`${prefix}-upload-uploadList`]: true,
           })}
         >
-          {fileList.map((item, index) => {
-            return (
-              <div
-                className={clsx({
-                  [`${prefix}-upload-item`]: true,
-                  [`${prefix}-upload-item-${item.status}`]: item.status,
-                })}
-                key={index}
-              >
-                <div
-                  className={clsx({
-                    [`${prefix}-upload-icon`]: true,
-                  })}
-                >
-                  <Icon
-                    size={36}
-                    name="lianjie"
-                    color={clsx({
-                      '#F5221B': item.status == 'error',
-                      '#1890FF': item.status == 'uploading',
-                      '#3A415C':
-                        item.status == 'removed' ||
-                        item.status == 'success' ||
-                        item.status == 'done',
-                    })}
-                  />
-                </div>
-                <div
-                  className={clsx({
-                    [`${prefix}-upload-fillName`]: true,
-                  })}
-                >
-                  {item.name}
-                </div>
-                <div
-                  className={clsx({
-                    [`${prefix}-upload-item-operation`]: true,
-                  })}
-                >
-                  <span>
-                    <Icon size={36} name="xianshi" />
-                  </span>
-                  <span>
-                    <Icon size={36} name="shanchu" />
-                  </span>
-                </div>
-              </div>
-            );
-          })}
+          {fileListJSX}
         </div>
       )}
     </div>
