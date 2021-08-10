@@ -9,11 +9,27 @@ group:
 
 ## Upload 文件上传
 
-示例：
+默认：
 
 ```tsx
 import React from 'react';
-import { Foo } from 'rootnet-design';
+import { Upload, Grid, Button } from 'rootnet-design';
 
-export default () => <Foo title="First Demo" />;
+const { Row, Col } = Grid;
+
+export default () => {
+  return (
+    <div>
+      <Row gutter={[16, 16]}>
+        <Col span={4}>
+          <Upload accept=".png,.jpg,.jpeg,.gif">
+            <Button icon="shangchuan">上传文件</Button>
+          </Upload>
+        </Col>
+      </Row>
+    </div>
+  );
+};
 ```
+
+<API />

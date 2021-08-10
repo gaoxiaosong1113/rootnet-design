@@ -2,3 +2,82 @@
 
 .@{prefix}-t {
 }
+
+.@{prefix}-upload {
+  &-default {
+  }
+
+  &-disabled {
+  }
+
+  &-text {
+  }
+
+  &-picture {
+  }
+
+  &-picture-card {
+  }
+
+  &-input {
+    input {
+      display: none;
+    }
+  }
+
+  &-accept {
+    margin-top: 8px;
+    font-size: 14px;
+    color: #7a8199;
+    line-height: 20px;
+  }
+
+  &-uploadList {
+    margin-top: 8px;
+  }
+
+  &-item {
+    height: 40px;
+    display: flex;
+    align-items: center;
+    transition: all 0.3s;
+    cursor: pointer;
+    &:hover {
+      background: #f2f6fa;
+    }
+    &-error {
+    }
+
+    &-success {
+    }
+
+    &-done {
+    }
+
+    &-uploading {
+    }
+
+    &-removed {
+    }
+
+    &-operation {
+      margin-left: 8px;
+      display: flex;
+      align-items: center;
+      span {
+        margin-right: 16px;
+      }
+    }
+  }
+
+  &-icon {
+    padding: 0 8px;
+  }
+
+  &-fillName {
+    flex: 1;
+    font-size: 14px;
+    color: #7a8199;
+    line-height: 20px;
+  }
+}

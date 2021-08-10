@@ -85,9 +85,9 @@ function Button(props: ButtonProps, ref: any) {
     ...prop
   } = props;
 
-  function handleClick() {
+  function handleClick(event: any) {
     if (!disabled && onClick) {
-      onClick();
+      onClick(event);
     }
   }
 
