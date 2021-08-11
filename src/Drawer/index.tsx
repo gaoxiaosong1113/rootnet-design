@@ -201,7 +201,7 @@ function DrawerContent(props: any): any {
             [`${prefix}-drawer-body`]: true,
           })}
         >
-          <span>{children}</span>
+          {children}
         </div>
         <Footer />
       </div>

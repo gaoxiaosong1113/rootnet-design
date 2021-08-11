@@ -34,7 +34,9 @@
     ]
   },
   "dependencies": {
+    "@ckeditor/ckeditor5-react": "^3.0.2",
     "@types/react-transition-group": "^4.4.2",
+    "ckeditor5-custom": "^1.0.0",
     "clsx": "^1.1.1",
     "gsap": "^3.7.0",
     "react": "^17.0.2",

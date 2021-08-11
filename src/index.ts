@@ -11,6 +11,7 @@ export { default as DatePicker } from './DatePicker';
 export { default as Descriptions } from './Descriptions';
 export { default as Drawer } from './Drawer';
 export { default as Dropdown } from './Dropdown';
+export { default as Editor } from './Editor';
 export { default as Empty } from './Empty';
 export { default as Form } from './Form';
 export { default as Icon } from './Icon';
