@@ -1,5 +1,11 @@
 // 引入react依赖
-import React, { useCallback, useMemo, useRef, useState } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import ReactDOM from 'react-dom';
 
 // 引入第三方依赖
@@ -13,7 +19,7 @@ import './index.less';
 import { prefix } from '../config';
 
 // 引入组件
-import { Icon } from '../index';
+import { Icon, Image } from '../index';
 
 // 引入工具类
 import { uuid } from '../_util';
@@ -155,6 +161,12 @@ export interface UploadProps {
   onDrop?: Function;
 
   /**
+   * @description      启用拖拽上传
+   * @default           false
+   */
+  drag?: boolean;
+
+  /**
    * @description      点击文件链接或预览图标时的回调
    * @default           -
    */
@@ -185,10 +197,12 @@ function Upload(props: UploadProps) {
     onDrop,
     onPreview,
     onRemove,
+    drag,
     ...prop
   } = props;
 
   const uploadFile = useRef(null as any);
+  const uploadFileArea = useRef(null as any);
 
   const [fileList, setFileList] = useState(props.fileList || []);
 
@@ -200,11 +214,13 @@ function Upload(props: UploadProps) {
             [`${prefix}-upload-item-operation`]: true,
           })}
         >
-          <span onClick={() => handlePreview(uploadItem)}>
-            <Icon size={36} name="xianshi" />
-          </span>
+          {uploadItem.status == 'success' && (
+            <span onClick={() => handlePreview(uploadItem)}>
+              <Icon name="xianshi" />
+            </span>
+          )}
           <span onClick={() => handleDelete(uploadItem)}>
-            <Icon size={36} name="shanchu" />
+            <Icon name="shanchu" />
           </span>
         </div>
       );
@@ -232,7 +248,6 @@ function Upload(props: UploadProps) {
               })}
             >
               <Icon
-                size={36}
                 name="lianjie"
                 color={clsx({
                   '#F5221B': item.status == 'error',
@@ -245,22 +260,24 @@ function Upload(props: UploadProps) {
               />
             </div>
           )}
-          {listType == 'picture' && (
+          {listType !== 'text' && (
             <div
               className={clsx({
                 [`${prefix}-upload-picture-img`]: true,
               })}
             >
-              <img src={item.thumbUrl} alt="" />
+              <Image src={item.thumbUrl} mode="aspectFit" />
             </div>
           )}
-          <div
-            className={clsx({
-              [`${prefix}-upload-fillName`]: true,
-            })}
-          >
-            {item.name}
-          </div>
+          {listType !== 'picture-card' && (
+            <div
+              className={clsx({
+                [`${prefix}-upload-fillName`]: true,
+              })}
+            >
+              {item.name}
+            </div>
+          )}
           {operation(item)}
         </div>
       );
@@ -308,7 +325,10 @@ function Upload(props: UploadProps) {
         return;
       }
     }
+    handleFileListAdd(file);
+  }
 
+  function handleFileListAdd(file: any) {
     let reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onload = () => {
@@ -318,7 +338,7 @@ function Upload(props: UploadProps) {
         status: 'uploading' as UploadFileStatus,
         thumbUrl: reader.result,
         uid: uuid(),
-        file: event.target.files[0],
+        file: file,
       };
       fileList.push(uploadData);
       setFileList([...fileList]);
@@ -361,6 +381,52 @@ function Upload(props: UploadProps) {
     }
   }
 
+  useEffect(() => {
+    if (!drag) return;
+    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach((eventName) => {
+      uploadFileArea.current.addEventListener(
+        eventName,
+        preventDefaults,
+        false,
+      );
+      document.body.addEventListener(eventName, preventDefaults, false);
+    });
+
+    ['dragenter', 'dragover'].forEach((eventName) => {
+      uploadFileArea.current.addEventListener(eventName, highlight, false);
+    });
+    ['dragleave', 'drop'].forEach((eventName) => {
+      uploadFileArea.current.addEventListener(eventName, unhighlight, false);
+    });
+
+    uploadFileArea.current.addEventListener('drop', handleDrop, false);
+
+    function handleDrop(e: any) {
+      const files = e.dataTransfer.files;
+      console.log(files);
+      files.forEach((file: any) => {
+        handleFileListAdd(file);
+        // previewImage(file, imgPreviewEle);
+      });
+      // 省略文件上传代码
+    }
+
+    function preventDefaults(e: any) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+
+    // 添加高亮样式
+    function highlight(e: any) {
+      uploadFileArea.current.classList.add('highlighted');
+    }
+
+    // 移除高亮样式
+    function unhighlight(e: any) {
+      uploadFileArea.current.classList.remove('highlighted');
+    }
+  }, []);
+
   return (
     <div
       className={clsx(className, {
@@ -368,6 +434,7 @@ function Upload(props: UploadProps) {
         [`${prefix}-upload-default`]: !disabled,
         [`${prefix}-upload-${listType}`]: listType,
         [`${prefix}-upload-disabled`]: disabled,
+        [`${prefix}-upload-drag`]: drag,
       })}
       {...prop}
     >
@@ -375,6 +442,8 @@ function Upload(props: UploadProps) {
         className={clsx({
           [`${prefix}-upload-input`]: true,
         })}
+        ref={uploadFileArea}
+        onClick={(e) => drag && handleClick(e)}
       >
         <input
           ref={uploadFile}
@@ -384,28 +453,59 @@ function Upload(props: UploadProps) {
           disabled={disabled}
           onChange={handleChange}
         />
-        {React.Children.map(children, (child: any) => {
-          return React.cloneElement(child, {
-            onClick: handleClick,
-          });
-        })}
-      </div>
-      {accept && (
         <div
           className={clsx({
-            [`${prefix}-upload-accept`]: true,
+            [`${prefix}-upload-target`]: true,
           })}
         >
-          支持扩展名{accept}
+          {React.Children.map(children, (child: any) => {
+            return React.cloneElement(child, {
+              onClick: (e) => !drag && handleClick(e),
+              disabled: disabled,
+            });
+          })}
         </div>
-      )}
-      {showUploadList && (
+
+        {drag && (
+          <div
+            className={clsx({
+              [`${prefix}-upload-drag-info`]: true,
+            })}
+          >
+            单击或拖动文件到该区域以上传
+          </div>
+        )}
+        {accept && (
+          <div
+            className={clsx({
+              [`${prefix}-upload-accept`]: true,
+            })}
+          >
+            支持扩展名{accept}
+          </div>
+        )}
+      </div>
+
+      {(showUploadList || listType == 'picture-card') && (
         <div
           className={clsx({
             [`${prefix}-upload-uploadList`]: true,
           })}
         >
           {fileListJSX}
+          {listType == 'picture-card' &&
+            (maxCount != undefined ? fileList.length < maxCount : true) && (
+              <div
+                className={clsx({
+                  [`${prefix}-upload-item`]: true,
+                  [`${prefix}-upload-item-add`]: true,
+                })}
+                onClick={handleClick}
+              >
+                <Icon size={24} name="jiahao" />
+                <p>上传照片</p>
+              </div>
+            )}
         </div>
       )}
     </div>

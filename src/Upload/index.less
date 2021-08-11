@@ -15,13 +15,124 @@
 
   &-picture {
   }
+
   &-picture-img {
   }
 
+  &-drag {
+    .@{prefix}-upload-input {
+      width: 426px;
+      height: 200px;
+      background: #ffffff;
+      border-radius: 4px;
+      border: 1px solid #cfd3e3;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      cursor: pointer;
+
+      &:hover,
+      &.highlighted {
+        border: 1px dashed #5477ff;
+      }
+    }
+    &-info {
+      font-size: 16px;
+      color: #15171f;
+      line-height: 16px;
+      margin-top: 16px;
+    }
+  }
+
   &-picture-card {
+    .@{prefix}-upload-target {
+      display: none;
+    }
+
+    .@{prefix}-upload-uploadList {
+      display: flex;
+      flex-wrap: wrap;
+
+      .@{prefix}-upload-item {
+        width: 104px;
+        height: 104px;
+        background: #f0f2f5;
+        border-radius: 2px;
+        border: 1px solid #cfd3e3;
+        margin-right: 23px;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+
+        &-add {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+
+          p {
+            margin-top: 12px;
+            font-size: 14px;
+            color: #15171f;
+            line-height: 1em;
+            text-align: center;
+          }
+        }
+
+        .@{prefix}-upload-fillName {
+          display: none;
+        }
+
+        &:hover {
+          border: 1px dashed #5477ff;
+
+          .@{prefix}-upload-item-operation {
+            display: flex;
+            fill: #fff;
+          }
+        }
+
+        &-error {
+          border: 1px dashed #f5221b;
+        }
+
+        &-operation {
+          width: 100%;
+          position: absolute;
+          top: 0;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          z-index: 9;
+          margin: 0;
+          align-items: center;
+          justify-content: center;
+          display: none;
+
+          background: rgba(0, 0, 0, 0.5);
+
+          span {
+            margin: 0 8px;
+          }
+        }
+
+        .@{prefix}-upload-picture-img {
+          width: 100%;
+          height: 100%;
+          margin: 0;
+          // overflow: hidden;
+        }
+      }
+    }
   }
 
   &-input {
+    display: inline-block;
+    transition: all 0.3s;
+    &.highlighted {
+    }
+
     input {
       display: none;
     }
@@ -44,9 +155,18 @@
     align-items: center;
     transition: all 0.3s;
     cursor: pointer;
+
+    .@{prefix}-upload-picture-img {
+      width: 40px;
+      height: 40px;
+      margin: 0 8px;
+      // overflow: hidden;
+    }
+
     &:hover {
       background: #f2f6fa;
     }
+
     &-error {
     }
 
@@ -66,6 +186,7 @@
       margin-left: 8px;
       display: flex;
       align-items: center;
+
       span {
         margin-right: 16px;
       }
