@@ -75,6 +75,7 @@ export function Icon(props: IconProps) {
     }
     return {
       style: {
+        fill: color,
         ...fontSize,
         ...style,
       },
