@@ -137,6 +137,12 @@ export interface UploadProps {
   multiple?: boolean;
 
   /**
+   * @description      是否显示上传类型
+   * @default           true
+   */
+  showAccept?: boolean;
+
+  /**
    * @description      自定义文件预览逻辑
    * @default           -
    */
@@ -189,6 +195,7 @@ function Upload(props: UploadProps) {
     disabled,
     itemRender,
     listType = 'text',
+    showAccept = true,
     maxCount,
     multiple = false,
     previewFile,
@@ -460,7 +467,7 @@ function Upload(props: UploadProps) {
         >
           {React.Children.map(children, (child: any) => {
             return React.cloneElement(child, {
-              onClick: (e) => !drag && handleClick(e),
+              onClick: (e: any) => !drag && handleClick(e),
               disabled: disabled,
             });
           })}
@@ -475,7 +482,7 @@ function Upload(props: UploadProps) {
             单击或拖动文件到该区域以上传
           </div>
         )}
-        {accept && (
+        {accept && showAccept && (
           <div
             className={clsx({
               [`${prefix}-upload-accept`]: true,

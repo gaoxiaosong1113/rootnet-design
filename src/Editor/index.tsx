@@ -10,8 +10,6 @@ import ReactDOM from 'react-dom';
 
 // 引入第三方依赖
 import clsx from 'clsx';
-import { CKEditor } from '@ckeditor/ckeditor5-react';
-import CustomEditor from 'ckeditor5-custom';
 
 // 引入样式
 import './index.less';
@@ -96,17 +94,7 @@ function HtmlEditor(props: EditorProps) {
     }
   }
   return (
-    <div className={clsx('rootnet-htmleditor', className)} style={style}>
-      <CKEditor
-        disabled={disabled}
-        data={data}
-        config={config}
-        editor={CustomEditor}
-        onChange={handleChange}
-        onBlur={handleBlur}
-        onFocus={handleFocus}
-      />
-    </div>
+    <div className={clsx('rootnet-htmleditor', className)} style={style}></div>
   );
 }
 

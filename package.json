@@ -17,7 +17,8 @@
     "test:coverage": "umi-test --coverage",
     "patch": "npm version patch",
     "upload": "npm run build && npm publish --registry=http://nexus.croot.com:8081/repository/npm-hosted/",
-    "unpublish": "npm unpublish rootnet-design --force"
+    "unpublish": "npm unpublish rootnet-design --force",
+    "link-react": "npm link ../edit-reportnp/node_modules/react"
   },
   "main": "dist/index.js",
   "module": "dist/index.esm.js",

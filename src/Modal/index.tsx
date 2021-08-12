@@ -10,11 +10,8 @@ import { prefix } from '../config';
 import { Icon, Button } from '../index';
 
 export interface ModalProps {
-  /**
-   * @description      modal 的样式名
-   * @default           -
-   */
   className?: string;
+  children: any;
 
   /**
    * @description      modal 的title
@@ -27,14 +24,6 @@ export interface ModalProps {
    * @default           -
    */
   content?: any;
-
-  children: any;
-
-  /**
-   * @description      modal 的类型
-   * @default           -
-   */
-  type: string;
 
   /**
    * @description      modal 是否显示
@@ -72,11 +61,32 @@ export interface ModalProps {
    */
   destroyOnClose?: boolean;
 
-  event: any;
+  /**
+   * @description      点击mask是否关闭modal
+   * @default           true
+   */
+  maskClose?: boolean;
+
+  /**
+   * @description      是否显示 x 关闭按钮
+   * @default           true
+   */
+  close?: boolean;
+
   isFastOpen?: any;
 }
 
-function ModalContent(props: ModalProps) {
+export interface ModalContentProps extends ModalProps {
+  /**
+   * @description      modal 的类型
+   * @default           -
+   */
+  type?: string;
+
+  event: any;
+}
+
+function ModalContent(props: ModalContentProps) {
   const {
     title,
     content,
@@ -87,6 +97,8 @@ function ModalContent(props: ModalProps) {
     onCancel,
     footer,
     width,
+    maskClose = true,
+    close = true,
     ...prop
   } = props;
 
@@ -124,16 +136,18 @@ function ModalContent(props: ModalProps) {
           >
             {title}
           </div>
-          <div
-            className={clsx({
-              [`${prefix}-modal-head-close`]: true,
-            })}
-            onClick={() => {
-              handleCancel();
-            }}
-          >
-            <Icon name="cuowu1" />
-          </div>
+          {close && (
+            <div
+              className={clsx({
+                [`${prefix}-modal-head-close`]: true,
+              })}
+              onClick={() => {
+                handleCancel();
+              }}
+            >
+              <Icon name="cuowu1" />
+            </div>
+          )}
         </div>
         <div
           className={clsx({
@@ -165,7 +179,7 @@ function ModalContent(props: ModalProps) {
         className={clsx({
           [`${prefix}-modal-mask`]: true,
         })}
-        onClick={handleCancel}
+        onClick={() => maskClose && handleCancel()}
       ></div>
     </div>
   );
@@ -217,7 +231,7 @@ function Modal(props: ModalProps) {
   );
 }
 
-Modal.confirm = (props: any) => {
+Modal.confirm = (props: ModalContentProps) => {
   const { onCancel, onConfirm } = props;
 
   const div = document.createElement('div');
