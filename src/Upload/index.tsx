@@ -19,7 +19,7 @@ import './index.less';
 import { prefix } from '../config';
 
 // 引入组件
-import { Icon, Image } from '../index';
+import { Icon, Image, Progress } from '../index';
 
 // 引入工具类
 import { uuid } from '../_util';
@@ -248,44 +248,63 @@ function Upload(props: UploadProps) {
           })}
           key={index}
         >
-          {listType == 'text' && (
+          <div
+            className={clsx({
+              [`${prefix}-upload-item-context`]: true,
+            })}
+          >
+            {listType == 'text' && (
+              <div
+                className={clsx({
+                  [`${prefix}-upload-icon`]: true,
+                })}
+              >
+                <Icon
+                  name="lianjie"
+                  color={clsx({
+                    '#F5221B': item.status == 'error',
+                    '#1890FF': item.status == 'uploading',
+                    '#3A415C':
+                      item.status == 'removed' ||
+                      item.status == 'success' ||
+                      item.status == 'done',
+                  })}
+                />
+              </div>
+            )}
+            {listType !== 'text' && (
+              <div
+                className={clsx({
+                  [`${prefix}-upload-picture-img`]: true,
+                })}
+              >
+                <Image src={item.thumbUrl} mode="aspectFit" />
+              </div>
+            )}
+            {listType !== 'picture-card' && (
+              <div
+                className={clsx({
+                  [`${prefix}-upload-fillName`]: true,
+                })}
+              >
+                {item.name}
+              </div>
+            )}
+            {operation(item)}
+          </div>
+          {item.percent && (
             <div
               className={clsx({
-                [`${prefix}-upload-icon`]: true,
+                [`${prefix}-upload-progress`]: true,
               })}
             >
-              <Icon
-                name="lianjie"
-                color={clsx({
-                  '#F5221B': item.status == 'error',
-                  '#1890FF': item.status == 'uploading',
-                  '#3A415C':
-                    item.status == 'removed' ||
-                    item.status == 'success' ||
-                    item.status == 'done',
-                })}
+              <Progress
+                percent={item.percent as any}
+                status={item.status}
+                minimum
               />
             </div>
           )}
-          {listType !== 'text' && (
-            <div
-              className={clsx({
-                [`${prefix}-upload-picture-img`]: true,
-              })}
-            >
-              <Image src={item.thumbUrl} mode="aspectFit" />
-            </div>
-          )}
-          {listType !== 'picture-card' && (
-            <div
-              className={clsx({
-                [`${prefix}-upload-fillName`]: true,
-              })}
-            >
-              {item.name}
-            </div>
-          )}
-          {operation(item)}
         </div>
       );
     });
@@ -469,6 +488,7 @@ function Upload(props: UploadProps) {
             return React.cloneElement(child, {
               onClick: (e: any) => !drag && handleClick(e),
               disabled: disabled,
+              style: { ...child.props.style, cursor: 'pointer' },
             });
           })}
         </div>

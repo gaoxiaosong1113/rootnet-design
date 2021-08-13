@@ -54,6 +54,12 @@
       display: flex;
       flex-wrap: wrap;
 
+      .@{prefix}-upload-progress {
+        top: 50%;
+        bottom: auto;
+        left: 15px;
+        right: 15px;
+      }
       .@{prefix}-upload-item {
         width: 104px;
         height: 104px;
@@ -150,11 +156,17 @@
   }
 
   &-item {
+    position: relative;
     height: 40px;
-    display: flex;
-    align-items: center;
+
     transition: all 0.3s;
     cursor: pointer;
+
+    &-context {
+      height: 40px;
+      display: flex;
+      align-items: center;
+    }
 
     .@{prefix}-upload-picture-img {
       width: 40px;
@@ -202,5 +214,12 @@
     font-size: 14px;
     color: #7a8199;
     line-height: 20px;
+  }
+
+  &-progress {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    left: 32px;
   }
 }

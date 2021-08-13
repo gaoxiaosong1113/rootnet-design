@@ -52,7 +52,52 @@ export default () => {
 };
 ```
 
-默认：
+简单上传：
+
+```tsx
+import React from 'react';
+import { Upload, Grid, Button, Icon } from 'rootnet-design';
+
+const { Row, Col } = Grid;
+
+export default () => {
+  return (
+    <div>
+      <Row gutter={[16, 16]}>
+        <Col span={12}>
+          <Upload
+            accept=".png,.jpg,.jpeg,.gif"
+            showAccept={false}
+            showUploadList={false}
+            action={(file) => {
+              console.log(file);
+              return new Promise((resolve, reject) => {
+                resolve({ data: '上传的地址' });
+              });
+            }}
+            onPreview={(file) => {
+              console.log('预览');
+              console.log(file);
+            }}
+            onRemove={(file) => {
+              console.log('删除');
+              console.log(file);
+            }}
+            onChange={(files) => {
+              console.log('更改');
+              console.log(files);
+            }}
+          >
+            <Icon size={36} name="shangchuan" />
+          </Upload>
+        </Col>
+      </Row>
+    </div>
+  );
+};
+```
+
+默认数据：
 
 ```tsx
 import React from 'react';
@@ -90,6 +135,7 @@ export default () => {
                 uid: '-1',
                 name: 'image.png',
                 status: 'success',
+                percent: 10,
                 url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
               },
             ]}
@@ -166,6 +212,15 @@ export default () => {
             listType="picture-card"
             accept=".png,.jpg,.jpeg,.gif"
             maxCount={2}
+            fileList={[
+              {
+                uid: '-1',
+                name: 'image.png',
+                status: 'success',
+                percent: 10,
+                url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
+              },
+            ]}
           ></Upload>
         </Col>
       </Row>

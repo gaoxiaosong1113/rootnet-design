@@ -1,4 +1,104 @@
 @import '../index.less';
 
-.@{prefix}-t {
+.@{prefix}-progress {
+  display: flex;
+  align-items: center;
+
+  &-line {
+  }
+
+  &-circle {
+  }
+
+  &-small {
+    .@{prefix}-progress-outer {
+      height: 6px;
+      border-radius: 3px;
+    }
+
+    .@{prefix}-progress-inner {
+      height: 6px;
+      border-radius: 3px;
+    }
+
+    .@{prefix}-progress-text {
+      font-size: 12px;
+    }
+  }
+  &-minimum {
+    .@{prefix}-progress-outer {
+      height: 2px;
+      border-radius: 2px;
+    }
+
+    .@{prefix}-progress-inner {
+      height: 2px;
+      border-radius: 2px;
+    }
+
+    .@{prefix}-progress-text {
+      display: none;
+    }
+  }
+
+  &-success {
+    .@{prefix}-progress-outer {
+      background: #f0f2f5;
+    }
+
+    .@{prefix}-progress-inner {
+      background: @successColor;
+    }
+
+    .@{prefix}-progress-text {
+      fill: @successColor;
+    }
+  }
+  &-error {
+    .@{prefix}-progress-outer {
+      background: #f0f2f5;
+    }
+
+    .@{prefix}-progress-inner {
+      background: @errorColor;
+    }
+
+    .@{prefix}-progress-text {
+      fill: @errorColor;
+    }
+  }
+
+  &-primary {
+    .@{prefix}-progress-outer {
+      background: #f0f2f5;
+    }
+
+    .@{prefix}-progress-inner {
+      background: @primaryColor;
+    }
+
+    .@{prefix}-progress-text {
+      fill: @primaryColor;
+    }
+  }
+
+  &-outer {
+    flex: 1;
+    height: 8px;
+    border-radius: 8px;
+    margin-right: 7px;
+  }
+
+  &-inner {
+    height: 8px;
+    border-radius: 4px;
+    transition: all 0.3s;
+  }
+
+  &-text {
+    width: 2em;
+    font-size: 14px;
+    color: #7a8199;
+    line-height: 14px;
+  }
 }

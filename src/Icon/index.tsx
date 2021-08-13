@@ -50,15 +50,7 @@ export interface IconProps {
 }
 
 export function Icon(props: IconProps) {
-  const {
-    color = '#3A415C',
-    onClick,
-    size = 16,
-    style,
-    className,
-    name,
-    ...rest
-  } = props;
+  const { color, onClick, size, style, className, name, ...rest } = props;
 
   function handleClick(e: any) {
     if (onClick) {
