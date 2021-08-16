@@ -88,6 +88,14 @@ export default () => {
 
 触发方式：
 
+focus 触发需要 input 的以下事件的第二个参数为 event
+
+```js
+onFocus: (value, event) => {};
+
+onBlur: (value, event) => {};
+```
+
 ```tsx
 import React from 'react';
 import { Tooltip, Input, Grid } from 'rootnet-design';

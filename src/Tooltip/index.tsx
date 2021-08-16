@@ -134,14 +134,14 @@ function Tooltip(props: ModalProps) {
                   handleClose();
                 }
               },
-              onFocus: (event: any) => {
+              onFocus: (value: any, event: any) => {
                 event.stopPropagation();
                 event && event.persist();
                 if (trigger == 'focus') {
                   handleOpen();
                 }
               },
-              onBlur: (event: any) => {
+              onBlur: (value: any, event: any) => {
                 event.stopPropagation();
                 event && event.persist();
                 if (trigger == 'focus') {
