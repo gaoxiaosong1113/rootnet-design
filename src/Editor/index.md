@@ -9,6 +9,8 @@ group:
 
 ## Editor 富文本编辑器
 
+本组件基于 braft-editor 封装，[文档参考](https://www.yuque.com/braft-editor/be/gz44tn)
+
 默认：
 
 ```tsx
@@ -21,8 +23,11 @@ export default () => {
   return (
     <div>
       <Row gutter={[16, 16]}>
-        <Col span={12}>
-          <Editor />
+        <Col span={24}>
+          <Editor
+            onPreview={(value) => console.log(value)}
+            onChange={(value) => console.log(value)}
+          />
         </Col>
       </Row>
     </div>

@@ -35,7 +35,10 @@
     ]
   },
   "dependencies": {
+    "@types/braft-editor": "^2.2.0",
     "@types/react-transition-group": "^4.4.2",
+    "braft-editor": "^2.3.9",
+    "braft-utils": "^3.0.12",
     "clsx": "^1.1.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",

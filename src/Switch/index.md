@@ -11,9 +11,39 @@ group:
 
 示例：
 
+默认数据：
+
 ```tsx
 import React from 'react';
-import { Foo } from 'rootnet-design';
+import { Switch, Grid, Button } from 'rootnet-design';
 
-export default () => <Foo title="First Demo" />;
+const { Row, Col } = Grid;
+
+export default () => {
+  return (
+    <div>
+      <Row gutter={[16, 16]}>
+        <Col span={4}>
+          <Switch
+            checkedChildren="打开"
+            unCheckedChildren="关闭"
+            onChange={(value) => {
+              console.log(value);
+            }}
+          />
+        </Col>
+        <Col span={4}>
+          <Switch
+            size="small"
+            checkedChildren="打开"
+            unCheckedChildren="关闭"
+            onChange={(value) => {
+              console.log(value);
+            }}
+          />
+        </Col>
+      </Row>
+    </div>
+  );
+};
 ```

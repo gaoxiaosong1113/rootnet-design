@@ -15,7 +15,7 @@ group:
 import React from 'react';
 import { Foo } from 'rootnet-design';
 
-export default () => <Foo title="First Demo" />;
+export default () => <span>First Demo</span>;
 ```
 
 <!-- <API /> -->

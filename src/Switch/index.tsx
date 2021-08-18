@@ -1,5 +1,5 @@
 // 引入react依赖
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 
 // 引入第三方依赖
@@ -23,70 +23,111 @@ export interface SwitchProps {
   className?: string;
 
   /**
-   * @description      按钮的类型
-   * @default           -
+   * @description       指定当前是否选中
+   * @default           false
    */
-  type?: string;
+  checked?: boolean;
 
   /**
-   * @description      需要显示的图标
+   * @description       选中时的内容
    * @default           -
    */
-  icon?: string;
+  checkedChildren?: React.ReactNode;
 
   /**
-   * @description      是否禁用按钮
+   * @description       	初始是否选中
+   * @default           false
+   */
+  defaultChecked?: boolean;
+
+  /**
+   * @description       	是否禁用
    * @default           false
    */
   disabled?: boolean;
 
-  children?: React.ReactChild;
+  /**
+   * @description       加载中的开关
+   * @default           false
+   */
+  loading?: boolean;
 
   /**
-   * @description      Switch点击事件
+   * @description       开关大小，可选值：default small
+   * @default           default
+   */
+  size?: string;
+
+  /**
+   * @description       非选中时的内容	ReactNode
+   * @default           -
+   */
+  unCheckedChildren?: React.ReactNode;
+
+  /**
+   * @description       变化时回调函数	function(checked: boolean, event: Event)
+   * @default           -
+   */
+  onChange?: Function;
+
+  /**
+   * @description       	点击时回调函数	function(checked: boolean, event: Event)
    * @default           -
    */
   onClick?: Function;
-
-  /**
-   * @description      Switch左右的间隔
-   * @default           -
-   */
-  interval?: string;
-
-  /**
-   * @description      Switch的尺寸
-   * @default           -
-   */
-  size?: string;
 }
 
 function Switch(props: SwitchProps) {
-  const { type, icon, disabled, children, onClick, interval, size, ...prop } =
-    props;
+  const {
+    className,
+    checked,
+    checkedChildren,
+    defaultChecked,
+    disabled,
+    loading,
+    size,
+    unCheckedChildren,
+    onChange,
+    onClick,
+    ...prop
+  } = props;
 
-  function handleClick() {
-    if (!disabled && onClick) {
-      onClick();
-    }
+  const [innerChecked, setInnerChecked] = useState(defaultChecked);
+
+  useEffect(() => {
+    setInnerChecked(checked);
+  }, [checked]);
+
+  function handleClick(event: any) {
+    if (disabled) return;
+    handleChange(event);
+    onClick?.(innerChecked, event);
   }
+
+  function handleChange(event: any) {
+    if (disabled) return;
+    let value = !innerChecked;
+    setInnerChecked(value);
+    onChange?.(value, event);
+  }
+
   return (
-    <div
-      className={clsx({
-        [`${prefix}-Switch`]: true,
-        [`${prefix}-Switch-default`]: !type && !disabled,
-        [`${prefix}-Switch-${type}`]: type,
-        [`${prefix}-Switch-disabled`]: disabled,
-        [`${prefix}-Switch-${size}`]: size,
+    <button
+      className={clsx(className, {
+        [`${prefix}-switch`]: true,
+        [`${prefix}-switch-${size}`]: size,
+        [`${prefix}-switch-checked`]: innerChecked,
+        [`${prefix}-switch-disabled`]: disabled,
       })}
-      style={{ margin: interval }}
+      type="button"
       onClick={handleClick}
-      {...prop}
     >
-      {icon && <Icon name={icon} />}
-      <span>{children}</span>
-    </div>
+      <div className={clsx(`${prefix}-switch-handle`)}></div>
+      <div className={clsx(`${prefix}-switch-inner`)}>
+        {innerChecked ? checkedChildren : unCheckedChildren}
+      </div>
+    </button>
   );
 }
 
-export default Switch;
+export default React.forwardRef(Switch);
