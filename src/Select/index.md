@@ -280,6 +280,7 @@ export default () => {
         <Col span={12}>
           <Select
             options={treeData}
+            tree="tree"
             placeholder={'树形单选'}
             onChange={(value) => {
               console.log(value);

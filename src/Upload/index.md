@@ -24,8 +24,8 @@ export default () => {
         <Col span={12}>
           <Upload
             accept=".png,.jpg,.jpeg,.gif"
-            action={(file) => {
-              console.log(file);
+            action={(form, config) => {
+              console.log(form, config);
               return new Promise((resolve, reject) => {
                 resolve({ data: '上传的地址' });
               });

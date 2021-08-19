@@ -96,6 +96,7 @@ function Select(props: SelectProps) {
   useEffect(() => {
     setValue(props.value);
   }, [props.value]);
+
   return (
     <div
       className={clsx({
@@ -237,20 +238,29 @@ function SelectContent(props: SelectProps) {
               rowKey="value"
             />
           ) : (
-            options.map((item, index) => {
-              return (
-                <div
-                  key={index}
-                  onClick={() => handleChange(item.value)}
-                  className={clsx({
-                    [`${prefix}-select-item`]: true,
-                    [`${prefix}-select-item-active`]: item.value === value,
-                  })}
-                >
-                  <span>{item.label}</span>
-                </div>
-              );
-            })
+            // options.map((item, index) => {
+            //   return (
+            //     <div
+            //       key={index}
+            //       onClick={() => handleChange(item.value)}
+            //       className={clsx({
+            //         [`${prefix}-select-item`]: true,
+            //         [`${prefix}-select-item-active`]: item.value === value,
+            //       })}
+            //     >
+            //       <span>{item.label}</span>
+            //     </div>
+            //   );
+            // })
+            <Tree
+              checkable={!multiple}
+              onCheck={(v: any) => {
+                handleChange(v);
+              }}
+              dataSource={options}
+              rowTitle="label"
+              rowKey="value"
+            />
           )}
         </div>
         {/* <div

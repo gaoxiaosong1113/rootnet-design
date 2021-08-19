@@ -25,6 +25,11 @@ export default () => {
       <Row gutter={[16, 16]}>
         <Col span={24}>
           <Editor
+            media={{
+              uploadFn: (obj) => {
+                console.log(obj);
+              },
+            }}
             onPreview={(value) => console.log(value)}
             onChange={(value) => console.log(value)}
           />

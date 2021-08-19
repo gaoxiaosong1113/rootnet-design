@@ -22,7 +22,7 @@ import { prefix } from '../config';
 import { Icon, Image, Progress } from '../index';
 
 // 引入工具类
-import { uuid } from '../_util';
+import { uuid, fileUpload } from '../_util';
 
 export type UploadFileStatus =
   | 'error'
@@ -292,7 +292,7 @@ function Upload(props: UploadProps) {
             )}
             {operation(item)}
           </div>
-          {item.percent && (
+          {item.percent !== undefined && (
             <div
               className={clsx({
                 [`${prefix}-upload-progress`]: true,
@@ -377,17 +377,21 @@ function Upload(props: UploadProps) {
       let newFileList = [...fileList];
       let upItem = newFileList.filter((item: any) => item.uuid == file.uuid)[0];
       upItem.status = 'uploading';
-      action(file, {
-        // 监听上传进度
-        onUploadProgress(progressEvent: any) {
-          const percentCompleted = Math.round(
-            (progressEvent.loaded * 100) / progressEvent.total,
-          );
-          upItem.percent = percentCompleted;
-          setFileList(newFileList);
-          console.log(percentCompleted);
+      fileUpload(
+        file,
+        {
+          // 监听上传进度
+          onUploadProgress(progressEvent: any) {
+            const percentCompleted = Math.round(
+              (progressEvent.loaded * 100) / progressEvent.total,
+            );
+            upItem.percent = percentCompleted;
+            setFileList(newFileList);
+            console.log(percentCompleted);
+          },
         },
-      })
+        action,
+      )
         .then((res: any) => {
           upItem.status = 'success';
           upItem.url = res.data;
@@ -462,7 +466,6 @@ function Upload(props: UploadProps) {
         [`${prefix}-upload-disabled`]: disabled,
         [`${prefix}-upload-drag`]: drag,
       })}
-      {...prop}
     >
       <div
         className={clsx({
@@ -513,7 +516,7 @@ function Upload(props: UploadProps) {
         )}
       </div>
 
-      {(showUploadList || listType == 'picture-card') && (
+      {(showUploadList == true || listType == 'picture-card') && (
         <div
           className={clsx({
             [`${prefix}-upload-uploadList`]: true,

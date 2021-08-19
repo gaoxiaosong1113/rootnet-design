@@ -134,6 +134,7 @@ export function findKey(data: Array<any>, key: any, name: any = 'value') {
   return val;
 }
 
+// 获取所有的父级元素
 export function useGetElementParent(element: any) {
   const [parent, setParent] = useState([] as any);
 
@@ -166,4 +167,21 @@ export const uuid = () => {
 
   var uuid = s.join('');
   return uuid;
+};
+
+// 文件上传
+export const fileUpload = (fileData: any, config: any, request: any) => {
+  return new Promise((resolve, reject) => {
+    let form = new FormData();
+    form.append('file', fileData.file);
+    form.append('fileName', fileData.file.name);
+    form.append('fileType', fileData.file.name.split('.').pop());
+    request(form, config)
+      .then((res: any) => {
+        resolve(res);
+      })
+      .catch((error: any) => {
+        reject(error);
+      });
+  });
 };
