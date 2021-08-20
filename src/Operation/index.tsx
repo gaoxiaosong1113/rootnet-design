@@ -92,18 +92,14 @@ function OperationPopup(props: any) {
 
   return (
     <Popover
-      popupClassNmae={clsx({
-        [`${prefix}-operation-poop`]: true,
-      })}
+      popupClassNmae={clsx(`${prefix}-operation-poop`, {})}
       offset={13}
       position={position}
       targetHidden={true}
       scrollRef={scrollRef}
       content={
         <div
-          className={clsx({
-            [`${prefix}-operation-popover`]: true,
-          })}
+          className={clsx(`${prefix}-operation-popover`, {})}
           onClick={(event) => {}}
         >
           {children}
