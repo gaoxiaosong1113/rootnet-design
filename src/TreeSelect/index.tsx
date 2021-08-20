@@ -21,6 +21,8 @@ export interface TreeSelectProps {
    * @default           -
    */
   className?: string;
+  style?: Object;
+  children?: React.ReactChild;
 
   /**
    * @description      按钮的类型
@@ -39,8 +41,6 @@ export interface TreeSelectProps {
    * @default           false
    */
   disabled?: boolean;
-
-  children?: React.ReactChild;
 
   /**
    * @description      TreeSelect点击事件
@@ -62,8 +62,17 @@ export interface TreeSelectProps {
 }
 
 function TreeSelect(props: TreeSelectProps) {
-  const { type, icon, disabled, children, onClick, interval, size, ...prop } =
-    props;
+  const {
+    className,
+    type,
+    icon,
+    disabled,
+    children,
+    onClick,
+    interval,
+    size,
+    ...prop
+  } = props;
 
   function handleClick() {
     if (!disabled && onClick) {
@@ -72,14 +81,12 @@ function TreeSelect(props: TreeSelectProps) {
   }
   return (
     <div
-      className={clsx({
-        [`${prefix}-TreeSelect`]: true,
-        [`${prefix}-TreeSelect-default`]: !type && !disabled,
-        [`${prefix}-TreeSelect-${type}`]: type,
-        [`${prefix}-TreeSelect-disabled`]: disabled,
-        [`${prefix}-TreeSelect-${size}`]: size,
+      className={clsx(className, `${prefix}-treeSelect`, {
+        [`${prefix}-treeSelect-default`]: !type && !disabled,
+        [`${prefix}-treeSelect-${type}`]: type,
+        [`${prefix}-treeSelect-disabled`]: disabled,
+        [`${prefix}-treeSelect-${size}`]: size,
       })}
-      style={{ margin: interval }}
       onClick={handleClick}
       {...prop}
     >

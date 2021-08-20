@@ -13,7 +13,7 @@ export interface CheckboxProps {}
 export const GroupContext = React.createContext({} as any);
 
 function Group(props: any) {
-  const { children, onChange } = props;
+  const { className, children, onChange } = props;
 
   const [checked, setChecked] = useState(
     props.checked === undefined ? null : props.checked,
@@ -38,11 +38,7 @@ function Group(props: any) {
   };
 
   return (
-    <div
-      className={clsx({
-        [`${prefix}-radio-group`]: true,
-      })}
-    >
+    <div className={clsx(className, `${prefix}-radio-group`, {})}>
       <GroupContext.Provider value={context}>{children}</GroupContext.Provider>
     </div>
   );

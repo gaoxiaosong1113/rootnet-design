@@ -21,6 +21,8 @@ export interface MenuProps {
    * @default           -
    */
   className?: string;
+  style?: Object;
+  children?: React.ReactChild;
 
   /**
    * @description      按钮的类型
@@ -39,8 +41,6 @@ export interface MenuProps {
    * @default           false
    */
   disabled?: boolean;
-
-  children?: React.ReactChild;
 
   /**
    * @description      Menu点击事件
@@ -62,8 +62,17 @@ export interface MenuProps {
 }
 
 function Menu(props: MenuProps) {
-  const { type, icon, disabled, children, onClick, interval, size, ...prop } =
-    props;
+  const {
+    className,
+    type,
+    icon,
+    disabled,
+    children,
+    onClick,
+    interval,
+    size,
+    ...prop
+  } = props;
 
   function handleClick() {
     if (!disabled && onClick) {

@@ -25,10 +25,11 @@ export default () => {
       <Row gutter={[16, 16]}>
         <Col span={24}>
           <Editor
-            media={{
-              uploadFn: (obj) => {
-                console.log(obj);
-              },
+            action={(form, config) => {
+              console.log(form, config);
+              return new Promise((resolve, reject) => {
+                resolve('上传的地址');
+              });
             }}
             onPreview={(value) => console.log(value)}
             onChange={(value) => console.log(value)}

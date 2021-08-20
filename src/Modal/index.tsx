@@ -10,8 +10,13 @@ import { prefix } from '../config';
 import { Icon, Button } from '../index';
 
 export interface ModalProps {
+  /**
+   * @description      类名
+   * @default           -
+   */
   className?: string;
-  children: any;
+  style?: Object;
+  children?: React.ReactChild;
 
   /**
    * @description      modal 的title
@@ -88,6 +93,7 @@ export interface ModalContentProps extends ModalProps {
 
 function ModalContent(props: ModalContentProps) {
   const {
+    className,
     title,
     content,
     children,
@@ -112,35 +118,21 @@ function ModalContent(props: ModalContentProps) {
 
   return (
     <div
-      className={clsx({
-        [`${prefix}-modal-warp`]: true,
+      className={clsx(className, `${prefix}-modal-warp`, {
         [`${prefix}-modal-visible`]: visible,
       })}
     >
       <div
-        className={clsx({
-          [`${prefix}-modal`]: true,
+        className={clsx(`${prefix}-modal`, {
           [`${prefix}-modal-${type}`]: type,
         })}
         style={{ width }}
       >
-        <div
-          className={clsx({
-            [`${prefix}-modal-head`]: true,
-          })}
-        >
-          <div
-            className={clsx({
-              [`${prefix}-modal-head-title`]: true,
-            })}
-          >
-            {title}
-          </div>
+        <div className={clsx(`${prefix}-modal-head`)}>
+          <div className={clsx(`${prefix}-modal-head-title`)}>{title}</div>
           {close && (
             <div
-              className={clsx({
-                [`${prefix}-modal-head-close`]: true,
-              })}
+              className={clsx(`${prefix}-modal-head-close`)}
               onClick={() => {
                 handleCancel();
               }}
@@ -149,19 +141,11 @@ function ModalContent(props: ModalContentProps) {
             </div>
           )}
         </div>
-        <div
-          className={clsx({
-            [`${prefix}-modal-body`]: true,
-          })}
-        >
+        <div className={clsx(`${prefix}-modal-body`)}>
           <span>{type ? content : children}</span>
         </div>
         {footer !== null && (
-          <div
-            className={clsx({
-              [`${prefix}-modal-footer`]: true,
-            })}
-          >
+          <div className={clsx(`${prefix}-modal-footer`)}>
             {footer ? (
               footer
             ) : (
@@ -176,9 +160,7 @@ function ModalContent(props: ModalContentProps) {
         )}
       </div>
       <div
-        className={clsx({
-          [`${prefix}-modal-mask`]: true,
-        })}
+        className={clsx(`${prefix}-modal-mask`)}
         onClick={() => maskClose && handleCancel()}
       ></div>
     </div>

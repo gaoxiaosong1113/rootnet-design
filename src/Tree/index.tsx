@@ -121,8 +121,7 @@ function TreeItem(props: any) {
   return (
     <>
       <div
-        className={clsx({
-          [`${prefix}-tree-row`]: true,
+        className={clsx(`${prefix}-tree-row`, {
           [`${prefix}-tree-row-checked`]: checked || value == data[rowKey],
         })}
         key={rowKey}
@@ -191,14 +190,14 @@ function TreeChildren(props: any) {
   );
 }
 
-export interface TreeProps2 {}
-
 export interface TreeProps {
   /**
    * @description      类名
    * @default           -
    */
   className?: string;
+  style?: Object;
+  children?: React.ReactChild;
 
   /**
    * @description      配置是否展开属性
@@ -365,7 +364,7 @@ export default function Tree(props: TreeProps) {
   }
 
   return (
-    <div className={clsx(`${prefix}-trees`, className)}>
+    <div className={clsx(className, `${prefix}-trees`)}>
       <TreeChildren
         {...prop}
         expandable={expandable}

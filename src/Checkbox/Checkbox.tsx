@@ -16,6 +16,8 @@ export interface CheckboxProps {
    * @default           -
    */
   className?: string;
+  style?: Object;
+  children?: React.ReactChild;
 
   /**
    * @description      按钮的类型
@@ -34,8 +36,6 @@ export interface CheckboxProps {
    * @default           false
    */
   disabled?: boolean;
-
-  children?: React.ReactChild;
 
   /**
    * @description      Checkbox 更改事件
@@ -67,6 +67,7 @@ export interface CheckboxProps {
 
 function Checkbox(props: CheckboxProps): any {
   const {
+    className,
     type,
     icon,
     disabled,
@@ -123,8 +124,7 @@ function Checkbox(props: CheckboxProps): any {
 
   return (
     <label
-      className={clsx({
-        [`${prefix}-checkbox`]: true,
+      className={clsx(className, `${prefix}-checkbox`, {
         [`${prefix}-checkbox-default`]: !type && !disabled,
         [`${prefix}-checkbox-${type}`]: type,
         [`${prefix}-checkbox-disabled`]: disabled,

@@ -8,11 +8,11 @@ import { prefix } from '../config';
 
 export interface TabsProps {
   /**
-   * @description      卡片的样式名
+   * @description      类名
    * @default           -
    */
   className?: string;
-
+  style?: Object;
   children?: React.ReactChild;
 
   /**
@@ -67,6 +67,7 @@ export interface TabsProps {
 export default function Tabs(props: TabsProps) {
   const {
     className,
+    style,
     children,
     title,
     width,
@@ -95,8 +96,7 @@ export default function Tabs(props: TabsProps) {
     return tabList.map((item: any, index: number) => {
       return (
         <div
-          className={clsx({
-            [`${prefix}-tabs-nav-item`]: true,
+          className={clsx(`${prefix}-tabs-nav-item`, {
             [`${prefix}-tabs-nav-item-disabled`]: item.disabled,
             [`${prefix}-tabs-nav-item-active`]: activeKey == item.key,
           })}
@@ -113,52 +113,23 @@ export default function Tabs(props: TabsProps) {
 
   return (
     <div
-      className={clsx(
-        {
-          [`${prefix}-tabs`]: true,
-          [`${prefix}-tabs-${layout}`]: layout,
-        },
-        className,
-      )}
-      style={{ width, height }}
+      className={clsx(className, `${prefix}-tabs`, {
+        [`${prefix}-tabs-${layout}`]: layout,
+      })}
+      style={{ width, height, ...style }}
       {...prop}
     >
-      <div
-        className={clsx({
-          [`${prefix}-tabs-head`]: true,
-        })}
-      >
-        <div
-          className={clsx({
-            [`${prefix}-tabs-head-content`]: true,
-          })}
-        >
-          <div
-            className={clsx({
-              [`${prefix}-tabs-nav`]: true,
-            })}
-          >
-            {tabChildren}
-          </div>
+      <div className={clsx(`${prefix}-tabs-head`, {})}>
+        <div className={clsx(`${prefix}-tabs-head-content`, {})}>
+          <div className={clsx(`${prefix}-tabs-nav`, {})}>{tabChildren}</div>
         </div>
-        <div
-          className={clsx({
-            [`${prefix}-tabs-extra`]: true,
-          })}
-        >
-          {extra}
-        </div>
+        <div className={clsx(`${prefix}-tabs-extra`, {})}>{extra}</div>
       </div>
-      <div
-        className={clsx({
-          [`${prefix}-tabs-body`]: true,
-        })}
-      >
+      <div className={clsx(`${prefix}-tabs-body`, {})}>
         {React.Children.map(children, (item, index) => {
           return (
             <div
-              className={clsx({
-                [`${prefix}-tabs-tab-item`]: true,
+              className={clsx(`${prefix}-tabs-tab-item`, {
                 [`${prefix}-tabs-tab-item-active`]:
                   tabList[index] && tabList[index].key == activeKey,
               })}
@@ -168,11 +139,7 @@ export default function Tabs(props: TabsProps) {
           );
         })}
       </div>
-      <div
-        className={clsx({
-          [`${prefix}-tabs-footer`]: true,
-        })}
-      ></div>
+      <div className={clsx(`${prefix}-tabs-footer`, {})}></div>
     </div>
   );
 }

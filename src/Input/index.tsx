@@ -14,6 +14,8 @@ export interface InputProps {
    * @default           -
    */
   className?: string;
+  style?: Object;
+  children?: React.ReactChild;
 
   /**
    * @description      按钮的类型
@@ -32,8 +34,6 @@ export interface InputProps {
    * @default           false
    */
   disabled?: boolean;
-
-  children?: React.ReactChild;
 
   /**
    * @description      Input的尺寸
@@ -122,6 +122,7 @@ export interface InputProps {
 
 function Input(props: InputProps) {
   const {
+    className,
     label,
     required,
     horizontal,
@@ -171,34 +172,13 @@ function Input(props: InputProps) {
 
   return (
     <div
-      className={clsx({
-        [`${prefix}-input`]: true,
+      className={clsx(className, `${prefix}-input`, {
         [`${prefix}-input-focus`]: focus,
       })}
     >
-      {before && (
-        <div
-          className={clsx({
-            [`${prefix}-input-before`]: true,
-          })}
-        >
-          {before}
-        </div>
-      )}
-      {icon && (
-        <div
-          className={clsx({
-            [`${prefix}-input-icon`]: true,
-          })}
-        >
-          {icon}
-        </div>
-      )}
-      <div
-        className={clsx({
-          [`${prefix}-input-content`]: true,
-        })}
-      >
+      {before && <div className={clsx(`${prefix}-input-before`)}>{before}</div>}
+      {icon && <div className={clsx(`${prefix}-input-icon`)}>{icon}</div>}
+      <div className={clsx(`${prefix}-input-content`)}>
         <input
           type="text"
           name={name}
@@ -210,15 +190,7 @@ function Input(props: InputProps) {
         />
       </div>
 
-      {after && (
-        <div
-          className={clsx({
-            [`${prefix}-input-after`]: true,
-          })}
-        >
-          {after}
-        </div>
-      )}
+      {after && <div className={clsx(`${prefix}-input-after`)}>{after}</div>}
     </div>
   );
 }

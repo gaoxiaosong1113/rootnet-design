@@ -17,14 +17,14 @@ export interface PopconfirmProps {
    * @default           -
    */
   className?: string;
+  style?: Object;
+  children?: React.ReactChild;
 
   /**
    * @description      主体内容
    * @default           -
    */
   content: any;
-
-  children: any;
 
   /**
    * @description      确认按钮回调
@@ -46,50 +46,45 @@ export interface PopconfirmProps {
 }
 
 function Content(props: any) {
-  const { content, onConfirm, onCancel, position = 'top', ...prop } = props;
+  const {
+    className,
+    content,
+    onConfirm,
+    onCancel,
+    position = 'top',
+    ...prop
+  } = props;
 
   return (
-    <div
-      className={clsx({
-        [`${prefix}-popconfirm-warp`]: true,
-      })}
-    >
+    <div className={clsx(className, `${prefix}-popconfirm-warp`)}>
       <div
-        className={clsx({
-          [`${prefix}-popconfirm`]: true,
+        className={clsx(`${prefix}-popconfirm`, {
           [`${prefix}-popconfirm-${position}`]: position,
         })}
       >
-        <div
-          className={clsx({
-            [`${prefix}-popconfirm-body`]: true,
-          })}
-        >
+        <div className={clsx(`${prefix}-popconfirm-body`)}>
           <span>{content}</span>
         </div>
-        <div
-          className={clsx({
-            [`${prefix}-popconfirm-footer`]: true,
-          })}
-        >
+        <div className={clsx(`${prefix}-popconfirm-footer`)}>
           <Button onClick={onCancel}>取消</Button>
           <Button type="primary" onClick={onConfirm}>
             确定
           </Button>
         </div>
       </div>
-      {/* <div
-        className={clsx({
-          [`${prefix}-popconfirm-mask`]: true,
-        })}
-        onClick={handleCancel}
-      ></div> */}
     </div>
   );
 }
 
 function Popconfirm(props: PopconfirmProps) {
-  const { children, onConfirm, onCancel, position = 'top', ...prop } = props;
+  const {
+    className,
+    children,
+    onConfirm,
+    onCancel,
+    position = 'top',
+    ...prop
+  } = props;
   const [visible, setVisible] = useState(false);
 
   const refEl = useRef(null);
@@ -113,7 +108,7 @@ function Popconfirm(props: PopconfirmProps) {
   return (
     <>
       {React.cloneElement(children, {
-        onClick: (event) => {
+        onClick: (event: any) => {
           setVisible(true);
           event.stopPropagation();
         },

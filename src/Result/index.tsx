@@ -13,6 +13,8 @@ export interface ResultProps {
    * @default           -
    */
   className?: string;
+  style?: Object;
+  children?: React.ReactChild;
 
   /**
    * @description      Result的类型
@@ -44,13 +46,21 @@ export interface ResultProps {
    */
   src?: any;
 
-  children?: React.ReactChild;
-
   data?: Array<any>;
 }
 
 function Result(props: ResultProps) {
-  const { src, type, icon, disabled, data, children, extra, ...prop } = props;
+  const {
+    className,
+    src,
+    type,
+    icon,
+    disabled,
+    data,
+    children,
+    extra,
+    ...prop
+  } = props;
 
   let show = useMemo(() => {
     let config: any = {
@@ -78,24 +88,10 @@ function Result(props: ResultProps) {
   if (!show) return null;
 
   return (
-    <div
-      className={clsx({
-        [`${prefix}-result`]: true,
-      })}
-      {...prop}
-    >
-      <div
-        className={clsx({
-          [`${prefix}-result-content`]: true,
-        })}
-      >
+    <div className={clsx(className, `${prefix}-result`, {})} {...prop}>
+      <div className={clsx(`${prefix}-result-content`, {})}>
         {src && <img src={src} alt="" />}
-
-        <div
-          className={clsx({
-            [`${prefix}-result-info`]: true,
-          })}
-        >
+        <div className={clsx(`${prefix}-result-info`, {})}>
           <h2>{show.title}</h2>
           <p dangerouslySetInnerHTML={{ __html: show.describe }}></p>
           {extra}

@@ -21,23 +21,22 @@ export interface CollapseProps {
    * @default           -
    */
   className?: string;
+  style?: Object;
+  children?: React.ReactChild;
 
   /**
    * @description      是否显示边框
    * @default           false
    */
   noBorder?: boolean;
-
-  children?: React.ReactChild;
 }
 
 function Collapse(props: CollapseProps) {
-  const { children, noBorder, ...prop } = props;
+  const { className, children, noBorder, ...prop } = props;
 
   return (
     <div
-      className={clsx({
-        [`${prefix}-collapse`]: true,
+      className={clsx(className, `${prefix}-collapse`, {
         [`${prefix}-collapse-noBorder`]: noBorder,
       })}
       {...prop}
@@ -48,27 +47,20 @@ function Collapse(props: CollapseProps) {
 }
 
 Collapse.Item = function Item(props: any) {
-  const { children, title, extra, ...prop } = props;
+  const { className, children, title, extra, ...prop } = props;
 
   const [open, setOpen] = useState(props.open);
 
   return (
     <div
-      className={clsx({
-        [`${prefix}-collapse-item`]: true,
+      className={clsx(className, `${prefix}-collapse-item`, {
         [`${prefix}-collapse-item-open`]: open,
       })}
       {...prop}
     >
-      <div
-        className={clsx({
-          [`${prefix}-collapse-item-head`]: true,
-        })}
-      >
+      <div className={clsx(`${prefix}-collapse-item-head`)}>
         <div
-          className={clsx({
-            [`${prefix}-collapse-item-title`]: true,
-          })}
+          className={clsx(`${prefix}-collapse-item-title`)}
           onClick={() => {
             setOpen((prevOpen: any) => {
               return !prevOpen;
@@ -77,11 +69,7 @@ Collapse.Item = function Item(props: any) {
         >
           {title}
         </div>
-        <div
-          className={clsx({
-            [`${prefix}-collapse-item-extra`]: true,
-          })}
-        >
+        <div className={clsx(`${prefix}-collapse-item-extra`)}>
           {extra}
           <Icon
             onClick={() => {
@@ -102,13 +90,7 @@ Collapse.Item = function Item(props: any) {
         // timeout={400}
       >
         <div>
-          <div
-            className={clsx({
-              [`${prefix}-collapse-item-body`]: true,
-            })}
-          >
-            {children}
-          </div>
+          <div className={clsx(`${prefix}-collapse-item-body`)}>{children}</div>
         </div>
       </CSSTransition>
     </div>

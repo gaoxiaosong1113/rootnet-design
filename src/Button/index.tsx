@@ -16,10 +16,12 @@ import { Icon } from '../index';
 
 export interface ButtonProps {
   /**
-   * @description      按钮的样式名
+   * @description      类名
    * @default           -
    */
   className?: string;
+  style?: Object;
+  children?: React.ReactChild;
 
   /**
    * @description      ref
@@ -44,8 +46,6 @@ export interface ButtonProps {
    * @default           false
    */
   disabled?: boolean;
-
-  children?: React.ReactChild;
 
   /**
    * @description      button点击事件
@@ -74,6 +74,8 @@ export interface ButtonProps {
 
 function Button(props: ButtonProps, ref: any) {
   const {
+    className,
+    style,
     type,
     icon,
     disabled,
@@ -97,14 +99,13 @@ function Button(props: ButtonProps, ref: any) {
 
   return (
     <button
-      className={clsx({
-        [`${prefix}-button`]: true,
+      className={clsx(className, `${prefix}-button`, {
         [`${prefix}-button-default`]: !type && !disabled,
         [`${prefix}-button-${type}`]: type,
         [`${prefix}-button-disabled`]: disabled,
         [`${prefix}-button-${size}`]: size,
       })}
-      style={{ margin: interval }}
+      style={{ margin: interval, ...style }}
       onClick={handleClick}
       type={htmlType || 'button'}
       ref={eleRef}

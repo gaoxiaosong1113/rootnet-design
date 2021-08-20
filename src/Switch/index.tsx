@@ -21,6 +21,8 @@ export interface SwitchProps {
    * @default           -
    */
   className?: string;
+  style?: Object;
+  children?: React.ReactChild;
 
   /**
    * @description       指定当前是否选中
@@ -113,8 +115,7 @@ function Switch(props: SwitchProps) {
 
   return (
     <button
-      className={clsx(className, {
-        [`${prefix}-switch`]: true,
+      className={clsx(className, `${prefix}-switch`, {
         [`${prefix}-switch-${size}`]: size,
         [`${prefix}-switch-checked`]: innerChecked,
         [`${prefix}-switch-disabled`]: disabled,

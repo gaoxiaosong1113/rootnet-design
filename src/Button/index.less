@@ -27,19 +27,20 @@
     border-color: @borderColor;
     color: @fullDarkColor;
     &:hover {
-      border-color: #7692ff;
-      color: #7692ff;
-      fill: #7692ff;
+      border-color: @primaryColorHover;
+      color: @primaryColorHover;
+      fill: @primaryColorHover;
     }
   }
 
   &&-primary {
     color: #fff;
+    fill: #fff;
     background: @primaryColor;
     border-color: @primaryColor;
     &:hover {
       color: #fff;
-      background: #7692ff;
+      background: @primaryColorHover;
       fill: #fff;
     }
   }
@@ -49,36 +50,38 @@
     border-style: dashed;
     border-color: @borderColor;
     &:hover {
-      border-color: #7692ff;
-      color: #7692ff;
-      fill: #7692ff;
+      border-color: @primaryColorHover;
+      color: @primaryColorHover;
+      fill: @primaryColorHover;
     }
   }
   &&-text {
     background: none;
     border: 0;
     &:hover {
-      border-color: #7692ff;
-      color: #7692ff;
-      fill: #7692ff;
+      border-color: @primaryColorHover;
+      color: @primaryColorHover;
+      fill: @primaryColorHover;
     }
   }
   &&-link {
     background: none;
     border: 0;
     color: @primaryColor;
+    fill: @primaryColor;
+
     &:hover {
-      border-color: #7692ff;
-      color: #7692ff;
-      fill: #7692ff;
+      border-color: @primaryColorHover;
+      color: @primaryColorHover;
+      fill: @primaryColorHover;
     }
   }
 
   &&-disabled {
     cursor: not-allowed;
     background: @fullDisableColor;
-    color: #d0d1da;
-    fill: #d0d1da;
+    color: @disableColor;
+    fill: @disableColor;
   }
   &&-lg {
     padding: 10px 16px;

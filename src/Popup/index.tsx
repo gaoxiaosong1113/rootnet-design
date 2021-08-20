@@ -24,8 +24,8 @@ export interface PopupProps {
    * @default           -
    */
   className?: string;
-
-  children: any;
+  style?: Object;
+  children?: React.ReactChild;
 
   /**
    * @description      弹层触发关闭
@@ -236,9 +236,9 @@ function Popup(props: PopupProps): any {
       <div
         style={style}
         className={clsx(
+          `${prefix}-popup`,
           {
-            [`${prefix}-popup`]: true,
-            [`${prefix}-popup-${position}`]: true,
+            [`${prefix}-popup-${position}`]: position,
           },
           className,
         )}

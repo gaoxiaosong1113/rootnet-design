@@ -23,14 +23,14 @@ export interface OperationProps {
    * @default           -
    */
   className?: string;
+  style?: Object;
+  children?: React.ReactChild;
 
   /**
    * @description      主体内容
    * @default           -
    */
   content: any;
-
-  children: any;
 
   /**
    * @description      确认按钮回调
@@ -64,8 +64,9 @@ function Item(props: any, ref: any) {
     <>
       <div
         className={clsx(
+          className,
+          `${prefix}-operation-item`,
           {
-            [`${prefix}-operation-item`]: true,
             [`${prefix}-operation-item-disabled`]: disabled,
             [`${prefix}-operation-item-select`]: select,
           },
@@ -115,7 +116,14 @@ function OperationPopup(props: any) {
 }
 
 function Operation(props: OperationProps) {
-  const { children, onConfirm, onCancel, position = 'top', ...prop } = props;
+  const {
+    className,
+    children,
+    onConfirm,
+    onCancel,
+    position = 'top',
+    ...prop
+  } = props;
   const [visible, setVisible] = useState(false);
 
   const refEl = useRef(null);
@@ -129,9 +137,7 @@ function Operation(props: OperationProps) {
 
   return (
     <div
-      className={clsx({
-        [`${prefix}-operation`]: true,
-      })}
+      className={clsx(className, `${prefix}-operation`)}
       onClick={(event) => {
         event.persist();
         setVisible(true);

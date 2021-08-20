@@ -21,6 +21,8 @@ export interface SliderProps {
    * @default           -
    */
   className?: string;
+  style?: Object;
+  children?: React.ReactChild;
 
   /**
    * @description      按钮的类型
@@ -39,8 +41,6 @@ export interface SliderProps {
    * @default           false
    */
   disabled?: boolean;
-
-  children?: React.ReactChild;
 
   /**
    * @description      Slider点击事件
@@ -62,8 +62,17 @@ export interface SliderProps {
 }
 
 function Slider(props: SliderProps) {
-  const { type, icon, disabled, children, onClick, interval, size, ...prop } =
-    props;
+  const {
+    className,
+    type,
+    icon,
+    disabled,
+    children,
+    onClick,
+    interval,
+    size,
+    ...prop
+  } = props;
 
   function handleClick() {
     if (!disabled && onClick) {
@@ -72,12 +81,11 @@ function Slider(props: SliderProps) {
   }
   return (
     <div
-      className={clsx({
-        [`${prefix}-Slider`]: true,
-        [`${prefix}-Slider-default`]: !type && !disabled,
-        [`${prefix}-Slider-${type}`]: type,
-        [`${prefix}-Slider-disabled`]: disabled,
-        [`${prefix}-Slider-${size}`]: size,
+      className={clsx(className, `${prefix}-slider`, {
+        [`${prefix}-slider-default`]: !type && !disabled,
+        [`${prefix}-slider-${type}`]: type,
+        [`${prefix}-slider-disabled`]: disabled,
+        [`${prefix}-slider-${size}`]: size,
       })}
       style={{ margin: interval }}
       onClick={handleClick}

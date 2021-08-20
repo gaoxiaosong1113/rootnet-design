@@ -10,24 +10,19 @@ import { pavingArray } from '../_util';
 import { Icon, Checkbox, Input, Tree } from '../index';
 
 export interface TransferProps {
-  children: any;
   /**
    * @description      类名
    * @default           -
    */
   className?: string;
+  style?: Object;
+  children?: React.ReactChild;
 
   /**
    * @description      标题
    * @default           -
    */
   title?: string;
-
-  /**
-   * @description      样式
-   * @default           -
-   */
-  style?: any;
 
   /**
    * @description      开启搜索
@@ -165,26 +160,14 @@ function Transfer(props: TransferProps) {
 
   const Title = useCallback(() => {
     if (!title) return null;
-    return (
-      <div
-        className={clsx({
-          [`${prefix}-transfer-title`]: true,
-        })}
-      >
-        {title}
-      </div>
-    );
+    return <div className={clsx(`${prefix}-transfer-title`, {})}>{title}</div>;
   }, [title]);
 
   const Search = useCallback(
     ({ type }) => {
       if (!search) return null;
       return (
-        <div
-          className={clsx({
-            [`${prefix}-transfer-search`]: true,
-          })}
-        >
+        <div className={clsx(`${prefix}-transfer-search`, {})}>
           <Input
             icon={<Icon color="#3A415C" name="enlarge" />}
             value={sourceSearch}
@@ -207,17 +190,11 @@ function Transfer(props: TransferProps) {
     ({ type }) => {
       if (!search) return null;
       return (
-        <div
-          className={clsx({
-            [`${prefix}-transfer-allCheckbox`]: true,
-          })}
-        >
+        <div className={clsx(`${prefix}-transfer-allCheckbox`, {})}>
           {type == 'source' && (
             <>
               <div
-                className={clsx({
-                  [`${prefix}-transfer-allCheckbox-cotnent`]: true,
-                })}
+                className={clsx(`${prefix}-transfer-allCheckbox-cotnent`, {})}
               >
                 <Checkbox
                   checked={
@@ -244,9 +221,7 @@ function Transfer(props: TransferProps) {
                 </div>
               </div>
               <div
-                className={clsx({
-                  [`${prefix}-transfer-invertSelection`]: true,
-                })}
+                className={clsx(`${prefix}-transfer-invertSelection`, {})}
                 onClick={() => {
                   setSourceSelectedKeys(
                     source
@@ -264,9 +239,7 @@ function Transfer(props: TransferProps) {
           {type == 'target' && (
             <>
               <div
-                className={clsx({
-                  [`${prefix}-transfer-allCheckbox-cotnent`]: true,
-                })}
+                className={clsx(`${prefix}-transfer-allCheckbox-cotnent`, {})}
               >
                 <Checkbox
                   checked={
@@ -293,9 +266,7 @@ function Transfer(props: TransferProps) {
                 </div>
               </div>
               <div
-                className={clsx({
-                  [`${prefix}-transfer-invertSelection`]: true,
-                })}
+                className={clsx(`${prefix}-transfer-invertSelection`, {})}
                 onClick={() => {
                   setTargetSelectedKeys(
                     target
@@ -317,30 +288,16 @@ function Transfer(props: TransferProps) {
   );
 
   return (
-    <div
-      className={clsx(
-        {
-          [`${prefix}-transfer`]: true,
-        },
-        className,
-      )}
-      style={style}
-    >
+    <div className={clsx(className, `${prefix}-transfer`, {})} style={style}>
       <div
-        className={clsx({
-          [`${prefix}-transfer-left`]: true,
-          [`${prefix}-transfer-container`]: true,
+        className={clsx(`${prefix}-transfer-left`, {
           [`${prefix}-transfer-noData`]: source.length <= 0,
         })}
       >
         <Title />
         <Search type="source" />
         <AllCheckbox type="source" />
-        <div
-          className={clsx({
-            [`${prefix}-transfer-checkbox`]: true,
-          })}
-        >
+        <div className={clsx(`${prefix}-transfer-checkbox`, {})}>
           {children ? (
             React.Children.map(children, (item: any, index) => {
               return (
@@ -369,14 +326,9 @@ function Transfer(props: TransferProps) {
           )}
         </div>
       </div>
-      <div
-        className={clsx({
-          [`${prefix}-transfer-operation`]: true,
-        })}
-      >
+      <div className={clsx(`${prefix}-transfer-operation`, {})}>
         <div
-          className={clsx({
-            [`${prefix}-transfer-operation-item`]: true,
+          className={clsx(`${prefix}-transfer-operation-item`, {
             [`${prefix}-transfer-operation-item-disabled`]:
               sourceSelectedKeys.length <= 0,
           })}
@@ -392,8 +344,7 @@ function Transfer(props: TransferProps) {
           />
         </div>
         <div
-          className={clsx({
-            [`${prefix}-transfer-operation-item`]: true,
+          className={clsx(`${prefix}-transfer-operation-item`, {
             [`${prefix}-transfer-operation-item-disabled`]:
               targetSelectedKeys.length <= 0,
           })}
@@ -410,20 +361,14 @@ function Transfer(props: TransferProps) {
         </div>
       </div>
       <div
-        className={clsx({
-          [`${prefix}-transfer-right`]: true,
-          [`${prefix}-transfer-container`]: true,
+        className={clsx(`${prefix}-transfer-right`, {
           [`${prefix}-transfer-noData`]: target.length <= 0,
         })}
       >
         <Title />
         <Search type="target" />
         <AllCheckbox type="target" />
-        <div
-          className={clsx({
-            [`${prefix}-transfer-checkbox`]: true,
-          })}
-        >
+        <div className={clsx(`${prefix}-transfer-checkbox`, {})}>
           {children ? (
             React.Children.map(children, (item: any, index) => {
               return (

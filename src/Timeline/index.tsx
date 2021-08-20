@@ -21,6 +21,8 @@ export interface TimelineProps {
    * @default           -
    */
   className?: string;
+  style?: Object;
+  children?: React.ReactChild;
 
   /**
    * @description      按钮的类型
@@ -39,8 +41,6 @@ export interface TimelineProps {
    * @default           false
    */
   disabled?: boolean;
-
-  children?: React.ReactChild;
 
   /**
    * @description      Timeline点击事件
@@ -62,8 +62,17 @@ export interface TimelineProps {
 }
 
 function Timeline(props: TimelineProps) {
-  const { type, icon, disabled, children, onClick, interval, size, ...prop } =
-    props;
+  const {
+    className,
+    type,
+    icon,
+    disabled,
+    children,
+    onClick,
+    interval,
+    size,
+    ...prop
+  } = props;
 
   function handleClick() {
     if (!disabled && onClick) {
@@ -72,12 +81,11 @@ function Timeline(props: TimelineProps) {
   }
   return (
     <div
-      className={clsx({
-        [`${prefix}-Timeline`]: true,
-        [`${prefix}-Timeline-default`]: !type && !disabled,
-        [`${prefix}-Timeline-${type}`]: type,
-        [`${prefix}-Timeline-disabled`]: disabled,
-        [`${prefix}-Timeline-${size}`]: size,
+      className={clsx(className, `${prefix}-timeline`, {
+        [`${prefix}-timeline-default`]: !type && !disabled,
+        [`${prefix}-timeline-${type}`]: type,
+        [`${prefix}-timeline-disabled`]: disabled,
+        [`${prefix}-timeline-${size}`]: size,
       })}
       style={{ margin: interval }}
       onClick={handleClick}

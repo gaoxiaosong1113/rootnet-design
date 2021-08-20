@@ -16,6 +16,8 @@ export interface SelectProps {
    * @default           -
    */
   className?: string;
+  style?: Object;
+  children?: React.ReactChild;
 
   /**
    * @description      select 提示
@@ -72,6 +74,7 @@ export interface SelectProps {
 
 function Select(props: SelectProps) {
   const {
+    className,
     placeholder,
     disabled,
     onChange,
@@ -99,8 +102,7 @@ function Select(props: SelectProps) {
 
   return (
     <div
-      className={clsx({
-        [`${prefix}-select-target`]: true,
+      className={clsx(className, `${prefix}-select-target`, {
         [`${prefix}-select-target-disabled`]: disabled,
         [`${prefix}-select-target-visible`]: visible,
         [`${prefix}-select-placeholder`]: !value,
@@ -108,9 +110,7 @@ function Select(props: SelectProps) {
       ref={refEl}
     >
       <div
-        className={clsx({
-          [`${prefix}-select-target-content`]: true,
-        })}
+        className={clsx(`${prefix}-select-target-content`, {})}
         onClick={(event) => {
           event.persist();
           if (disabled) return;
@@ -123,18 +123,12 @@ function Select(props: SelectProps) {
       {value && value != undefined && close ? (
         <div
           onClick={() => setValue(null)}
-          className={clsx({
-            [`${prefix}-select-target-close`]: true,
-          })}
+          className={clsx(`${prefix}-select-target-close`, {})}
         >
           <Icon name="shibai" size={14} />
         </div>
       ) : (
-        <div
-          className={clsx({
-            [`${prefix}-select-target-arrow`]: true,
-          })}
-        >
+        <div className={clsx(`${prefix}-select-target-arrow`, {})}>
           <Icon name="xuanzexiala" size={14} />
         </div>
       )}
@@ -149,12 +143,13 @@ function Select(props: SelectProps) {
         refEl={refEl}
         position={'bottom-left'}
         trigger={'click'}
-        className={clsx({
-          [`${prefix}-select-popup`]: true,
+        className={clsx(`${prefix}-select-popup`, {
+          [`${className}-popup`]: className,
         })}
       >
         <SelectContent
           {...props}
+          className={clsx({ [`${className}-warp`]: className })}
           target={refEl}
           value={value}
           onCancel={() => {
@@ -174,8 +169,16 @@ function Select(props: SelectProps) {
 }
 
 function SelectContent(props: SelectProps) {
-  const { options, value, multiple, onChange, onCancel, target, ...prop } =
-    props;
+  const {
+    className,
+    options,
+    value,
+    multiple,
+    onChange,
+    onCancel,
+    target,
+    ...prop
+  } = props;
 
   const refEl = useRef<any>(null);
 
@@ -202,25 +205,14 @@ function SelectContent(props: SelectProps) {
   }
 
   return (
-    <div
-      className={clsx({
-        [`${prefix}-select-warp`]: true,
-      })}
-      ref={refEl}
-    >
+    <div className={clsx(`${prefix}-select-warp`, className)} ref={refEl}>
       <div
-        className={clsx({
-          [`${prefix}-select`]: true,
-        })}
+        className={clsx(`${prefix}-select`, {})}
         style={{
           minWidth: target.current.offsetWidth,
         }}
       >
-        <div
-          className={clsx({
-            [`${prefix}-select-body`]: true,
-          })}
-        >
+        <div className={clsx(`${prefix}-select-body`, {})}>
           {multiple ? (
             <Tree
               checkable={!multiple}
@@ -238,20 +230,6 @@ function SelectContent(props: SelectProps) {
               rowKey="value"
             />
           ) : (
-            // options.map((item, index) => {
-            //   return (
-            //     <div
-            //       key={index}
-            //       onClick={() => handleChange(item.value)}
-            //       className={clsx({
-            //         [`${prefix}-select-item`]: true,
-            //         [`${prefix}-select-item-active`]: item.value === value,
-            //       })}
-            //     >
-            //       <span>{item.label}</span>
-            //     </div>
-            //   );
-            // })
             <Tree
               checkable={!multiple}
               onCheck={(v: any) => {
@@ -263,21 +241,9 @@ function SelectContent(props: SelectProps) {
             />
           )}
         </div>
-        {/* <div
-          className={clsx({
-            [`${prefix}-select-footer`]: true,
-          })}
-        >
-          <Button onClick={() => {}}>取消</Button>
-          <Button type="primary" onClick={handleChange}>
-            确定
-          </Button>
-        </div> */}
       </div>
       <div
-        className={clsx({
-          [`${prefix}-select-mask`]: true,
-        })}
+        className={clsx(`${prefix}-select-mask`, {})}
         onClick={handleCancel}
       ></div>
     </div>

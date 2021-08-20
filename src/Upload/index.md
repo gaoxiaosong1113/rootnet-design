@@ -27,7 +27,7 @@ export default () => {
             action={(form, config) => {
               console.log(form, config);
               return new Promise((resolve, reject) => {
-                resolve({ data: '上传的地址' });
+                resolve('上传的地址');
               });
             }}
             onPreview={(file) => {

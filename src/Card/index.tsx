@@ -8,11 +8,11 @@ import { prefix } from '../config';
 
 export interface CardProps {
   /**
-   * @description      卡片的样式名
+   * @description      类名
    * @default           -
    */
   className?: string;
-
+  style?: Object;
   children?: React.ReactChild;
 
   /**
@@ -60,6 +60,8 @@ export interface CardProps {
 
 export default function Card(props: CardProps) {
   const {
+    className,
+    style,
     children,
     title,
     width,
@@ -72,42 +74,23 @@ export default function Card(props: CardProps) {
   } = props;
   return (
     <div
-      className={clsx({
-        [`${prefix}-card`]: true,
-      })}
-      style={{ width, height }}
+      className={clsx(className, `${prefix}-card`)}
+      style={{ width, height, ...style }}
       {...prop}
     >
-      <div
-        className={clsx({
-          [`${prefix}-card-head`]: true,
-        })}
-      >
-        <div
-          className={clsx({
-            [`${prefix}-card-head-content`]: true,
-          })}
-        >
+      <div className={clsx(`${prefix}-card-head`)}>
+        <div className={clsx(`${prefix}-card-head-content`)}>
           {title && (
-            <div
-              className={clsx({
-                [`${prefix}-card-title`]: true,
-              })}
-            >
+            <div className={clsx(`${prefix}-card-title`)}>
               <span>{title}</span>
             </div>
           )}
           {tabList && (
-            <div
-              className={clsx({
-                [`${prefix}-card-tabs`]: true,
-              })}
-            >
+            <div className={clsx(`${prefix}-card-tabs`)}>
               {tabList.map((item: any, index: number) => {
                 return (
                   <div
-                    className={clsx({
-                      [`${prefix}-card-tabs-item`]: true,
+                    className={clsx(`${prefix}-card-tabs-item`, {
                       [`${prefix}-card-tabs-item-disabled`]: item.disabled,
                       [`${prefix}-card-tabs-item-active`]:
                         activeTabKey == index,
@@ -126,25 +109,14 @@ export default function Card(props: CardProps) {
             </div>
           )}
         </div>
-        <div
-          className={clsx({
-            [`${prefix}-card-extra`]: true,
-          })}
-        >
-          {extra}
-        </div>
+        <div className={clsx(`${prefix}-card-extra`)}>{extra}</div>
       </div>
-      <div
-        className={clsx({
-          [`${prefix}-card-body`]: true,
-        })}
-      >
+      <div className={clsx(`${prefix}-card-body`)}>
         {tabList
           ? React.Children.map(children, (item, index) => {
               return (
                 <div
-                  className={clsx({
-                    [`${prefix}-card-tab-item`]: true,
+                  className={clsx(`${prefix}-card-tab-item`, {
                     [`${prefix}-card-tab-item-active`]: index == activeTabKey,
                   })}
                 >
@@ -154,11 +126,7 @@ export default function Card(props: CardProps) {
             })
           : children}
       </div>
-      <div
-        className={clsx({
-          [`${prefix}-card-footer`]: true,
-        })}
-      ></div>
+      <div className={clsx(`${prefix}-card-footer`)}></div>
     </div>
   );
 }

@@ -87,8 +87,9 @@ const InternalForm = (props: any, ref: any) => {
     >
       <form
         className={clsx(
+          className,
+          `${prefix}-form`,
           {
-            [`${prefix}-form`]: true,
             [`${prefix}-form-inline`]: !layout || layout == 'inline',
             [`${prefix}-form-${layout}`]: layout,
           },
@@ -117,7 +118,7 @@ const InternalForm = (props: any, ref: any) => {
 };
 
 const Item = (props: any, ref: any) => {
-  const { label, name, children, rules, ...prop } = props;
+  const { className, label, name, children, rules, ...prop } = props;
 
   const [value, setValue] = useState(props.value);
   const [required, setRequired] = useState(false);
@@ -214,34 +215,22 @@ const Item = (props: any, ref: any) => {
 
   return (
     <div
-      {...prop}
-      className={clsx({
-        [`${prefix}-form-item`]: true,
+      className={clsx(className, `${prefix}-form-item`, {
         [`${prefix}-form-item-errors`]: error && error.length > 0,
       })}
+      {...prop}
     >
       <label
-        className={clsx({
-          [`${prefix}-form-item-laber`]: true,
+        className={clsx(`${prefix}-form-item-laber`, {
           [`${prefix}-form-item-laber-none`]: !label,
         })}
       >
         {required && (
-          <span
-            className={clsx({
-              [`${prefix}-form-item-required`]: true,
-            })}
-          >
-            *
-          </span>
+          <span className={clsx(`${prefix}-form-item-required`)}>*</span>
         )}
         {label}
       </label>
-      <div
-        className={clsx({
-          [`${prefix}-form-item-control`]: true,
-        })}
-      >
+      <div className={clsx(`${prefix}-form-item-control`)}>
         {React.cloneElement(children, {
           name,
           value,
@@ -250,11 +239,7 @@ const Item = (props: any, ref: any) => {
           },
         })}
         {error && error.length && error.length > 0 ? (
-          <div
-            className={clsx({
-              [`${prefix}-form-item-error`]: true,
-            })}
-          >
+          <div className={clsx(`${prefix}-form-item-error`)}>
             {error[0].message}
           </div>
         ) : null}

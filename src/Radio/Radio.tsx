@@ -16,6 +16,8 @@ export interface RadioProps {
    * @default           -
    */
   className?: string;
+  style?: Object;
+  children?: React.ReactChild;
 
   /**
    * @description      按钮的类型
@@ -34,8 +36,6 @@ export interface RadioProps {
    * @default           false
    */
   disabled?: boolean;
-
-  children?: React.ReactChild;
 
   /**
    * @description      Radio 更改事件
@@ -65,7 +65,8 @@ export interface RadioProps {
 }
 
 function Radio(props: RadioProps) {
-  const { type, icon, disabled, children, onChange, size, ...prop } = props;
+  const { className, type, icon, disabled, children, onChange, size, ...prop } =
+    props;
   const [checked, setChecked] = useState(props.checked || false);
   const [value, setValue] = useState(props.value || '');
 
@@ -110,8 +111,7 @@ function Radio(props: RadioProps) {
 
   return (
     <label
-      className={clsx({
-        [`${prefix}-radio`]: true,
+      className={clsx(className, `${prefix}-radio`, {
         [`${prefix}-radio-default`]: !type && !disabled,
         [`${prefix}-radio-${type}`]: type,
         [`${prefix}-radio-disabled`]: disabled,
@@ -122,18 +122,8 @@ function Radio(props: RadioProps) {
       {...prop}
     >
       <input type="radio" {...radioProps} />
-      <span
-        className={clsx({
-          [`${prefix}-radio-icon`]: true,
-        })}
-      ></span>
-      <span
-        className={clsx({
-          [`${prefix}-radio-content`]: true,
-        })}
-      >
-        {children}
-      </span>
+      <span className={clsx(`${prefix}-radio-icon`, {})}></span>
+      <span className={clsx(`${prefix}-radio-content`, {})}>{children}</span>
     </label>
   );
 }

@@ -12,8 +12,8 @@ export interface RowProps {
    * @default           -
    */
   className?: string;
-
-  children?: any;
+  style?: Object;
+  children?: React.ReactChild;
 
   /**
    * @description      对齐方式
@@ -35,7 +35,7 @@ export interface RowProps {
 }
 
 const Row = (props: RowProps) => {
-  const { children, justify, wrap, gutter } = props;
+  const { className, children, justify, wrap, gutter } = props;
 
   let gutterData: Array<any> = [];
 
@@ -49,8 +49,7 @@ const Row = (props: RowProps) => {
   }
   return (
     <div
-      className={clsx({
-        [`${prefix}-row`]: true,
+      className={clsx(className, `${prefix}-row`, {
         [`${prefix}-row-${justify}`]: justify,
         [`${prefix}-row-no-wrap`]: wrap,
       })}
@@ -73,7 +72,7 @@ export interface ColProps {
    * @default           -
    */
   className?: string;
-
+  style?: Object;
   children?: React.ReactChild;
 
   /**
@@ -114,7 +113,8 @@ export interface ColProps {
 }
 
 const Col = (props: ColProps) => {
-  const { children, span, offset, pull, push, order, gutter } = props;
+  const { className, children, span, offset, pull, push, order, gutter } =
+    props;
 
   let newGutter: Array<any> = useMemo(() => {
     if (!gutter) {
@@ -128,8 +128,7 @@ const Col = (props: ColProps) => {
 
   return (
     <div
-      className={clsx({
-        [`${prefix}-col`]: true,
+      className={clsx(className, `${prefix}-col`, {
         [`${prefix}-col-${span}`]: span,
         [`${prefix}-col-offset-${offset}`]: offset,
         [`${prefix}-col-pull-${pull}`]: pull,

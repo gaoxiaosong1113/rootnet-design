@@ -16,7 +16,13 @@ import { prefix } from '../config';
 import { Icon } from '../index';
 
 export interface ProgressProps {
+  /**
+   * @description      类名
+   * @default           -
+   */
   className?: string;
+  style?: Object;
+  children?: React.ReactChild;
 
   /**
    * @description      类型，可选 line circle
@@ -95,36 +101,22 @@ function Progress(props: ProgressProps) {
 
   return (
     <div
-      className={clsx(
-        {
-          [`${prefix}-progress`]: true,
-          [`${prefix}-progress-${type}`]: type,
-          [`${prefix}-progress-${status}`]: status,
-          [`${prefix}-progress-small`]: small,
-          [`${prefix}-progress-minimum`]: minimum,
-        },
-        className,
-      )}
+      className={clsx(className, `${prefix}-progress`, {
+        [`${prefix}-progress-${type}`]: type,
+        [`${prefix}-progress-${status}`]: status,
+        [`${prefix}-progress-small`]: small,
+        [`${prefix}-progress-minimum`]: minimum,
+      })}
       {...prop}
     >
-      <div
-        className={clsx({
-          [`${prefix}-progress-outer`]: true,
-        })}
-      >
+      <div className={clsx(`${prefix}-progress-outer`, {})}>
         <div
-          className={clsx({
-            [`${prefix}-progress-inner`]: true,
-          })}
+          className={clsx(`${prefix}-progress-inner`, {})}
           style={{ width: displayPercent + '%' }}
         ></div>
       </div>
 
-      <div
-        className={clsx({
-          [`${prefix}-progress-text`]: true,
-        })}
-      >
+      <div className={clsx(`${prefix}-progress-text`, {})}>
         {displayPercent < 100 && <span>{displayPercent}%</span>}
         {displayPercent == 100 && status == 'error' && <Icon name="shibai" />}
         {displayPercent == 100 && status != 'error' && (

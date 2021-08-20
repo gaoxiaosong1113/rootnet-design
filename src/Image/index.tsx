@@ -21,6 +21,8 @@ export interface ImageProps {
    * @default           -
    */
   className?: string;
+  style?: Object;
+  children?: React.ReactChild;
 
   /**
    * @description      图片裁剪类型
@@ -47,12 +49,10 @@ export interface ImageProps {
    * @default           -
    */
   src?: string;
-
-  style?: any;
 }
 
 function Image(props: ImageProps) {
-  const { mode = 'scaleToFill', style, className, src, ...prop } = props;
+  const { className, style, mode = 'scaleToFill', src, ...prop } = props;
 
   const ref = useRef(null as any);
 
@@ -195,9 +195,7 @@ function Image(props: ImageProps) {
 
   return (
     <div
-      className={clsx({
-        [`${prefix}-image`]: true,
-      })}
+      className={clsx(className, `${prefix}-image`)}
       style={{
         ...style,
         ...warpStyle,

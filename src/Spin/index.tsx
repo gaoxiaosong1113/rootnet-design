@@ -21,7 +21,7 @@ export interface SpinProps {
    * @default           -
    */
   className?: string;
-
+  style?: Object;
   children?: React.ReactChild;
 
   /**
@@ -38,64 +38,31 @@ export interface SpinProps {
 }
 
 function Spin(props: SpinProps) {
-  const { children, size, loading = false, ...prop } = props;
+  const { className, children, size, loading = false, ...prop } = props;
 
   return (
     <div
-      className={clsx({
-        [`${prefix}-spin`]: true,
+      className={clsx(className, `${prefix}-spin`, {
         [`${prefix}-spin-spinning`]: loading,
       })}
     >
       {children && (
         <div
-          className={clsx({
-            [`${prefix}-spin-container`]: true,
+          className={clsx(`${prefix}-spin-container`, {
             [`${prefix}-spin-blur`]: loading,
           })}
         >
           {children}
         </div>
       )}
-      <div
-        className={clsx({
-          [`${prefix}-spin-loading`]: true,
-        })}
-      >
-        <span
-          className={clsx({
-            [`${prefix}-spin-dot`]: true,
-            [`${prefix}-spin-dot-spin`]: true,
-          })}
-        >
-          <i
-            className={clsx({
-              [`${prefix}-spin-dot-item`]: true,
-            })}
-          ></i>
-          <i
-            className={clsx({
-              [`${prefix}-spin-dot-item`]: true,
-            })}
-          ></i>
-          <i
-            className={clsx({
-              [`${prefix}-spin-dot-item`]: true,
-            })}
-          ></i>
-          <i
-            className={clsx({
-              [`${prefix}-spin-dot-item`]: true,
-            })}
-          ></i>
+      <div className={clsx(`${prefix}-spin-loading`, {})}>
+        <span className={clsx(`${prefix}-spin-dot`, `${prefix}-spin-dot-spin`)}>
+          <i className={clsx(`${prefix}-spin-dot-item`, {})}></i>
+          <i className={clsx(`${prefix}-spin-dot-item`, {})}></i>
+          <i className={clsx(`${prefix}-spin-dot-item`, {})}></i>
+          <i className={clsx(`${prefix}-spin-dot-item`, {})}></i>
         </span>
-        <p
-          className={clsx({
-            [`${prefix}-spin-text`]: true,
-          })}
-        >
-          加载中...
-        </p>
+        <p className={clsx(`${prefix}-spin-text`, {})}>加载中...</p>
       </div>
     </div>
   );

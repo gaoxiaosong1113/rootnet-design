@@ -123,10 +123,10 @@ function TableItem(props: any) {
 
   return (
     <>
-      <tr className={`${prefix}-table-row`} key={rowKey}>
+      <tr className={clsx(`${prefix}-table-row`, rowClassName)} key={rowKey}>
         {rowSelection && (
           <td
-            className={`${prefix}-table-td ${prefix}-table-checkbox`}
+            className={clsx(`${prefix}-table-td`, `${prefix}-table-checkbox`)}
             style={{ width: '40px' }}
           >
             <Checkbox
@@ -143,7 +143,7 @@ function TableItem(props: any) {
         )}
         {indexEq && (
           <td
-            className={`${prefix}-table-td ${prefix}-table-index`}
+            className={clsx(`${prefix}-table-td`, `${prefix}-table-index`)}
             style={{ width: '40px' }}
           >
             {layer == 0 && index + 1}
@@ -156,8 +156,8 @@ function TableItem(props: any) {
             return (
               <td
                 className={clsx(
+                  `${prefix}-table-td`,
                   {
-                    [`${prefix}-table-td`]: true,
                     [`${prefix}-table-collapsed`]: collapsed,
                   },
                   item.className,
@@ -215,6 +215,7 @@ function TableChildren(props: any) {
 
 export default function Table(props: any) {
   const {
+    className,
     // 是否显示索引
     indexEq = true,
     // 是否展示外边框和列边框
@@ -335,19 +336,21 @@ export default function Table(props: any) {
   }, [props.expandable]);
 
   return (
-    <div className={`${prefix}-tables`}>
+    <div className={clsx(className, `${prefix}-tables`)}>
       <table
-        className={clsx({
-          [`${prefix}-table`]: true,
+        className={clsx(`${prefix}-table`, {
           [`${prefix}-table-border`]: bordered,
         })}
       >
         {showHeader && (
-          <thead className={`${prefix}-table-thead`}>
-            <tr className={`${prefix}-table-row`}>
+          <thead className={clsx(`${prefix}-table-thead`)}>
+            <tr className={clsx(`${prefix}-table-row`)}>
               {rowSelection && (
                 <th
-                  className={`${prefix}-table-th ${prefix}-table-checkbox`}
+                  className={clsx(
+                    `${prefix}-table-th`,
+                    `${prefix}-table-checkbox`,
+                  )}
                   style={{ width: '40px' }}
                 >
                   <Checkbox
@@ -360,7 +363,10 @@ export default function Table(props: any) {
               )}
               {indexEq && (
                 <th
-                  className={`${prefix}-table-th ${prefix}-table-index`}
+                  className={clsx(
+                    `${prefix}-table-th`,
+                    `${prefix}-table-index`,
+                  )}
                   style={{ width: '40px' }}
                 >
                   #
@@ -370,12 +376,7 @@ export default function Table(props: any) {
                 columns.map((item: any, index: any) => {
                   return (
                     <th
-                      className={clsx(
-                        {
-                          [`${prefix}-table-th`]: true,
-                        },
-                        item.className,
-                      )}
+                      className={clsx(`${prefix}-table-th`, item.className)}
                       key={item.dataIndex}
                       style={{ width: item.width || 'auto' }}
                     >
@@ -386,7 +387,7 @@ export default function Table(props: any) {
             </tr>
           </thead>
         )}
-        <tbody className={`${prefix}-table-body`}>
+        <tbody className={clsx(`${prefix}-table-body`)}>
           <TableChildren
             {...props}
             selectedRowKeys={selectedRowKeys}

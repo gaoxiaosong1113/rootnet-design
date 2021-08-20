@@ -14,6 +14,8 @@ export interface TagProps {
    * @default           -
    */
   className?: string;
+  style?: Object;
+  children?: React.ReactChild;
 
   /**
    * @description      按钮的类型
@@ -26,8 +28,6 @@ export interface TagProps {
    * @default           false
    */
   disabled?: boolean;
-
-  children?: React.ReactChild;
 
   /**
    * @description      Tag点击事件
@@ -74,6 +74,8 @@ export interface TagProps {
 
 function Tag(props: TagProps) {
   const {
+    className,
+    style,
     type = 'default',
     disabled,
     children,
@@ -111,14 +113,13 @@ function Tag(props: TagProps) {
 
   return (
     <div
-      className={clsx({
-        [`${prefix}-tag`]: true,
+      className={clsx(className, `${prefix}-tag`, {
         [`${prefix}-tag-${type}`]: type,
         [`${prefix}-tag-disabled`]: disabled,
         [`${prefix}-tag-${size}`]: size,
         [`${prefix}-tag-color-${color}`]: color,
       })}
-      style={{ margin: interval }}
+      style={{ margin: interval, ...style }}
       onClick={handleClick}
       {...prop}
     >

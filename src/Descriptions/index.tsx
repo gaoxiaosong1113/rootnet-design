@@ -16,14 +16,14 @@ export interface DescriptionsProps {
    * @default           -
    */
   className?: string;
+  style?: Object;
+  children?: React.ReactChild;
 
   /**
    * @description      描述的标题
    * @default           -
    */
   title?: string;
-
-  children?: any;
 
   /**
    * @description      间隔
@@ -64,6 +64,8 @@ export interface DescriptionsProps {
 
 function Descriptions(props: DescriptionsProps) {
   const {
+    className,
+    style,
     title,
     children,
     border,
@@ -83,7 +85,7 @@ function Descriptions(props: DescriptionsProps) {
   }, [gutter]);
 
   const child = useMemo(() => {
-    return React.Children.map(children, (item) => {
+    return React.Children.map(children, (item: any) => {
       return (
         item &&
         React.cloneElement(item, {
@@ -96,7 +98,7 @@ function Descriptions(props: DescriptionsProps) {
         })
       );
     });
-  }, [children]);
+  }, [children]) as any;
 
   function getFilledItem(
     node: React.ReactElement,
@@ -177,27 +179,16 @@ function Descriptions(props: DescriptionsProps) {
 
   return (
     <div
-      className={clsx({
-        [`${prefix}-descriptions`]: true,
+      className={clsx(className, `${prefix}-descriptions`, {
         [`${prefix}-descriptions-border`]: border,
       })}
       {...prop}
     >
       {title && (
-        <div
-          className={clsx({
-            [`${prefix}-descriptions-title`]: true,
-          })}
-        >
-          {title}
-        </div>
+        <div className={clsx(`${prefix}-descriptions-title`)}>{title}</div>
       )}
       {children && (
-        <div
-          className={clsx({
-            [`${prefix}-descriptions-content`]: true,
-          })}
-        >
+        <div className={clsx(`${prefix}-descriptions-content`)}>
           {border && (
             <table>
               <tbody>{childBorder}</tbody>
@@ -248,15 +239,9 @@ Descriptions.Item = ({
   }
   return (
     <Col gutter={gutter} span={span}>
-      <div
-        className={clsx({
-          [`${prefix}-descriptions-item`]: true,
-        })}
-      >
+      <div className={clsx(`${prefix}-descriptions-item`)}>
         <div
-          className={clsx({
-            [`${prefix}-descriptions-item-label`]: true,
-          })}
+          className={clsx(`${prefix}-descriptions-item-label`)}
           style={{
             width: labelWidth,
             flex: `0 0 ${labelWidth}px`,
@@ -265,9 +250,7 @@ Descriptions.Item = ({
           {label}
         </div>
         <div
-          className={clsx({
-            [`${prefix}-descriptions-item-content`]: true,
-          })}
+          className={clsx(`${prefix}-descriptions-item-content`)}
           style={{
             background,
             color: fontColor,

@@ -10,8 +10,42 @@ import { Icon } from '../index';
 
 export const GroupContext = React.createContext({} as any);
 
-function Group(props: any): any {
-  const { children, onChange } = props;
+export interface GroupProps {
+  /**
+   * @description      类名
+   * @default           -
+   */
+  className?: string;
+  style?: Object;
+  children?: React.ReactChild;
+
+  /**
+   * @description      选中更改事件
+   * @default           -
+   */
+  onChange?: Function;
+
+  /**
+   * @description      选中项
+   * @default           []
+   */
+  checked?: Array<any>;
+
+  /**
+   * @description      是否禁用按钮
+   * @default           false
+   */
+  disabled?: boolean;
+
+  /**
+   * @description      标签组name值
+   * @default           -
+   */
+  name: string;
+}
+
+function Group(props: GroupProps) {
+  const { className, children, onChange, ...prop } = props;
 
   const [checked, setChecked] = useState(props.checked || []);
 
@@ -40,11 +74,7 @@ function Group(props: any): any {
   };
 
   return (
-    <div
-      className={clsx({
-        [`${prefix}-checkbox-group`]: true,
-      })}
-    >
+    <div className={clsx(className, `${prefix}-checkbox-group`)} {...prop}>
       <GroupContext.Provider value={context}>{children}</GroupContext.Provider>
     </div>
   );

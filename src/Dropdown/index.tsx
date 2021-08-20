@@ -21,6 +21,8 @@ export interface DropdownProps {
    * @default           -
    */
   className?: string;
+  style?: Object;
+  children?: React.ReactChild;
 
   /**
    * @description      按钮的类型
@@ -39,8 +41,6 @@ export interface DropdownProps {
    * @default           false
    */
   disabled?: boolean;
-
-  children?: React.ReactChild;
 
   /**
    * @description      Dropdown点击事件
@@ -62,8 +62,17 @@ export interface DropdownProps {
 }
 
 function Dropdown(props: DropdownProps) {
-  const { type, icon, disabled, children, onClick, interval, size, ...prop } =
-    props;
+  const {
+    className,
+    type,
+    icon,
+    disabled,
+    children,
+    onClick,
+    interval,
+    size,
+    ...prop
+  } = props;
 
   function handleClick() {
     if (!disabled && onClick) {
@@ -72,12 +81,11 @@ function Dropdown(props: DropdownProps) {
   }
   return (
     <div
-      className={clsx({
-        [`${prefix}-Dropdown`]: true,
-        [`${prefix}-Dropdown-default`]: !type && !disabled,
-        [`${prefix}-Dropdown-${type}`]: type,
-        [`${prefix}-Dropdown-disabled`]: disabled,
-        [`${prefix}-Dropdown-${size}`]: size,
+      className={clsx(className, `${prefix}-dropdown`, {
+        [`${prefix}-dropdown-default`]: !type && !disabled,
+        [`${prefix}-dropdown-${type}`]: type,
+        [`${prefix}-dropdown-disabled`]: disabled,
+        [`${prefix}-dropdown-${size}`]: size,
       })}
       style={{ margin: interval }}
       onClick={handleClick}

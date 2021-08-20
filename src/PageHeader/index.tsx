@@ -21,7 +21,7 @@ export interface PageHeaderProps {
    * @default           -
    */
   className?: string;
-
+  style?: Object;
   children?: React.ReactChild;
 
   /**
@@ -38,7 +38,7 @@ export interface PageHeaderProps {
 }
 
 function PageHeader(props: PageHeaderProps) {
-  const { children, onClick, title, ...prop } = props;
+  const { className, children, onClick, title, ...prop } = props;
 
   function handleClick() {
     if (onClick) {
@@ -47,27 +47,15 @@ function PageHeader(props: PageHeaderProps) {
   }
   return (
     <div
-      className={clsx({
-        [`${prefix}-pageHeader`]: true,
-      })}
+      className={clsx(className, `${prefix}-pageHeader`)}
       onClick={handleClick}
       {...prop}
     >
-      <div
-        className={clsx({
-          [`${prefix}-pageHeader-left`]: true,
-        })}
-      >
+      <div className={clsx(`${prefix}-pageHeader-left`)}>
         <Icon name={'fanhui'} />
         <span>{title || '返回'}</span>
       </div>
-      <div
-        className={clsx({
-          [`${prefix}-pageHeader-content`]: true,
-        })}
-      >
-        {children}
-      </div>
+      <div className={clsx(`${prefix}-pageHeader-content`)}>{children}</div>
     </div>
   );
 }

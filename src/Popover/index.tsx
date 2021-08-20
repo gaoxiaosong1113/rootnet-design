@@ -17,14 +17,14 @@ export interface PopoverProps {
    * @default           -
    */
   className?: string;
+  style?: Object;
+  children?: React.ReactChild;
 
   /**
    * @description      主体内容
    * @default           -
    */
   content: any;
-
-  children: any;
 
   /**
    * @description      确认按钮回调
@@ -67,6 +67,7 @@ export interface PopoverProps {
 
 function Content(props: any) {
   const {
+    className,
     content,
     children,
     onConfirm,
@@ -90,23 +91,16 @@ function Content(props: any) {
   return (
     <>
       <div
-        className={clsx({
-          [`${prefix}-popover`]: true,
+        className={clsx(className, `${prefix}-popover`, {
           [`${prefix}-popover-${position}`]: position,
         })}
       >
-        <div
-          className={clsx({
-            [`${prefix}-popover-body`]: true,
-          })}
-        >
+        <div className={clsx(`${prefix}-popover-body`)}>
           <span>{content}</span>
         </div>
       </div>
       <div
-        className={clsx({
-          [`${prefix}-popover-mask`]: true,
-        })}
+        className={clsx(`${prefix}-popover-mask`)}
         onClick={handleCancel}
       ></div>
     </>
@@ -138,12 +132,15 @@ function Popover(props: PopoverProps) {
   return (
     <>
       {React.cloneElement(children, {
-        onClick: (event) => {
+        onClick: (event: any) => {
           event.stopPropagation();
           event.persist();
           setVisible(true);
         },
-        className: `${children.props.className} ${prefix}-popconfirm-target`,
+        className: clsx(
+          children.props.className,
+          `${prefix}-popconfirm-target`,
+        ),
         ref: refEl,
       })}
       <Popup

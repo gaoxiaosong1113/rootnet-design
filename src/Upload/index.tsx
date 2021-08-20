@@ -75,7 +75,12 @@ export interface UploadFile {
 }
 
 export interface UploadProps {
+  /**
+   * @description      类名
+   * @default           -
+   */
   className?: string;
+  style?: Object;
   children?: React.ReactChild;
 
   /**
@@ -216,11 +221,7 @@ function Upload(props: UploadProps) {
   const operation = useCallback(
     (uploadItem) => {
       return (
-        <div
-          className={clsx({
-            [`${prefix}-upload-item-operation`]: true,
-          })}
-        >
+        <div className={clsx(`${prefix}-upload-item-operation`, {})}>
           {uploadItem.status == 'success' && (
             <span onClick={() => handlePreview(uploadItem)}>
               <Icon name="xianshi" />
@@ -242,23 +243,14 @@ function Upload(props: UploadProps) {
       }
       return (
         <div
-          className={clsx({
-            [`${prefix}-upload-item`]: true,
+          className={clsx(`${prefix}-upload-item`, {
             [`${prefix}-upload-item-${item.status}`]: item.status,
           })}
           key={index}
         >
-          <div
-            className={clsx({
-              [`${prefix}-upload-item-context`]: true,
-            })}
-          >
+          <div className={clsx(`${prefix}-upload-item-context`, {})}>
             {listType == 'text' && (
-              <div
-                className={clsx({
-                  [`${prefix}-upload-icon`]: true,
-                })}
-              >
+              <div className={clsx(`${prefix}-upload-icon`, {})}>
                 <Icon
                   name="lianjie"
                   color={clsx({
@@ -273,31 +265,19 @@ function Upload(props: UploadProps) {
               </div>
             )}
             {listType !== 'text' && (
-              <div
-                className={clsx({
-                  [`${prefix}-upload-picture-img`]: true,
-                })}
-              >
+              <div className={clsx(`${prefix}-upload-picture-img`, {})}>
                 <Image src={item.thumbUrl} mode="aspectFit" />
               </div>
             )}
             {listType !== 'picture-card' && (
-              <div
-                className={clsx({
-                  [`${prefix}-upload-fillName`]: true,
-                })}
-              >
+              <div className={clsx(`${prefix}-upload-fillName`, {})}>
                 {item.name}
               </div>
             )}
             {operation(item)}
           </div>
           {item.percent !== undefined && (
-            <div
-              className={clsx({
-                [`${prefix}-upload-progress`]: true,
-              })}
-            >
+            <div className={clsx(`${prefix}-upload-progress`, {})}>
               <Progress
                 percent={item.percent as any}
                 status={item.status}
@@ -459,8 +439,7 @@ function Upload(props: UploadProps) {
 
   return (
     <div
-      className={clsx(className, {
-        [`${prefix}-upload`]: true,
+      className={clsx(className, `${prefix}-upload`, {
         [`${prefix}-upload-default`]: !disabled,
         [`${prefix}-upload-${listType}`]: listType,
         [`${prefix}-upload-disabled`]: disabled,
@@ -468,9 +447,7 @@ function Upload(props: UploadProps) {
       })}
     >
       <div
-        className={clsx({
-          [`${prefix}-upload-input`]: true,
-        })}
+        className={clsx(`${prefix}-upload-input`, {})}
         ref={uploadFileArea}
         onClick={(e) => drag && handleClick(e)}
       >
@@ -482,11 +459,7 @@ function Upload(props: UploadProps) {
           disabled={disabled}
           onChange={handleChange}
         />
-        <div
-          className={clsx({
-            [`${prefix}-upload-target`]: true,
-          })}
-        >
+        <div className={clsx(`${prefix}-upload-target`, {})}>
           {React.Children.map(children, (child: any) => {
             return React.cloneElement(child, {
               onClick: (e: any) => !drag && handleClick(e),
@@ -497,39 +470,27 @@ function Upload(props: UploadProps) {
         </div>
 
         {drag && (
-          <div
-            className={clsx({
-              [`${prefix}-upload-drag-info`]: true,
-            })}
-          >
+          <div className={clsx(`${prefix}-upload-drag-info`, {})}>
             单击或拖动文件到该区域以上传
           </div>
         )}
         {accept && showAccept && (
-          <div
-            className={clsx({
-              [`${prefix}-upload-accept`]: true,
-            })}
-          >
+          <div className={clsx(`${prefix}-upload-accept`, {})}>
             支持扩展名{accept}
           </div>
         )}
       </div>
 
       {(showUploadList == true || listType == 'picture-card') && (
-        <div
-          className={clsx({
-            [`${prefix}-upload-uploadList`]: true,
-          })}
-        >
+        <div className={clsx(`${prefix}-upload-uploadList`, {})}>
           {fileListJSX}
           {listType == 'picture-card' &&
             (maxCount != undefined ? fileList.length < maxCount : true) && (
               <div
-                className={clsx({
-                  [`${prefix}-upload-item`]: true,
-                  [`${prefix}-upload-item-add`]: true,
-                })}
+                className={clsx(
+                  `${prefix}-upload-item`,
+                  `${prefix}-upload-item-add`,
+                )}
                 onClick={handleClick}
               >
                 <Icon size={24} name="jiahao" />

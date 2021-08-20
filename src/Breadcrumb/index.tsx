@@ -10,34 +10,25 @@ import { Icon } from '../index';
 
 export interface BreadcrumbProps {
   /**
-   * @description      面包屑导航的样式名
+   * @description      类名
    * @default           -
    */
   className?: string;
+  style?: Object;
+  children?: React.ReactChild;
 
   /**
    * @description      面包屑导航的数据
    * @default           -
    */
   list?: Array<any>;
-
-  /**
-   * @description      子项
-   * @default           -
-   */
-  children?: any;
 }
 
 function Breadcrumb(props: BreadcrumbProps) {
-  const { children, ...prop } = props;
+  const { className, children, ...prop } = props;
 
   return (
-    <div
-      className={clsx({
-        [`${prefix}-breadcrumb`]: true,
-      })}
-      {...prop}
-    >
+    <div className={clsx(className, `${prefix}-breadcrumb`)} {...prop}>
       {React.Children.map(children, (item: any, index) => {
         return (
           item &&
@@ -53,10 +44,12 @@ function Breadcrumb(props: BreadcrumbProps) {
 
 export interface BreadcrumbItemProps {
   /**
-   * @description      面包屑导航的样式名
+   * @description      类名
    * @default           -
    */
   className?: string;
+  style?: Object;
+  children?: React.ReactChild;
 
   /**
    * @description      点击事件
@@ -75,16 +68,10 @@ export interface BreadcrumbItemProps {
    * @default           -
    */
   lastChild: boolean;
-
-  /**
-   * @description      子项
-   * @default           -
-   */
-  children?: any;
 }
 
 function BreadcrumbItem(props: BreadcrumbItemProps) {
-  const { children, index, onClick, lastChild, ...prop } = props;
+  const { className, children, index, onClick, lastChild, ...prop } = props;
 
   function handleClick() {
     if (onClick) {
@@ -94,8 +81,7 @@ function BreadcrumbItem(props: BreadcrumbItemProps) {
 
   return (
     <div
-      className={clsx({
-        [`${prefix}-breadcrumb-item`]: true,
+      className={clsx(className, `${prefix}-breadcrumb-item`, {
         [`${prefix}-breadcrumb-item-last`]: lastChild,
       })}
       onClick={() => handleClick()}

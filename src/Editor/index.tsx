@@ -26,11 +26,16 @@ import { prefix } from '../config';
 import { Icon, Upload, Button } from '../index';
 
 // 引入工具类
-import { uuid } from '../_util';
+import { uuid, fileUpload } from '../_util';
 
 export interface EditorProps {
+  /**
+   * @description      类名
+   * @default           -
+   */
   className?: string;
   style?: Object;
+  children?: React.ReactChild;
 
   /**
    * @description      自定义工具栏
@@ -61,6 +66,12 @@ export interface EditorProps {
    * @default           -
    */
   value?: string;
+
+  /**
+   * @description      上传的地址
+   * @default           -
+   */
+  action?: Function;
 
   /**
    * @description      数据
@@ -157,6 +168,7 @@ function Editor(props: EditorProps, ref: any) {
     onBlur,
     onFocus,
     onPreview,
+    action,
     ...prop
   } = props;
 
@@ -222,14 +234,52 @@ function Editor(props: EditorProps, ref: any) {
   }
 
   return (
-    <div className={clsx('rootnet-editor', className)} style={style}>
+    <div className={clsx(className, `${prefix}-editor`)} style={style}>
       <BraftEditor
         value={value}
         ref={editorRef}
         controls={controls || defaultControls}
         contentStyle={contentStyle}
         extendControls={extendControlsConfig}
-        media={media}
+        media={{
+          uploadFn: (param) => {
+            console.log(param);
+            fileUpload(
+              param,
+              {
+                // 监听上传进度
+                onUploadProgress(progressEvent: any) {
+                  param.progress(
+                    (progressEvent.loaded / progressEvent.total) * 100,
+                  );
+                },
+              },
+              action,
+            )
+              .then((res: any) => {
+                console.log(res);
+                param.success({
+                  url: res,
+                  meta: {
+                    id: '',
+                    title: '',
+                    alt: '',
+                    loop: false, // 指定音视频是否循环播放
+                    autoPlay: false, // 指定音视频是否自动播放
+                    controls: false, // 指定音视频是否显示控制栏
+                    poster: '',
+                  },
+                });
+              })
+              .catch((error: any) => {
+                console.log(error);
+                param.error({
+                  msg: error,
+                });
+              });
+          },
+          ...media,
+        }}
         onChange={handleChange}
         {...prop}
         // onSave={this.submitContent}

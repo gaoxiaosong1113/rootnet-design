@@ -105,6 +105,7 @@ export interface DrawerProps {
 
 function DrawerContent(props: any): any {
   const {
+    className,
     visible,
     title,
     children,
@@ -131,11 +132,7 @@ function DrawerContent(props: any): any {
     if (footer === null) return null;
     if (footer === undefined) {
       return (
-        <div
-          className={clsx({
-            [`${prefix}-drawer-footer`]: true,
-          })}
-        >
+        <div className={clsx(`${prefix}-drawer-footer`)}>
           <Button onClick={handleCancel}>取消</Button>
           <Button type="primary" onClick={handleConfirm}>
             确定
@@ -144,50 +141,22 @@ function DrawerContent(props: any): any {
       );
     }
 
-    return (
-      <div
-        className={clsx({
-          [`${prefix}-drawer-footer`]: true,
-        })}
-      >
-        {footer}
-      </div>
-    );
+    return <div className={clsx(`${prefix}-drawer-footer`)}>{footer}</div>;
   }, [footer]);
 
   return ReactDOM.createPortal(
-    // <div
-    //   className={clsx({
-    //     [`${prefix}-drawer-warp`]: true,
-    //     // [`${prefix}-drawer-visible`]: visible,
-    //   })}
-    //   ref={containerRef}
-    // >
     <>
       <div
-        className={clsx({
-          [`${prefix}-drawer`]: true,
+        className={clsx(className, `${prefix}-drawer`, {
           [`${prefix}-drawer-${position}`]: position,
         })}
         style={{ top: offsetTop, width }}
       >
-        <div
-          className={clsx({
-            [`${prefix}-drawer-head`]: true,
-          })}
-        >
-          <div
-            className={clsx({
-              [`${prefix}-drawer-head-title`]: true,
-            })}
-          >
-            {title}
-          </div>
+        <div className={clsx(`${prefix}-drawer-head`)}>
+          <div className={clsx(`${prefix}-drawer-head-title`)}>{title}</div>
           {close && (
             <div
-              className={clsx({
-                [`${prefix}-drawer-head-close`]: true,
-              })}
+              className={clsx(`${prefix}-drawer-head-close`)}
               onClick={() => {
                 onCancel ? onCancel() : null;
               }}
@@ -196,20 +165,12 @@ function DrawerContent(props: any): any {
             </div>
           )}
         </div>
-        <div
-          className={clsx({
-            [`${prefix}-drawer-body`]: true,
-          })}
-        >
-          {children}
-        </div>
+        <div className={clsx(`${prefix}-drawer-body`)}>{children}</div>
         <Footer />
       </div>
       {mask && (
         <div
-          className={clsx({
-            [`${prefix}-drawer-mask`]: true,
-          })}
+          className={clsx(`${prefix}-drawer-mask`)}
           onClick={handleCancel}
         ></div>
       )}
@@ -219,7 +180,7 @@ function DrawerContent(props: any): any {
 }
 
 function Drawer(props: DrawerProps) {
-  const { visible, position = 'left', ...prop } = props;
+  const { className, visible, position = 'left', ...prop } = props;
 
   return (
     <CSSTransition

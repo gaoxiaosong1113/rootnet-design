@@ -24,6 +24,8 @@ export interface EmptyProps {
    * @default           -
    */
   className?: string;
+  style?: Object;
+  children?: React.ReactChild;
 
   /**
    * @description      Empty的类型
@@ -43,13 +45,11 @@ export interface EmptyProps {
    */
   disabled?: boolean;
 
-  children?: React.ReactChild;
-
   data?: Array<any>;
 }
 
 function Empty(props: EmptyProps) {
-  const { type, icon, disabled, data, children, ...prop } = props;
+  const { className, type, icon, disabled, data, children, ...prop } = props;
 
   let show = useMemo(() => {
     let config: any = {
@@ -93,12 +93,7 @@ function Empty(props: EmptyProps) {
     return config[type] || config['emptyData'];
   }, [type]);
   return (
-    <div
-      className={clsx({
-        [`${prefix}-empty`]: true,
-      })}
-      {...prop}
-    >
+    <div className={clsx(className, `${prefix}-empty`)} {...prop}>
       <img src={show.image} alt="" />
       <p dangerouslySetInnerHTML={{ __html: show.describe }}></p>
     </div>

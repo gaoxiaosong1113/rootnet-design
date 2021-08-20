@@ -21,6 +21,8 @@ export interface SpaceProps {
    * @default           -
    */
   className?: string;
+  style?: Object;
+  children?: React.ReactChild;
 
   /**
    * @description      按钮的类型
@@ -39,8 +41,6 @@ export interface SpaceProps {
    * @default           false
    */
   disabled?: boolean;
-
-  children?: React.ReactChild;
 
   /**
    * @description      Space点击事件
@@ -62,8 +62,17 @@ export interface SpaceProps {
 }
 
 function Space(props: SpaceProps) {
-  const { type, icon, disabled, children, onClick, interval, size, ...prop } =
-    props;
+  const {
+    className,
+    type,
+    icon,
+    disabled,
+    children,
+    onClick,
+    interval,
+    size,
+    ...prop
+  } = props;
 
   function handleClick() {
     if (!disabled && onClick) {
@@ -72,12 +81,11 @@ function Space(props: SpaceProps) {
   }
   return (
     <div
-      className={clsx({
-        [`${prefix}-Space`]: true,
-        [`${prefix}-Space-default`]: !type && !disabled,
-        [`${prefix}-Space-${type}`]: type,
-        [`${prefix}-Space-disabled`]: disabled,
-        [`${prefix}-Space-${size}`]: size,
+      className={clsx(className, `${prefix}-space`, {
+        [`${prefix}-space-default`]: !type && !disabled,
+        [`${prefix}-space-${type}`]: type,
+        [`${prefix}-space-disabled`]: disabled,
+        [`${prefix}-space-${size}`]: size,
       })}
       style={{ margin: interval }}
       onClick={handleClick}

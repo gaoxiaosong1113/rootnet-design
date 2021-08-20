@@ -19,48 +19,45 @@
 
   &&-primary {
     border-color: @primaryColor;
-    .@{prefix}-alert-head {
-      svg {
-        color: @primaryColor;
-      }
+  }
+
+  &&-primary &-alert-head {
+    svg {
+      color: @primaryColor;
     }
   }
 
   &&-success {
     border-color: @successColor;
+  }
 
-    .@{prefix}-alert-head {
-      svg {
-        color: @successColor;
-      }
+  &&-success &-alert-head {
+    svg {
+      color: @successColor;
     }
   }
 
   &&-warning {
     border-color: @warningColor;
+  }
 
-    .@{prefix}-alert-head {
-      svg {
-        color: @warningColor;
-      }
+  &&-warning &-alert-head {
+    svg {
+      color: @warningColor;
     }
   }
 
   &&-error {
     border-color: @errorColor;
-    .@{prefix}-alert-head {
-      svg {
-        color: @errorColor;
-      }
+  }
+
+  &&-error &-alert-head {
+    svg {
+      color: @errorColor;
     }
   }
 
   &-head {
-    .@{prefix}-alert-head {
-      svg {
-        display: block;
-      }
-    }
     line-height: 1em;
     display: block;
     margin-right: 8px;
@@ -105,8 +102,8 @@
     svg {
       display: block;
     }
-    & + .@{prefix}-alert-footer {
-      margin-right: 20px;
-    }
+  }
+  &-close + &-footer {
+    margin-right: 20px;
   }
 }

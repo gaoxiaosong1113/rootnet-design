@@ -21,6 +21,8 @@ export interface StepsProps {
    * @default           -
    */
   className?: string;
+  style?: Object;
+  children?: React.ReactChild;
 
   /**
    * @description      按钮的类型
@@ -39,8 +41,6 @@ export interface StepsProps {
    * @default           false
    */
   disabled?: boolean;
-
-  children?: React.ReactChild;
 
   /**
    * @description      Steps点击事件
@@ -62,8 +62,17 @@ export interface StepsProps {
 }
 
 function Steps(props: StepsProps) {
-  const { type, icon, disabled, children, onClick, interval, size, ...prop } =
-    props;
+  const {
+    className,
+    type,
+    icon,
+    disabled,
+    children,
+    onClick,
+    interval,
+    size,
+    ...prop
+  } = props;
 
   function handleClick() {
     if (!disabled && onClick) {
@@ -72,12 +81,11 @@ function Steps(props: StepsProps) {
   }
   return (
     <div
-      className={clsx({
-        [`${prefix}-Steps`]: true,
-        [`${prefix}-Steps-default`]: !type && !disabled,
-        [`${prefix}-Steps-${type}`]: type,
-        [`${prefix}-Steps-disabled`]: disabled,
-        [`${prefix}-Steps-${size}`]: size,
+      className={clsx(className, `${prefix}-steps`, {
+        [`${prefix}-steps-default`]: !type && !disabled,
+        [`${prefix}-steps-${type}`]: type,
+        [`${prefix}-steps-disabled`]: disabled,
+        [`${prefix}-steps-${size}`]: size,
       })}
       style={{ margin: interval }}
       onClick={handleClick}

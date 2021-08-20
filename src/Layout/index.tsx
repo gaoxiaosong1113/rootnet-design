@@ -21,6 +21,8 @@ export interface LayoutProps {
    * @default           -
    */
   className?: string;
+  style?: Object;
+  children?: React.ReactChild;
 
   /**
    * @description      按钮的类型
@@ -39,8 +41,6 @@ export interface LayoutProps {
    * @default           false
    */
   disabled?: boolean;
-
-  children?: React.ReactChild;
 
   /**
    * @description      Layout点击事件
@@ -62,8 +62,17 @@ export interface LayoutProps {
 }
 
 function Layout(props: LayoutProps) {
-  const { type, icon, disabled, children, onClick, interval, size, ...prop } =
-    props;
+  const {
+    className,
+    type,
+    icon,
+    disabled,
+    children,
+    onClick,
+    interval,
+    size,
+    ...prop
+  } = props;
 
   function handleClick() {
     if (!disabled && onClick) {
@@ -72,12 +81,11 @@ function Layout(props: LayoutProps) {
   }
   return (
     <div
-      className={clsx({
-        [`${prefix}-Layout`]: true,
-        [`${prefix}-Layout-default`]: !type && !disabled,
-        [`${prefix}-Layout-${type}`]: type,
-        [`${prefix}-Layout-disabled`]: disabled,
-        [`${prefix}-Layout-${size}`]: size,
+      className={clsx(className, `${prefix}-layout`, {
+        [`${prefix}-layout-default`]: !type && !disabled,
+        [`${prefix}-layout-${type}`]: type,
+        [`${prefix}-layout-disabled`]: disabled,
+        [`${prefix}-layout-${size}`]: size,
       })}
       style={{ margin: interval }}
       onClick={handleClick}

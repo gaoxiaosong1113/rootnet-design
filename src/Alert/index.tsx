@@ -16,10 +16,12 @@ import { Icon } from '../index';
 
 export interface AlertProps {
   /**
-   * @description      alert的样式名
+   * @description      类名
    * @default           -
    */
   className?: string;
+  style?: Object;
+  children?: React.ReactChild;
 
   /**
    * @description      alert的标题
@@ -66,6 +68,8 @@ export interface AlertProps {
 
 export default function Alert(props: AlertProps) {
   const {
+    className,
+    style,
     title,
     content,
     type = 'primary',
@@ -89,53 +93,29 @@ export default function Alert(props: AlertProps) {
 
   return (
     <div
-      className={clsx({
-        [`${prefix}-alert`]: true,
+      className={clsx(className, `${prefix}-alert`, {
         [`${prefix}-alert-lg`]: title,
         [`${prefix}-alert-${type}`]: type,
         [`${prefix}-alert-closed`]: closed,
       })}
       style={{
         width,
+        ...style,
       }}
       {...prop}
     >
-      <div
-        className={clsx({
-          [`${prefix}-alert-head`]: true,
-        })}
-      >
+      <div className={clsx(`${prefix}-alert-head`)}>
         <Icon name={'jinggao'} color={color} />
       </div>
-      <div
-        className={clsx({
-          [`${prefix}-alert-body`]: true,
-        })}
-      >
-        {title && (
-          <div
-            className={clsx({
-              [`${prefix}-alert-title`]: true,
-            })}
-          >
-            {title}
-          </div>
-        )}
+      <div className={clsx(`${prefix}-alert-body`)}>
+        {title && <div className={clsx(`${prefix}-alert-title`)}>{title}</div>}
         {content && (
-          <div
-            className={clsx({
-              [`${prefix}-alert-content`]: true,
-            })}
-          >
-            {content}
-          </div>
+          <div className={clsx(`${prefix}-alert-content`)}>{content}</div>
         )}
       </div>
       {close && (
         <div
-          className={clsx({
-            [`${prefix}-alert-close`]: true,
-          })}
+          className={clsx(`${prefix}-alert-close`)}
           onClick={() => {
             setClosed(true);
             onClose ? onClose() : null;
@@ -144,13 +124,7 @@ export default function Alert(props: AlertProps) {
           <Icon name={'cuowu1'} />
         </div>
       )}
-      <div
-        className={clsx({
-          [`${prefix}-alert-footer`]: true,
-        })}
-      >
-        {extra}
-      </div>
+      <div className={clsx(`${prefix}-alert-footer`)}>{extra}</div>
     </div>
   );
 }

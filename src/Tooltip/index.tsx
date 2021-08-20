@@ -23,14 +23,14 @@ export interface ModalProps {
    * @default           -
    */
   className?: string;
+  style?: Object;
+  children?: React.ReactChild;
 
   /**
    * @description      主体内容
    * @default           -
    */
   content: any;
-
-  children: any;
 
   onCancel: Function;
 
@@ -52,26 +52,29 @@ export interface ModalProps {
 }
 
 function Content(props: ModalProps) {
-  const { content, children, visible, position = 'top', ...prop } = props;
+  const {
+    className,
+    style,
+    content,
+    children,
+    visible,
+    position = 'top',
+    ...prop
+  } = props;
 
   return (
     <div
-      className={clsx({
-        [`${prefix}-tooltip-warp`]: true,
+      className={clsx(`${prefix}-tooltip-warp`, {
+        [`${className}-warp`]: className,
       })}
     >
       <div
-        className={clsx({
-          [`${prefix}-tooltip`]: true,
+        className={clsx(`${prefix}-tooltip`, {
           [`${prefix}-tooltip-${position}`]: position,
           [`${prefix}-tooltip-visible`]: visible,
         })}
       >
-        <div
-          className={clsx({
-            [`${prefix}-tooltip-body`]: true,
-          })}
-        >
+        <div className={clsx(`${prefix}-tooltip-body`, {})} style={style}>
           <span>{content}</span>
         </div>
       </div>
@@ -81,6 +84,7 @@ function Content(props: ModalProps) {
 
 function Tooltip(props: ModalProps) {
   const {
+    className,
     children,
     onCancel,
     trigger = 'click',
@@ -102,8 +106,8 @@ function Tooltip(props: ModalProps) {
   return (
     <>
       <span
-        className={clsx({
-          [`${prefix}-tooltip-target`]: true,
+        className={clsx(`${prefix}-tooltip-target`, {
+          [`${className}-target`]: className,
         })}
         ref={refEl}
       >
@@ -161,6 +165,9 @@ function Tooltip(props: ModalProps) {
         refEl={refEl}
         position={position}
         trigger={trigger}
+        className={clsx({
+          [`${className}-popup`]: className,
+        })}
       >
         <Content {...props} visible={visible} />
       </Popup>

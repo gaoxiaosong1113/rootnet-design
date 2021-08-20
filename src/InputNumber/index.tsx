@@ -21,6 +21,8 @@ export interface InputNumberProps {
    * @default           -
    */
   className?: string;
+  style?: Object;
+  children?: React.ReactChild;
 
   /**
    * @description      按钮的类型
@@ -39,8 +41,6 @@ export interface InputNumberProps {
    * @default           false
    */
   disabled?: boolean;
-
-  children?: React.ReactChild;
 
   /**
    * @description      InputNumber点击事件
@@ -62,8 +62,17 @@ export interface InputNumberProps {
 }
 
 function InputNumber(props: InputNumberProps) {
-  const { type, icon, disabled, children, onClick, interval, size, ...prop } =
-    props;
+  const {
+    className,
+    type,
+    icon,
+    disabled,
+    children,
+    onClick,
+    interval,
+    size,
+    ...prop
+  } = props;
 
   function handleClick() {
     if (!disabled && onClick) {
@@ -72,12 +81,11 @@ function InputNumber(props: InputNumberProps) {
   }
   return (
     <div
-      className={clsx({
-        [`${prefix}-InputNumber`]: true,
-        [`${prefix}-InputNumber-default`]: !type && !disabled,
-        [`${prefix}-InputNumber-${type}`]: type,
-        [`${prefix}-InputNumber-disabled`]: disabled,
-        [`${prefix}-InputNumber-${size}`]: size,
+      className={clsx(className, `${prefix}-inputNumber`, {
+        [`${prefix}-inputNumber-default`]: !type && !disabled,
+        [`${prefix}-inputNumber-${type}`]: type,
+        [`${prefix}-inputNumber-disabled`]: disabled,
+        [`${prefix}-inputNumber-${size}`]: size,
       })}
       style={{ margin: interval }}
       onClick={handleClick}

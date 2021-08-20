@@ -7,10 +7,12 @@ import clsx from 'clsx';
 
 export interface IconProps {
   /**
-   * @description 类名
-   * @default -
+   * @description      类名
+   * @default           -
    */
   className?: string;
+  style?: Object;
+  children?: React.ReactChild;
 
   /**
    * @description 图标的名称
@@ -41,12 +43,6 @@ export interface IconProps {
    * @default -
    */
   onClick?: Function | undefined;
-
-  /**
-   * @description 样式
-   * @default -
-   */
-  style?: Object;
 }
 
 export function Icon(props: IconProps) {

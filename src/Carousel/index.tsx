@@ -21,6 +21,8 @@ export interface CarouselProps {
    * @default           -
    */
   className?: string;
+  style?: Object;
+  children?: React.ReactChild;
 
   /**
    * @description      按钮的类型
@@ -39,8 +41,6 @@ export interface CarouselProps {
    * @default           false
    */
   disabled?: boolean;
-
-  children?: React.ReactChild;
 
   /**
    * @description      Carousel点击事件
@@ -62,8 +62,17 @@ export interface CarouselProps {
 }
 
 function Carousel(props: CarouselProps) {
-  const { type, icon, disabled, children, onClick, interval, size, ...prop } =
-    props;
+  const {
+    className,
+    type,
+    icon,
+    disabled,
+    children,
+    onClick,
+    interval,
+    size,
+    ...prop
+  } = props;
 
   function handleClick() {
     if (!disabled && onClick) {
@@ -72,12 +81,11 @@ function Carousel(props: CarouselProps) {
   }
   return (
     <div
-      className={clsx({
-        [`${prefix}-Carousel`]: true,
-        [`${prefix}-Carousel-default`]: !type && !disabled,
-        [`${prefix}-Carousel-${type}`]: type,
-        [`${prefix}-Carousel-disabled`]: disabled,
-        [`${prefix}-Carousel-${size}`]: size,
+      className={clsx(className, `${prefix}-carousel`, {
+        [`${prefix}-carousel-default`]: !type && !disabled,
+        [`${prefix}-carousel-${type}`]: type,
+        [`${prefix}-carousel-disabled`]: disabled,
+        [`${prefix}-carousel-${size}`]: size,
       })}
       style={{ margin: interval }}
       onClick={handleClick}

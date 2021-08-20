@@ -21,6 +21,8 @@ export interface DatePickerProps {
    * @default           -
    */
   className?: string;
+  style?: Object;
+  children?: React.ReactChild;
 
   /**
    * @description      按钮的类型
@@ -39,8 +41,6 @@ export interface DatePickerProps {
    * @default           false
    */
   disabled?: boolean;
-
-  children?: React.ReactChild;
 
   /**
    * @description      DatePicker点击事件
@@ -62,8 +62,17 @@ export interface DatePickerProps {
 }
 
 function DatePicker(props: DatePickerProps) {
-  const { type, icon, disabled, children, onClick, interval, size, ...prop } =
-    props;
+  const {
+    className,
+    type,
+    icon,
+    disabled,
+    children,
+    onClick,
+    interval,
+    size,
+    ...prop
+  } = props;
 
   function handleClick() {
     if (!disabled && onClick) {
@@ -72,12 +81,11 @@ function DatePicker(props: DatePickerProps) {
   }
   return (
     <div
-      className={clsx({
-        [`${prefix}-DatePicker`]: true,
-        [`${prefix}-DatePicker-default`]: !type && !disabled,
-        [`${prefix}-DatePicker-${type}`]: type,
-        [`${prefix}-DatePicker-disabled`]: disabled,
-        [`${prefix}-DatePicker-${size}`]: size,
+      className={clsx(className, `${prefix}-datePicker`, {
+        [`${prefix}-datePicker-default`]: !type && !disabled,
+        [`${prefix}-datePicker-${type}`]: type,
+        [`${prefix}-datePicker-disabled`]: disabled,
+        [`${prefix}-datePicker-${size}`]: size,
       })}
       style={{ margin: interval }}
       onClick={handleClick}

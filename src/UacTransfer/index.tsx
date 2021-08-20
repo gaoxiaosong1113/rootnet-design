@@ -10,12 +10,13 @@ import { pavingArray } from '../_util';
 import { Icon, Checkbox, Input, Tree } from '../index';
 
 export interface UacTransferProps {
-  children: any;
   /**
    * @description      类名
    * @default           -
    */
   className?: string;
+  style?: Object;
+  children?: React.ReactChild;
 
   /**
    * @description      左标题
@@ -28,12 +29,6 @@ export interface UacTransferProps {
    * @default           -
    */
   rightTitle?: string;
-
-  /**
-   * @description      样式
-   * @default           -
-   */
-  style?: any;
 
   /**
    * @description      开启搜索
@@ -112,52 +107,30 @@ function UacTransfer(props: UacTransferProps) {
   const LTitle = useCallback(() => {
     if (!leftTitle) return null;
     return (
-      <div
-        className={clsx({
-          [`${prefix}-transfer-title`]: true,
-        })}
-      >
-        {leftTitle}
-      </div>
+      <div className={clsx(`${prefix}-transfer-title`, {})}>{leftTitle}</div>
     );
   }, [leftTitle]);
 
   const RTitle = useCallback(() => {
     if (!rightTitle) return null;
     return (
-      <div
-        className={clsx({
-          [`${prefix}-transfer-title`]: true,
-        })}
-      >
-        {rightTitle}
-      </div>
+      <div className={clsx(`${prefix}-transfer-title`, {})}>{rightTitle}</div>
     );
   }, [rightTitle]);
 
   return (
-    <div
-      className={clsx(
-        {
-          [`${prefix}-transfer`]: true,
-        },
-        className,
-      )}
-      style={style}
-    >
+    <div className={clsx(`${prefix}-transfer`, {}, className)} style={style}>
       <div
-        className={clsx({
-          [`${prefix}-transfer-left`]: true,
-          [`${prefix}-transfer-container`]: true,
-          [`${prefix}-transfer-noData`]: dataSource.length <= 0,
-        })}
+        className={clsx(
+          `${prefix}-transfer-container`,
+          `${prefix}-transfer-left`,
+          {
+            [`${prefix}-transfer-noData`]: dataSource.length <= 0,
+          },
+        )}
       >
         <LTitle />
-        <div
-          className={clsx({
-            [`${prefix}-transfer-checkbox`]: true,
-          })}
-        >
+        <div className={clsx(`${prefix}-transfer-checkbox`, {})}>
           {children ? (
             React.Children.map(children, (item: any, index) => {
               return (
@@ -188,14 +161,9 @@ function UacTransfer(props: UacTransferProps) {
           )}
         </div>
       </div>
-      <div
-        className={clsx({
-          [`${prefix}-transfer-operation`]: true,
-        })}
-      >
+      <div className={clsx(`${prefix}-transfer-operation`, {})}>
         <div
-          className={clsx({
-            [`${prefix}-transfer-operation-item`]: true,
+          className={clsx(`${prefix}-transfer-operation-item`, {
             [`${prefix}-transfer-operation-item-disabled`]:
               sourceSelectedKeys.length <= 0,
           })}
@@ -211,8 +179,7 @@ function UacTransfer(props: UacTransferProps) {
           />
         </div>
         <div
-          className={clsx({
-            [`${prefix}-transfer-operation-item`]: true,
+          className={clsx(`${prefix}-transfer-operation-item`, {
             [`${prefix}-transfer-operation-item-disabled`]:
               targetSelectedKeys.length <= 0,
           })}
@@ -229,18 +196,16 @@ function UacTransfer(props: UacTransferProps) {
         </div>
       </div>
       <div
-        className={clsx({
-          [`${prefix}-transfer-right`]: true,
-          [`${prefix}-transfer-container`]: true,
-          [`${prefix}-transfer-noData`]: dataSource.length <= 0,
-        })}
+        className={clsx(
+          `${prefix}-transfer-container`,
+          `${prefix}-transfer-right`,
+          {
+            [`${prefix}-transfer-noData`]: dataSource.length <= 0,
+          },
+        )}
       >
         <RTitle />
-        <div
-          className={clsx({
-            [`${prefix}-transfer-checkbox`]: true,
-          })}
-        >
+        <div className={clsx(`${prefix}-transfer-checkbox`, {})}>
           {children ? (
             React.Children.map(children, (item: any, index) => {
               return (
