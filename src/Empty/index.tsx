@@ -25,7 +25,7 @@ export interface EmptyProps {
    */
   className?: string;
   style?: Object;
-  children?: React.ReactChild;
+  children?: any;
 
   /**
    * @description      Empty的类型

@@ -25,7 +25,7 @@ export interface PopupProps {
    */
   className?: string;
   style?: Object;
-  children?: React.ReactChild;
+  children?: any;
 
   /**
    * @description      弹层触发关闭

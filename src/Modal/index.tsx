@@ -16,7 +16,7 @@ export interface ModalProps {
    */
   className?: string;
   style?: Object;
-  children?: React.ReactChild;
+  children?: any;
 
   /**
    * @description      modal 的title

@@ -22,7 +22,7 @@ export interface InputNumberProps {
    */
   className?: string;
   style?: Object;
-  children?: React.ReactChild;
+  children?: any;
 
   /**
    * @description      按钮的类型

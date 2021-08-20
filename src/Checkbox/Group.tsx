@@ -17,7 +17,7 @@ export interface GroupProps {
    */
   className?: string;
   style?: Object;
-  children?: React.ReactChild;
+  children?: any;
 
   /**
    * @description      选中更改事件

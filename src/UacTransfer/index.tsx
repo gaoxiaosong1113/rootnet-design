@@ -16,7 +16,7 @@ export interface UacTransferProps {
    */
   className?: string;
   style?: Object;
-  children?: React.ReactChild;
+  children?: any;
 
   /**
    * @description      左标题

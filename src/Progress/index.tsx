@@ -22,7 +22,7 @@ export interface ProgressProps {
    */
   className?: string;
   style?: Object;
-  children?: React.ReactChild;
+  children?: any;
 
   /**
    * @description      类型，可选 line circle

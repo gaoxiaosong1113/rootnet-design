@@ -14,7 +14,7 @@ export interface ResultProps {
    */
   className?: string;
   style?: Object;
-  children?: React.ReactChild;
+  children?: any;
 
   /**
    * @description      Result的类型

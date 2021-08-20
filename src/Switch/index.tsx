@@ -22,7 +22,7 @@ export interface SwitchProps {
    */
   className?: string;
   style?: Object;
-  children?: React.ReactChild;
+  children?: any;
 
   /**
    * @description       指定当前是否选中

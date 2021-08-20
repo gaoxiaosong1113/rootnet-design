@@ -81,7 +81,7 @@ export interface UploadProps {
    */
   className?: string;
   style?: Object;
-  children?: React.ReactChild;
+  children?: any;
 
   /**
    * @description      接受上传的文件类型

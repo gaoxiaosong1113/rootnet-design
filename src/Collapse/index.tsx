@@ -22,7 +22,7 @@ export interface CollapseProps {
    */
   className?: string;
   style?: Object;
-  children?: React.ReactChild;
+  children?: any;
 
   /**
    * @description      是否显示边框

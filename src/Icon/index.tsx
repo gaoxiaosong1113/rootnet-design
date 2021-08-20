@@ -12,7 +12,7 @@ export interface IconProps {
    */
   className?: string;
   style?: Object;
-  children?: React.ReactChild;
+  children?: any;
 
   /**
    * @description 图标的名称

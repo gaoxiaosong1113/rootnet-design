@@ -22,7 +22,7 @@ export interface ImageProps {
    */
   className?: string;
   style?: Object;
-  children?: React.ReactChild;
+  children?: any;
 
   /**
    * @description      图片裁剪类型

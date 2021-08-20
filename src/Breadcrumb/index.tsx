@@ -15,7 +15,7 @@ export interface BreadcrumbProps {
    */
   className?: string;
   style?: Object;
-  children?: React.ReactChild;
+  children?: any;
 
   /**
    * @description      面包屑导航的数据
@@ -49,7 +49,7 @@ export interface BreadcrumbItemProps {
    */
   className?: string;
   style?: Object;
-  children?: React.ReactChild;
+  children?: any;
 
   /**
    * @description      点击事件

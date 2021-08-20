@@ -13,7 +13,7 @@ export interface RowProps {
    */
   className?: string;
   style?: Object;
-  children?: React.ReactChild;
+  children?: any;
 
   /**
    * @description      对齐方式
@@ -73,7 +73,7 @@ export interface ColProps {
    */
   className?: string;
   style?: Object;
-  children?: React.ReactChild;
+  children?: any;
 
   /**
    * @description      对齐方式

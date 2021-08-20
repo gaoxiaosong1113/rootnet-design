@@ -197,7 +197,7 @@ export interface TreeProps {
    */
   className?: string;
   style?: Object;
-  children?: React.ReactChild;
+  children?: any;
 
   /**
    * @description      配置是否展开属性

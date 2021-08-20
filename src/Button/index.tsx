@@ -21,7 +21,7 @@ export interface ButtonProps {
    */
   className?: string;
   style?: Object;
-  children?: React.ReactChild;
+  children?: any;
 
   /**
    * @description      ref

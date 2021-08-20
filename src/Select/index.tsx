@@ -17,7 +17,7 @@ export interface SelectProps {
    */
   className?: string;
   style?: Object;
-  children?: React.ReactChild;
+  children?: any;
 
   /**
    * @description      select 提示

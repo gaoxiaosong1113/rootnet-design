@@ -21,7 +21,7 @@ export interface AlertProps {
    */
   className?: string;
   style?: Object;
-  children?: React.ReactChild;
+  children?: any;
 
   /**
    * @description      alert的标题
