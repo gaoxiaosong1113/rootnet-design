@@ -2,9 +2,9 @@
 
 .@{prefix}-collapse {
   width: 100%;
-  border-top: 1px solid #e9eaf2;
-  border-left: 1px solid #e9eaf2;
-  border-right: 1px solid #e9eaf2;
+  border-top: 1px solid @dividerColor;
+  border-left: 1px solid @dividerColor;
+  border-right: 1px solid @dividerColor;
 
   &-noBorder {
     border-top: 0;
@@ -12,7 +12,7 @@
     border-right: 0;
 
     .@{prefix}-collapse-item {
-      border-top: 1px solid #e9eaf2;
+      border-top: 1px solid @dividerColor;
       .@{prefix}-collapse-item-head {
         border: 0;
       }
@@ -37,14 +37,14 @@
 
     &-head {
       height: 40px;
-      background: #f0f2f5;
-      border-bottom: 1px solid #e9eaf2;
+      background: @tableHeadBackgroundColor;
+      border-bottom: 1px solid @dividerColor;
       display: flex;
       align-items: center;
       padding: 0 12px;
       cursor: pointer;
       font-size: 12px;
-      color: #15171f;
+      color: @textColor;
       line-height: 18px;
 
       & > .iconfont {
@@ -57,7 +57,7 @@
       background: #fff;
       padding: 12px;
       overflow: hidden;
-      border-bottom: 1px solid #e9eaf2;
+      border-bottom: 1px solid @dividerColor;
     }
 
     &-extra {

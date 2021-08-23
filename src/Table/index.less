@@ -14,16 +14,16 @@
     border-color: transparent;
 
     &.@{prefix}-table-border {
-      border-right: 1px solid #e9eaf2;
+      border-right: 1px solid @dividerColor;
 
       th {
-        border-left: 1px solid #e9eaf2;
+        border-left: 1px solid @dividerColor;
         border-top: 1px solid transparent;
       }
 
       td {
-        border-left: 1px solid #e9eaf2;
-        border-bottom: 1px solid #e9eaf2;
+        border-left: 1px solid @dividerColor;
+        border-bottom: 1px solid @dividerColor;
         & > span {
           display: inline-block;
         }
@@ -36,7 +36,7 @@
   }
 
   .@{prefix}-table-thead {
-    background: #f0f2f5;
+    background: @tableHeadBackgroundColor;
     border: 0;
 
     .@{prefix}-table-row {

@@ -17,7 +17,7 @@
 
   &-title {
     font-size: 14px;
-    color: #15171f;
+    color: @textColor;
     line-height: 1em;
     height: 40px;
     line-height: 40px;
@@ -38,7 +38,7 @@
   &-container {
     background: #ffffff;
     border-radius: 4px;
-    border: 1px solid #cfd3e3;
+    border: 1px solid @borderColor;
     overflow: hidden;
     display: flex;
     flex-direction: column;
@@ -85,14 +85,14 @@
       justify-content: center;
       border-radius: 2px;
 
-      background: #5477ff;
+      background: @primaryColor;
       color: #fff;
 
       &-disabled {
         cursor: not-allowed;
         background: #ffffff;
         border-radius: 2px;
-        border: 1px solid #cfd3e3;
+        border: 1px solid @borderColor;
       }
     }
   }
@@ -116,20 +116,20 @@
     .num {
       white-space: nowrap;
       font-size: 14px;
-      color: #7a8199;
+      color: @auxiliaryTextColor;
       margin-left: 6px;
     }
   }
 
   &-invertSelection {
     font-size: 14px;
-    color: #5477ff;
+    color: @primaryColor;
     cursor: pointer;
   }
 
   &-noData {
     .@{prefix}-transfer-invertSelection {
-      color: #d0d1d9;
+      color: @disableColor;
       cursor: not-allowed;
     }
   }

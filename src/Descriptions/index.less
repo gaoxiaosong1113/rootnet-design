@@ -8,7 +8,7 @@
       width: 100%;
       border-collapse: collapse;
       table-layout: auto;
-      border: 1px solid #e9eaf2;
+      border: 1px solid @dividerColor;
       border-left: 0;
       border-bottom: 0;
     }
@@ -17,15 +17,15 @@
       padding: 12px 12px;
       width: 120px;
       font-size: 12px;
-      color: #7a8199;
+      color: @auxiliaryTextColor;
       line-height: 16px;
-      background: #f0f2f5;
+      background: @tableHeadBackgroundColor;
       border-top: 0;
       text-align: left;
-      border-bottom: 1px solid #e9eaf2;
-      border-right: 1px solid #e9eaf2;
-      border-left: 1px solid #e9eaf2;
-      color: #15171f;
+      border-bottom: 1px solid @dividerColor;
+      border-right: 1px solid @dividerColor;
+      border-left: 1px solid @dividerColor;
+      color: @textColor;
       font-weight: normal;
       &:after {
         content: '：';
@@ -35,18 +35,18 @@
     td {
       padding: 12px 12px;
       font-size: 12px;
-      color: #3e4046;
+      color: @secondaryTextColor;
       line-height: 16px;
       background: #fff;
-      border-bottom: 1px solid #f0f2f5;
-      color: #15171f;
+      border-bottom: 1px solid @tableHeadBackgroundColor;
+      color: @textColor;
       word-break: break-all;
       overflow: hidden;
     }
   }
   &-title {
     font-size: 14px;
-    color: #7a8199;
+    color: @auxiliaryTextColor;
     line-height: 20px;
     margin-bottom: 16px;
   }
@@ -56,7 +56,7 @@
     // margin-bottom: 16px;
     &-label {
       font-size: 12px;
-      color: #7a8199;
+      color: @auxiliaryTextColor;
       line-height: 17px;
       height: 100%;
       &:after {
@@ -69,7 +69,7 @@
       flex: 1;
       padding-left: 2px;
       font-size: 12px;
-      color: #3e4046;
+      color: @secondaryTextColor;
       line-height: 17px;
     }
   }

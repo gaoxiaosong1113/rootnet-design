@@ -17,7 +17,7 @@
   & > &-item {
     font-size: 12px;
     font-weight: 500;
-    color: #5477ff;
+    color: @primaryColor;
     line-height: 18px;
     display: flex;
     align-items: center;
@@ -43,7 +43,7 @@
     display: block;
     width: 1px;
     height: 12px;
-    background: #e9eaf2;
+    background: @dividerColor;
     margin: 0 12px;
     &:last-child {
       display: none;
@@ -59,7 +59,7 @@
       white-space: nowrap;
       font-size: 14px;
       font-weight: 400;
-      color: #15171f;
+      color: @textColor;
       line-height: 32px;
       padding: 0 12px;
       white-space: nowrap;
@@ -68,11 +68,11 @@
         cursor: no-drop;
       }
       &-select {
-        background: #d9e3fa;
+        background: @tableItemSelectBackgroundColor;
       }
       &:not(.@{prefix}-operation-item-disabled):not(.@{prefix}-operation-item-select):hover {
         height: 32px;
-        background: #f2f6fa;
+        background: @tableItemHoverBackgroundColor;
       }
     }
   }

@@ -9,7 +9,7 @@
   height: 32px;
   background: #ffffff;
   border-radius: 4px;
-  border: 1px solid #cfd3e3;
+  border: 1px solid @borderColor;
   line-height: 30px;
   font-size: 14px;
   color: @textColor;
@@ -101,16 +101,16 @@
     font-size: 12px;
 
     &:hover {
-      background: #f2f6fa;
+      background: @tableItemHoverBackgroundColor;
     }
 
     &&-active {
-      background: #d9e3fa;
+      background: @tableItemSelectBackgroundColor;
     }
 
     &&-disabled {
       cursor: not-allowed;
-      color: #d0d1d9;
+      color: @disableColor;
       background: #fff;
     }
   }
@@ -151,16 +151,16 @@
       }
 
       &:hover {
-        background: #f2f6fa;
+        background: @tableItemHoverBackgroundColor;
       }
 
       &&-active {
-        background: #d9e3fa;
+        background: @tableItemSelectBackgroundColor;
       }
 
       &&-disabled {
         cursor: not-allowed;
-        color: #d0d1d9;
+        color: @disableColor;
         background: #fff;
       }
     }

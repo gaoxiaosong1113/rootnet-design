@@ -2,7 +2,7 @@
 
 .@{prefix}-input {
   display: flex;
-  border: 1px solid #cfd3e3;
+  border: 1px solid @borderColor;
   border-radius: 4px;
   transition: border 0.3s;
 
@@ -17,11 +17,11 @@
   div.label {
     font-size: 14px;
     line-height: 32px;
-    color: #7a8199;
+    color: @auxiliaryTextColor;
 
     .label-required {
       font-size: 14px;
-      color: #f5221b;
+      color: @errorColor;
       line-height: 32px;
       margin-right: 4px;
     }
@@ -32,7 +32,7 @@
   &-icon {
     line-height: 32px;
     margin-left: 8px;
-    color: #3a415c;
+    color: @fullDarkColor;
   }
   &-content {
     flex: 1;
@@ -45,7 +45,7 @@
       line-height: 32px;
       background: none;
       &::placeholder {
-        color: #d7d9e0;
+        color: @promptTextColor;
       }
     }
   }
@@ -53,12 +53,12 @@
     font-size: 14px;
     padding: 0 10px;
     min-width: 32px;
-    background: #f0f2f5;
+    background: @tableHeadBackgroundColor;
     border-right: 1px solid #d0d3e3;
     border-radius: 4px 0 0 4px;
     text-align: center;
     line-height: 30px;
-    color: #7a8199;
+    color: @auxiliaryTextColor;
     svg {
       display: inline-block;
       vertical-align: middle;
@@ -69,11 +69,11 @@
     padding: 0 10px;
     flex: 0 0 auto;
     min-width: 32px;
-    background: #f0f2f5;
+    background: @tableHeadBackgroundColor;
     border-left: 1px solid #d0d3e3;
     border-radius: 0 4px 4px 0;
     text-align: center;
     line-height: 30px;
-    color: #7a8199;
+    color: @auxiliaryTextColor;
   }
 }

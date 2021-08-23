@@ -25,7 +25,7 @@
       height: 200px;
       background: #ffffff;
       border-radius: 4px;
-      border: 1px solid #cfd3e3;
+      border: 1px solid @borderColor;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -34,12 +34,12 @@
 
       &:hover,
       &.highlighted {
-        border: 1px dashed #5477ff;
+        border: 1px dashed @primaryColor;
       }
     }
     &-info {
       font-size: 16px;
-      color: #15171f;
+      color: @textColor;
       line-height: 16px;
       margin-top: 16px;
     }
@@ -63,9 +63,9 @@
       .@{prefix}-upload-item {
         width: 104px;
         height: 104px;
-        background: #f0f2f5;
+        background: @tableHeadBackgroundColor;
         border-radius: 2px;
-        border: 1px solid #cfd3e3;
+        border: 1px solid @borderColor;
         margin-right: 23px;
         align-items: center;
         justify-content: center;
@@ -80,7 +80,7 @@
           p {
             margin-top: 12px;
             font-size: 14px;
-            color: #15171f;
+            color: @textColor;
             line-height: 1em;
             text-align: center;
           }
@@ -91,7 +91,7 @@
         }
 
         &:hover {
-          border: 1px dashed #5477ff;
+          border: 1px dashed @primaryColor;
 
           .@{prefix}-upload-item-operation {
             display: flex;
@@ -100,7 +100,7 @@
         }
 
         &-error {
-          border: 1px dashed #f5221b;
+          border: 1px dashed @errorColor;
         }
 
         &-operation {
@@ -147,7 +147,7 @@
   &-accept {
     margin-top: 8px;
     font-size: 14px;
-    color: #7a8199;
+    color: @auxiliaryTextColor;
     line-height: 20px;
   }
 
@@ -176,7 +176,7 @@
     }
 
     &:hover {
-      background: #f2f6fa;
+      background: @tableItemHoverBackgroundColor;
     }
 
     &-error {
@@ -212,7 +212,7 @@
   &-fillName {
     flex: 1;
     font-size: 14px;
-    color: #7a8199;
+    color: @auxiliaryTextColor;
     line-height: 20px;
   }
 
