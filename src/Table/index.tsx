@@ -151,8 +151,38 @@ function TableItem(props: any) {
         )}
         {columns &&
           !onRow &&
-          columns.map((item: any, index: any) => {
-            let collapsed = index == 0 && isTree && child;
+          columns.map((item: any, indexs: any) => {
+            let collapsed = indexs == 0 && isTree && child;
+
+            let component = item.render
+              ? item.render(data, index, columns)
+              : data[item.dataIndex];
+
+            let componentProps = {
+              children: component,
+            };
+
+            let tdProps = {} as any;
+
+            if (
+              Object.prototype.toString.call(component) === '[object Object]' &&
+              !component.$$typeof
+            ) {
+              const { rowSpan, colSpan, ...innerProps } = component.props || {};
+              tdProps.rowSpan = rowSpan;
+              tdProps.colSpan = colSpan;
+
+              componentProps = {
+                ...innerProps,
+                ...componentProps,
+                children: component.children,
+              };
+            }
+
+            if (tdProps.rowSpan === 0 || tdProps.colSpan === 0) {
+              return null;
+            }
+
             return (
               <td
                 className={clsx(
@@ -166,6 +196,7 @@ function TableItem(props: any) {
                 style={{
                   width: item.width || 'auto',
                 }}
+                {...tdProps}
               >
                 <span
                   style={{
@@ -181,9 +212,7 @@ function TableItem(props: any) {
                       onClick={child && handleOpen}
                     />
                   )}
-                  {item.render
-                    ? item.render(data, index, columns)
-                    : data[item.dataIndex]}
+                  <span {...componentProps}></span>
                 </span>
               </td>
             );

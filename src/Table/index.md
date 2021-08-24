@@ -68,7 +68,7 @@ export default () => {
       id: 'a001',
       productName: '我是产品名称',
       stkIndustryNames: '私募产品',
-      productStatus: '1',
+      productStatus: '2',
     },
   ]);
 
@@ -473,3 +473,110 @@ export default () => {
 UAC 临时授权：
 
 <code src="./dome.tsx"></code>
+
+表格行/列合并：
+
+```tsx
+import React, { useState, useEffect } from 'react';
+import { Table } from 'rootnet-design';
+
+const columns = [
+  {
+    title: '产品代码',
+    dataIndex: 'id',
+    width: 105,
+    render: (r, index) => {
+      let text = r.id;
+      if (index == 0) {
+        return {
+          children: text,
+          props: { rowSpan: 2, style: { color: 'red' } },
+        };
+      }
+      if (index == 1) {
+        return {
+          children: text,
+          props: { rowSpan: 0 },
+        };
+      }
+      if (index == 2) {
+        return {
+          children: text,
+          props: { colSpan: 2 },
+        };
+      }
+
+      return text;
+    },
+  },
+  {
+    title: '产品简称',
+    dataIndex: 'productName',
+    width: 200,
+    render: (r, index) => {
+      let text = r.productName;
+      if (index == 2) {
+        return {
+          children: text,
+          props: { colSpan: 0 },
+        };
+      }
+
+      return text;
+    },
+  },
+  {
+    title: '所属分组',
+    dataIndex: 'stkIndustryNames',
+    width: 251,
+  },
+  {
+    title: '产品状态',
+    dataIndex: 'productStatus',
+    width: 107,
+    render: (r, index) => {
+      let text =
+        r.productStatus == 1 ? '上市' : r.productStatus == 2 ? '注销' : '';
+      if (index == 0) {
+        return {
+          children: text,
+          props: { rowSpan: 2, style: { color: 'red' } },
+        };
+      }
+      if (index == 1) {
+        return {
+          children: text,
+          props: { rowSpan: 0 },
+        };
+      }
+
+      return text;
+    },
+  },
+];
+
+export default () => {
+  const [dataSource, setDataSource] = useState([
+    {
+      id: 'a001',
+      productName: '我是产品名称1',
+      stkIndustryNames: '私募产品1',
+      productStatus: '1',
+    },
+    {
+      id: 'a001',
+      productName: '我是产品名称1',
+      stkIndustryNames: '私募产品2',
+      productStatus: '2',
+    },
+    {
+      id: 'a003',
+      productName: '我是产品名称',
+      stkIndustryNames: '私募产品2',
+      productStatus: '2',
+    },
+  ]);
+
+  return <Table columns={columns} dataSource={dataSource} />;
+};
+```
