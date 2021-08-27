@@ -160,6 +160,12 @@ export interface UploadProps {
   showUploadList?: boolean;
 
   /**
+   * @description      上传文件之前的钩子函数，返回值为 false 时停止上传。支持返回一个 Promise 对象，Promise 对象 resolve(false) 或 reject 时停止上传
+   * @default           -
+   */
+  beforeUpload?: (file: any, fileList: any) => boolean | Promise<string>;
+
+  /**
    * @description      上传文件改变时的状态
    * @default           -
    */
@@ -205,6 +211,7 @@ function Upload(props: UploadProps) {
     multiple = false,
     previewFile,
     showUploadList = true,
+    beforeUpload,
     onChange,
     onDrop,
     onPreview,
@@ -322,19 +329,17 @@ function Upload(props: UploadProps) {
   }
 
   function handleChange(event: any) {
-    console.log(event);
-    console.log(event.target.files[0]);
-    let file = event.target.files[0];
+    let files = event.target.files;
+
     // 超出数量不做任何处理
-    if (maxCount !== undefined) {
-      if (fileList.length > maxCount) {
-        return;
-      }
-    }
-    handleFileListAdd(file);
+    files = convertFiles(files);
+
+    files.map((file: any) => {
+      handleFileListAdd(file, files);
+    });
   }
 
-  function handleFileListAdd(file: any) {
+  function handleFileListAdd(file: any, files: any) {
     let reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onload = () => {
@@ -348,11 +353,16 @@ function Upload(props: UploadProps) {
       };
       fileList.push(uploadData);
       setFileList([...fileList]);
-      handleUploadFile(uploadData);
+      handleUploadFile(uploadData, files);
     };
   }
 
-  function handleUploadFile(file: any) {
+  async function handleUploadFile(file: any, files: any) {
+    // 上传前判断是否继续上传
+    if (beforeUpload) {
+      if (!(await beforeUpload(file.file, files))) return;
+    }
+
     if (action) {
       let newFileList = [...fileList];
       let upItem = newFileList.filter((item: any) => item.uuid == file.uuid)[0];
@@ -412,11 +422,13 @@ function Upload(props: UploadProps) {
     uploadFileArea.current.addEventListener('drop', handleDrop, false);
 
     function handleDrop(e: any) {
-      const files = e.dataTransfer.files;
-      console.log(files);
-      files.forEach((file: any) => {
-        handleFileListAdd(file);
-        // previewImage(file, imgPreviewEle);
+      let files = e.dataTransfer.files;
+
+      // 超出数量不做任何处理
+      files = convertFiles(files);
+
+      files.map((file: any) => {
+        handleFileListAdd(file, files);
       });
       // 省略文件上传代码
     }
@@ -436,6 +448,21 @@ function Upload(props: UploadProps) {
       uploadFileArea.current.classList.remove('highlighted');
     }
   }, []);
+
+  function convertFiles(files: any) {
+    // 超出数量不做任何处理
+    files = Object.values(files);
+
+    if (maxCount !== undefined) {
+      if (fileList.length > maxCount) {
+        return [];
+      } else {
+        files = files.splice(0, maxCount - fileList.length);
+      }
+    }
+
+    return files;
+  }
 
   return (
     <div
