@@ -93,11 +93,11 @@ export default function Card(props: CardProps) {
                     className={clsx(`${prefix}-card-tabs-item`, {
                       [`${prefix}-card-tabs-item-disabled`]: item.disabled,
                       [`${prefix}-card-tabs-item-active`]:
-                        activeTabKey == index,
+                        activeTabKey == item.key,
                     })}
                     onClick={() =>
                       changeTabKey && !item.disabled
-                        ? changeTabKey(index, item.key)
+                        ? changeTabKey(item.key, index)
                         : null
                     }
                     key={index}
@@ -117,7 +117,8 @@ export default function Card(props: CardProps) {
               return (
                 <div
                   className={clsx(`${prefix}-card-tab-item`, {
-                    [`${prefix}-card-tab-item-active`]: index == activeTabKey,
+                    [`${prefix}-card-tab-item-active`]:
+                      tabList[index].key == activeTabKey,
                   })}
                 >
                   {item}
