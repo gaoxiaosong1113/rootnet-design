@@ -303,4 +303,48 @@ export default () => {
 };
 ```
 
+拖拽上传或 listType 类型为 picture-card 自定义显示文字
+
+```tsx
+import React from 'react';
+import { Upload, Grid, Button, Icon } from 'rootnet-design';
+
+const { Row, Col } = Grid;
+
+export default () => {
+  return (
+    <div>
+      <Row gutter={[16, 16]}>
+        <Col span={12}>
+          <Upload
+            listType="picture-card"
+            accept=".png,.jpg,.jpeg,.gif"
+            maxCount={2}
+            uploadText={'自定义文字'}
+            fileList={[
+              {
+                uid: '-1',
+                name: 'image.png',
+                status: 'success',
+                percent: 10,
+                url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
+              },
+            ]}
+          ></Upload>
+        </Col>
+        <Col span={12}>
+          <Upload
+            accept=".png,.jpg,.jpeg,.gif"
+            drag
+            uploadText={'此处可自定义文字'}
+          >
+            <Icon name="shangchuan" size={24} />
+          </Upload>
+        </Col>
+      </Row>
+    </div>
+  );
+};
+```
+
 <API />

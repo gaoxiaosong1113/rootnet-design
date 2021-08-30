@@ -108,6 +108,12 @@ export interface UploadProps {
   disabled?: boolean;
 
   /**
+   * @description      拖拽上传或listType类型为picture-card时自定义显示文字
+   * @default           -
+   */
+  uploadText?: any;
+
+  /**
    * @description      已经上传的文件列表（受控）
    * @default           -
    */
@@ -204,6 +210,7 @@ function Upload(props: UploadProps) {
     action,
     defaultFileList,
     disabled,
+    uploadText,
     itemRender,
     listType = 'text',
     showAccept = true,
@@ -498,7 +505,7 @@ function Upload(props: UploadProps) {
 
         {drag && (
           <div className={clsx(`${prefix}-upload-drag-info`, {})}>
-            单击或拖动文件到该区域以上传
+            {uploadText || '单击或拖动文件到该区域以上传'}
           </div>
         )}
         {accept && showAccept && (
@@ -521,7 +528,7 @@ function Upload(props: UploadProps) {
                 onClick={handleClick}
               >
                 <Icon size={24} name="jiahao" />
-                <p>上传照片</p>
+                <p>{uploadText || '上传图片'}</p>
               </div>
             )}
         </div>
