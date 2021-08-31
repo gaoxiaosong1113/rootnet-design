@@ -1,4 +1,58 @@
 @import '../index.less';
 
-.@{prefix}-t {
+.@{prefix}-message {
+  position: fixed;
+  width: 100%;
+  top: 10px;
+  left: 0;
+  z-index: 888;
+  text-align: center;
+  pointer-events: none;
+
+  &-item {
+    padding: 8px;
+  }
+
+  &-content {
+    display: inline-block;
+    padding: 10px 16px;
+    text-align: center;
+    background: #ffffff;
+    box-shadow: 0px 6px 20px 0px rgba(153, 161, 194, 0.3);
+    border-radius: 2px;
+    pointer-events: all;
+  }
+
+  &-text {
+    display: flex;
+    font-size: 14px;
+    color: #15171f;
+    font-weight: 400;
+    line-height: 20px;
+  }
+
+  &-icon {
+    margin-right: 9px;
+  }
+
+  &-transition {
+    &-enter {
+      opacity: 0;
+      transform: translateY(-100%);
+    }
+    &-enter-active {
+      opacity: 1;
+      transition: opacity 300ms, transform 300ms;
+      transform: translateY(0%);
+    }
+    &-exit {
+      opacity: 1;
+      transform: translateY(0%);
+    }
+    &-exit-active {
+      opacity: 0;
+      transition: opacity 300ms, transform 300ms;
+      transform: translateY(-100%);
+    }
+  }
 }
