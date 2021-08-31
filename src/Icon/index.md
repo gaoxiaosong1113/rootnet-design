@@ -21,6 +21,11 @@ export default () => {
     <div>
       <Row gutter={[16, 16]}>
         <Col span={6}>
+          <Icon size={36} name="sheji" />
+          <p>设计</p>
+          <p>{'<Icon size={36} name="sheji" />'}</p>
+        </Col>
+        <Col span={6}>
           <Icon size={36} name="icon-link" />
           <p>icon-link</p>
           <p>{'<Icon size={36} name="icon-link" />'}</p>
