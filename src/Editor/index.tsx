@@ -153,7 +153,7 @@ const defaultControls = [
   'clear',
 ];
 
-function Editor(props: EditorProps, ref: any) {
+function InternalEditor(props: EditorProps, ref: any) {
   const {
     className,
     style,
@@ -169,6 +169,7 @@ function Editor(props: EditorProps, ref: any) {
     onFocus,
     onPreview,
     action,
+    value,
     ...prop
   } = props;
 
@@ -184,7 +185,7 @@ function Editor(props: EditorProps, ref: any) {
     extendControls || [],
   );
 
-  const [value, setValue] = useState(
+  const [innerValue, setInnerValue] = useState(
     BraftEditor.createEditorState(defaultValue || null),
   );
 
@@ -193,12 +194,13 @@ function Editor(props: EditorProps, ref: any) {
       key: 'preview',
       type: 'button',
       text: '预览',
-      onClick: () => onPreview(value.toHTML()),
+      onClick: () => onPreview(innerValue.toHTML()),
     };
   }, []);
 
   useEffect(() => {
     if (onPreview === undefined) return;
+    if (!extendControlsConfig) return;
     if (extendControlsConfig.indexOf(previewConfig) == -1) {
       extendControlsConfig.push(previewConfig);
     }
@@ -209,25 +211,26 @@ function Editor(props: EditorProps, ref: any) {
   }, [extendControls]);
 
   useEffect(() => {
-    setValue(BraftEditor.createEditorState(props.value));
-  }, [props.value]);
+    console.log(value);
+    setInnerValue(BraftEditor.createEditorState(value));
+  }, [value]);
 
   function handleChange(editorState: any) {
-    setValue(editorState);
+    setInnerValue(editorState);
     if (onChange) {
       onChange(editorState.toHTML());
     }
   }
 
   function handleBlur(editorState: any) {
-    setValue(editorState);
+    setInnerValue(editorState);
     if (onChange) {
       onChange(editorState.toHTML());
     }
   }
 
   function handleFocus(editorState: any) {
-    setValue(editorState);
+    setInnerValue(editorState);
     if (onChange) {
       onChange(editorState.toHTML());
     }
@@ -236,8 +239,8 @@ function Editor(props: EditorProps, ref: any) {
   return (
     <div className={clsx(className, `${prefix}-editor`)} style={style}>
       <BraftEditor
-        value={value}
         ref={editorRef}
+        value={innerValue}
         controls={controls || defaultControls}
         contentStyle={contentStyle}
         extendControls={extendControlsConfig}
@@ -298,7 +301,12 @@ export function EditorViewer(props: any) {
   );
 }
 
-Editor.EditorViewer = EditorViewer;
-// Editor.BraftEditor = BraftEditor;
+interface CompoundedComponent extends React.ForwardRefExoticComponent<any> {
+  EditorViewer: any;
+}
 
-export default React.forwardRef(Editor);
+const Editor = React.forwardRef(InternalEditor) as CompoundedComponent;
+
+Editor.EditorViewer = EditorViewer;
+
+export default Editor;

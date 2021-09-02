@@ -13,18 +13,22 @@ group:
 
 默认：
 
-```tsx
-import React from 'react';
-import { Editor, Grid, Button } from 'rootnet-design';
+设置：
 
+```tsx
+import React, { useState } from 'react';
+import { Editor, Grid, Button } from 'rootnet-design';
 const { Row, Col } = Grid;
+const EditorViewer = Editor.EditorViewer;
 
 export default () => {
+  const [value, setValue] = useState('<p>123123123</p>');
   return (
     <div>
       <Row gutter={[16, 16]}>
         <Col span={24}>
           <Editor
+            value={value}
             action={(form, config) => {
               console.log(form, config);
               return new Promise((resolve, reject) => {
@@ -32,8 +36,11 @@ export default () => {
               });
             }}
             onPreview={(value) => console.log(value)}
-            onChange={(value) => console.log(value)}
+            onChange={(value) => setValue(value)}
           />
+        </Col>
+        <Col span={24}>
+          <EditorViewer value={value} />
         </Col>
       </Row>
     </div>
@@ -41,4 +48,4 @@ export default () => {
 };
 ```
 
-<API />
+<!-- <API /> -->
