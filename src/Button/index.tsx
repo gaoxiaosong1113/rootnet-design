@@ -1,5 +1,5 @@
 // 引入react依赖
-import React, { useRef, useImperativeHandle } from 'react';
+import React, { useRef, ReactNode, useImperativeHandle } from 'react';
 import ReactDOM from 'react-dom';
 
 // 引入第三方依赖
@@ -21,13 +21,7 @@ export interface ButtonProps {
    */
   className?: string;
   style?: Object;
-  children?: any;
-
-  /**
-   * @description      ref
-   * @default           -
-   */
-  ref?: any;
+  children?: ReactNode;
 
   /**
    * @description      按钮的类型
@@ -51,7 +45,7 @@ export interface ButtonProps {
    * @description      button点击事件
    * @default           -
    */
-  onClick?: Function;
+  onClick?: (event?: Event) => void;
 
   /**
    * @description      button左右的间隔
@@ -93,7 +87,7 @@ function Button(props: ButtonProps, ref: any) {
     }
   }
 
-  const eleRef = useRef();
+  const eleRef = useRef() as any;
 
   useImperativeHandle(ref, () => eleRef.current);
 

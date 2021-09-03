@@ -1,5 +1,5 @@
 // 引入react依赖
-import React, { useMemo } from 'react';
+import React, { useMemo, ReactNode } from 'react';
 import ReactDOM from 'react-dom';
 
 // 引入第三方依赖
@@ -22,7 +22,7 @@ export interface ProgressProps {
    */
   className?: string;
   style?: Object;
-  children?: any;
+  children?: ReactNode;
 
   /**
    * @description      类型，可选 line circle

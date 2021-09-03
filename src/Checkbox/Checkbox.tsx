@@ -1,4 +1,10 @@
-import React, { useEffect, useMemo, useState, useContext } from 'react';
+import React, {
+  useEffect,
+  ReactNode,
+  useMemo,
+  useState,
+  useContext,
+} from 'react';
 
 import clsx from 'clsx';
 
@@ -17,7 +23,7 @@ export interface CheckboxProps {
    */
   className?: string;
   style?: Object;
-  children?: any;
+  children?: ReactNode;
 
   /**
    * @description      按钮的类型
@@ -41,7 +47,7 @@ export interface CheckboxProps {
    * @description      Checkbox 更改事件
    * @default           -
    */
-  onChange?: Function;
+  onChange?: (checked: boolean, value: string) => undefined;
 
   /**
    * @description      是否选中
@@ -61,7 +67,10 @@ export interface CheckboxProps {
    */
   size?: string;
 
-  Group?: any;
+  /**
+   * @description      半选
+   * @default           -
+   */
   indeterminate?: boolean;
 }
 

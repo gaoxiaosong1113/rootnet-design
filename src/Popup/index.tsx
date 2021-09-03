@@ -4,6 +4,7 @@ import React, {
   useRef,
   useMemo,
   useCallback,
+  ReactNode,
 } from 'react';
 
 import ReactDOM from 'react-dom';
@@ -25,7 +26,7 @@ export interface PopupProps {
    */
   className?: string;
   style?: Object;
-  children?: any;
+  children?: ReactNode;
 
   /**
    * @description      弹层触发关闭

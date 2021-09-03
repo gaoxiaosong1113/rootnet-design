@@ -4,6 +4,8 @@ import React, {
   useRef,
   useMemo,
   useCallback,
+  ReactNode,
+  ReactElement,
 } from 'react';
 import ReactDOM from 'react-dom';
 
@@ -24,7 +26,7 @@ export interface ModalProps {
    */
   className?: string;
   style?: Object;
-  children?: any;
+  children: ReactElement[];
 
   /**
    * @description      主体内容

@@ -15,13 +15,13 @@ export interface BreadcrumbProps {
    */
   className?: string;
   style?: Object;
-  children?: any;
+  children?: ReactNode[];
 
-  /**
-   * @description      面包屑导航的数据
-   * @default           -
-   */
-  list?: Array<any>;
+  // /**
+  //  * @description      面包屑导航的数据
+  //  * @default           -
+  //  */
+  // list?: Array<any>;
 }
 
 function Breadcrumb(props: BreadcrumbProps) {
@@ -49,7 +49,7 @@ export interface BreadcrumbItemProps {
    */
   className?: string;
   style?: Object;
-  children?: any;
+  children?: ReactNode;
 
   /**
    * @description      点击事件

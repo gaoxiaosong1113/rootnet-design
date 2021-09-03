@@ -16,18 +16,36 @@ group:
 设置：
 
 ```tsx
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Editor, Grid, Button } from 'rootnet-design';
 const { Row, Col } = Grid;
 const EditorViewer = Editor.EditorViewer;
+const BraftEditor = Editor.BraftEditor;
 
 export default () => {
-  const [value, setValue] = useState('<p>123123123</p>');
+  const [value, setValue] = useState(
+    BraftEditor.createEditorState('<p>受控内容</p>'),
+  );
+  const ref = useRef(null);
+  useEffect(() => {
+    console.log(ref.current);
+    console.log(ref.current.getValue().toHTML());
+  }, [ref.current]);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setValue(BraftEditor.createEditorState('<p>动态</p>'));
+    }, 200);
+  }, []);
+
   return (
     <div>
       <Row gutter={[16, 16]}>
         <Col span={24}>
           <Editor
+            defaultValue={BraftEditor.createEditorState(
+              '<p>我是默认填充的内容</p>',
+            )}
             value={value}
             action={(form, config) => {
               console.log(form, config);
@@ -35,8 +53,12 @@ export default () => {
                 resolve('上传的地址');
               });
             }}
+            ref={ref}
             onPreview={(value) => console.log(value)}
-            onChange={(value) => setValue(value)}
+            onChange={(value) => {
+              console.log(value, '修改');
+              setValue(value);
+            }}
           />
         </Col>
         <Col span={24}>
@@ -48,4 +70,4 @@ export default () => {
 };
 ```
 
-<!-- <API /> -->
+<API  exports='["default", "EditorViewer"]'/>

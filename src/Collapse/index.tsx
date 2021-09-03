@@ -1,5 +1,5 @@
 // 引入react依赖
-import React, { useState } from 'react';
+import React, { useState, ReactNode, forwardRef } from 'react';
 import ReactDOM from 'react-dom';
 
 // 引入第三方依赖
@@ -22,7 +22,7 @@ export interface CollapseProps {
    */
   className?: string;
   style?: Object;
-  children?: any;
+  children?: ReactNode;
 
   /**
    * @description      是否显示边框
@@ -31,7 +31,7 @@ export interface CollapseProps {
   noBorder?: boolean;
 }
 
-function Collapse(props: CollapseProps) {
+export function Collapse(props: CollapseProps) {
   const { className, children, noBorder, ...prop } = props;
 
   return (
@@ -46,7 +46,35 @@ function Collapse(props: CollapseProps) {
   );
 }
 
-Collapse.Item = function Item(props: any) {
+export interface CollapseItemProps {
+  /**
+   * @description      类名
+   * @default           -
+   */
+  className?: string;
+  style?: Object;
+  children?: ReactNode;
+
+  /**
+   * @description      标题
+   * @default           -
+   */
+  title?: ReactNode;
+
+  /**
+   * @description      补充元素
+   * @default           -
+   */
+  extra?: ReactNode;
+
+  /**
+   * @description      是否展开
+   * @default           -
+   */
+  open?: boolean;
+}
+
+export function Item(props: CollapseItemProps) {
   const { className, children, title, extra, ...prop } = props;
 
   const [open, setOpen] = useState(props.open);
@@ -95,6 +123,12 @@ Collapse.Item = function Item(props: any) {
       </CSSTransition>
     </div>
   );
-};
+}
+
+export interface CompoundedComponent {
+  Item: any;
+}
+
+Collapse.Item = Item;
 
 export default Collapse;

@@ -5,6 +5,7 @@ import React, {
   useRef,
   forwardRef,
   useImperativeHandle,
+  ReactNode,
 } from 'react';
 
 import ReactDOM from 'react-dom';
@@ -26,15 +27,47 @@ const themes = {
   },
 };
 
-const ThemeContext = React.createContext({} as any);
+const FormContext = React.createContext({} as any);
 
-const InternalForm = (props: any, ref: any) => {
+export interface FormProps {
+  /**
+   * @description      类名
+   * @default           -
+   */
+  className?: string;
+  style?: Object;
+  children?: ReactNode;
+
+  /**
+   * @description      初始值
+   * @default           -
+   */
+  initialValues?: Object;
+
+  /**
+   * @description      表单布局 'horizontal'|'vertical'|'inline'
+   * @default           -
+   */
+  layout?: string;
+
+  /**
+   * @description      数据验证成功后回调事件
+   * @default           -
+   */
+  onSubmit?: (value: Object) => void;
+
+  /**
+   * @description      数据校验失败后的回调事件
+   * @default           -
+   */
+  onError?: (error: Object) => void;
+}
+
+const InternalForm = (props: FormProps, ref: any) => {
   const {
     className,
-    type,
-    disabled,
     children,
-    layout,
+    layout = 'inline',
     onSubmit,
     onError,
     initialValues,
@@ -42,7 +75,6 @@ const InternalForm = (props: any, ref: any) => {
   } = props;
 
   const [value, setValue] = useState(initialValues || {});
-  // const [error, setError] = useState({});
 
   const formRef: any = useRef({});
 
@@ -72,8 +104,10 @@ const InternalForm = (props: any, ref: any) => {
   }));
 
   return (
-    <ThemeContext.Provider
+    <FormContext.Provider
       value={{
+        formValue: value,
+        formRef: formRef.current,
         onChange: (name: string, v: string) => {
           setValue((val: any) => {
             val[name] = v;
@@ -90,7 +124,6 @@ const InternalForm = (props: any, ref: any) => {
           className,
           `${prefix}-form`,
           {
-            [`${prefix}-form-inline`]: !layout || layout == 'inline',
             [`${prefix}-form-${layout}`]: layout,
           },
           className,
@@ -98,7 +131,8 @@ const InternalForm = (props: any, ref: any) => {
         onSubmit={handleSubmit}
         {...prop}
       >
-        {React.Children.map(children, (item) => {
+        {children}
+        {/* {React.Children.map(children, (item) => {
           return (
             item &&
             React.cloneElement(
@@ -111,31 +145,35 @@ const InternalForm = (props: any, ref: any) => {
                 : {},
             )
           );
-        })}
+        })} */}
       </form>
-    </ThemeContext.Provider>
+    </FormContext.Provider>
   );
 };
 
 const Item = (props: any, ref: any) => {
   const { className, label, name, children, rules, ...prop } = props;
-
-  const [value, setValue] = useState(props.value);
+  const { onChange, onFocus, onBlur, formValue, formRef } =
+    useContext(FormContext);
+  const [value, setValue] = useState(formValue[name]);
   const [required, setRequired] = useState(false);
   const [error, setError] = useState([] as Array<any>);
 
-  useImperativeHandle(ref, () => ({
-    validation: () => {
-      if (!name) {
-        return;
-      }
-      return validationData(value);
-    },
-  }));
+  const handleValidation = () => {
+    return {
+      validation: () => {
+        if (!name) {
+          return;
+        }
+        return validationData(value);
+      },
+    };
+  };
 
-  const { onChange, onFocus, onBlur, onError } = useContext(ThemeContext);
+  useImperativeHandle(ref, () => handleValidation());
 
   useEffect(() => {
+    formRef[name] = handleValidation();
     if (onChange && name) {
       onChange(name, value);
     }
@@ -210,8 +248,8 @@ const Item = (props: any, ref: any) => {
   };
 
   useEffect(() => {
-    setValue(props.value);
-  }, [props.value]);
+    setValue(formValue[name]);
+  }, [formValue[name]]);
 
   return (
     <div

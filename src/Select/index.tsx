@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef, useMemo } from 'react';
+import React, { useEffect, useState, useRef, useMemo, ReactNode } from 'react';
 import ReactDOM from 'react-dom';
 
 import clsx from 'clsx';
@@ -17,7 +17,7 @@ export interface SelectProps {
    */
   className?: string;
   style?: Object;
-  children?: any;
+  children?: ReactNode;
 
   /**
    * @description      select 提示

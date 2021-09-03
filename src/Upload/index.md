@@ -347,4 +347,4 @@ export default () => {
 };
 ```
 
-<API />
+<API exports='["default", "UploadFileInterface"]'/>

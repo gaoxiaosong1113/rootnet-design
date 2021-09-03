@@ -1,5 +1,5 @@
 // 引入react依赖
-import React from 'react';
+import React, { ReactNode } from 'react';
 import ReactDOM from 'react-dom';
 
 // 引入第三方依赖
@@ -22,7 +22,7 @@ export interface TreeSelectProps {
    */
   className?: string;
   style?: Object;
-  children?: any;
+  children?: ReactNode;
 
   /**
    * @description      按钮的类型

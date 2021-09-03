@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, ReactNode } from 'react';
 import ReactDOM from 'react-dom';
 
 import clsx from 'clsx';
@@ -16,7 +16,7 @@ export interface ModalProps {
    */
   className?: string;
   style?: Object;
-  children?: any;
+  children?: ReactNode;
 
   /**
    * @description      modal 的title

@@ -1,5 +1,5 @@
 // 引入react依赖
-import React, { useMemo, useRef, useState } from 'react';
+import React, { useMemo, useRef, useState, ReactNode } from 'react';
 import ReactDOM from 'react-dom';
 
 // 引入第三方依赖
@@ -22,7 +22,7 @@ export interface ImageProps {
    */
   className?: string;
   style?: Object;
-  children?: any;
+  children?: ReactNode;
 
   /**
    * @description      图片裁剪类型

@@ -1,4 +1,11 @@
-import React, { useEffect, useState, useRef, useMemo } from 'react';
+import React, {
+  useEffect,
+  useState,
+  useRef,
+  useMemo,
+  ReactNode,
+  ReactElement,
+} from 'react';
 import ReactDOM from 'react-dom';
 
 import clsx from 'clsx';
@@ -18,7 +25,7 @@ export interface PopoverProps {
    */
   className?: string;
   style?: Object;
-  children?: any;
+  children: ReactElement;
 
   /**
    * @description      主体内容

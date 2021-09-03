@@ -92,7 +92,7 @@ import { Card, Button, Grid } from 'rootnet-design';
 const { Row, Col } = Grid;
 
 export default () => {
-  const [activeTabKey, setActiveTabKey] = useState(1);
+  const [activeTabKey, setActiveTabKey] = useState('b');
 
   return (
     <div>
@@ -101,19 +101,19 @@ export default () => {
           <Card
             tabList={[
               {
-                key: '1',
+                key: 'a',
                 name: '标签一',
               },
               {
-                key: '2',
+                key: 'b',
                 name: '标签二',
               },
               {
-                key: '3',
+                key: 'c',
                 name: '标签三',
               },
               {
-                key: '4',
+                key: 'd',
                 name: '标签四',
                 disabled: true,
               },
