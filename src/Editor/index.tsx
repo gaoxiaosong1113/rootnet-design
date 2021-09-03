@@ -203,7 +203,7 @@ export function Editor(props: EditorProps, ref: any) {
 
   function handleChange(editorState: any) {
     if (onChange) {
-      onChange(editorState.toHTML());
+      onChange(editorState);
     }
   }
 

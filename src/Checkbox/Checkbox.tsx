@@ -93,6 +93,7 @@ function Checkbox(props: CheckboxProps): any {
 
   function handleChange(e: any) {
     if (!disabled) {
+      console.log(e);
       setChecked(e.target.checked);
       if (onChange) {
         onChange(e.target.checked, value);

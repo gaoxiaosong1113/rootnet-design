@@ -6,6 +6,7 @@ import React, {
   forwardRef,
   useImperativeHandle,
   ReactNode,
+  ReactElement,
 } from 'react';
 
 import ReactDOM from 'react-dom';
@@ -36,7 +37,7 @@ export interface FormProps {
    */
   className?: string;
   style?: Object;
-  children?: ReactNode;
+  children?: ReactElement;
 
   /**
    * @description      初始值
@@ -63,7 +64,7 @@ export interface FormProps {
   onError?: (error: Object) => void;
 }
 
-const InternalForm = (props: FormProps, ref: any) => {
+export const InternalForm = (props: FormProps, ref: any) => {
   const {
     className,
     children,
@@ -82,7 +83,7 @@ const InternalForm = (props: FormProps, ref: any) => {
     e && e.preventDefault();
     let error: any = {};
     for (let attr in formRef.current) {
-      let err = formRef.current[attr].validation();
+      let err = formRef.current[attr].validation(attr, value[attr]);
       if (err) {
         error[attr] = err.message;
       }
@@ -103,6 +104,10 @@ const InternalForm = (props: FormProps, ref: any) => {
     },
   }));
 
+  useEffect(() => {
+    setValue(initialValues || {});
+  }, [initialValues]);
+
   return (
     <FormContext.Provider
       value={{
@@ -111,7 +116,7 @@ const InternalForm = (props: FormProps, ref: any) => {
         onChange: (name: string, v: string) => {
           setValue((val: any) => {
             val[name] = v;
-            return val;
+            return { ...val };
           });
         },
         onError: (error: any) => {
@@ -151,7 +156,35 @@ const InternalForm = (props: FormProps, ref: any) => {
   );
 };
 
-const Item = (props: any, ref: any) => {
+export interface FormItemProps {
+  /**
+   * @description      类名
+   * @default           -
+   */
+  className?: string;
+  style?: Object;
+  children: ReactElement;
+
+  /**
+   * @description      label 标签的文本
+   * @default           -
+   */
+  label?: ReactNode;
+
+  /**
+   * @description      设置表单域内字段
+   * @default           -
+   */
+  name: string;
+
+  /**
+   * @description      校验规则 [{required: true,message: '请输入电话号码'}, {fields: /^[1][3,4,5,6,7,8,9][0-9]{9}$/,message: '请输入11位电话号码'}]
+   * @default           -
+   */
+  rules?: Array<any>;
+}
+
+export const Item = (props: FormItemProps, ref: any) => {
   const { className, label, name, children, rules, ...prop } = props;
   const { onChange, onFocus, onBlur, formValue, formRef } =
     useContext(FormContext);
@@ -165,7 +198,7 @@ const Item = (props: any, ref: any) => {
         if (!name) {
           return;
         }
-        return validationData(value);
+        return validationData(name, value);
       },
     };
   };
@@ -173,7 +206,14 @@ const Item = (props: any, ref: any) => {
   useImperativeHandle(ref, () => handleValidation());
 
   useEffect(() => {
-    formRef[name] = handleValidation();
+    formRef[name] = {
+      validation: (n: any, v: any) => {
+        if (!n) {
+          return;
+        }
+        return validationData(n, v);
+      },
+    };
     if (onChange && name) {
       onChange(name, value);
     }
@@ -185,11 +225,8 @@ const Item = (props: any, ref: any) => {
     }
   }, [rules]);
 
-  const validationData = (v: any) => {
-    if (v) {
-      v = v.toString();
-    }
-    if (name && rules) {
+  const validationData = (n, v: any) => {
+    if (n && rules) {
       let errorAry = rules
         .map((item: any) => {
           // 必填项
@@ -229,7 +266,7 @@ const Item = (props: any, ref: any) => {
 
   const handleChange = (v: any) => {
     setValue(v);
-    validationData(v);
+    validationData(name, v);
     if (name && onChange) {
       onChange(name, v);
     }
