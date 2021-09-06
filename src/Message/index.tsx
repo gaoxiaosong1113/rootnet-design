@@ -72,13 +72,6 @@ export interface MessageProps {
   onClose?: any;
 }
 
-const colorObj: any = {
-  primaryColor,
-  successColor,
-  warningColor,
-  errorColor,
-};
-
 // 消息组件实例
 let messageInstance: any;
 
@@ -95,8 +88,6 @@ function MessageContent(props: any): any {
     onRemove,
     messageKey,
   } = props;
-
-  const color = colorObj[type + 'Color'];
 
   useEffect(() => {
     let time: any;
@@ -136,7 +127,7 @@ function MessageContent(props: any): any {
               [`${prefix}-message-icon`]: true,
             })}
           >
-            <Icon name={'jinggao'} color={color} />
+            <Icon name={'jinggao'} />
           </div>
           <span>{content || ''}</span>
         </div>

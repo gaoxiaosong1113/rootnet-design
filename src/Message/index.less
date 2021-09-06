@@ -9,6 +9,27 @@
   text-align: center;
   pointer-events: none;
 
+  &-primary {
+    .@{prefix}-message-icon {
+      fill: @primaryColor;
+    }
+  }
+  &-success {
+    .@{prefix}-message-icon {
+      fill: @successColor;
+    }
+  }
+  &-warning {
+    .@{prefix}-message-icon {
+      fill: @warningColor;
+    }
+  }
+  &-error {
+    .@{prefix}-message-icon {
+      fill: @errorColor;
+    }
+  }
+
   &-item {
     padding: 8px;
     box-sizing: border-box;
