@@ -62,9 +62,15 @@ export interface FormProps {
    * @default           -
    */
   onError?: (error: Object) => void;
+
+  /**
+   * @description      支持调用 onSubmit 和 validation
+   * @default           -
+   */
+  ref?: { current: any };
 }
 
-export const InternalForm = (props: FormProps, ref: any) => {
+export const Form = (props: FormProps, ref: any) => {
   const {
     className,
     children,
@@ -75,12 +81,20 @@ export const InternalForm = (props: FormProps, ref: any) => {
     ...prop
   } = props;
 
-  const [value, setValue] = useState(initialValues || {});
+  const [value, setValue] = useState(initialValues || {}) as any;
 
   const formRef: any = useRef({});
 
   function handleSubmit(e: any) {
     e && e.preventDefault();
+    if (!validation()) return;
+    if (onSubmit) {
+      onSubmit(value);
+    }
+    return false;
+  }
+
+  function validation() {
     let error: any = {};
     for (let attr in formRef.current) {
       let err = formRef.current[attr].validation(attr, value[attr]);
@@ -92,16 +106,14 @@ export const InternalForm = (props: FormProps, ref: any) => {
       onError(error);
       return false;
     }
-    if (onSubmit) {
-      onSubmit(value);
-    }
-    return false;
+    return true;
   }
 
   useImperativeHandle(ref, () => ({
     onSubmit: () => {
       handleSubmit(null);
     },
+    validation,
   }));
 
   useEffect(() => {
@@ -182,6 +194,12 @@ export interface FormItemProps {
    * @default           -
    */
   rules?: Array<any>;
+
+  /**
+   * @description      支持调用validation
+   * @default           -
+   */
+  ref?: { current: any };
 }
 
 export const Item = (props: FormItemProps, ref: any) => {
@@ -245,7 +263,7 @@ export const Item = (props: FormItemProps, ref: any) => {
           if (item.max && item.max < v.length) {
             return {
               max: item.max,
-              message: `最多输入${item.max}`,
+              message: `最多输入${item.max}个字符`,
             };
           }
 
@@ -253,7 +271,7 @@ export const Item = (props: FormItemProps, ref: any) => {
           if (item.min && item.min > v.length) {
             return {
               max: item.min,
-              message: `最少输入${item.min}`,
+              message: `最少输入${item.min}个字符`,
             };
           }
         })
@@ -328,8 +346,8 @@ export interface CompoundedComponent
   Item: any;
 }
 
-const Form = forwardRef(InternalForm) as CompoundedComponent;
+const InternalForm = forwardRef(Form) as CompoundedComponent;
 
-Form.Item = forwardRef(Item);
+InternalForm.Item = forwardRef(Item);
 
-export default Form;
+export default InternalForm;

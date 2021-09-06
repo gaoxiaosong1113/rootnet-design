@@ -1,4 +1,10 @@
-import React, { useEffect, useState, ReactNode } from 'react';
+import React, {
+  useEffect,
+  useState,
+  ReactNode,
+  useRef,
+  useImperativeHandle,
+} from 'react';
 
 import clsx from 'clsx';
 
@@ -18,46 +24,16 @@ export interface InputProps {
   children?: ReactNode;
 
   /**
-   * @description      按钮的类型
-   * @default           -
-   */
-  type?: string;
-
-  /**
    * @description      需要显示的图标
    * @default           -
    */
   icon?: any;
 
   /**
-   * @description      是否禁用按钮
+   * @description      是否禁用输入框
    * @default           false
    */
   disabled?: boolean;
-
-  /**
-   * @description      Input的尺寸
-   * @default           -
-   */
-  label?: string;
-
-  /**
-   * @description      Input的尺寸
-   * @default           -
-   */
-  required?: string;
-
-  /**
-   * @description      Input的尺寸
-   * @default           -
-   */
-  horizontal?: string;
-
-  /**
-   * @description      Input的尺寸
-   * @default           -
-   */
-  component?: string;
 
   /**
    * @description      Input的尺寸
@@ -72,31 +48,31 @@ export interface InputProps {
   placeholder?: string;
 
   /**
-   * @description      input 后面的信息
+   * @description      带标签的 input，设置后置标签
    * @default           -
    */
   after?: any;
 
   /**
-   * @description      input 前面的信息
+   * @description      带标签的 input，设置前置标签
    * @default           -
    */
   before?: any;
 
   /**
-   * @description      change
+   * @description      输入框内容变化时的回调
    * @default           -
    */
   onChange?: Function;
 
   /**
-   * @description      focus
+   * @description      输入框获取焦点的回调
    * @default           -
    */
   onFocus?: Function;
 
   /**
-   * @description      blur
+   * @description      输入框失去焦点的回调
    * @default           -
    */
   onBlur?: Function;
@@ -108,7 +84,7 @@ export interface InputProps {
   name?: string;
 
   /**
-   * @description      value
+   * @description      输入框内容
    * @default           -
    */
   value?: string;
@@ -120,26 +96,27 @@ export interface InputProps {
   focus?: boolean;
 }
 
-function Input(props: InputProps) {
+function Input(props: InputProps, ref: any) {
   const {
     className,
-    label,
-    required,
-    horizontal,
     placeholder,
     before,
     after,
-    component,
     icon,
     onChange,
     onFocus,
     onBlur,
     name,
+    disabled,
     ...prop
   } = props;
 
   const [value, setValue] = useState(props.value || '');
   const [focus, setFocus] = useState(props.focus);
+
+  const refEl = useRef(null);
+
+  useImperativeHandle(ref, () => refEl.current);
 
   const handleChange = (e: any) => {
     setValue(e.target.value);
@@ -174,6 +151,7 @@ function Input(props: InputProps) {
     <div
       className={clsx(className, `${prefix}-input`, {
         [`${prefix}-input-focus`]: focus,
+        [`${prefix}-input-disabled`]: disabled,
       })}
     >
       {before && <div className={clsx(`${prefix}-input-before`)}>{before}</div>}
@@ -186,7 +164,9 @@ function Input(props: InputProps) {
           onChange={handleChange}
           onFocus={handleFocus}
           onBlur={handleBlur}
+          disabled={disabled}
           placeholder={placeholder || '请输入'}
+          ref={refEl}
         />
       </div>
 
@@ -195,4 +175,4 @@ function Input(props: InputProps) {
   );
 }
 
-export default Input;
+export default React.forwardRef(Input);

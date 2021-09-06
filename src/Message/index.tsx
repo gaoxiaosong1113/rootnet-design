@@ -162,7 +162,7 @@ MessageContent.defaultProps = {
   onClose() {},
 };
 
-function Message(props: MessageProps, ref: any) {
+export function Message(props: MessageProps, ref: any) {
   const [messages, setMessages] = useState([] as Array<any>);
   const eleRef: any = useRef();
 
@@ -227,7 +227,7 @@ function Message(props: MessageProps, ref: any) {
   );
 }
 
-const Ms = React.forwardRef(Message);
+const InternalMessage = React.forwardRef(Message);
 
 Message.newInstance = function newNotificationInstance(
   props: MessageProps,
@@ -241,7 +241,6 @@ Message.newInstance = function newNotificationInstance(
       return;
     }
     refFlag = true;
-
     callback({
       message(props: MessageProps) {
         Message.add(props);
@@ -258,7 +257,7 @@ Message.newInstance = function newNotificationInstance(
     });
   }
 
-  return ReactDOM.render(<Ms {...props} ref={ref} />, div);
+  return ReactDOM.render(<InternalMessage {...props} ref={ref} />, div);
 };
 
 function isMessageProps(content: any): any {

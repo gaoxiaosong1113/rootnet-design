@@ -9,6 +9,8 @@ group:
 
 ## Icon 图标
 
+本组件 icon 采用 svg 方式引入，避免与其他业务系统的 iconfont 冲突，且支持 css 中 使用 `fill:red` 方式设置颜色
+
 示例:
 
 ```tsx

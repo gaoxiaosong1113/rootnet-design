@@ -834,4 +834,104 @@ export default () => {
 };
 ```
 
-<API exports='["InternalForm", "Item"]'/>
+ref 校验
+
+```tsx
+import React, { useState, useRef } from 'react';
+import {
+  Form,
+  Input,
+  Select,
+  Radio,
+  Checkbox,
+  Button,
+  Icon,
+  Grid,
+} from 'rootnet-design';
+const { Row, Col } = Grid;
+
+export default () => {
+  const ref = useRef(null);
+
+  return (
+    <div>
+      <Row gutter={[16, 16]}>
+        <Col span={24}>
+          <Form
+            layout={'horizontal'}
+            name={'n2'}
+            initialValues={{}}
+            onSubmit={(form) => {
+              console.log('校验成功');
+              console.log(form);
+            }}
+            onError={(error) => {
+              console.log('校验错误');
+              console.log(error);
+            }}
+            ref={ref}
+          >
+            <Form.Item
+              label="用户名"
+              name="username"
+              rules={[
+                {
+                  required: true,
+                  max: 2,
+                  message: '请输入用户名',
+                },
+              ]}
+            >
+              <Input
+                placeholder="请输入用户名"
+                icon={<Icon name="Rootnet" />}
+              />
+            </Form.Item>
+            <Form.Item
+              label="电话号码"
+              name="phone"
+              rules={[
+                {
+                  required: true,
+                  message: '请输入电话号码',
+                },
+                {
+                  fields: /^[1][3,4,5,6,7,8,9][0-9]{9}$/,
+                  message: '请输入11位电话号码',
+                },
+              ]}
+            >
+              <Input
+                placeholder="请输入电话号码"
+                icon={<Icon name="Rootnet" />}
+              />
+            </Form.Item>
+          </Form>
+        </Col>
+        <Col span={24}>
+          <Button
+            type="primary"
+            onClick={() => {
+              ref.current.onSubmit();
+            }}
+          >
+            提交
+          </Button>
+        </Col>
+        <Col span={24}>
+          <Button
+            type="primary"
+            onClick={() => {
+              ref.current.validation();
+            }}
+          >
+            校验数据
+          </Button>
+        </Col>
+      </Row>
+    </div>
+  );
+};
+```
+
+<API exports='["default", "Item"]'/>
