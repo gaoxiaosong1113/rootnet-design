@@ -28,6 +28,9 @@ import {
   errorColor,
 } from '../config';
 
+// 引入工具类
+import { uuid } from '../_util';
+
 // 引入组件
 import { Icon } from '../index';
 
@@ -69,15 +72,6 @@ export interface MessageProps {
   onClose?: any;
 }
 
-let seed = 0;
-const now = Date.now();
-
-function getUuid() {
-  const id = seed;
-  seed += 1;
-  return `rootnet_message_${now}_${id}`;
-}
-
 const colorObj: any = {
   primaryColor,
   successColor,
@@ -88,13 +82,15 @@ const colorObj: any = {
 // 消息组件实例
 let messageInstance: any;
 
+let messageWarp: any;
+
 function MessageContent(props: any): any {
   const {
     className,
     style,
     content,
-    type,
-    duration,
+    type = 'primary',
+    duration = 3,
     onClose,
     onRemove,
     messageKey,
@@ -102,25 +98,18 @@ function MessageContent(props: any): any {
 
   const color = colorObj[type + 'Color'];
 
-  let closeTimer: any = useRef(); // 定时器
-
   useEffect(() => {
+    let time: any;
     if (duration) {
-      closeTimer.current = window.setTimeout(() => {
+      time = window.setTimeout(() => {
         onRemove(messageKey);
-
         onClose && onClose();
-
-        clearTimeout(closeTimer.current);
+        clearTimeout(time);
       }, duration * 1000);
     }
 
     return () => {
-      if (closeTimer.current) {
-        clearTimeout(closeTimer.current);
-
-        closeTimer.current = null;
-      }
+      clearTimeout(time);
     };
   }, []);
 
@@ -156,18 +145,16 @@ function MessageContent(props: any): any {
   );
 }
 
-MessageContent.defaultProps = {
-  type: 'primary',
-  duration: 3,
-  onClose() {},
-};
-
-function Message(props: MessageProps, ref: any) {
+export function Message(props: MessageProps, ref: any) {
   const [messages, setMessages] = useState([] as Array<any>);
-  const eleRef: any = useRef();
 
-  let messagesRef: any = useRef();
-  messagesRef.current = messages;
+  const refEl: any = useRef();
+
+  const messagesRef: any = useRef(messages);
+
+  useEffect(() => {
+    messagesRef.current = messages;
+  }, [messages]);
 
   useImperativeHandle(ref, () => ({
     add,
@@ -175,29 +162,25 @@ function Message(props: MessageProps, ref: any) {
   }));
 
   function add(message: MessageProps) {
-    let messageKey = (message.key = message.key || getUuid());
-    let updateMessages = messagesRef.current.concat();
-    const messageIndex = messagesRef.current
-      .map((v: any) => v.key)
-      .indexOf(messageKey);
-
-    message.key = messageKey;
-
-    if (messageIndex > -1) {
-      updateMessages.splice(messageIndex, 1, message);
-    } else {
-      updateMessages.push(message);
+    if (!message.key) {
+      message.key = uuid();
     }
 
-    setMessages(updateMessages);
+    let messageKeys = messagesRef.current.map((v: any) => v.key);
+    let messageIndex = messageKeys.indexOf(message.key);
+    if (messageIndex > -1) {
+      messagesRef.current.splice(messageIndex, 1, message);
+    } else {
+      messagesRef.current.push(message);
+    }
+
+    setMessages([...messagesRef.current]);
   }
 
   function remove(key: any) {
-    const newMessages = messagesRef.current.filter(
-      (message: any) => message.key !== key,
+    setMessages(
+      messagesRef.current.filter((message: any) => message.key !== key),
     );
-
-    setMessages(newMessages);
   }
 
   const messageDom = messages.map((props: MessageProps) => {
@@ -217,7 +200,7 @@ function Message(props: MessageProps, ref: any) {
 
   return (
     <div
-      ref={eleRef}
+      ref={refEl}
       className={clsx({
         [`${prefix}-message`]: true,
       })}
@@ -227,21 +210,18 @@ function Message(props: MessageProps, ref: any) {
   );
 }
 
-const Ms = React.forwardRef(Message);
+const InternalMessage = React.forwardRef(Message);
 
-Message.newInstance = function newNotificationInstance(
-  props: MessageProps,
-  callback: any,
-) {
-  const div = document.createElement('div');
-  document.body.appendChild(div);
+function createInstance(props: MessageProps, callback: any) {
+  if (messageWarp) document.body.removeChild(messageWarp);
+
+  messageWarp = document.createElement('div');
+  document.body.appendChild(messageWarp);
   let refFlag = false;
-  function ref(Message: any) {
-    if (refFlag) {
-      return;
-    }
-    refFlag = true;
 
+  function ref(Message: any) {
+    if (refFlag) return;
+    refFlag = true;
     callback({
       message(props: MessageProps) {
         Message.add(props);
@@ -250,16 +230,18 @@ Message.newInstance = function newNotificationInstance(
         Message.remove(key);
       },
       destroy() {
-        ReactDOM.unmountComponentAtNode(div);
-        if (div.parentNode) {
-          div.parentNode.removeChild(div);
+        ReactDOM.unmountComponentAtNode(messageWarp);
+        if (messageWarp.parentNode) {
+          messageWarp.parentNode.removeChild(messageWarp);
         }
+        messageInstance = null;
+        messageWarp = null;
       },
     });
   }
 
-  return ReactDOM.render(<Ms {...props} ref={ref} />, div);
-};
+  return ReactDOM.render(<InternalMessage {...props} ref={ref} />, messageWarp);
+}
 
 function isMessageProps(content: any): any {
   return Object.prototype.toString.call(content) === '[object Object]';
@@ -268,19 +250,11 @@ function isMessageProps(content: any): any {
 function messageShow(props: MessageProps) {
   if (messageInstance) {
     messageInstance.message(props);
-
     return;
   }
 
-  Message.newInstance(props, (instace: any) => {
-    if (messageInstance) {
-      messageInstance.message(props);
-
-      return;
-    }
-
+  createInstance(props, (instace: any) => {
     messageInstance = instace;
-
     instace.message(props);
   });
 }
@@ -293,7 +267,6 @@ const MessageApi: any = {
         messageInstance.removeMessage(key);
       } else {
         messageInstance.destroy();
-
         messageInstance = null;
       }
     }

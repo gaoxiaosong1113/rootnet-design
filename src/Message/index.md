@@ -141,7 +141,7 @@ export default () => {
       <Row gutter={[16, 16]}>
         <Col span={4}>
           <Button
-            primary
+            type="primary"
             onClick={() => {
               defaultMessage();
             }}
@@ -151,7 +151,7 @@ export default () => {
         </Col>
         <Col span={4}>
           <Button
-            primary
+            type="primary"
             onClick={() => {
               updateMessage();
             }}
@@ -161,7 +161,7 @@ export default () => {
         </Col>
         <Col span={4}>
           <Button
-            primary
+            type="primary"
             onClick={() => {
               noAutoHideMessage();
             }}
@@ -200,7 +200,7 @@ export default () => {
       <Row gutter={[16, 16]}>
         <Col span={4}>
           <Button
-            primary
+            type="primary"
             onClick={() => {
               message();
             }}
@@ -247,7 +247,7 @@ export default () => {
       <Row gutter={[16, 16]}>
         <Col span={4}>
           <Button
-            primary
+            type="primary"
             onClick={() => {
               defaultMessage();
             }}
@@ -257,7 +257,7 @@ export default () => {
         </Col>
         <Col span={4}>
           <Button
-            primary
+            type="primary"
             onClick={() => {
               updateMessage();
             }}
@@ -297,7 +297,7 @@ export default () => {
       <Row gutter={[16, 16]}>
         <Col span={4}>
           <Button
-            primary
+            type="primary"
             onClick={() => {
               defaultMessage();
             }}
@@ -307,7 +307,7 @@ export default () => {
         </Col>
         <Col span={4}>
           <Button
-            primary
+            type="primary"
             onClick={() => {
               allDestoryMessage();
             }}
