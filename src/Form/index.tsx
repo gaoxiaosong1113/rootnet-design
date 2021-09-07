@@ -5,6 +5,8 @@ import React, {
   useRef,
   forwardRef,
   useImperativeHandle,
+  ReactNode,
+  ReactElement,
 } from 'react';
 
 import ReactDOM from 'react-dom';
@@ -26,31 +28,76 @@ const themes = {
   },
 };
 
-const ThemeContext = React.createContext({} as any);
+const FormContext = React.createContext({} as any);
 
-const InternalForm = (props: any, ref: any) => {
+export interface FormProps {
+  /**
+   * @description      类名
+   * @default           -
+   */
+  className?: string;
+  style?: Object;
+  children?: ReactElement;
+
+  /**
+   * @description      初始值
+   * @default           -
+   */
+  initialValues?: Object;
+
+  /**
+   * @description      表单布局 'horizontal'|'vertical'|'inline'
+   * @default           -
+   */
+  layout?: string;
+
+  /**
+   * @description      数据验证成功后回调事件
+   * @default           -
+   */
+  onSubmit?: (value: Object) => void;
+
+  /**
+   * @description      数据校验失败后的回调事件
+   * @default           -
+   */
+  onError?: (error: Object) => void;
+
+  /**
+   * @description      支持调用 onSubmit 和 validation
+   * @default           -
+   */
+  ref?: { current: any };
+}
+
+export const Form = (props: FormProps, ref: any) => {
   const {
     className,
-    type,
-    disabled,
     children,
-    layout,
+    layout = 'inline',
     onSubmit,
     onError,
     initialValues,
     ...prop
   } = props;
 
-  const [value, setValue] = useState(initialValues || {});
-  // const [error, setError] = useState({});
+  const [value, setValue] = useState(initialValues || {}) as any;
 
   const formRef: any = useRef({});
 
   function handleSubmit(e: any) {
     e && e.preventDefault();
+    if (!validation()) return;
+    if (onSubmit) {
+      onSubmit(value);
+    }
+    return false;
+  }
+
+  function validation() {
     let error: any = {};
     for (let attr in formRef.current) {
-      let err = formRef.current[attr].validation();
+      let err = formRef.current[attr].validation(attr, value[attr]);
       if (err) {
         error[attr] = err.message;
       }
@@ -59,25 +106,29 @@ const InternalForm = (props: any, ref: any) => {
       onError(error);
       return false;
     }
-    if (onSubmit) {
-      onSubmit(value);
-    }
-    return false;
+    return true;
   }
 
   useImperativeHandle(ref, () => ({
     onSubmit: () => {
       handleSubmit(null);
     },
+    validation,
   }));
 
+  useEffect(() => {
+    setValue(initialValues || {});
+  }, [initialValues]);
+
   return (
-    <ThemeContext.Provider
+    <FormContext.Provider
       value={{
+        formValue: value,
+        formRef: formRef.current,
         onChange: (name: string, v: string) => {
           setValue((val: any) => {
             val[name] = v;
-            return val;
+            return { ...val };
           });
         },
         onError: (error: any) => {
@@ -90,7 +141,6 @@ const InternalForm = (props: any, ref: any) => {
           className,
           `${prefix}-form`,
           {
-            [`${prefix}-form-inline`]: !layout || layout == 'inline',
             [`${prefix}-form-${layout}`]: layout,
           },
           className,
@@ -98,7 +148,8 @@ const InternalForm = (props: any, ref: any) => {
         onSubmit={handleSubmit}
         {...prop}
       >
-        {React.Children.map(children, (item) => {
+        {children}
+        {/* {React.Children.map(children, (item) => {
           return (
             item &&
             React.cloneElement(
@@ -111,31 +162,76 @@ const InternalForm = (props: any, ref: any) => {
                 : {},
             )
           );
-        })}
+        })} */}
       </form>
-    </ThemeContext.Provider>
+    </FormContext.Provider>
   );
 };
 
-const Item = (props: any, ref: any) => {
-  const { className, label, name, children, rules, ...prop } = props;
+export interface FormItemProps {
+  /**
+   * @description      类名
+   * @default           -
+   */
+  className?: string;
+  style?: Object;
+  children: ReactElement;
 
-  const [value, setValue] = useState(props.value);
+  /**
+   * @description      label 标签的文本
+   * @default           -
+   */
+  label?: ReactNode;
+
+  /**
+   * @description      设置表单域内字段
+   * @default           -
+   */
+  name: string;
+
+  /**
+   * @description      校验规则 [{required: true,message: '请输入电话号码'}, {fields: /^[1][3,4,5,6,7,8,9][0-9]{9}$/,message: '请输入11位电话号码'}]
+   * @default           -
+   */
+  rules?: Array<any>;
+
+  /**
+   * @description      支持调用validation
+   * @default           -
+   */
+  ref?: { current: any };
+}
+
+export const Item = (props: FormItemProps, ref: any) => {
+  const { className, label, name, children, rules, ...prop } = props;
+  const { onChange, onFocus, onBlur, formValue, formRef } =
+    useContext(FormContext);
+  const [value, setValue] = useState(formValue[name]);
   const [required, setRequired] = useState(false);
   const [error, setError] = useState([] as Array<any>);
 
-  useImperativeHandle(ref, () => ({
-    validation: () => {
-      if (!name) {
-        return;
-      }
-      return validationData(value);
-    },
-  }));
+  const handleValidation = () => {
+    return {
+      validation: () => {
+        if (!name) {
+          return;
+        }
+        return validationData(name, value);
+      },
+    };
+  };
 
-  const { onChange, onFocus, onBlur, onError } = useContext(ThemeContext);
+  useImperativeHandle(ref, () => handleValidation());
 
   useEffect(() => {
+    formRef[name] = {
+      validation: (n: any, v: any) => {
+        if (!n) {
+          return;
+        }
+        return validationData(n, v);
+      },
+    };
     if (onChange && name) {
       onChange(name, value);
     }
@@ -147,11 +243,8 @@ const Item = (props: any, ref: any) => {
     }
   }, [rules]);
 
-  const validationData = (v: any) => {
-    if (v) {
-      v = v.toString();
-    }
-    if (name && rules) {
+  const validationData = (n, v: any) => {
+    if (n && rules) {
       let errorAry = rules
         .map((item: any) => {
           // 必填项
@@ -170,7 +263,7 @@ const Item = (props: any, ref: any) => {
           if (item.max && item.max < v.length) {
             return {
               max: item.max,
-              message: `最多输入${item.max}`,
+              message: `最多输入${item.max}个字符`,
             };
           }
 
@@ -178,7 +271,7 @@ const Item = (props: any, ref: any) => {
           if (item.min && item.min > v.length) {
             return {
               max: item.min,
-              message: `最少输入${item.min}`,
+              message: `最少输入${item.min}个字符`,
             };
           }
         })
@@ -191,7 +284,7 @@ const Item = (props: any, ref: any) => {
 
   const handleChange = (v: any) => {
     setValue(v);
-    validationData(v);
+    validationData(name, v);
     if (name && onChange) {
       onChange(name, v);
     }
@@ -210,8 +303,8 @@ const Item = (props: any, ref: any) => {
   };
 
   useEffect(() => {
-    setValue(props.value);
-  }, [props.value]);
+    setValue(formValue[name]);
+  }, [formValue[name]]);
 
   return (
     <div
@@ -253,8 +346,8 @@ export interface CompoundedComponent
   Item: any;
 }
 
-const Form = forwardRef(InternalForm) as CompoundedComponent;
+const InternalForm = forwardRef(Form) as CompoundedComponent;
 
-Form.Item = forwardRef(Item);
+InternalForm.Item = forwardRef(Item);
 
-export default Form;
+export default InternalForm;

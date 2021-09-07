@@ -1,5 +1,11 @@
 // 引入react依赖
-import React, { useReducer, useEffect, Fragment, useState } from 'react';
+import React, {
+  useReducer,
+  useEffect,
+  Fragment,
+  useState,
+  ReactNode,
+} from 'react';
 
 import clsx from 'clsx';
 
@@ -197,7 +203,7 @@ export interface TreeProps {
    */
   className?: string;
   style?: Object;
-  children?: any;
+  children?: ReactNode;
 
   /**
    * @description      配置是否展开属性

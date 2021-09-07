@@ -31,4 +31,4 @@ export default () => {
 };
 ```
 
-<API />
+<API exports='["Row", "Col"]'/>

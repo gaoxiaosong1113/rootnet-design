@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 
 import clsx from 'clsx';
 
@@ -13,13 +13,13 @@ export interface CardProps {
    */
   className?: string;
   style?: Object;
-  children?: any;
+  children?: ReactNode;
 
   /**
    * @description      卡片标题
    * @default           -
    */
-  title?: any;
+  title?: ReactNode;
 
   /**
    * @description      卡片宽度
@@ -37,25 +37,25 @@ export interface CardProps {
    * @description      卡片右上角的操作区域
    * @default           -
    */
-  extra?: any;
+  extra?: ReactNode;
 
   /**
    * @description      页签标题列表
    * @default           -
    */
-  tabList?: any;
+  tabList?: Array<{ key: string; name: string }>;
 
   /**
    * @description      当前激活页签的 key
    * @default           -
    */
-  activeTabKey?: number;
+  activeTabKey?: string;
 
   /**
    * @description      切换 tab key时触发
    * @default           -
    */
-  changeTabKey?: Function;
+  changeTabKey?: (key?: any, index?: number) => void;
 }
 
 export default function Card(props: CardProps) {
@@ -118,7 +118,7 @@ export default function Card(props: CardProps) {
                 <div
                   className={clsx(`${prefix}-card-tab-item`, {
                     [`${prefix}-card-tab-item-active`]:
-                      tabList[index].key == activeTabKey,
+                      tabList[index].key === activeTabKey,
                   })}
                 >
                   {item}

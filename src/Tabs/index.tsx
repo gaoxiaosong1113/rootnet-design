@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState, ReactNode } from 'react';
 
 import clsx from 'clsx';
 
@@ -13,7 +13,7 @@ export interface TabsProps {
    */
   className?: string;
   style?: Object;
-  children?: any;
+  children?: ReactNode;
 
   /**
    * @description      卡片标题

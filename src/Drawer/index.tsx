@@ -5,6 +5,7 @@ import React, {
   useMemo,
   useCallback,
   useRef,
+  ReactNode,
 } from 'react';
 import ReactDOM from 'react-dom';
 
@@ -58,13 +59,13 @@ export interface DrawerProps {
    * @description      确认按钮
    * @default           -
    */
-  onConfirm: Function;
+  onConfirm: () => void;
 
   /**
    * @description      取消按钮
    * @default           -
    */
-  onCancel: Function;
+  onCancel: () => void;
 
   /**
    * @description      取消按钮
@@ -88,11 +89,11 @@ export interface DrawerProps {
    * @description      自定义页脚
    * @default           -
    */
-  footer?: any;
+  footer?: ReactNode;
 
   /**
    * @description      抽屉的宽度
-   * @default           -
+   * @default           450
    */
   width?: number;
 
@@ -115,7 +116,7 @@ function DrawerContent(props: any): any {
     mask = true,
     offsetTop = 0,
     footer,
-    width,
+    width = 480,
     close = true,
     ...prop
   } = props;

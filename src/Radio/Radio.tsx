@@ -1,4 +1,10 @@
-import React, { useEffect, useMemo, useState, useContext } from 'react';
+import React, {
+  useEffect,
+  useMemo,
+  useState,
+  useContext,
+  ReactNode,
+} from 'react';
 
 import clsx from 'clsx';
 
@@ -17,7 +23,7 @@ export interface RadioProps {
    */
   className?: string;
   style?: Object;
-  children?: any;
+  children?: ReactNode;
 
   /**
    * @description      按钮的类型

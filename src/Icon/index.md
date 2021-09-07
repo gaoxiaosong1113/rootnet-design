@@ -9,6 +9,8 @@ group:
 
 ## Icon 图标
 
+本组件 icon 采用 svg 方式引入，避免与其他业务系统的 iconfont 冲突，且支持 css 中 使用 `fill:red` 方式设置颜色
+
 示例:
 
 ```tsx
@@ -20,6 +22,11 @@ export default () => {
   return (
     <div>
       <Row gutter={[16, 16]}>
+        <Col span={6}>
+          <Icon size={36} name="sheji" />
+          <p>设计</p>
+          <p>{'<Icon size={36} name="sheji" />'}</p>
+        </Col>
         <Col span={6}>
           <Icon size={36} name="icon-link" />
           <p>icon-link</p>

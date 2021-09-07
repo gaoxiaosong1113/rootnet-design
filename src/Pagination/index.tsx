@@ -15,6 +15,11 @@ import { prefix } from '../config';
 import { Select } from '../index';
 
 export interface PaginationProps {
+  /**
+   * @description      类名
+   * @default           -
+   */
+  className?: string;
   /*
     props参数枚举
     totalPage 总页数  number
@@ -118,6 +123,7 @@ export interface PaginationProps {
 
 export default function Pagination(props: PaginationProps) {
   const {
+    className,
     totalPage,
     totalNum,
     onChange,
@@ -242,8 +248,7 @@ export default function Pagination(props: PaginationProps) {
 
   return (
     <ul
-      className={clsx({
-        [`${prefix}-pagination`]: true,
+      className={clsx(className, `${prefix}-pagination`, {
         [`${prefix}-pagination-disabled`]: disabled,
         [`${prefix}-pagination-${size}`]: size,
       })}

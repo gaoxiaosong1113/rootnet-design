@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, ReactNode, useMemo, useState } from 'react';
 
 import clsx from 'clsx';
 
@@ -17,19 +17,19 @@ export interface GroupProps {
    */
   className?: string;
   style?: Object;
-  children?: any;
+  children?: ReactNode;
 
   /**
    * @description      选中更改事件
    * @default           -
    */
-  onChange?: Function;
+  onChange?: (checked?: Array<boolean>) => void;
 
   /**
    * @description      选中项
    * @default           []
    */
-  checked?: Array<any>;
+  checked?: Array<boolean>;
 
   /**
    * @description      是否禁用按钮

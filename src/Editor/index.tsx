@@ -1,6 +1,7 @@
 // 引入react依赖
 import React, {
   useCallback,
+  ReactNode,
   useEffect,
   useImperativeHandle,
   useMemo,
@@ -35,7 +36,7 @@ export interface EditorProps {
    */
   className?: string;
   style?: Object;
-  children?: any;
+  children?: ReactNode;
 
   /**
    * @description      自定义工具栏
@@ -71,7 +72,7 @@ export interface EditorProps {
    * @description      上传的地址
    * @default           -
    */
-  action?: Function;
+  action?: (form?: FormData, config?: Object) => Promise<any>;
 
   /**
    * @description      数据
@@ -95,25 +96,25 @@ export interface EditorProps {
    * @description      onChange
    * @default           -
    */
-  onChange?: Function;
+  onChange?: (value?: string) => void;
 
   /**
    * @description      onBlur
    * @default           -
    */
-  onBlur?: Function;
+  onBlur?: () => void;
 
   /**
    * @description      onFocus
    * @default           -
    */
-  onFocus?: Function;
+  onFocus?: () => void;
 
   /**
    * @description      自定义预览
    * @default           -
    */
-  onPreview?: any;
+  onPreview?: (value?: string) => void;
 }
 
 const defaultControls = [
@@ -153,7 +154,7 @@ const defaultControls = [
   'clear',
 ];
 
-function Editor(props: EditorProps, ref: any) {
+export function Editor(props: EditorProps, ref: any) {
   const {
     className,
     style,
@@ -163,7 +164,6 @@ function Editor(props: EditorProps, ref: any) {
     extendControls,
     config,
     disabled,
-    defaultValue,
     onChange,
     onBlur,
     onFocus,
@@ -172,11 +172,7 @@ function Editor(props: EditorProps, ref: any) {
     ...prop
   } = props;
 
-  // const [editorState, setEditorState] = useState(
-  //   BraftEditor.createEditorState(defaultValue || null),
-  // );
-
-  const editorRef = useRef(null);
+  const editorRef = useRef(null) as any;
 
   useImperativeHandle(ref, () => editorRef.current);
 
@@ -184,21 +180,18 @@ function Editor(props: EditorProps, ref: any) {
     extendControls || [],
   );
 
-  const [value, setValue] = useState(
-    BraftEditor.createEditorState(defaultValue || null),
-  );
-
   const previewConfig = useMemo(() => {
     return {
       key: 'preview',
       type: 'button',
       text: '预览',
-      onClick: () => onPreview(value.toHTML()),
+      onClick: () => (onPreview ? editorRef.current.getValue().toHTML() : null),
     };
   }, []);
 
   useEffect(() => {
     if (onPreview === undefined) return;
+    if (!extendControlsConfig) return;
     if (extendControlsConfig.indexOf(previewConfig) == -1) {
       extendControlsConfig.push(previewConfig);
     }
@@ -208,35 +201,15 @@ function Editor(props: EditorProps, ref: any) {
     setExtendControlsConfig(extendControls);
   }, [extendControls]);
 
-  useEffect(() => {
-    setValue(BraftEditor.createEditorState(props.value));
-  }, [props.value]);
-
   function handleChange(editorState: any) {
-    setValue(editorState);
     if (onChange) {
-      onChange(editorState.toHTML());
-    }
-  }
-
-  function handleBlur(editorState: any) {
-    setValue(editorState);
-    if (onChange) {
-      onChange(editorState.toHTML());
-    }
-  }
-
-  function handleFocus(editorState: any) {
-    setValue(editorState);
-    if (onChange) {
-      onChange(editorState.toHTML());
+      onChange(editorState);
     }
   }
 
   return (
     <div className={clsx(className, `${prefix}-editor`)} style={style}>
       <BraftEditor
-        value={value}
         ref={editorRef}
         controls={controls || defaultControls}
         contentStyle={contentStyle}
@@ -257,7 +230,6 @@ function Editor(props: EditorProps, ref: any) {
               action,
             )
               .then((res: any) => {
-                console.log(res);
                 param.success({
                   url: res,
                   meta: {
@@ -288,7 +260,22 @@ function Editor(props: EditorProps, ref: any) {
   );
 }
 
-export function EditorViewer(props: any) {
+export interface EditorViewerProps {
+  /**
+   * @description      类名
+   * @default           -
+   */
+  className?: string;
+  style?: Object;
+
+  /**
+   * @description      预览html内容
+   * @default           -
+   */
+  value: string;
+}
+
+export function EditorViewer(props: EditorViewerProps) {
   return (
     <div
       className={clsx('rootnet-editorViewer', props.className)}
@@ -298,7 +285,14 @@ export function EditorViewer(props: any) {
   );
 }
 
-Editor.EditorViewer = EditorViewer;
-// Editor.BraftEditor = BraftEditor;
+interface CompoundedComponent extends React.ForwardRefExoticComponent<any> {
+  EditorViewer: any;
+  BraftEditor: any;
+}
 
-export default React.forwardRef(Editor);
+const InternalEditor = React.forwardRef(Editor) as CompoundedComponent;
+
+InternalEditor.EditorViewer = EditorViewer;
+InternalEditor.BraftEditor = BraftEditor;
+
+export default InternalEditor;

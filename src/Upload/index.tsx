@@ -5,6 +5,7 @@ import React, {
   useMemo,
   useRef,
   useState,
+  ReactNode,
 } from 'react';
 import ReactDOM from 'react-dom';
 
@@ -44,7 +45,7 @@ export interface UploadFile {
   percent?: number;
 
   /**
-   * @description      上传状态，不同状态展示颜色也会有所不同
+   * @description      上传状态，不同状态展示颜色也会有所不同 error | success | done | uploading | removed
    * @default           -
    */
   status?: UploadFileStatus;
@@ -59,7 +60,7 @@ export interface UploadFile {
    * @description      唯一标识符，不设置时会自动生成
    * @default           -
    */
-  uid: string;
+  uid?: string;
 
   /**
    * @description      上传的文件
@@ -81,7 +82,7 @@ export interface UploadProps {
    */
   className?: string;
   style?: Object;
-  children?: any;
+  children?: ReactNode;
 
   /**
    * @description      接受上传的文件类型
@@ -367,7 +368,7 @@ function Upload(props: UploadProps) {
   async function handleUploadFile(file: any, files: any) {
     // 上传前判断是否继续上传
     if (beforeUpload) {
-      if (!(await beforeUpload(file.file, files))) return;
+      if (!(await beforeUpload(file, files))) return;
     }
 
     if (action) {
@@ -536,5 +537,7 @@ function Upload(props: UploadProps) {
     </div>
   );
 }
+
+export const UploadFileInterface = (props: UploadFile) => null;
 
 export default Upload;

@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { ReactNode, useMemo, useState } from 'react';
 
 import clsx from 'clsx';
 
@@ -21,19 +21,19 @@ export interface AlertProps {
    */
   className?: string;
   style?: Object;
-  children?: any;
+  children?: ReactNode;
 
   /**
    * @description      alert的标题
    * @default           default
    */
-  title?: string;
+  title?: ReactNode;
 
   /**
    * @description      alert的内容
    * @default           default
    */
-  content?: string;
+  content?: ReactNode;
 
   /**
    * @description      alert的类型
@@ -51,7 +51,7 @@ export interface AlertProps {
    * @description      alert右边操作区域
    * @default           -
    */
-  extra?: any;
+  extra?: ReactNode;
 
   /**
    * @description      alert的宽度
@@ -63,7 +63,7 @@ export interface AlertProps {
    * @description      关闭alert的回调
    * @default           -
    */
-  onClose?: Function;
+  onClose?: () => void;
 }
 
 export default function Alert(props: AlertProps) {

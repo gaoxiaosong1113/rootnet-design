@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo, ReactNode } from 'react';
 
 import clsx from 'clsx';
 
@@ -13,7 +13,7 @@ export interface RowProps {
    */
   className?: string;
   style?: Object;
-  children?: any;
+  children?: ReactNode;
 
   /**
    * @description      对齐方式
@@ -34,7 +34,7 @@ export interface RowProps {
   gutter?: any;
 }
 
-const Row = (props: RowProps) => {
+export const Row = (props: RowProps) => {
   const { className, children, justify, wrap, gutter } = props;
 
   let gutterData: Array<any> = [];
@@ -73,7 +73,7 @@ export interface ColProps {
    */
   className?: string;
   style?: Object;
-  children?: any;
+  children?: ReactNode;
 
   /**
    * @description      对齐方式
@@ -85,7 +85,7 @@ export interface ColProps {
    * @description      抵消
    * @default           -
    */
-  offset?: boolean;
+  offset?: number;
 
   /**
    * @description      缩进
@@ -112,7 +112,7 @@ export interface ColProps {
   gutter?: any;
 }
 
-const Col = (props: ColProps) => {
+export const Col = (props: ColProps) => {
   const { className, children, span, offset, pull, push, order, gutter } =
     props;
 

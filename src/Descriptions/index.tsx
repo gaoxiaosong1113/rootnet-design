@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { ReactNode, useMemo } from 'react';
 
 import clsx from 'clsx';
 
@@ -17,13 +17,13 @@ export interface DescriptionsProps {
    */
   className?: string;
   style?: Object;
-  children?: any;
+  children?: ReactNode;
 
   /**
    * @description      描述的标题
    * @default           -
    */
-  title?: string;
+  title?: ReactNode;
 
   /**
    * @description      间隔
@@ -41,19 +41,19 @@ export interface DescriptionsProps {
    * @description      label宽度
    * @default           120
    */
-  labelWidth?: any;
+  labelWidth?: number;
 
   /**
    * @description      table label 占据列宽 总列为24
    * @default           -
    */
-  labelSpan?: any;
+  labelSpan?: number;
 
   /**
    * @description      table value 占据列宽 总列为24
    * @default           -
    */
-  valueSpan?: any;
+  valueSpan?: number;
 
   /**
    * @description      一行的列数
@@ -201,7 +201,65 @@ function Descriptions(props: DescriptionsProps) {
   );
 }
 
-Descriptions.Item = ({
+export interface DescriptionsItemProps {
+  children?: ReactNode;
+
+  /**
+   * @description      描述的标题
+   * @default           -
+   */
+  label?: ReactNode;
+
+  /**
+   * @description      占据栅格
+   * @default           -
+   */
+  span?: number;
+
+  /**
+   * @description     背景颜色
+   * @default           -
+   */
+  background?: string;
+
+  /**
+   * @description      字体颜色
+   * @default           -
+   */
+  fontColor?: string;
+
+  /**
+   * @description      间隔 - 父级传递
+   * @default           -
+   */
+  gutter?: Array<any> | number;
+
+  /**
+   * @description      是否显示边框 - 父级传递
+   * @default           false
+   */
+  border?: boolean;
+
+  /**
+   * @description      label宽度 - 父级传递
+   * @default           120
+   */
+  labelWidth?: number;
+
+  /**
+   * @description      table label 占据列宽 总列为24 - 父级传递
+   * @default           -
+   */
+  labelSpan?: number;
+
+  /**
+   * @description      table value 占据列宽 总列为24 - 父级传递
+   * @default           -
+   */
+  valueSpan?: number;
+}
+
+export const Item = ({
   children,
   span,
   label,
@@ -212,8 +270,7 @@ Descriptions.Item = ({
   labelSpan,
   valueSpan,
   border,
-  column,
-}: any) => {
+}: DescriptionsItemProps) => {
   if (border) {
     return (
       <>
@@ -262,5 +319,7 @@ Descriptions.Item = ({
     </Col>
   );
 };
+
+Descriptions.Item = Item;
 
 export default Descriptions;

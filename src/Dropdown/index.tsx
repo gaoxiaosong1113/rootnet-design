@@ -17,7 +17,7 @@ export interface DropdownProps {
    */
   className?: string;
   style?: Object;
-  children?: any;
+  children?: ReactNode;
 
   /**
    * @description      select 提示

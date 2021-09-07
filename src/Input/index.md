@@ -186,3 +186,49 @@ export default () => {
   );
 };
 ```
+
+禁用：
+
+```tsx
+import React, { useState } from 'react';
+import { Input, Icon, Button, Grid } from 'rootnet-design';
+
+const { Row, Col } = Grid;
+
+export default () => {
+  const [value, setValue] = useState(55);
+
+  return (
+    <div>
+      <Row gutter={[16, 16]}>
+        <Col span={8}>
+          <Input
+            placeholder="请输入内容"
+            onChange={(v) => setValue(v)}
+            value={value}
+            disabled
+            icon={<Icon name="mima1" />}
+          />
+        </Col>
+        <Col span={8}>
+          <Input
+            disabled
+            placeholder="请输入内容"
+            icon={<Icon name="mima1" />}
+          />
+        </Col>
+        <Col span={8}>
+          <Input
+            placeholder="请输入内容"
+            before={<Icon name="mima1" />}
+            after={'%'}
+            disabled
+          />
+        </Col>
+      </Row>
+    </div>
+  );
+};
+```
+
+<API />

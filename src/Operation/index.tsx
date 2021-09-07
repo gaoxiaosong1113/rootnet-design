@@ -4,6 +4,7 @@ import React, {
   useRef,
   useMemo,
   useImperativeHandle,
+  ReactNode,
 } from 'react';
 import ReactDOM from 'react-dom';
 
@@ -24,7 +25,7 @@ export interface OperationProps {
    */
   className?: string;
   style?: Object;
-  children?: any;
+  children?: ReactNode;
 
   /**
    * @description      主体内容

@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { ReactNode, useMemo } from 'react';
 
 import clsx from 'clsx';
 
@@ -25,7 +25,7 @@ export interface EmptyProps {
    */
   className?: string;
   style?: Object;
-  children?: any;
+  children?: ReactNode;
 
   /**
    * @description      Empty的类型
@@ -44,12 +44,10 @@ export interface EmptyProps {
    * @default           false
    */
   disabled?: boolean;
-
-  data?: Array<any>;
 }
 
 function Empty(props: EmptyProps) {
-  const { className, type, icon, disabled, data, children, ...prop } = props;
+  const { className, type, icon, disabled, children, ...prop } = props;
 
   let show = useMemo(() => {
     let config: any = {

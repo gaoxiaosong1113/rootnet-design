@@ -84,4 +84,10 @@ export default () => {
 };
 ```
 
-<API />
+## Checkbox API
+
+<API hideTitle src="./Checkbox.tsx"/>
+
+## Checkbox.Group API
+
+<API hideTitle src="./Group.tsx"/>
