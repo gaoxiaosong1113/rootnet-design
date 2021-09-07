@@ -1,0 +1,47 @@
+@import '../index.less';
+
+.@{prefix}-StatePoint {
+  color: #d0d1d9;
+  font-size: 14px;
+
+  em {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    margin-right: 8px;
+    border-radius: 50%;
+    background-color: #d0d1d9;
+  }
+}
+
+.StatePoint-primary {
+  color: @primaryColor;
+
+  em {
+    background-color: @primaryColor;
+  }
+}
+
+.StatePoint-success {
+  color: @successColor;
+
+  em {
+    background-color: @successColor;
+  }
+}
+
+.StatePoint-warning {
+  color: @warningColor;
+
+  em {
+    background-color: @warningColor;
+  }
+}
+
+.StatePoint-error {
+  color: @errorColor;
+
+  em {
+    background-color: @errorColor;
+  }
+}

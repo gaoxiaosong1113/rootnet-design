@@ -1,4 +1,183 @@
 @import '../index.less';
 
-.@{prefix}-t {
+.@{prefix}-Dropdown-warp {
+}
+
+.@{prefix}-Dropdown-target {
+  min-width: 50px;
+  cursor: pointer;
+  height: 32px;
+  background: #ffffff;
+  border-radius: 4px;
+  //   border: 1px solid @borderColor;
+  line-height: 30px;
+  font-size: 14px;
+  color: @textColor;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  transition: border 0.3s;
+  position: relative;
+
+  &:hover:not(.@{prefix}-Dropdown-target-disabled) {
+    border-color: @primaryColorHover;
+
+    .@{prefix}-Dropdown-target-arrow {
+    }
+  }
+
+  &-content {
+    padding: 0 8px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    flex: 1;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+  }
+
+  &-arrow {
+    position: absolute;
+    z-index: 0;
+    right: 9px;
+    top: 0px;
+    transition: all 0.3s;
+  }
+
+  &-close {
+    position: absolute;
+    z-index: 0;
+    right: 9px;
+    top: 0px;
+    z-index: 11;
+  }
+
+  &-visible {
+    border-color: @primaryColorActive;
+
+    .@{prefix}-Dropdown-target-arrow {
+      transform: rotate(-180deg);
+    }
+  }
+
+  .iconfont {
+    line-height: 1em;
+  }
+
+  &&-disabled {
+    cursor: not-allowed;
+    background: @fullDisableColor;
+    border-color: 1px solid @borderColor;
+  }
+}
+
+.@{prefix}-Dropdown {
+  position: absolute;
+  z-index: 9999;
+  background: #ffffff;
+  box-shadow: 0px 6px 20px 0px rgba(153, 161, 194, 0.3);
+  border-radius: 2px;
+  margin-top: 4px;
+  padding: 2px 0;
+  max-height: 500px;
+  overflow-y: auto;
+
+  &-popup {
+    z-index: 9999;
+  }
+
+  &-item {
+    height: 34px;
+    cursor: pointer;
+    background: #ffffff;
+    padding: 0;
+    line-height: 34px;
+    white-space: nowrap;
+    padding: 0 12px;
+    font-size: 12px;
+
+    &:hover {
+      background: @tableItemHoverBackgroundColor;
+    }
+
+    &&-active {
+      background: @tableItemSelectBackgroundColor;
+    }
+
+    &&-disabled {
+      cursor: not-allowed;
+      color: @disableColor;
+      background: #fff;
+    }
+  }
+
+  &-placeholder {
+    color: @promptTextColor;
+  }
+
+  &-mask {
+    // position: fixed;
+    // z-index: 1;
+    // left: 0;
+    // right: 0;
+    // top: 0;
+    // bottom: 0;
+  }
+
+  .@{prefix}-trees {
+    width: 100%;
+
+    .@{prefix}-tree-row {
+      padding: 0 8px;
+
+      .@{prefix}-tree-collapsed {
+        margin-right: 0;
+      }
+      .@{prefix}-tree-checkbox {
+        margin-left: 0px;
+
+        & + .@{prefix}-tree-title {
+          padding-left: 0;
+          background: none;
+        }
+      }
+
+      .@{prefix}-tree-title {
+        padding: 0 8px 0 4px;
+      }
+
+      &:hover {
+        background: @tableItemHoverBackgroundColor;
+      }
+
+      &&-active {
+        background: @tableItemSelectBackgroundColor;
+      }
+
+      &&-disabled {
+        cursor: not-allowed;
+        color: @disableColor;
+        background: #fff;
+      }
+    }
+  }
+
+  &-body {
+  }
+
+  &-footer {
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 0 16px;
+
+    & > * {
+      margin-left: 16px;
+    }
+  }
 }
