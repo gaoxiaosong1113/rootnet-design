@@ -34,13 +34,13 @@ export interface PaginationProps {
    * @description      总页数
    * @default           100
    */
-  totalPage?: any;
+  totalPage: number;
 
   /**
    * @description      总条数
    * @default           -
    */
-  totalNum?: Array<number>;
+  totalNum: number;
 
   /**
    * @description      页码或 pageSize 改变的回调，参数是改变后的页码及每页条数
@@ -101,12 +101,24 @@ export interface PaginationProps {
    */
   size?: string;
 
+  /**
+   * @description      条数配置选择器，支持boolean类型【启用默认选择器】、array类型【自定义选择器】
+   * @default           true
+   */
+  selector?: Array<number>;
+
+  /**
+   * @description      数据总数显示
+   * @default           null
+   */
+  totalDOM?: Function;
+
   children?: React.ReactChild;
 }
 
 export default function Pagination(props: PaginationProps) {
   const {
-    totalPage = 100,
+    totalPage,
     totalNum,
     onChange,
     onSizeChange,
@@ -116,8 +128,9 @@ export default function Pagination(props: PaginationProps) {
     totalNumShow = true,
     disabled,
     size,
+    selector,
+    totalDOM,
   } = props;
-
   const [now, setNow] = useState(1); //*当前页码
   const [leftStepper, setLeftStepper] = useState(false); //*左侧的省略号
   const [rightStepper, setRightStepper] = useState(false); //*右侧的省略号
@@ -325,7 +338,7 @@ export default function Pagination(props: PaginationProps) {
       {/* 每页显示多少条 */}
       {!simple && pageSizeShow && (
         <li className="c-pagination-pageSize">
-          <select
+          {/* <select
             className="c-pagination-item"
             name=""
             id=""
@@ -339,28 +352,57 @@ export default function Pagination(props: PaginationProps) {
             <option value="20">20条/页</option>
             <option value="50">50条/页</option>
             <option value="100">100条/页</option>
-          </select>
-          {/* <Select
-            options={[
-              {
-                label: '选项一选项一选项一选项一选项一选项一选项一选项一',
-                value: 1,
-              },
-              {
-                label: '选项二',
-                value: 2,
-              },
-              {
-                label: '选项三',
-                value: 3,
-              },
-            ]}
-            className="c-pagination-item"
-            placeholder={'默认下拉框'}
-            onChange={(value: any) => {
-              console.log(value);
-            }}
-          /> */}
+          </select> */}
+          {/* {
+            Array.isArray(selector) && selector.map((item,index)=>{
+              return (
+                  {
+                    label: `${item}条/页`,
+                    value: index + 1,
+                  }
+              )
+            })
+          } */}
+          {!Array.isArray(selector) && (
+            <Select
+              options={[
+                {
+                  label: '10条/页',
+                  value: 1,
+                },
+                {
+                  label: '20条/页',
+                  value: 2,
+                },
+                {
+                  label: '50条/页',
+                  value: 3,
+                },
+                {
+                  label: '100条/页',
+                  value: 4,
+                },
+              ]}
+              className="c-pagination-item c-pagination-select"
+              placeholder={'100条每页'}
+              disabled={disabled}
+              onChange={(value: any) => {}}
+            />
+          )}
+          {Array.isArray(selector) && (
+            <Select
+              options={selector.map((item, index) => {
+                return {
+                  label: `${item}条/页`,
+                  value: index + 1,
+                };
+              })}
+              className="c-pagination-item c-pagination-select"
+              placeholder={`${selector[0]}条/页`}
+              disabled={disabled}
+              onChange={(value: any) => {}}
+            />
+          )}
         </li>
       )}
       {/* 跳转页码 */}
@@ -381,8 +423,12 @@ export default function Pagination(props: PaginationProps) {
         </li>
       )}
       {/* 数据总条数 */}
-      {!simple && totalNumShow && (
+      {!simple && totalNumShow && !totalDOM && (
         <li className="c-pagination-totalNum">共 {totalNum || '1000'} 条</li>
+      )}
+      {/* 数据总条数 */}
+      {!simple && totalNumShow && totalDOM && (
+        <li className="c-pagination-totalNum">{totalDOM()}</li>
       )}
     </ul>
   );

@@ -41,7 +41,7 @@ export default () => {
     <div>
       <Row gutter={[16, 16]}>
         <Col span={24}>
-          <Pagination size="small" />
+          <Pagination totalPage={100} totalNum={1000} size="small" />
         </Col>
       </Row>
     </div>
@@ -61,7 +61,12 @@ export default () => {
     <div>
       <Row gutter={[16, 16]}>
         <Col span={24}>
-          <Pagination next="下一页" prev="上一页" />
+          <Pagination
+            totalPage={100}
+            totalNum={1000}
+            next="下一页"
+            prev="上一页"
+          />
         </Col>
       </Row>
     </div>
@@ -81,7 +86,7 @@ export default () => {
     <div>
       <Row gutter={[16, 16]}>
         <Col span={24}>
-          <Pagination disabled />
+          <Pagination totalPage={100} totalNum={1000} disabled />
         </Col>
       </Row>
     </div>
@@ -103,15 +108,18 @@ export default () => {
   const onSizeChange = (page, pageSize) => {
     console.log(page, pageSize);
   };
+  const totalNum = 1000;
   return (
     <div>
       <Row gutter={[16, 16]}>
         <Col span={24}>
           <Pagination
-            totalPage="110"
-            totalNum="999"
+            totalPage={100}
+            totalNum={totalNum}
             onChange={onChange}
             onSizeChange={onSizeChange}
+            selector={[15, 25, 35]}
+            totalDOM={() => `共${totalNum}个用户`}
           />
         </Col>
       </Row>
