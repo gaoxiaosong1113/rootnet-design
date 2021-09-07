@@ -692,11 +692,11 @@ export default () => {
       <Row gutter={[16, 16]}>
         <Col span={6}>
           <Icon size={36} name="shanchu" color="red" />
-          <p>
+          <div>
             <p></p>
             <p>{'<Icon size={36} name="shanchu" color="red" />'}</p>
             <p>删除</p>
-          </p>
+          </div>
         </Col>
       </Row>
     </div>

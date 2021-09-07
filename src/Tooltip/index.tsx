@@ -19,7 +19,7 @@ import { Icon, Button, Popup } from '../index';
 
 import { getOffsetLeft, getOffsetTop } from '../_util';
 
-export interface ModalProps {
+export interface TooltipProps {
   /**
    * @description      类名
    * @default           -
@@ -34,9 +34,11 @@ export interface ModalProps {
    */
   content: any;
 
+  /**
+   * @description      关闭回调
+   * @default           -
+   */
   onCancel: Function;
-
-  event: any;
 
   /**
    * @description      弹出位置
@@ -45,15 +47,13 @@ export interface ModalProps {
   position?: string;
 
   /**
-   * @description      弹出方式
+   * @description      弹出方式 click | hover | focus
    * @default           -
    */
   trigger?: string;
-
-  visible: any;
 }
 
-function Content(props: ModalProps) {
+function Content(props: any) {
   const {
     className,
     style,
@@ -84,7 +84,7 @@ function Content(props: ModalProps) {
   );
 }
 
-function Tooltip(props: ModalProps) {
+function Tooltip(props: TooltipProps) {
   const {
     className,
     children,

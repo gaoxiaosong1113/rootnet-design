@@ -21,10 +21,18 @@ export default () => {
   return (
     <div>
       <Row gutter={[0, 16]}>
-        <Col span={20}>1</Col>
-        <Col span={1}>2</Col>
-        <Col span={1}>3</Col>
-        <Col span={1}>4</Col>
+        <Col span={20}>
+          <span>1</span>
+        </Col>
+        <Col span={1}>
+          <span>2</span>
+        </Col>
+        <Col span={1}>
+          <span>3</span>
+        </Col>
+        <Col span={1}>
+          <span>4</span>
+        </Col>
       </Row>
     </div>
   );

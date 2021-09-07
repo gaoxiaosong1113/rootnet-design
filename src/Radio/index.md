@@ -40,7 +40,7 @@ export default () => {
 };
 ```
 
-支持组嵌套的 checkbox：
+支持组嵌套的 Radio：
 
 ```tsx
 import React from 'react';
@@ -80,3 +80,11 @@ export default () => {
   );
 };
 ```
+
+## Radio API
+
+<API hideTitle src="./Radio.tsx"/>
+
+## Radio.Group API
+
+<API hideTitle src="./Group.tsx"/>

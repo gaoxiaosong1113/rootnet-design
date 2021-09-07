@@ -34,7 +34,7 @@ export interface SpinProps {
    * @description      加载标识
    * @default           false
    */
-  loading: any;
+  loading: boolean;
 }
 
 function Spin(props: SpinProps) {

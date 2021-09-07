@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState, ReactNode } from 'react';
 
 import clsx from 'clsx';
 
@@ -8,11 +8,43 @@ import { prefix } from '../config';
 
 import { Icon } from '../index';
 
-export interface CheckboxProps {}
+export interface EadioProps {
+  /**
+   * @description      类名
+   * @default           -
+   */
+  className?: string;
+  style?: Object;
+  children?: ReactNode;
+
+  /**
+   * @description      选中更改事件
+   * @default           -
+   */
+  onChange?: (checked?: any) => void;
+
+  /**
+   * @description      选中项
+   * @default           -
+   */
+  checked?: any;
+
+  /**
+   * @description      是否禁用按钮
+   * @default           false
+   */
+  disabled?: boolean;
+
+  /**
+   * @description      标签组name值
+   * @default           -
+   */
+  name: string;
+}
 
 export const GroupContext = React.createContext({} as any);
 
-function Group(props: any) {
+function Group(props: EadioProps) {
   const { className, children, onChange } = props;
 
   const [checked, setChecked] = useState(
