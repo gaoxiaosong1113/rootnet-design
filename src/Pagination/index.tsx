@@ -417,7 +417,7 @@ export default function Pagination(props: PaginationProps) {
           <input
             className="c-pagination-item"
             type="text"
-            value={toPage}
+            value={toPage || ''}
             onBlur={toPageBlur}
             onInput={(e) => {
               toPageInput(e);
