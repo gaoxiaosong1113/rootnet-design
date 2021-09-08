@@ -24,12 +24,12 @@ export interface PaginationProps {
     props参数枚举
     totalPage 总页数  number
     totalNum 总条数 number
-    onChange 页码或 pageSize 改变的回调，参数是改变后的页码及每页条数 fun
+    onChange 页码或 pageSize2 改变的回调，参数是改变后的页码及每页条数 fun
     onSizeChange 每页显示多少条回调 参数是改变后的页码及每页条数 fun
     prev 上一页(组件、字符串)
     next 下一页(组件、字符串)
     simple 简单分页 boolean 默认false
-    pageSizeShow 是否展示 pageSize 切换器 boolean 默认true
+    pageSizeShow 是否展示 pageSize2 切换器 boolean 默认true
     toPageShow 是否可以快速跳转至某页 boolean 默认true
     totalNumShow 数据总量是否展示 boolean 默认true
     disabled 禁用分页 boolean 默认false
@@ -48,7 +48,13 @@ export interface PaginationProps {
   totalNum: number;
 
   /**
-   * @description      页码或 pageSize 改变的回调，参数是改变后的页码及每页条数
+   * @description      每页显示多少条
+   * @default           20
+   */
+  pageSize: number;
+
+  /**
+   * @description      页码或 pageSize2 改变的回调，参数是改变后的页码及每页条数
    * @default           -
    */
   onChange?: Function;
@@ -77,7 +83,7 @@ export interface PaginationProps {
   simple?: boolean;
 
   /**
-   * @description      是否展示 pageSize 切换器(简单分页不展示)
+   * @description      是否展示 pageSize2 切换器(简单分页不展示)
    * @default           true
    */
   pageSizeShow?: boolean;
@@ -121,11 +127,12 @@ export interface PaginationProps {
   children?: React.ReactChild;
 }
 
-export default function Pagination(props: PaginationProps) {
+function Pagination(props: PaginationProps) {
   const {
     className,
     totalPage,
     totalNum,
+    pageSize,
     onChange,
     onSizeChange,
     simple = false,
@@ -141,7 +148,7 @@ export default function Pagination(props: PaginationProps) {
   const [leftStepper, setLeftStepper] = useState(false); //*左侧的省略号
   const [rightStepper, setRightStepper] = useState(false); //*右侧的省略号
   const [node, setNode] = useState([] as any); //*节点渲染数组
-  const [pageSize, setPageSize] = useState(100); //每页显示多少条
+  const [pageSize2, setPageSize2] = useState(pageSize || 20); //每页显示多少条
   const [toPage, setToPage] = useState(null as any); //跳至多少页
   // const pageSizeRecent = useRef(''); // 最新pageSize值
   // 指定数组
@@ -187,7 +194,7 @@ export default function Pagination(props: PaginationProps) {
     (num) => {
       setNow(num);
       watcher(num);
-      onChange && onChange(num, pageSize);
+      onChange && onChange(num, pageSize2);
     },
     [now],
   );
@@ -220,12 +227,12 @@ export default function Pagination(props: PaginationProps) {
 
   // 每页多少条
   const pageSizeChange = useCallback(
-    (e) => {
-      setPageSize(+e.target.value);
-      onChange && onChange(now, +e.target.value);
-      onSizeChange && onSizeChange(now, +e.target.value);
+    (value) => {
+      setPageSize2(+value);
+      onChange && onChange(now, +value);
+      onSizeChange && onSizeChange(now, +value);
     },
-    [pageSize],
+    [pageSize2],
   );
 
   // 跳页处理
@@ -243,7 +250,7 @@ export default function Pagination(props: PaginationProps) {
     if (!toPage) return;
     setNow(toPage);
     pageChanging(toPage);
-    onChange && onChange(toPage, pageSize);
+    onChange && onChange(toPage, pageSize2);
   }, [toPage]);
 
   return (
@@ -342,56 +349,31 @@ export default function Pagination(props: PaginationProps) {
       </li>
       {/* 每页显示多少条 */}
       {!simple && pageSizeShow && (
-        <li className="c-pagination-pageSize">
-          {/* <select
-            className="c-pagination-item"
-            name=""
-            id=""
-            value={pageSize}
-            onChange={(e) => {
-              pageSizeChange(e);
-            }}
-            disabled={disabled}
-          >
-            <option value="10">10条/页</option>
-            <option value="20">20条/页</option>
-            <option value="50">50条/页</option>
-            <option value="100">100条/页</option>
-          </select> */}
-          {/* {
-            Array.isArray(selector) && selector.map((item,index)=>{
-              return (
-                  {
-                    label: `${item}条/页`,
-                    value: index + 1,
-                  }
-              )
-            })
-          } */}
+        <li className="c-pagination-pageSize2">
           {!Array.isArray(selector) && (
             <Select
               options={[
                 {
                   label: '10条/页',
-                  value: 1,
+                  value: 10,
                 },
                 {
                   label: '20条/页',
-                  value: 2,
+                  value: 20,
                 },
                 {
                   label: '50条/页',
-                  value: 3,
+                  value: 50,
                 },
                 {
                   label: '100条/页',
-                  value: 4,
+                  value: 100,
                 },
               ]}
               className="c-pagination-item c-pagination-select"
-              placeholder={'100条每页'}
+              placeholder={`${pageSize2}条每页`}
               disabled={disabled}
-              onChange={(value: any) => {}}
+              onChange={pageSizeChange}
             />
           )}
           {Array.isArray(selector) && (
@@ -399,13 +381,13 @@ export default function Pagination(props: PaginationProps) {
               options={selector.map((item, index) => {
                 return {
                   label: `${item}条/页`,
-                  value: index + 1,
+                  value: item,
                 };
               })}
               className="c-pagination-item c-pagination-select"
-              placeholder={`${selector[0]}条/页`}
+              placeholder={`${pageSize2}条/页`}
               disabled={disabled}
-              onChange={(value: any) => {}}
+              onChange={pageSizeChange}
             />
           )}
         </li>
@@ -438,3 +420,5 @@ export default function Pagination(props: PaginationProps) {
     </ul>
   );
 }
+
+export default Pagination;

@@ -41,7 +41,12 @@ export default () => {
     <div>
       <Row gutter={[16, 16]}>
         <Col span={24}>
-          <Pagination totalPage={100} totalNum={1000} size="small" />
+          <Pagination
+            totalPage={100}
+            totalNum={1000}
+            pageSize={20}
+            size="small"
+          />
         </Col>
       </Row>
     </div>
@@ -64,6 +69,7 @@ export default () => {
           <Pagination
             totalPage={100}
             totalNum={1000}
+            pageSize={30}
             next="下一页"
             prev="上一页"
           />
@@ -86,7 +92,7 @@ export default () => {
     <div>
       <Row gutter={[16, 16]}>
         <Col span={24}>
-          <Pagination totalPage={100} totalNum={1000} disabled />
+          <Pagination totalPage={100} totalNum={1000} pageSize={40} disabled />
         </Col>
       </Row>
     </div>
@@ -116,6 +122,7 @@ export default () => {
           <Pagination
             totalPage={100}
             totalNum={totalNum}
+            pageSize={50}
             onChange={onChange}
             onSizeChange={onSizeChange}
             selector={[15, 25, 35]}
