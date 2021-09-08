@@ -1,6 +1,12 @@
 import React, { useEffect, useState, useRef, ReactNode } from 'react';
 import ReactDOM from 'react-dom';
 
+// 引入第三方依赖
+import {
+  SwitchTransition,
+  CSSTransition,
+  TransitionGroup,
+} from 'react-transition-group';
 import clsx from 'clsx';
 
 import './index.less';
@@ -88,6 +94,12 @@ export interface ModalContentProps extends ModalProps {
    */
   type?: string;
 
+  /**
+   * @description
+   * @default           -
+   */
+  confirm?: boolean;
+
   event: any;
 }
 
@@ -105,6 +117,7 @@ function ModalContent(props: ModalContentProps) {
     width,
     maskClose = true,
     close = true,
+    confirm = false,
     ...prop
   } = props;
 
@@ -119,16 +132,21 @@ function ModalContent(props: ModalContentProps) {
   return (
     <div
       className={clsx(className, `${prefix}-modal-warp`, {
-        [`${prefix}-modal-visible`]: visible,
+        [`${prefix}-modal-confirm`]: confirm && type,
+        [`${prefix}-modal-confirm-${type}`]: confirm && type,
       })}
     >
-      <div
-        className={clsx(`${prefix}-modal`, {
-          [`${prefix}-modal-${type}`]: type,
-        })}
-        style={{ width }}
-      >
+      <div className={clsx(`${prefix}-modal`, {})} style={{ width }}>
         <div className={clsx(`${prefix}-modal-head`)}>
+          {confirm && (
+            <div
+              className={clsx({
+                [`${prefix}-modal-icon`]: true,
+              })}
+            >
+              <Icon name={'jinggao'} />
+            </div>
+          )}
           <div className={clsx(`${prefix}-modal-head-title`)}>{title}</div>
           {close && (
             <div
@@ -195,26 +213,36 @@ function Modal(props: ModalProps) {
   }, [visible]);
 
   return (
-    isFastOpen &&
-    ReactDOM.createPortal(
-      <ModalContent
-        {...props}
-        visible={visible}
-        event={ev}
-        onCancel={() => {
-          onCancel && onCancel();
-        }}
-        onConfirm={() => {
-          onConfirm && onConfirm();
-        }}
-      />,
-      document.body,
-    )
+    <CSSTransition
+      in={visible}
+      classNames={clsx({
+        [`${prefix}-modal-transition`]: true,
+      })}
+      unmountOnExit
+      timeout={300}
+    >
+      <>
+        {ReactDOM.createPortal(
+          <ModalContent
+            {...props}
+            visible={visible}
+            event={ev}
+            onCancel={() => {
+              onCancel && onCancel();
+            }}
+            onConfirm={() => {
+              onConfirm && onConfirm();
+            }}
+          />,
+          document.body,
+        )}
+      </>
+    </CSSTransition>
   );
 }
 
 Modal.confirm = (props: ModalContentProps) => {
-  const { onCancel, onConfirm } = props;
+  const { type = 'primary', width, onCancel, onConfirm } = props;
 
   const div = document.createElement('div');
   document.body.appendChild(div);
@@ -225,16 +253,53 @@ Modal.confirm = (props: ModalContentProps) => {
     callback();
   }
 
-  return ReactDOM.render(
-    <ModalContent
-      {...props}
-      type="confirm"
-      visible={true}
-      isFastOpen={true}
-      onCancel={() => handleClick(() => onCancel && onCancel())}
-      onConfirm={() => handleClick(() => onConfirm && onConfirm())}
-    />,
-    div,
+  return (
+    <CSSTransition
+      in={true}
+      classNames={clsx({
+        [`${prefix}-modal-transition`]: true,
+      })}
+      unmountOnExit
+      timeout={300}
+    >
+      <>
+        {ReactDOM.render(
+          <ModalContent
+            {...props}
+            type={type}
+            visible={true}
+            confirm={true}
+            width={width}
+            isFastOpen={true}
+            onCancel={() => handleClick(() => onCancel && onCancel())}
+            onConfirm={() => handleClick(() => onConfirm && onConfirm())}
+          />,
+          div,
+        )}
+      </>
+    </CSSTransition>
   );
 };
+
+Modal.success = (props: ModalContentProps) => {
+  return Modal.confirm({
+    ...props,
+    type: 'success',
+  });
+};
+
+Modal.error = (props: ModalContentProps) => {
+  return Modal.confirm({
+    ...props,
+    type: 'error',
+  });
+};
+
+Modal.warning = (props: ModalContentProps) => {
+  return Modal.confirm({
+    ...props,
+    type: 'warning',
+  });
+};
+
 export default Modal;

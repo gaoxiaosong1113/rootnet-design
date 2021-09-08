@@ -132,30 +132,201 @@ export default () => {
 
 ```tsx
 import React, { useState } from 'react';
-import { Modal, Button } from 'rootnet-design';
+import { Modal, Button, Grid } from 'rootnet-design';
+
+const { Row, Col } = Grid;
 
 export default () => {
   const [visible, setVisible] = useState(false);
   return (
     <div>
-      <Button
-        title="First Demo"
-        onClick={() =>
-          Modal.confirm({
-            title: '通知信息标题',
-            content:
-              '一系列的信息描述，可能会很长。也可以是很短同样也可以带标点。',
-            onCancel: () => {
-              console.log('取消');
-            },
-            onConfirm: () => {
-              console.log('确认');
-            },
-          })
-        }
-      >
-        打开弹窗
-      </Button>
+      <Row gutter={[16, 16]}>
+        <Col span={4}>
+          <Button
+            title="First Demo"
+            onClick={() =>
+              Modal.confirm({
+                title: '通知信息标题',
+                content:
+                  '一系列的信息描述，可能会很长。也可以是很短同样也可以带标点。',
+                onCancel: () => {
+                  console.log('取消');
+                },
+                onConfirm: () => {
+                  console.log('确认');
+                },
+              })
+            }
+          >
+            确认
+          </Button>
+        </Col>
+        <Col span={4}>
+          <Button
+            title="First Demo"
+            onClick={() =>
+              Modal.confirm({
+                title: '通知信息标题',
+                type: 'success',
+                content:
+                  '一系列的信息描述，可能会很长。也可以是很短同样也可以带标点。',
+                onCancel: () => {
+                  console.log('取消');
+                },
+                onConfirm: () => {
+                  console.log('确认');
+                },
+              })
+            }
+          >
+            成功
+          </Button>
+        </Col>
+        <Col span={4}>
+          <Button
+            title="First Demo"
+            onClick={() =>
+              Modal.confirm({
+                title: '通知信息标题',
+                type: 'error',
+
+                content:
+                  '一系列的信息描述，可能会很长。也可以是很短同样也可以带标点。',
+                onCancel: () => {
+                  console.log('取消');
+                },
+                onConfirm: () => {
+                  console.log('确认');
+                },
+              })
+            }
+          >
+            失败
+          </Button>
+        </Col>
+        <Col span={4}>
+          <Button
+            title="First Demo"
+            onClick={() =>
+              Modal.confirm({
+                title: '通知信息标题',
+                type: 'warning',
+                content:
+                  '一系列的信息描述，可能会很长。也可以是很短同样也可以带标点。',
+                onCancel: () => {
+                  console.log('取消');
+                },
+                onConfirm: () => {
+                  console.log('确认');
+                },
+              })
+            }
+          >
+            警告
+          </Button>
+        </Col>
+      </Row>
+    </div>
+  );
+};
+```
+
+简单 api 确认框：
+
+```tsx
+import React, { useState } from 'react';
+import { Modal, Button, Grid } from 'rootnet-design';
+
+const { Row, Col } = Grid;
+
+export default () => {
+  const [visible, setVisible] = useState(false);
+  return (
+    <div>
+      <Row gutter={[16, 16]}>
+        <Col span={4}>
+          <Button
+            title="First Demo"
+            onClick={() =>
+              Modal.confirm({
+                title: '通知信息标题',
+                content:
+                  '一系列的信息描述，可能会很长。也可以是很短同样也可以带标点。',
+                onCancel: () => {
+                  console.log('取消');
+                },
+                onConfirm: () => {
+                  console.log('确认');
+                },
+              })
+            }
+          >
+            确认
+          </Button>
+        </Col>
+        <Col span={4}>
+          <Button
+            title="First Demo"
+            onClick={() =>
+              Modal.success({
+                title: '通知信息标题',
+                content:
+                  '一系列的信息描述，可能会很长。也可以是很短同样也可以带标点。',
+                onCancel: () => {
+                  console.log('取消');
+                },
+                onConfirm: () => {
+                  console.log('确认');
+                },
+              })
+            }
+          >
+            成功
+          </Button>
+        </Col>
+        <Col span={4}>
+          <Button
+            title="First Demo"
+            onClick={() =>
+              Modal.confirm({
+                title: '通知信息标题',
+                type: 'error',
+                content:
+                  '一系列的信息描述，可能会很长。也可以是很短同样也可以带标点。',
+                onCancel: () => {
+                  console.log('取消');
+                },
+                onConfirm: () => {
+                  console.log('确认');
+                },
+              })
+            }
+          >
+            失败
+          </Button>
+        </Col>
+        <Col span={4}>
+          <Button
+            title="First Demo"
+            onClick={() =>
+              Modal.confirm({
+                title: '通知信息标题',
+                type: 'warning',
+                content:
+                  '一系列的信息描述，可能会很长。也可以是很短同样也可以带标点。',
+                onCancel: () => {
+                  console.log('取消');
+                },
+                onConfirm: () => {
+                  console.log('确认');
+                },
+              })
+            }
+          >
+            警告
+          </Button>
+        </Col>
+      </Row>
     </div>
   );
 };
