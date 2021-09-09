@@ -4,6 +4,8 @@
   position: fixed;
   top: 0;
   left: 0;
+  right: 0;
+  bottom: 0;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -17,6 +19,10 @@
   background: #ffffff;
   box-shadow: 0px 6px 20px 0px rgba(153, 161, 194, 0.3);
   border-radius: 2px;
+
+  &-visible {
+    display: block;
+  }
 
   &-confirm {
     .@{prefix}-modal {
@@ -166,7 +172,10 @@
       // height: 0;
 
       animation-name: MessageMoveOut;
-      animation-duration: 0.3s;
+      animation-duration: 0.31s;
+    }
+    &-exit-done {
+      display: none;
     }
   }
 }
@@ -178,5 +187,6 @@
 
   100% {
     opacity: 0;
+    display: none;
   }
 }
