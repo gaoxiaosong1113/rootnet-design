@@ -141,6 +141,7 @@ function ModalContent(props: ModalContentProps) {
   }, [visible]);
 
   function handleClose() {
+    setAnimatedVisible(false);
     let time = setTimeout(() => {
       clearTimeout(time);
       onClose ? onClose() : null;
@@ -164,13 +165,15 @@ function ModalContent(props: ModalContentProps) {
         classNames={clsx({
           [`${prefix}-modal-transition`]: true,
         })}
+        onEnter={() => {
+          console.log('进入');
+        }}
         // unmountOnExit
         timeout={300}
       >
         <div
           ref={modalElRef}
           className={clsx(className, `${prefix}-modal-warp`, {
-            // [`${prefix}-modal-visible`]: animatedVisible,
             [`${prefix}-modal-confirm`]: confirm && type,
             [`${prefix}-modal-confirm-${type}`]: confirm && type,
           })}
@@ -252,6 +255,7 @@ export function Modal(props: ModalProps): any {
   }, [visible]);
 
   if (!forceRender && destroyOnClose && !animatedVisible) {
+    console.log('卸载');
     return null;
   }
 
@@ -274,42 +278,49 @@ export function Modal(props: ModalProps): any {
   );
 }
 
-Modal.confirm = (props: ModalContentProps) => {
-  const { type = 'primary', width, onCancel, onConfirm } = props;
+function ModalConfirm(props: ModalContentProps) {
+  const { type = 'primary', width, onCancel, onConfirm, onClose } = props;
 
+  const [animatedVisible, setAnimatedVisible] = useState<boolean>(false);
+
+  useEffect(() => {
+    setAnimatedVisible(true);
+  }, []);
+
+  return (
+    <ModalContent
+      {...props}
+      type={type}
+      visible={animatedVisible}
+      confirm={true}
+      onClose={() => {
+        onClose && onClose();
+      }}
+    />
+  );
+}
+
+Modal.confirm = (props: ModalContentProps) => {
   const div = document.createElement('div');
   document.body.appendChild(div);
 
-  function handleClick(callback: any) {
+  function unmountComponent() {
     ReactDOM.unmountComponentAtNode(div);
     document.body.removeChild(div);
-    callback();
   }
 
   return (
-    <CSSTransition
-      in={true}
-      classNames={clsx({
-        [`${prefix}-modal-transition`]: true,
-      })}
-      unmountOnExit
-      timeout={300}
-    >
-      <>
-        {ReactDOM.render(
-          <ModalContent
-            {...props}
-            type={type}
-            visible={true}
-            confirm={true}
-            width={width}
-            onCancel={() => handleClick(() => onCancel && onCancel())}
-            onConfirm={() => handleClick(() => onConfirm && onConfirm())}
-          />,
-          div,
-        )}
-      </>
-    </CSSTransition>
+    <>
+      {ReactDOM.render(
+        <ModalConfirm
+          {...props}
+          onClose={() => {
+            unmountComponent();
+          }}
+        />,
+        div,
+      )}
+    </>
   );
 };
 
