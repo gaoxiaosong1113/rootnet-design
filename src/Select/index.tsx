@@ -275,7 +275,11 @@ function SelectValue(props: SelectProps) {
       }
     } else {
       if (value !== undefined && value !== null) {
-        return findKey(options, value).label || '';
+        let itemData = findKey(options, value);
+        if (itemData && itemData.label) {
+          return itemData.label;
+        }
+        return '';
       }
     }
   }

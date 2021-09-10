@@ -2,11 +2,7 @@ import React, { useEffect, useState, useRef, ReactNode } from 'react';
 import ReactDOM from 'react-dom';
 
 // 引入第三方依赖
-import {
-  SwitchTransition,
-  CSSTransition,
-  TransitionGroup,
-} from 'react-transition-group';
+import { CSSTransition } from 'react-transition-group';
 import clsx from 'clsx';
 
 import './index.less';
@@ -106,6 +102,12 @@ export interface ModalContentProps extends ModalProps {
    */
   confirm?: boolean;
 
+  /**
+   * @description
+   * @default           -
+   */
+  onClose?: any;
+
   event: any;
 }
 
@@ -119,6 +121,7 @@ function ModalContent(props: ModalContentProps) {
     visible,
     onConfirm,
     onCancel,
+    onClose,
     footer,
     width,
     maskClose = true,
@@ -137,12 +140,21 @@ function ModalContent(props: ModalContentProps) {
     return () => {};
   }, [visible]);
 
+  function handleClose() {
+    let time = setTimeout(() => {
+      clearTimeout(time);
+      onClose ? onClose() : null;
+    }, 300);
+  }
+
   function handleCancel() {
     onCancel ? onCancel() : null;
+    handleClose();
   }
 
   function handleConfirm() {
     onConfirm ? onConfirm() : null;
+    handleClose();
   }
 
   if (forceRender || visible || modalElRef.current) {
@@ -216,7 +228,7 @@ function ModalContent(props: ModalContentProps) {
   return null;
 }
 
-function Modal(props: ModalProps) {
+export function Modal(props: ModalProps): any {
   const {
     title,
     children,
@@ -240,26 +252,22 @@ function Modal(props: ModalProps) {
   }, [visible]);
 
   if (!forceRender && destroyOnClose && !animatedVisible) {
-    console.log('关闭');
     return null;
   }
-  console.log('打开');
+
   return ReactDOM.createPortal(
     <ModalContent
       {...props}
       visible={visible}
       event={ev}
+      onClose={() => {
+        setAnimatedVisible(false);
+      }}
       onCancel={() => {
         onCancel && onCancel();
-        setTimeout(() => {
-          setAnimatedVisible(false);
-        }, 300);
       }}
       onConfirm={() => {
         onConfirm && onConfirm();
-        setTimeout(() => {
-          setAnimatedVisible(false);
-        }, 300);
       }}
     />,
     document.body,
