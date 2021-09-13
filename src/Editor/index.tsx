@@ -95,6 +95,12 @@ export interface EditorProps {
    * @default           -
    */
   onPreview?: (value?: string) => void;
+
+  /**
+   * @description      自适应高度
+   * @default           true
+   */
+  full?: boolean;
 }
 
 export class MyUploadAdapter {
@@ -141,6 +147,7 @@ export function Editor(props: EditorProps, ref: any) {
     onFocus,
     onPreview,
     action,
+    full = true,
     ...prop
   } = props;
 
@@ -179,7 +186,12 @@ export function Editor(props: EditorProps, ref: any) {
   }
 
   return (
-    <div className={clsx(className, `${prefix}-editor`)} style={style}>
+    <div
+      className={clsx(className, `${prefix}-editor`, {
+        [`${prefix}-editor-full`]: full,
+      })}
+      style={style}
+    >
       <CKEditor
         disabled={disabled}
         data={internalValue}
