@@ -32,7 +32,7 @@ export default () => {
 示例：小尺寸分页
 
 ```tsx
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Grid, Pagination } from 'rootnet-design';
 const { Row, Col } = Grid;
 
