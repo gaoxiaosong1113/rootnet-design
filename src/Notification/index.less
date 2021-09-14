@@ -1,4 +1,107 @@
 @import '../index.less';
 
-.@{prefix}-t {
+.@{prefix}-notification {
+  position: fixed;
+
+  z-index: @messageZIndex;
+  pointer-events: none;
+
+  &-topRight {
+    top: 10px;
+    right: 24px;
+  }
+
+  &-bottomRight {
+    bottom: 24px;
+    right: 24px;
+  }
+
+  &-topLeft {
+    top: 10px;
+    left: 24px;
+  }
+
+  &-bottomLeft {
+    bottom: 24px;
+    left: 24px;
+  }
+
+  &-item {
+    width: 500px;
+    position: relative;
+    margin-left: auto;
+  }
+
+  &-content {
+    width: auto;
+    padding: 10px 0px;
+    pointer-events: all;
+  }
+
+  &-transition {
+    &-enter {
+    }
+
+    &-topRight-enter-active,
+    &-bottomRight-enter-active {
+      animation-name: NotificationRightFadeIn;
+      animation-duration: 0.2s;
+      animation-play-state: running; // 动画正在运行
+      animation-fill-mode: both; // 动画保持
+    }
+
+    &-topLeft-enter-active,
+    &-bottomLeft-enter-active {
+      animation-name: NotificationLeftFadeIn;
+      animation-duration: 0.2s;
+      animation-play-state: running; // 动画正在运行
+      animation-fill-mode: both; // 动画保持
+    }
+
+    &-exit {
+    }
+
+    &-topRight-exit-active,
+    &-bottomRight-exit-active,
+    &-topLeft-exit-active,
+    &-bottomLeft-exit-active {
+      animation-name: NotificationFadeOut;
+      animation-duration: 0.5s;
+      animation-play-state: running;
+      animation-fill-mode: both;
+    }
+  }
+}
+
+@keyframes NotificationLeftFadeIn {
+  0% {
+    left: -300px;
+    opacity: 0;
+  }
+  100% {
+    left: 0;
+    opacity: 1;
+  }
+}
+
+@keyframes NotificationRightFadeIn {
+  0% {
+    right: -300px;
+    opacity: 0;
+  }
+  100% {
+    right: 0;
+    opacity: 1;
+  }
+}
+
+@keyframes NotificationFadeOut {
+  0% {
+    max-height: 150px;
+    opacity: 1;
+  }
+  100% {
+    max-height: 0;
+    opacity: 0;
+  }
 }
