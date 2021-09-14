@@ -55,13 +55,13 @@ export interface MessageProps {
 
   /**
    * @description      提示类型
-   * @default           -
+   * @default          primary
    */
-  type?: string;
+  type?: 'primary' | 'success' | 'warning' | 'error';
 
   /**
    * @description      自动关闭延时时间
-   * @default           -
+   * @default           3
    */
   duration?: number;
 

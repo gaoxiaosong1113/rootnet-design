@@ -36,6 +36,9 @@ export default () => {
         <Col span={4}>
           <StatePoint type="error" text="错误" />
         </Col>
+        <Col span={4}>
+          <StatePoint text="状态" radiusColor="red" fontColor="blue" />
+        </Col>
       </Row>
     </div>
   );
