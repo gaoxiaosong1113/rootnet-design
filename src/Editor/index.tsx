@@ -13,11 +13,9 @@ import ReactDOM from 'react-dom';
 // 引入第三方依赖
 import clsx from 'clsx';
 // 引入编辑器组件
-import BraftEditor from 'braft-editor';
-// 引入编辑器样式
+import CKEditor from '@ckeditor/ckeditor5-react';
+import CustomEditor from 'ckeditor5-custom';
 
-// 引入样式
-import 'braft-editor/dist/index.css';
 import './index.less';
 
 // 引入配置文件
@@ -43,24 +41,6 @@ export interface EditorProps {
    * @default           -
    */
   controls?: Array<any>;
-
-  /**
-   * @description      工具栏样式配置
-   * @default           -
-   */
-  contentStyle?: any;
-
-  /**
-   * @description      增加扩展控件
-   * @default           -
-   */
-  extendControls?: any;
-
-  /**
-   * @description      媒体库  [{ id: uuid, type: 'IMAGE' || 'AUDIO', url: string }]
-   * @default           -
-   */
-  media?: any;
 
   /**
    * @description      数据
@@ -102,7 +82,7 @@ export interface EditorProps {
    * @description      onBlur
    * @default           -
    */
-  onBlur?: () => void;
+  onBlur?: (value?: string) => void;
 
   /**
    * @description      onFocus
@@ -115,53 +95,51 @@ export interface EditorProps {
    * @default           -
    */
   onPreview?: (value?: string) => void;
+
+  /**
+   * @description      自适应高度
+   * @default           true
+   */
+  full?: boolean;
 }
 
-const defaultControls = [
-  'undo',
-  'redo',
-  'separator',
-  'font-size',
-  'line-height',
-  'letter-spacing',
-  'separator',
-  'text-color',
-  'bold',
-  'italic',
-  'underline',
-  'strike-through',
-  'separator',
-  'superscript',
-  'subscript',
-  'remove-styles',
-  'emoji',
-  'separator',
-  'text-indent',
-  'text-align',
-  'separator',
-  'headings',
-  'list-ul',
-  'list-ol',
-  'blockquote',
-  'code',
-  'separator',
-  'link',
-  'separator',
-  'hr',
-  'separator',
-  'media',
-  'separator',
-  'clear',
-];
+export class MyUploadAdapter {
+  constructor(props: any, action: any) {
+    this.loader = props;
+    this.action = action;
+    console.log(action);
+  }
+
+  loader;
+
+  action;
+
+  upload() {
+    return new Promise(async (resolve, reject) => {
+      this.loader.file.then((res: any) => {
+        let form = new FormData();
+        form.append('file', res);
+        form.append('fileName', res.name);
+        form.append('fileType', res.name.split('.')[1]);
+        this.action(form)
+          .then((res: any) => {
+            resolve({ default: res });
+          })
+          .catch((error: any) => {
+            reject(error);
+          });
+      });
+    });
+  }
+}
 
 export function Editor(props: EditorProps, ref: any) {
   const {
     className,
+    defaultValue,
+    value,
     style,
-    media,
     controls,
-    contentStyle,
-    extendControls,
     config,
     disabled,
     onChange,
@@ -169,92 +147,61 @@ export function Editor(props: EditorProps, ref: any) {
     onFocus,
     onPreview,
     action,
+    full = true,
     ...prop
   } = props;
 
+  const [internalValue, setInternalValue] = useState(defaultValue);
+
   const editorRef = useRef(null) as any;
+
+  useEffect(() => {
+    setInternalValue(value);
+  }, [value]);
 
   useImperativeHandle(ref, () => editorRef.current);
 
-  const [extendControlsConfig, setExtendControlsConfig] = useState(
-    extendControls || [],
-  );
-
-  const previewConfig = useMemo(() => {
-    return {
-      key: 'preview',
-      type: 'button',
-      text: '预览',
-      onClick: () => (onPreview ? editorRef.current.getValue().toHTML() : null),
-    };
-  }, []);
-
-  useEffect(() => {
-    if (onPreview === undefined) return;
-    if (!extendControlsConfig) return;
-    if (extendControlsConfig.indexOf(previewConfig) == -1) {
-      extendControlsConfig.push(previewConfig);
-    }
-  }, [onPreview, extendControls]);
-
-  useEffect(() => {
-    setExtendControlsConfig(extendControls);
-  }, [extendControls]);
-
-  function handleChange(editorState: any) {
+  function handleChange(e: any, editorState: any) {
+    let data = editorState.getData();
+    setInternalValue(data);
     if (onChange) {
-      onChange(editorState);
+      onChange(data);
     }
   }
 
+  function handleBlur(e: any, editorState: any) {
+    let data = editorState.getData();
+    setInternalValue(data);
+    if (onBlur) {
+      onBlur(data);
+    }
+  }
+
+  function UploadAdapterPlugin(editor: any) {
+    editor.plugins.get('FileRepository').createUploadAdapter = (
+      loader: any,
+    ) => {
+      return new MyUploadAdapter(loader, action);
+    };
+  }
+
   return (
-    <div className={clsx(className, `${prefix}-editor`)} style={style}>
-      <BraftEditor
-        ref={editorRef}
-        controls={controls || defaultControls}
-        contentStyle={contentStyle}
-        extendControls={extendControlsConfig}
-        media={{
-          uploadFn: (param) => {
-            console.log(param);
-            fileUpload(
-              param,
-              {
-                // 监听上传进度
-                onUploadProgress(progressEvent: any) {
-                  param.progress(
-                    (progressEvent.loaded / progressEvent.total) * 100,
-                  );
-                },
-              },
-              action,
-            )
-              .then((res: any) => {
-                param.success({
-                  url: res,
-                  meta: {
-                    id: '',
-                    title: '',
-                    alt: '',
-                    loop: false, // 指定音视频是否循环播放
-                    autoPlay: false, // 指定音视频是否自动播放
-                    controls: false, // 指定音视频是否显示控制栏
-                    poster: '',
-                  },
-                });
-              })
-              .catch((error: any) => {
-                console.log(error);
-                param.error({
-                  msg: error,
-                });
-              });
-          },
-          ...media,
+    <div
+      className={clsx(className, `${prefix}-editor`, {
+        [`${prefix}-editor-full`]: full,
+      })}
+      style={style}
+    >
+      <CKEditor
+        disabled={disabled}
+        data={internalValue}
+        config={{
+          extraPlugins: [UploadAdapterPlugin],
+          ...config,
         }}
+        editor={CustomEditor}
         onChange={handleChange}
-        {...prop}
-        // onSave={this.submitContent}
+        onBlur={handleBlur}
       />
     </div>
   );
@@ -278,7 +225,11 @@ export interface EditorViewerProps {
 export function EditorViewer(props: EditorViewerProps) {
   return (
     <div
-      className={clsx('rootnet-editorViewer', props.className)}
+      className={clsx(
+        `${prefix}-editorViewer`,
+        'braft-output-content',
+        props.className,
+      )}
       style={props.style}
       dangerouslySetInnerHTML={{ __html: props.value }}
     ></div>
@@ -287,12 +238,10 @@ export function EditorViewer(props: EditorViewerProps) {
 
 interface CompoundedComponent extends React.ForwardRefExoticComponent<any> {
   EditorViewer: any;
-  BraftEditor: any;
 }
 
 const InternalEditor = React.forwardRef(Editor) as CompoundedComponent;
 
 InternalEditor.EditorViewer = EditorViewer;
-InternalEditor.BraftEditor = BraftEditor;
 
 export default InternalEditor;

@@ -154,40 +154,46 @@ function Pagination(props: PaginationProps) {
   // 指定数组
   const list = (len: any) => [...new Array(len + 1).keys()];
 
-  useEffect(function () {
-    watcher(now);
-  }, []);
+  useEffect(
+    function () {
+      watcher(now);
+    },
+    [totalPage],
+  );
 
   // 渲染展示的分页
-  const watcher = useCallback((now) => {
-    setLeftStepper(now - 4 > 0 && totalPage > 5);
-    setRightStepper(now + 4 < totalPage && totalPage > 6);
+  const watcher = useCallback(
+    (now) => {
+      setLeftStepper(now - 4 > 0 && totalPage > 5);
+      setRightStepper(now + 4 < totalPage && totalPage > 6);
 
-    // 不够5页时显示
-    if (totalPage < 6) {
-      setNode(list(totalPage).splice(2));
-      return;
-    }
-    // 只有一页时显示
-    if (totalPage <= 1) {
-      setNode([]);
-      return;
-    }
+      // 不够5页时显示
+      if (totalPage < 6) {
+        setNode(list(totalPage).splice(2));
+        return;
+      }
+      // 只有一页时显示
+      if (totalPage <= 1) {
+        setNode([]);
+        return;
+      }
 
-    if (now < 4) {
-      setNode([2, 3, 4, 5]);
-    } else if (now > totalPage - 4) {
-      setNode([
-        totalPage - 5,
-        totalPage - 4,
-        totalPage - 3,
-        totalPage - 2,
-        totalPage - 1,
-      ]);
-    } else {
-      setNode([now - 2, now - 1, now, now + 1, now + 2]);
-    }
-  }, []);
+      if (now < 4) {
+        setNode([2, 3, 4, 5]);
+      } else if (now > totalPage - 4) {
+        setNode([
+          totalPage - 5,
+          totalPage - 4,
+          totalPage - 3,
+          totalPage - 2,
+          totalPage - 1,
+        ]);
+      } else {
+        setNode([now - 2, now - 1, now, now + 1, now + 2]);
+      }
+    },
+    [totalPage],
+  );
 
   // 页数change
   const pageChanging = useCallback(

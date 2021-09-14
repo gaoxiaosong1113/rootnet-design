@@ -107,7 +107,10 @@ export default () => {
       <Row gutter={[16, 16]}>
         <Col span={4}>
           <Tooltip trigger="click" content={'我是一段提示，并且字数不是很多'}>
-            <span style={{ transform: 'translate(273.986px, 197.25px)' }}>
+            <span
+              style={{ transform: 'translate(273.986px, 197.25px)' }}
+              onClick={() => console.log('点击了')}
+            >
               click
             </span>
           </Tooltip>
