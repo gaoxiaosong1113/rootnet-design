@@ -186,7 +186,7 @@ function Drawer(props: DrawerProps) {
   return (
     <CSSTransition
       in={visible}
-      className={clsx({
+      className={clsx(className, {
         [`drawer-transition-${position}`]: position,
       })}
       classNames={`drawer-transition-${position}`}
