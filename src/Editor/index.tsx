@@ -107,7 +107,6 @@ export class MyUploadAdapter {
   constructor(props: any, action: any) {
     this.loader = props;
     this.action = action;
-    console.log(action);
   }
 
   loader;

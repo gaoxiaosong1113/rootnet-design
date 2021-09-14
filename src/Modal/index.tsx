@@ -166,7 +166,7 @@ function ModalContent(props: ModalContentProps) {
           [`${prefix}-modal-transition`]: true,
         })}
         onEnter={() => {
-          console.log('进入');
+          // console.log('进入');
         }}
         // unmountOnExit
         timeout={300}
@@ -255,7 +255,7 @@ export function Modal(props: ModalProps): any {
   }, [visible]);
 
   if (!forceRender && destroyOnClose && !animatedVisible) {
-    console.log('卸载');
+    // console.log('卸载');
     return null;
   }
 

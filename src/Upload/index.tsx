@@ -385,7 +385,6 @@ function Upload(props: UploadProps) {
             );
             upItem.percent = percentCompleted;
             setFileList(newFileList);
-            console.log(percentCompleted);
           },
         },
         action,

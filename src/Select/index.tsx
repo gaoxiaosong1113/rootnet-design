@@ -261,7 +261,6 @@ function SelectValue(props: SelectProps) {
     multiple,
     ...prop
   } = props;
-  console.log(value);
   if (value !== undefined) {
     if (multiple) {
       if (value.length > 0) {

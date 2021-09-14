@@ -409,7 +409,6 @@ export default () => {
               selectedRowKeys,
               onChange: (keys, indeterminateKeys) => {
                 setSelectedRowKeys(keys);
-                console.log(keys, indeterminateKeys);
               },
             }}
           />
