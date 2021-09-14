@@ -243,7 +243,7 @@ export const Item = (props: FormItemProps, ref: any) => {
     }
   }, [rules]);
 
-  const validationData = (n, v: any) => {
+  const validationData = (n: any, v: any) => {
     if (n && rules) {
       let errorAry = rules
         .map((item: any) => {

@@ -26,32 +26,6 @@ export interface OperationProps {
   className?: string;
   style?: Object;
   children?: ReactNode;
-
-  /**
-   * @description      主体内容
-   * @default           -
-   */
-  content: any;
-
-  /**
-   * @description      确认按钮回调
-   * @default           -
-   */
-  onConfirm: Function;
-
-  /**
-   * @description      取消按钮回调
-   * @default           -
-   */
-  onCancel: Function;
-
-  /**
-   * @description      弹出位置
-   * @default           top
-   */
-  position?: string;
-
-  event: any;
 }
 
 function Item(props: any, ref: any) {
@@ -88,16 +62,36 @@ function Item(props: any, ref: any) {
   );
 }
 
-function OperationPopup(props: any) {
-  const { children, position = 'top', component, scrollRef, ...prop } = props;
+export interface OperationPopupProps {
+  /**
+   * @description      类名
+   * @default           -
+   */
+  className?: string;
+  style?: Object;
+  children?: ReactNode;
 
+  /**
+   * @description      弹出位置
+   * @default           bottom
+   */
+  position?: string;
+
+  /**
+   * @description      触发元素
+   * @default           -
+   */
+  component?: any;
+}
+
+export function OperationPopup(props: OperationPopupProps) {
+  const { children, position = 'bottom', component, ...prop } = props;
   return (
     <Popover
       popupClassNmae={clsx(`${prefix}-operation-poop`, {})}
       offset={13}
       position={position}
       targetHidden={true}
-      scrollRef={scrollRef}
       content={
         <div
           className={clsx(`${prefix}-operation-popover`, {})}
@@ -113,24 +107,10 @@ function OperationPopup(props: any) {
 }
 
 function Operation(props: OperationProps) {
-  const {
-    className,
-    children,
-    onConfirm,
-    onCancel,
-    position = 'top',
-    ...prop
-  } = props;
+  const { className, children, ...prop } = props;
   const [visible, setVisible] = useState(false);
 
   const refEl = useRef(null);
-  function handleOpen() {
-    setVisible(true);
-  }
-  function handleClose() {
-    setVisible(false);
-    onCancel && onCancel();
-  }
 
   return (
     <div

@@ -1,7 +1,19 @@
 @import '../index.less';
 
-.@{prefix}-t {
-}
+.@{prefix}-editor-full {
+  height: 100%;
 
-.@{prefix}-editor {
+  .ck-editor {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .ck-editor__main {
+    flex: 1;
+  }
+
+  .ck-content {
+    height: 100%;
+  }
 }

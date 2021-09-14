@@ -85,7 +85,7 @@ function Select(props: SelectProps) {
     ...prop
   } = props;
 
-  const [value, setValue] = useState(props.value || '');
+  const [value, setValue] = useState(props.value || undefined);
   const [visible, setVisible] = useState(false);
 
   const refEl = useRef(null);
@@ -261,18 +261,25 @@ function SelectValue(props: SelectProps) {
     multiple,
     ...prop
   } = props;
-  if (value) {
+  console.log(value);
+  if (value !== undefined) {
     if (multiple) {
       if (value.length > 0) {
-        return value.map(
-          (item: any, index: any) =>
-            findKey(options, item).label +
-            (index + 1 < value.length ? '，' : ''),
-        );
+        return value.map((item: any, index: any) => {
+          let itemData = findKey(options, item);
+          if (itemData && itemData.label) {
+            return itemData.label + (index + 1 < value.length ? '，' : '');
+          }
+          return '';
+        });
       }
     } else {
       if (value !== undefined && value !== null) {
-        return findKey(options, value).label;
+        let itemData = findKey(options, value);
+        if (itemData && itemData.label) {
+          return itemData.label;
+        }
+        return '';
       }
     }
   }

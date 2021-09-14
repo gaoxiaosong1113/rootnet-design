@@ -1,5 +1,10 @@
 // 引入react依赖
-import React, { useEffect, useState, ReactNode } from 'react';
+import React, {
+  useEffect,
+  useState,
+  ReactNode,
+  useImperativeHandle,
+} from 'react';
 import ReactDOM from 'react-dom';
 
 // 引入第三方依赖
@@ -79,7 +84,7 @@ export interface SwitchProps {
   onClick?: Function;
 }
 
-function Switch(props: SwitchProps) {
+function Switch(props: SwitchProps, ref: any) {
   const {
     className,
     checked,
@@ -112,6 +117,10 @@ function Switch(props: SwitchProps) {
     setInnerChecked(value);
     onChange?.(value, event);
   }
+
+  useImperativeHandle(ref, () => ({
+    checked: innerChecked,
+  }));
 
   return (
     <button

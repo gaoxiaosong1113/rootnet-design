@@ -1185,7 +1185,7 @@
   dependencies:
     regenerator-runtime "^0.13.4"
 
-"@babel/runtime@^7.0.0", "@babel/runtime@^7.1.2", "@babel/runtime@^7.10.1", "@babel/runtime@^7.11.1", "@babel/runtime@^7.11.2", "@babel/runtime@^7.12.1", "@babel/runtime@^7.12.5", "@babel/runtime@^7.5.5", "@babel/runtime@^7.8.4", "@babel/runtime@^7.8.7":
+"@babel/runtime@^7.1.2", "@babel/runtime@^7.10.1", "@babel/runtime@^7.11.1", "@babel/runtime@^7.11.2", "@babel/runtime@^7.12.1", "@babel/runtime@^7.12.5", "@babel/runtime@^7.5.5", "@babel/runtime@^7.8.4", "@babel/runtime@^7.8.7":
   version "7.15.3"
   resolved "http://nexus.croot.com:8081/repository/npm-public/@babel/runtime/-/runtime-7.15.3.tgz#2e1c2880ca118e5b2f9988322bd8a7656a32502b"
   integrity sha1-LhwogMoRjlsvmYgyK9inZWoyUCs=
@@ -1233,6 +1233,13 @@
   version "0.0.3"
   resolved "http://nexus.croot.com:8081/repository/npm-public/@bloomberg/record-tuple-polyfill/-/record-tuple-polyfill-0.0.3.tgz#0b03d18b88a30894caab14abd669b1cbbf47b843"
   integrity sha1-CwPRi4ijCJTKqxSr1mmxy79HuEM=
+
+"@ckeditor/ckeditor5-react@^2.1.0":
+  version "2.1.0"
+  resolved "http://nexus.croot.com:8081/repository/npm-public/@ckeditor/ckeditor5-react/-/ckeditor5-react-2.1.0.tgz#f612546a5a328899a436d71b72ffd632600049e8"
+  integrity sha1-9hJUaloyiJmkNtcbcv/WMmAASeg=
+  dependencies:
+    prop-types "^15.6.1"
 
 "@cnakazawa/watch@^1.0.3":
   version "1.0.4"
@@ -1812,13 +1819,6 @@
   integrity sha1-/81HC7s/i/MEgWePtVAieMqDOkM=
   dependencies:
     "@babel/types" "^7.3.0"
-
-"@types/braft-editor@^2.2.0":
-  version "2.2.0"
-  resolved "http://nexus.croot.com:8081/repository/npm-public/@types/braft-editor/-/braft-editor-2.2.0.tgz#4ea310ff8e1e9ed88a49ea2e64b40254f937f026"
-  integrity sha1-TqMQ/44entiKSeouZLQCVPk38CY=
-  dependencies:
-    braft-editor "*"
 
 "@types/estree@*":
   version "0.0.50"
@@ -2997,39 +2997,6 @@ braces@^3.0.1, braces@~3.0.2:
   dependencies:
     fill-range "^7.0.1"
 
-braft-convert@^2.3.0:
-  version "2.3.0"
-  resolved "http://nexus.croot.com:8081/repository/npm-public/braft-convert/-/braft-convert-2.3.0.tgz#27d5905136c334903d083b7a2352a72045627888"
-  integrity sha1-J9WQUTbDNJA9CDt6I1KnIEVieIg=
-  dependencies:
-    draft-convert "^2.0.0"
-    draft-js "^0.10.3"
-
-braft-editor@*, braft-editor@^2.3.9:
-  version "2.3.9"
-  resolved "http://nexus.croot.com:8081/repository/npm-public/braft-editor/-/braft-editor-2.3.9.tgz#fd2b8e23ea71191016579a1ed8231d16ad8f5b4a"
-  integrity sha1-/SuOI+pxGRAWV5oe2CMdFq2PW0o=
-  dependencies:
-    "@babel/runtime" "^7.0.0"
-    braft-convert "^2.3.0"
-    braft-finder "^0.0.19"
-    braft-utils "^3.0.8"
-    draft-convert "^2.0.0"
-    draft-js "^0.10.3"
-    draft-js-multidecorators "^1.0.0"
-    draftjs-utils "^0.9.4"
-    immutable "~3.7.4"
-
-braft-finder@^0.0.19:
-  version "0.0.19"
-  resolved "http://nexus.croot.com:8081/repository/npm-public/braft-finder/-/braft-finder-0.0.19.tgz#c324d82526ed3476a93de86cc9b407f4e188bc8d"
-  integrity sha1-wyTYJSbtNHapPehsybQH9OGIvI0=
-
-braft-utils@^3.0.12, braft-utils@^3.0.8:
-  version "3.0.12"
-  resolved "http://nexus.croot.com:8081/repository/npm-public/braft-utils/-/braft-utils-3.0.12.tgz#2b755ce1d8397d96b627b6767f74d07f25729d85"
-  integrity sha1-K3Vc4dg5fZa2J7Z2f3TQfyVynYU=
-
 brorand@^1.0.1, brorand@^1.1.0:
   version "1.1.0"
   resolved "http://nexus.croot.com:8081/repository/npm-public/brorand/-/brorand-1.1.0.tgz#12c25efe40a45e3c323eb8675a0a0ce57b22371f"
@@ -3389,6 +3356,11 @@ cjs-module-lexer@^0.6.0:
   resolved "http://nexus.croot.com:8081/repository/npm-public/cjs-module-lexer/-/cjs-module-lexer-0.6.0.tgz#4186fcca0eae175970aee870b9fe2d6cf8d5655f"
   integrity sha1-QYb8yg6uF1lwruhwuf4tbPjVZV8=
 
+ckeditor5-custom@^1.0.0:
+  version "1.0.0"
+  resolved "http://nexus.croot.com:8081/repository/npm-public/ckeditor5-custom/-/ckeditor5-custom-1.0.0.tgz#7603b77d543cd5bed4dba4fb74e3236fe649a6f0"
+  integrity sha1-dgO3fVQ81b7U26T7dOMjb+ZJpvA=
+
 class-utils@^0.3.5:
   version "0.3.6"
   resolved "http://nexus.croot.com:8081/repository/npm-public/class-utils/-/class-utils-0.3.6.tgz#f93369ae8b9a7ce02fd41faad0ca83033190c463"
@@ -3696,11 +3668,6 @@ core-js@3.8.2:
   version "3.8.2"
   resolved "http://nexus.croot.com:8081/repository/npm-public/core-js/-/core-js-3.8.2.tgz#0a1fd6709246da9ca8eff5bb0cbd15fba9ac7044"
   integrity sha1-Ch/WcJJG2pyo7/W7DL0V+6mscEQ=
-
-core-js@^1.0.0:
-  version "1.2.7"
-  resolved "http://nexus.croot.com:8081/repository/npm-public/core-js/-/core-js-1.2.7.tgz#652294c14651db28fa93bd2d5ff2983a4f08c636"
-  integrity sha1-ZSKUwUZR2yj6k70tX/KYOk8IxjY=
 
 core-util-is@1.0.2, core-util-is@~1.0.0:
   version "1.0.2"
@@ -4261,36 +4228,6 @@ dot-prop@^5.2.0:
   dependencies:
     is-obj "^2.0.0"
 
-draft-convert@^2.0.0:
-  version "2.1.12"
-  resolved "http://nexus.croot.com:8081/repository/npm-public/draft-convert/-/draft-convert-2.1.12.tgz#ef77b4d2bf416c1aea2916662e3fa669916644e9"
-  integrity sha1-73e00r9BbBrqKRZmLj+maZFmROk=
-  dependencies:
-    "@babel/runtime" "^7.5.5"
-    immutable "~3.7.4"
-    invariant "^2.2.1"
-
-draft-js-multidecorators@^1.0.0:
-  version "1.0.0"
-  resolved "http://nexus.croot.com:8081/repository/npm-public/draft-js-multidecorators/-/draft-js-multidecorators-1.0.0.tgz#6c4be8d7b78dd2b966ee51ee6cc179b9b535e612"
-  integrity sha1-bEvo17eN0rlm7lHubMF5ubU15hI=
-  dependencies:
-    immutable "*"
-
-draft-js@^0.10.3:
-  version "0.10.5"
-  resolved "http://nexus.croot.com:8081/repository/npm-public/draft-js/-/draft-js-0.10.5.tgz#bfa9beb018fe0533dbb08d6675c371a6b08fa742"
-  integrity sha1-v6m+sBj+BTPbsI1mdcNxprCPp0I=
-  dependencies:
-    fbjs "^0.8.15"
-    immutable "~3.7.4"
-    object-assign "^4.1.0"
-
-draftjs-utils@^0.9.4:
-  version "0.9.4"
-  resolved "http://nexus.croot.com:8081/repository/npm-public/draftjs-utils/-/draftjs-utils-0.9.4.tgz#976c61aa133dbbbfedd65ae1dd6627d7b98c6f08"
-  integrity sha1-l2xhqhM9u7/t1lrh3WYn17mMbwg=
-
 dumi-assets-types@1.0.0:
   version "1.0.0"
   resolved "http://nexus.croot.com:8081/repository/npm-public/dumi-assets-types/-/dumi-assets-types-1.0.0.tgz#d5368cb11045b203bf1ef1080e553b2287a2ec81"
@@ -4383,13 +4320,6 @@ emojis-list@^3.0.0:
   version "3.0.0"
   resolved "http://nexus.croot.com:8081/repository/npm-public/emojis-list/-/emojis-list-3.0.0.tgz#5570662046ad29e2e916e71aae260abdff4f6a78"
   integrity sha1-VXBmIEatKeLpFucariYKvf9Pang=
-
-encoding@^0.1.11:
-  version "0.1.13"
-  resolved "http://nexus.croot.com:8081/repository/npm-public/encoding/-/encoding-0.1.13.tgz#56574afdd791f54a8e9b2785c0582a2d26210fa9"
-  integrity sha1-VldK/deR9UqOmyeFwFgqLSYhD6k=
-  dependencies:
-    iconv-lite "^0.6.2"
 
 end-of-stream@^1.0.0, end-of-stream@^1.1.0:
   version "1.4.4"
@@ -4847,19 +4777,6 @@ fb-watchman@^2.0.0:
   integrity sha1-/IT7OdJwnPP/bXQ3BhV7tXCKioU=
   dependencies:
     bser "2.1.1"
-
-fbjs@^0.8.15:
-  version "0.8.17"
-  resolved "http://nexus.croot.com:8081/repository/npm-public/fbjs/-/fbjs-0.8.17.tgz#c4d598ead6949112653d6588b01a5cdcd9f90fdd"
-  integrity sha1-xNWY6taUkRJlPWWIsBpc3Nn5D90=
-  dependencies:
-    core-js "^1.0.0"
-    isomorphic-fetch "^2.1.1"
-    loose-envify "^1.0.0"
-    object-assign "^4.1.0"
-    promise "^7.1.1"
-    setimmediate "^1.0.5"
-    ua-parser-js "^0.7.18"
 
 figures@^2.0.0:
   version "2.0.0"
@@ -5717,13 +5634,6 @@ iconv-lite@0.4.24:
   dependencies:
     safer-buffer ">= 2.1.2 < 3"
 
-iconv-lite@^0.6.2:
-  version "0.6.3"
-  resolved "http://nexus.croot.com:8081/repository/npm-public/iconv-lite/-/iconv-lite-0.6.3.tgz#a52f80bf38da1952eb5c681790719871a1a72501"
-  integrity sha1-pS+AvzjaGVLrXGgXkHGYcaGnJQE=
-  dependencies:
-    safer-buffer ">= 2.1.2 < 3.0.0"
-
 icss-replace-symbols@1.1.0, icss-replace-symbols@^1.1.0:
   version "1.1.0"
   resolved "http://nexus.croot.com:8081/repository/npm-public/icss-replace-symbols/-/icss-replace-symbols-1.1.0.tgz#06ea6f83679a7749e386cfe1fe812ae5db223ded"
@@ -5755,16 +5665,6 @@ image-size@~0.5.0:
   version "0.5.5"
   resolved "http://nexus.croot.com:8081/repository/npm-public/image-size/-/image-size-0.5.5.tgz#09dfd4ab9d20e29eb1c3e80b8990378df9e3cb9c"
   integrity sha1-Cd/Uq50g4p6xw+gLiZA3jfnjy5w=
-
-immutable@*:
-  version "3.8.2"
-  resolved "http://nexus.croot.com:8081/repository/npm-public/immutable/-/immutable-3.8.2.tgz#c2439951455bb39913daf281376f1530e104adf3"
-  integrity sha1-wkOZUUVbs5kT2vKBN28VMOEErfM=
-
-immutable@~3.7.4:
-  version "3.7.6"
-  resolved "http://nexus.croot.com:8081/repository/npm-public/immutable/-/immutable-3.7.6.tgz#13b4d3cb12befa15482a26fe1b2ebae640071e4b"
-  integrity sha1-E7TTyxK++hVIKib+Gy665kAHHks=
 
 import-cwd@^2.0.0:
   version "2.1.0"
@@ -5885,7 +5785,7 @@ internal-slot@^1.0.3:
     has "^1.0.3"
     side-channel "^1.0.4"
 
-invariant@^2.2.1, invariant@^2.2.4:
+invariant@^2.2.4:
   version "2.2.4"
   resolved "http://nexus.croot.com:8081/repository/npm-public/invariant/-/invariant-2.2.4.tgz#610f3c92c9359ce1db616e538008d23ff35158e6"
   integrity sha1-YQ88ksk1nOHbYW5TgAjSP/NRWOY=
@@ -6242,7 +6142,7 @@ is-resolvable@^1.0.0:
   resolved "http://nexus.croot.com:8081/repository/npm-public/is-resolvable/-/is-resolvable-1.1.0.tgz#fb18f87ce1feb925169c9a407c19318a3206ed88"
   integrity sha1-+xj4fOH+uSUWnJpAfBkxijIG7Yg=
 
-is-stream@^1.0.1, is-stream@^1.1.0:
+is-stream@^1.1.0:
   version "1.1.0"
   resolved "http://nexus.croot.com:8081/repository/npm-public/is-stream/-/is-stream-1.1.0.tgz#12d4a3dd4e68e0b79ceb8dbc84173ae80d91ca44"
   integrity sha1-EtSj3U5o4Lec6428hBc66A2RykQ=
@@ -6341,14 +6241,6 @@ isobject@^3.0.0, isobject@^3.0.1:
   version "3.0.1"
   resolved "http://nexus.croot.com:8081/repository/npm-public/isobject/-/isobject-3.0.1.tgz#4e431e92b11a9731636aa1f9c8d1ccbcfdab78df"
   integrity sha1-TkMekrEalzFjaqH5yNHMvP2reN8=
-
-isomorphic-fetch@^2.1.1:
-  version "2.2.1"
-  resolved "http://nexus.croot.com:8081/repository/npm-public/isomorphic-fetch/-/isomorphic-fetch-2.2.1.tgz#611ae1acf14f5e81f729507472819fe9733558a9"
-  integrity sha1-YRrhrPFPXoH3KVB0coGf6XM1WKk=
-  dependencies:
-    node-fetch "^1.0.1"
-    whatwg-fetch ">=0.10.0"
 
 isstream@~0.1.2:
   version "0.1.2"
@@ -7869,14 +7761,6 @@ nice-try@^1.0.4:
   resolved "http://nexus.croot.com:8081/repository/npm-public/nice-try/-/nice-try-1.0.5.tgz#a3378a7696ce7d223e88fc9b764bd7ef1089e366"
   integrity sha1-ozeKdpbOfSI+iPybdkvX7xCJ42Y=
 
-node-fetch@^1.0.1:
-  version "1.7.3"
-  resolved "http://nexus.croot.com:8081/repository/npm-public/node-fetch/-/node-fetch-1.7.3.tgz#980f6f72d85211a5347c6b2bc18c5b84c3eb47ef"
-  integrity sha1-mA9vcthSEaU0fGsrwYxbhMPrR+8=
-  dependencies:
-    encoding "^0.1.11"
-    is-stream "^1.0.1"
-
 node-int64@^0.4.0:
   version "0.4.0"
   resolved "http://nexus.croot.com:8081/repository/npm-public/node-int64/-/node-int64-0.4.0.tgz#87a9065cdb355d3182d8f94ce11188b825c68a3b"
@@ -9286,7 +9170,7 @@ prompts@^2.0.1:
     kleur "^3.0.3"
     sisteransi "^1.0.5"
 
-prop-types@^15.6.2:
+prop-types@^15.6.1, prop-types@^15.6.2:
   version "15.7.2"
   resolved "http://nexus.croot.com:8081/repository/npm-public/prop-types/-/prop-types-15.7.2.tgz#52c41e75b8c87e72b9d9360e0206b99dcbffa6c5"
   integrity sha1-UsQedbjIfnK52TYOAga5ncv/psU=
@@ -10171,7 +10055,7 @@ safe-regex@^1.1.0:
   dependencies:
     ret "~0.1.10"
 
-"safer-buffer@>= 2.1.2 < 3", "safer-buffer@>= 2.1.2 < 3.0.0", safer-buffer@^2.0.2, safer-buffer@^2.1.0, safer-buffer@~2.1.0:
+"safer-buffer@>= 2.1.2 < 3", safer-buffer@^2.0.2, safer-buffer@^2.1.0, safer-buffer@~2.1.0:
   version "2.1.2"
   resolved "http://nexus.croot.com:8081/repository/npm-public/safer-buffer/-/safer-buffer-2.1.2.tgz#44fa161b0187b9549dd84bb91802f9bd8385cd6a"
   integrity sha1-RPoWGwGHuVSd2Eu5GAL5vYOFzWo=
@@ -10300,7 +10184,7 @@ set-value@^2.0.0, set-value@^2.0.1:
     is-plain-object "^2.0.3"
     split-string "^3.0.1"
 
-setimmediate@^1.0.4, setimmediate@^1.0.5:
+setimmediate@^1.0.4:
   version "1.0.5"
   resolved "http://nexus.croot.com:8081/repository/npm-public/setimmediate/-/setimmediate-1.0.5.tgz#290cbb232e306942d7d7ea9b83732ab7856f8285"
   integrity sha1-KQy7Iy4waULX1+qbg3Mqt4VvgoU=
@@ -11250,11 +11134,6 @@ typescript@^4.0.5:
   resolved "http://nexus.croot.com:8081/repository/npm-public/typescript/-/typescript-4.3.5.tgz#4d1c37cc16e893973c45a06886b7113234f119f4"
   integrity sha1-TRw3zBbok5c8RaBohrcRMjTxGfQ=
 
-ua-parser-js@^0.7.18:
-  version "0.7.28"
-  resolved "http://nexus.croot.com:8081/repository/npm-public/ua-parser-js/-/ua-parser-js-0.7.28.tgz#8ba04e653f35ce210239c64661685bf9121dec31"
-  integrity sha1-i6BOZT81ziECOcZGYWhb+RId7DE=
-
 uglify-js@^2.8.22:
   version "2.8.29"
   resolved "http://nexus.croot.com:8081/repository/npm-public/uglify-js/-/uglify-js-2.8.29.tgz#29c5733148057bb4e1f75df35b7a9cb72e6a59dd"
@@ -11754,7 +11633,7 @@ whatwg-encoding@^1.0.1, whatwg-encoding@^1.0.5:
   dependencies:
     iconv-lite "0.4.24"
 
-whatwg-fetch@>=0.10.0, whatwg-fetch@^3.5.0:
+whatwg-fetch@^3.5.0:
   version "3.6.2"
   resolved "http://nexus.croot.com:8081/repository/npm-public/whatwg-fetch/-/whatwg-fetch-3.6.2.tgz#dced24f37f2624ed0281725d51d0e2e3fe677f8c"
   integrity sha1-3O0k838mJO0CgXJdUdDi4/5nf4w=

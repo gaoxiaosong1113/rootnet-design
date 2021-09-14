@@ -19,7 +19,7 @@ import { Icon, Button, Popup } from '../index';
 
 import { getOffsetLeft, getOffsetTop } from '../_util';
 
-export interface ModalProps {
+export interface TooltipProps {
   /**
    * @description      类名
    * @default           -
@@ -34,9 +34,11 @@ export interface ModalProps {
    */
   content: any;
 
+  /**
+   * @description      关闭回调
+   * @default           -
+   */
   onCancel: Function;
-
-  event: any;
 
   /**
    * @description      弹出位置
@@ -45,15 +47,13 @@ export interface ModalProps {
   position?: string;
 
   /**
-   * @description      弹出方式
+   * @description      弹出方式 click | hover | focus
    * @default           -
    */
   trigger?: string;
-
-  visible: any;
 }
 
-function Content(props: ModalProps) {
+function Content(props: any) {
   const {
     className,
     style,
@@ -84,7 +84,7 @@ function Content(props: ModalProps) {
   );
 }
 
-function Tooltip(props: ModalProps) {
+function Tooltip(props: TooltipProps) {
   const {
     className,
     children,
@@ -113,13 +113,14 @@ function Tooltip(props: ModalProps) {
         })}
         ref={refEl}
       >
-        {React.Children.map(children, (item) => {
+        {React.Children.map(children, (item: any) => {
           return (
             item &&
             React.cloneElement(item, {
               onClick: (event: any) => {
                 event.stopPropagation();
                 event && event.persist();
+                item.props.onClick && item.props.onClick(event);
                 if (trigger == 'click') {
                   setVisible((prevOpen) => {
                     return !prevOpen;
@@ -129,6 +130,7 @@ function Tooltip(props: ModalProps) {
               onMouseOver: (event: any) => {
                 event.stopPropagation();
                 event && event.persist();
+                item.props.onMouseOver && item.props.onMouseOver(event);
                 if (trigger == 'hover') {
                   handleOpen();
                 }
@@ -136,6 +138,7 @@ function Tooltip(props: ModalProps) {
               onMouseOut: (event: any) => {
                 event.stopPropagation();
                 event && event.persist();
+                item.props.onMouseOut && item.props.onMouseOut(event);
                 if (trigger == 'hover') {
                   handleClose();
                 }
@@ -143,6 +146,7 @@ function Tooltip(props: ModalProps) {
               onFocus: (value: any, event: any) => {
                 event.stopPropagation();
                 event && event.persist();
+                item.props.onFocus && item.props.onFocus(event);
                 if (trigger == 'focus') {
                   handleOpen();
                 }
@@ -150,6 +154,7 @@ function Tooltip(props: ModalProps) {
               onBlur: (value: any, event: any) => {
                 event.stopPropagation();
                 event && event.persist();
+                item.props.onBlur && item.props.onBlur(event);
                 if (trigger == 'focus') {
                   handleClose();
                 }
