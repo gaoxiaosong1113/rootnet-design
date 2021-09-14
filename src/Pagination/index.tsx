@@ -202,7 +202,7 @@ function Pagination(props: PaginationProps) {
       watcher(num);
       onChange && onChange(num, pageSize2);
     },
-    [now],
+    [now, totalPage],
   );
 
   // 上一页
