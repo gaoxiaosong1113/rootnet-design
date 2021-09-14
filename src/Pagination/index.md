@@ -29,7 +29,7 @@ export default () => {
 };
 ```
 
-示例：小尺寸分页
+示例：小尺寸分页（动态传入 totalPage）
 
 ```tsx
 import React, { useState, useEffect } from 'react';
@@ -37,12 +37,16 @@ import { Grid, Pagination } from 'rootnet-design';
 const { Row, Col } = Grid;
 
 export default () => {
+  const [num, setNum] = useState(100);
+  setTimeout(() => {
+    setNum(10);
+  }, 0);
   return (
     <div>
       <Row gutter={[16, 16]}>
         <Col span={24}>
           <Pagination
-            totalPage={100}
+            totalPage={num}
             totalNum={1000}
             pageSize={20}
             size="small"
