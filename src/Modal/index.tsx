@@ -51,6 +51,18 @@ export interface ModalProps {
   onCancel: Function;
 
   /**
+   * @description      确认按钮文字
+   * @default           -
+   */
+  confirmButtonText: any;
+
+  /**
+   * @description      取消按钮文字
+   * @default           -
+   */
+  cancelButtonText: any;
+
+  /**
    * @description      页脚
    * @default           -
    */
@@ -121,6 +133,8 @@ function ModalContent(props: ModalContentProps) {
     visible,
     onConfirm,
     onCancel,
+    confirmButtonText = '确定',
+    cancelButtonText = '取消',
     onClose,
     footer,
     width,
@@ -213,9 +227,9 @@ function ModalContent(props: ModalContentProps) {
                   footer
                 ) : (
                   <>
-                    <Button onClick={handleCancel}>取消</Button>
+                    <Button onClick={handleCancel}>{cancelButtonText}</Button>
                     <Button type="primary" onClick={handleConfirm}>
-                      确定
+                      {confirmButtonText}
                     </Button>
                   </>
                 )}
