@@ -68,6 +68,37 @@ export default () => {
 };
 ```
 
+自定义确定/取消按钮文字：
+
+```tsx
+import React, { useState } from 'react';
+import { Modal, Button } from 'rootnet-design';
+
+export default () => {
+  const [visible, setVisible] = useState(false);
+  return (
+    <div>
+      <Button title="First Demo" onClick={() => setVisible(true)}>
+        打开弹窗
+      </Button>
+      <Modal
+        title="First Demo"
+        visible={visible}
+        confirmButtonText="自定义确定按钮"
+        cancelButtonText="自定义取消按钮"
+        onCancel={() => {
+          console.log('关闭');
+          setVisible(false);
+        }}
+        onConfirm={() => {
+          setVisible(false);
+        }}
+      />
+    </div>
+  );
+};
+```
+
 自定义页脚：
 
 ```tsx
