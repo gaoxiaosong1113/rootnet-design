@@ -84,6 +84,15 @@ export default () => {
       <Row gutter={[16, 16]}>
         <Col span={4}>
           <Select
+            multiple={true}
+            placeholder={'多选下拉框'}
+            onChange={(value) => {
+              console.log(value);
+            }}
+          />
+        </Col>
+        <Col span={4}>
+          <Select
             options={[
               {
                 label: '选项一选项一选项一选项一选项一选项一选项一选项一',

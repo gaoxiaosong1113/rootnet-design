@@ -213,7 +213,10 @@ function SelectContent(props: SelectProps) {
         }}
       >
         <div className={clsx(`${prefix}-select-body`, {})}>
-          {multiple ? (
+          {(!options || options.length == 0) && (
+            <div className={clsx(`${prefix}-select-noData`, {})}>暂无数据</div>
+          )}
+          {options && multiple && (
             <Tree
               checkable={!multiple}
               onCheck={(v: any) => {
@@ -229,7 +232,9 @@ function SelectContent(props: SelectProps) {
               rowTitle="label"
               rowKey="value"
             />
-          ) : (
+          )}
+
+          {options && !multiple && (
             <Tree
               checkable={!multiple}
               onCheck={(v: any) => {

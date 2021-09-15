@@ -89,6 +89,17 @@
     z-index: 9999;
   }
 
+  &-noData {
+    height: 34px;
+    background: #ffffff;
+    padding: 0;
+    line-height: 34px;
+    white-space: nowrap;
+    padding: 0 12px;
+    text-align: center;
+    font-size: 12px;
+  }
+
   &-item {
     height: 34px;
     cursor: pointer;
@@ -167,6 +178,8 @@
   }
 
   &-body {
+    max-height: 300px;
+    overflow-y: auto;
   }
 
   &-footer {
