@@ -128,6 +128,7 @@ function ModalContent(props: ModalContentProps) {
     close = true,
     forceRender,
     confirm = false,
+    destroyOnClose,
     ...prop
   } = props;
 
@@ -168,8 +169,10 @@ function ModalContent(props: ModalContentProps) {
         onEnter={() => {
           // console.log('进入');
         }}
-        // unmountOnExit
-        timeout={300}
+        unmountOnExit={destroyOnClose}
+        appear
+        mountOnEnter
+        timeout={200}
       >
         <div
           ref={modalElRef}
@@ -254,10 +257,20 @@ export function Modal(props: ModalProps): any {
     }
   }, [visible]);
 
-  if (!forceRender && destroyOnClose && !animatedVisible) {
-    // console.log('卸载');
-    return null;
-  }
+  useEffect(() => {
+    document.addEventListener('click', (e) => {
+      // console.log(e)
+      e.pageX;
+      e.pageY;
+      setEv(e);
+      return false;
+    });
+  }, []);
+
+  // if (!forceRender && destroyOnClose && !animatedVisible) {
+  //   // console.log('卸载');
+  //   return null;
+  // }
 
   return ReactDOM.createPortal(
     <ModalContent
