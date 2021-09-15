@@ -358,7 +358,11 @@ export default function Tree(props: TreeProps) {
     let loopRows = loopData(dataSource, key, rowKey);
     setSelectedRows(loopRows);
     if (rowSelection && rowSelection.onChange) {
-      rowSelection.onChange(key, loopRows, indeterminateKeys);
+      rowSelection.onChange(
+        loopRows.map((item: any) => item.value),
+        loopRows,
+        indeterminateKeys,
+      );
     }
   }
 

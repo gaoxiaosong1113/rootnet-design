@@ -35,10 +35,23 @@ export interface SpinProps {
    * @default           false
    */
   loading: boolean;
+
+  /**
+   * @description      加载提示
+   * @default           -
+   */
+  title: any;
 }
 
 function Spin(props: SpinProps) {
-  const { className, children, size, loading = false, ...prop } = props;
+  const {
+    className,
+    children,
+    size,
+    loading = false,
+    title = '加载中...',
+    ...prop
+  } = props;
 
   return (
     <div
@@ -62,7 +75,7 @@ function Spin(props: SpinProps) {
           <i className={clsx(`${prefix}-spin-dot-item`, {})}></i>
           <i className={clsx(`${prefix}-spin-dot-item`, {})}></i>
         </span>
-        <p className={clsx(`${prefix}-spin-text`, {})}>加载中...</p>
+        <p className={clsx(`${prefix}-spin-text`, {})}>{title}</p>
       </div>
     </div>
   );

@@ -29,6 +29,26 @@ export default () => {
 };
 ```
 
+自定内容：
+
+```tsx
+import React, { useState } from 'react';
+import { Spin, Alert, Grid } from 'rootnet-design';
+const { Row, Col } = Grid;
+
+export default () => {
+  return (
+    <div>
+      <Row gutter={[16, 16]}>
+        <Col span={24}>
+          <Spin loading title="上传中..."></Spin>
+        </Col>
+      </Row>
+    </div>
+  );
+};
+```
+
 放到容器中：
 
 ```tsx

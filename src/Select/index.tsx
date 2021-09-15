@@ -85,13 +85,12 @@ function Select(props: SelectProps) {
     ...prop
   } = props;
 
-  const [value, setValue] = useState(props.value || undefined);
+  const [value, setValue] = useState(props.value || multiple ? [] : null);
   const [visible, setVisible] = useState(false);
 
   const refEl = useRef(null);
 
   function handleOnChange(e: any) {
-    // onChange
     setValue(e);
     if (onChange) onChange(e);
   }
@@ -100,12 +99,18 @@ function Select(props: SelectProps) {
     setValue(props.value);
   }, [props.value]);
 
+  const isPlaceholder = useMemo(() => {
+    return (
+      value === undefined || value === null || JSON.stringify(value) === '[]'
+    );
+  }, [value]);
+
   return (
     <div
       className={clsx(className, `${prefix}-select-target`, {
         [`${prefix}-select-target-disabled`]: disabled,
         [`${prefix}-select-target-visible`]: visible,
-        [`${prefix}-select-placeholder`]: !value,
+        [`${prefix}-select-placeholder`]: isPlaceholder,
       })}
       ref={refEl}
     >
@@ -118,11 +123,11 @@ function Select(props: SelectProps) {
           return false;
         }}
       >
-        <SelectValue value={value} {...props} />
+        <SelectValue {...props} value={value} />
       </div>
       {value && value != undefined && close ? (
         <div
-          onClick={() => setValue(null)}
+          onClick={() => handleOnChange(null)}
           className={clsx(`${prefix}-select-target-close`, {})}
         >
           <Icon name="shibai" size={14} />
@@ -224,7 +229,7 @@ function SelectContent(props: SelectProps) {
               }}
               dataSource={options}
               rowSelection={{
-                selectedRowKeys: value,
+                selectedRowKeys: value as Array<Number | String>,
                 onChange: (key: any) => {
                   handleChange(key);
                 },
