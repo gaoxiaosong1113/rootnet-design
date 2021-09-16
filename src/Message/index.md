@@ -133,6 +133,7 @@ export default () => {
     Message.show({
       content: '这是一条常规提醒，不会主动消失',
       duration: 0,
+      close: true,
     });
   };
 

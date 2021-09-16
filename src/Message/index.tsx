@@ -66,6 +66,12 @@ export interface MessageProps {
   duration?: number;
 
   /**
+   * @description      是否显示 x 关闭按钮
+   * @default           -
+   */
+  close?: boolean;
+
+  /**
    * @description      提示信息销毁后回调
    * @default           -
    */
@@ -87,14 +93,14 @@ function MessageContent(props: any): any {
     onClose,
     onRemove,
     messageKey,
+    close = false,
   } = props;
 
   useEffect(() => {
     let time: any;
     if (duration) {
       time = window.setTimeout(() => {
-        onRemove(messageKey);
-        onClose && onClose();
+        handleClose();
         clearTimeout(time);
       }, duration * 1000);
     }
@@ -103,6 +109,11 @@ function MessageContent(props: any): any {
       clearTimeout(time);
     };
   }, []);
+
+  function handleClose() {
+    onRemove(messageKey);
+    onClose && onClose();
+  }
 
   return (
     <div
@@ -130,6 +141,16 @@ function MessageContent(props: any): any {
             <Icon name={'jinggao'} />
           </div>
           <span>{content || ''}</span>
+          {close && (
+            <div
+              className={clsx(`${prefix}-message-close`)}
+              onClick={() => {
+                handleClose();
+              }}
+            >
+              <Icon name="cuowu1" />
+            </div>
+          )}
         </div>
       </div>
     </div>
