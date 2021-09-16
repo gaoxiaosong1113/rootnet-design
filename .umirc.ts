@@ -9,5 +9,5 @@ export default defineConfig({
   history: {
     type: 'hash',
   },
-  // more config: https://d.umijs.org/config
+  dynamicImport: true,
 });
