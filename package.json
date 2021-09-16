@@ -3,7 +3,8 @@
   "name": "rootnet-design",
   "version": "0.0.70",
   "files": [
-    "dist"
+    "lib",
+    "es"
   ],
   "scripts": {
     "start": "dumi dev",
@@ -20,9 +21,9 @@
     "unpublish": "npm unpublish rootnet-design --force",
     "link-react": "npm link ../edit-reportnp/node_modules/react"
   },
-  "main": "dist/index.js",
-  "module": "dist/index.esm.js",
-  "typings": "dist/index.d.ts",
+  "main": "lib/index.js",
+  "module": "lib/index.esm.js",
+  "typings": "lib/index.d.ts",
   "gitHooks": {
     "pre-commit": "lint-staged"
   },
