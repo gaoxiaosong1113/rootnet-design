@@ -3,6 +3,7 @@ export default {
   cjs: 'babel',
   cssModules: true,
   lessInBabelMode: true,
+  disableTypeCheck: true,
   // extraBabelPlugins: [
   //   ['babel-plugin-import', {
   //     libraryName: 'rootnet-design',
