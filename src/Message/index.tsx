@@ -92,7 +92,7 @@ function MessageContent(props: any): any {
   useEffect(() => {
     let time: any;
     if (duration) {
-      time = window.setTimeout(() => {
+      time = setTimeout(() => {
         onRemove(messageKey);
         onClose && onClose();
         clearTimeout(time);
