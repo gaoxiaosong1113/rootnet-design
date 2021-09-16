@@ -112,7 +112,7 @@ function NotificationContent(props: any) {
     let time: any;
 
     if (duration) {
-      time = window.setTimeout(() => {
+      time = setTimeout(() => {
         cleartimer();
         clearTimeout(time);
       }, duration * 1000);
