@@ -28,7 +28,7 @@ export interface TransferProps {
    * @description      标题
    * @default           -
    */
-  title?: string;
+  title?: any;
 
   /**
    * @description      开启搜索
@@ -164,10 +164,18 @@ function Transfer(props: TransferProps) {
     setTargetSelectedKeys([]);
   }
 
-  const Title = useCallback(() => {
-    if (!title) return null;
-    return <div className={clsx(`${prefix}-transfer-title`, {})}>{title}</div>;
-  }, [title]);
+  const Title = useCallback(
+    (titleProps: any) => {
+      if (title === undefined) return null;
+
+      return (
+        <div className={clsx(`${prefix}-transfer-title`, {})}>
+          {title instanceof Object ? title[titleProps.type] : title}
+        </div>
+      );
+    },
+    [title],
+  );
 
   const Search = useCallback(
     ({ type }) => {
@@ -300,7 +308,7 @@ function Transfer(props: TransferProps) {
           [`${prefix}-transfer-noData`]: source.length <= 0,
         })}
       >
-        <Title />
+        <Title type="left" />
         <Search type="source" />
         <AllCheckbox type="source" />
         <div className={clsx(`${prefix}-transfer-checkbox`, {})}>
@@ -371,7 +379,7 @@ function Transfer(props: TransferProps) {
           [`${prefix}-transfer-noData`]: target.length <= 0,
         })}
       >
-        <Title />
+        <Title type="right" />
         <Search type="target" />
         <AllCheckbox type="target" />
         <div className={clsx(`${prefix}-transfer-checkbox`, {})}>
