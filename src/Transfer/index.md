@@ -24,8 +24,8 @@ export default () => {
         <Col span={24}>
           <Transfer
             title={{
-              left: '我是左标题',
-              right: '我是右标题',
+              source: '我是左标题',
+              target: '我是右标题',
             }}
             search
             dataSource={[
