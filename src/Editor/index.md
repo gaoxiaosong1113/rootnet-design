@@ -9,14 +9,11 @@ group:
 
 ## Editor 富文本编辑器
 
-本组件基于 braft-editor 封装，[文档参考](https://www.yuque.com/braft-editor/be/gz44tn)
+富文本编辑器已经拆分到 rootnet-design-editor 包中
 
-设置：
-
-```tsx
+```tsx | pure
 import React, { useState, useRef, useEffect } from 'react';
-import { Editor, Grid, Button } from 'rootnet-design';
-const { Row, Col } = Grid;
+import Editor from 'rootnet-design-editor';
 const EditorViewer = Editor.EditorViewer;
 
 export default () => {
@@ -31,35 +28,25 @@ export default () => {
 
   return (
     <div>
-      <Row gutter={[16, 16]}>
-        <Col span={24}>
-          <Editor
-            defaultValue={'<p>我是默认填充的内容</p>'}
-            value={value}
-            action={(form, config) => {
-              return new Promise((resolve, reject) => {
-                resolve(
-                  'https://www.baidu.com/img/PCtm_d9c8750bed0b3c7d089fa7d55720d6cf.png',
-                );
-              });
-            }}
-            ref={ref}
-            onPreview={(value) => console.log(value)}
-            onChange={(value) => {
-              console.log(value, '修改');
-              setValue(value);
-            }}
-          />
-        </Col>
-        <Col span={24}>
-          <EditorViewer value={value} />
-        </Col>
-      </Row>
+      <Editor
+        defaultValue={'<p>我是默认填充的内容</p>'}
+        value={value}
+        action={(form, config) => {
+          return new Promise((resolve, reject) => {
+            resolve(
+              'https://www.baidu.com/img/PCtm_d9c8750bed0b3c7d089fa7d55720d6cf.png',
+            );
+          });
+        }}
+        ref={ref}
+        onPreview={(value) => console.log(value)}
+        onChange={(value) => {
+          console.log(value, '修改');
+          setValue(value);
+        }}
+      />
+      <EditorViewer value={value} />
     </div>
   );
 };
 ```
-
-## 常见问题
-
-<API  exports='["default", "EditorViewer"]'/>
