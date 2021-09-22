@@ -28,7 +28,7 @@ export interface TransferProps {
    * @description      标题
    * @default           -
    */
-  title?: string;
+  title?: any;
 
   /**
    * @description      开启搜索
@@ -82,6 +82,9 @@ function Transfer(props: TransferProps) {
     selectRowKeys = [],
     dataSource = [],
     search = false,
+    onChange,
+    onSelectChange,
+    onSearch,
     ...prop
   } = props;
 
@@ -98,13 +101,11 @@ function Transfer(props: TransferProps) {
   const [targetKeys, setTargetKeys] = useState(props.targetKeys || []);
 
   useEffect(() => {
-    // setSourceSelectedKeys(selectRowKeys);
-    // setTargetSelectedKeys(selectRowKeys);
-  }, [selectRowKeys]);
-
-  useEffect(() => {
-    // setTargetKeys(props.targetKeys);
-  }, [props.targetKeys]);
+    onSelectChange?.({
+      source: sourceSelectedKeys,
+      target: targetSelectedKeys,
+    });
+  }, [sourceSelectedKeys, targetSelectedKeys]);
 
   const source = useMemo(() => {
     if (sourceSearch) {
@@ -144,30 +145,38 @@ function Transfer(props: TransferProps) {
       }));
   }, [dataSource, targetKeys, sourceSelectedKeys, targetSearch]);
 
-  function handleChange(value: any) {}
-
   function addKeys() {
-    setTargetKeys(
-      targetKeys.concat(
-        sourceSelectedKeys.filter((item) => targetKeys.indexOf(item) == -1),
-      ),
+    let key = targetKeys.concat(
+      sourceSelectedKeys.filter((item) => targetKeys.indexOf(item) == -1),
     );
+    setTargetKeys(key);
     setSourceSelectedKeys([]);
     setTargetSelectedKeys([]);
+    onChange?.(key);
   }
 
   function deleteKeys() {
-    setTargetKeys(
-      targetKeys.filter((item) => targetSelectedKeys.indexOf(item) == -1),
+    let key = targetKeys.filter(
+      (item) => targetSelectedKeys.indexOf(item) == -1,
     );
+    setTargetKeys(key);
     setSourceSelectedKeys([]);
     setTargetSelectedKeys([]);
+    onChange?.(key);
   }
 
-  const Title = useCallback(() => {
-    if (!title) return null;
-    return <div className={clsx(`${prefix}-transfer-title`, {})}>{title}</div>;
-  }, [title]);
+  const Title = useCallback(
+    (titleProps: any) => {
+      if (title === undefined) return null;
+
+      return (
+        <div className={clsx(`${prefix}-transfer-title`, {})}>
+          {title instanceof Object ? title[titleProps.type] : title}
+        </div>
+      );
+    },
+    [title],
+  );
 
   const Search = useCallback(
     ({ type }) => {
@@ -178,6 +187,10 @@ function Transfer(props: TransferProps) {
             icon={<Icon color="#3A415C" name="enlarge" />}
             value={sourceSearch}
             onChange={(v: any) => {
+              onSearch?.({
+                type,
+                value: v,
+              });
               if (type == 'source') {
                 setSourceSearch(v);
               }
@@ -300,7 +313,7 @@ function Transfer(props: TransferProps) {
           [`${prefix}-transfer-noData`]: source.length <= 0,
         })}
       >
-        <Title />
+        <Title type="source" />
         <Search type="source" />
         <AllCheckbox type="source" />
         <div className={clsx(`${prefix}-transfer-checkbox`, {})}>
@@ -371,7 +384,7 @@ function Transfer(props: TransferProps) {
           [`${prefix}-transfer-noData`]: target.length <= 0,
         })}
       >
-        <Title />
+        <Title type="target" />
         <Search type="target" />
         <AllCheckbox type="target" />
         <div className={clsx(`${prefix}-transfer-checkbox`, {})}>

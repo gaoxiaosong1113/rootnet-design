@@ -29,7 +29,7 @@ function TreeItem(props: any) {
     layer,
     rowTitle,
     // tree行 key 的取值，可以是字符串或一个函数
-    rowKey,
+    rowKey = 'id',
     // tree行是否可选择，配置项
     rowSelection,
     // 设置行属性
@@ -359,7 +359,7 @@ export default function Tree(props: TreeProps) {
     setSelectedRows(loopRows);
     if (rowSelection && rowSelection.onChange) {
       rowSelection.onChange(
-        loopRows.map((item: any) => item.value),
+        loopRows.map((item: any) => item[rowKey]),
         loopRows,
         indeterminateKeys,
       );

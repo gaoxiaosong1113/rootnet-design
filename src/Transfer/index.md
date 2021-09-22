@@ -23,7 +23,10 @@ export default () => {
       <Row gutter={[16, 16]}>
         <Col span={24}>
           <Transfer
-            title="我是标题"
+            title={{
+              source: '我是左标题',
+              target: '我是右标题',
+            }}
             search
             dataSource={[
               { id: '1', title: '基础管理' },

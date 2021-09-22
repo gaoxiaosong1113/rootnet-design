@@ -58,19 +58,19 @@ export interface BreadcrumbItemProps {
   onClick: Function;
 
   /**
-   * @description      当前项的索引
+   * @description      当前项的索引, 内部使用
    * @default           -
    */
   index: number;
 
   /**
-   * @description      是否是最后一项
+   * @description      是否是最后一项, 内部使用
    * @default           -
    */
   lastChild: boolean;
 }
 
-function BreadcrumbItem(props: BreadcrumbItemProps) {
+export function Item(props: BreadcrumbItemProps) {
   const { className, children, index, onClick, lastChild, ...prop } = props;
 
   function handleClick() {
@@ -92,6 +92,6 @@ function BreadcrumbItem(props: BreadcrumbItemProps) {
   );
 }
 
-Breadcrumb.Item = BreadcrumbItem;
+Breadcrumb.Item = Item;
 
 export default Breadcrumb;
