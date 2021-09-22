@@ -184,7 +184,7 @@ function Transfer(props: TransferProps) {
       return (
         <div className={clsx(`${prefix}-transfer-search`, {})}>
           <Input
-            icon={<Icon color="#3A415C" name="enlarge" />}
+            icon={<Icon color="#3A415C" name="sousuo" />}
             value={sourceSearch}
             onChange={(v: any) => {
               onSearch?.({
