@@ -1,12 +1,23 @@
 export default {
-  esm: 'rollup',
-  cjs: 'rollup',
+  esm: 'babel',
+  cjs: 'babel',
+  // esm: 'rollup',
+  // cjs: 'rollup',
+  extractCSS: true,
   disableTypeCheck: true,
-  // extraBabelPlugins: [
-  //   ['babel-plugin-import', {
-  //     libraryName: 'rootnet-design',
-  //     libraryDirectory: 'es',
-  //     style: true,
-  //   }],
-  // ],
+  lessInBabelMode: true,
+  extraPostCSSPlugins: [],
+  extraBabelPlugins: [
+    [
+      'babel-plugin-import',
+      {
+        libraryName: 'rootnet-design',
+        libraryDirectory: 'lib',
+        style: true,
+      },
+    ],
+  ],
+  autoprefixer: {
+    overrideBrowserslist: ['ie>8', 'Safari >= 6'],
+  },
 };

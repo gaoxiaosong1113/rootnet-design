@@ -1,7 +1,7 @@
 {
   "private": false,
-  "name": "rootnet-design",
-  "version": "0.0.76",
+  "name": "rootnet-design-dome",
+  "version": "0.0.1",
   "files": [
     "dist",
     "lib",
@@ -22,9 +22,9 @@
     "unpublish": "npm unpublish rootnet-design --force",
     "link-react": "npm link ../edit-reportnp/node_modules/react"
   },
-  "main": "dist/index.js",
-  "module": "dist/index.esm.js",
-  "typings": "dist/index.d.ts",
+  "main": "lib/index.js",
+  "module": "lib/index.esm.js",
+  "typings": "lib/index.d.ts",
   "gitHooks": {
     "pre-commit": "lint-staged"
   },
