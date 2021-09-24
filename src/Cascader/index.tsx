@@ -90,8 +90,6 @@ function cascader(props: CascaderProps) {
   const oldValue = useRef<any>(null);
 
   function handleOnChange(data: any) {
-    console.log(data);
-
     oldValue.current = data;
     setValue(data?.label || data);
     onChange?.(data?.value || data, data?.label || data);
@@ -310,7 +308,6 @@ function CascaderValue(props: CascaderProps) {
     multiple,
     ...prop
   } = props;
-  console.log(333, value);
 
   if (value !== null && value?.length > 0) {
     if (multiple) {
