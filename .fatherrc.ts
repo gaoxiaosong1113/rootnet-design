@@ -1,12 +1,13 @@
 export default {
-  esm: 'babel',
-  cjs: 'babel',
-  // esm: 'rollup',
-  // cjs: 'rollup',
-  extractCSS: true,
-  disableTypeCheck: true,
-  lessInBabelMode: true,
-  extraPostCSSPlugins: [],
+  // esm: 'babel',
+  // cjs: 'babel',
+  esm: 'rollup',
+  cjs: 'rollup',
+  // umd: 'rollup',
+  // extractCSS: true,
+  // disableTypeCheck: true,
+  // lessInBabelMode: true,
+  // extraPostCSSPlugins: [],
   extraBabelPlugins: [
     [
       'babel-plugin-import',

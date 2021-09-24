@@ -1,7 +1,7 @@
 {
   "private": false,
-  "name": "rootnet-design-dome",
-  "version": "0.0.1",
+  "name": "rootnet-design",
+  "version": "0.0.81",
   "files": [
     "dist",
     "lib",
@@ -22,9 +22,9 @@
     "unpublish": "npm unpublish rootnet-design --force",
     "link-react": "npm link ../edit-reportnp/node_modules/react"
   },
-  "main": "lib/index.js",
-  "module": "lib/index.esm.js",
-  "typings": "lib/index.d.ts",
+  "main": "dist/index.js",
+  "module": "dist/index.esm.js",
+  "typings": "dist/index.d.ts",
   "gitHooks": {
     "pre-commit": "lint-staged"
   },
@@ -37,10 +37,8 @@
     ]
   },
   "dependencies": {
-    "@ckeditor/ckeditor5-react": "^2.1.0",
     "@types/react-transition-group": "^4.4.2",
     "babel-plugin-import": "^1.13.3",
-    "ckeditor5-custom": "^1.0.0",
     "clsx": "^1.1.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
