@@ -52,6 +52,7 @@ export { default as UacTransfer } from './UacTransfer';
 export { default as Operation } from './Operation';
 export { default as HeadPortrait } from './HeadPortrait';
 export { default as StatePoint } from './StatePoint';
+export { default as Cascader } from './Cascader';
 
 import * as _util from './_util';
 
