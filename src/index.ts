@@ -53,6 +53,7 @@ export { default as Operation } from './Operation';
 export { default as HeadPortrait } from './HeadPortrait';
 export { default as StatePoint } from './StatePoint';
 export { default as Cascader } from './Cascader';
+export { default as Badge } from './Badge';
 
 import * as _util from './_util';
 
