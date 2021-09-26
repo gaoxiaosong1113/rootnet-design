@@ -46,6 +46,18 @@ export interface PopconfirmProps {
   onCancel?: Function;
 
   /**
+   * @description      确认按钮文字
+   * @default           -
+   */
+  confirmButtonText: any;
+
+  /**
+   * @description      取消按钮文字
+   * @default           -
+   */
+  cancelButtonText: any;
+
+  /**
    * @description      弹出位置
    * @default           top
    */
@@ -58,6 +70,8 @@ function Content(props: any) {
     content,
     onConfirm,
     onCancel,
+    confirmButtonText = '确定',
+    cancelButtonText = '取消',
     position = 'top',
     ...prop
   } = props;
@@ -73,9 +87,11 @@ function Content(props: any) {
           <span>{content}</span>
         </div>
         <div className={clsx(`${prefix}-popconfirm-footer`)}>
-          <Button onClick={onCancel}>取消</Button>
-          <Button type="primary" onClick={onConfirm}>
-            确定
+          <Button size="sm" onClick={onCancel}>
+            {cancelButtonText}
+          </Button>
+          <Button size="sm" type="primary" onClick={onConfirm}>
+            {confirmButtonText}
           </Button>
         </div>
       </div>
@@ -119,7 +135,7 @@ function Popconfirm(props: PopconfirmProps) {
           setVisible(true);
           event.stopPropagation();
         },
-        className: `${prefix}-popconfirm-target`,
+        className: clsx(className, `${prefix}-popconfirm-target`),
         ref: refEl,
       })}
       <Popup
