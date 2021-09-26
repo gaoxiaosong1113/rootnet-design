@@ -100,14 +100,7 @@ function Content(props: any) {
 }
 
 function Popconfirm(props: PopconfirmProps) {
-  const {
-    className,
-    children,
-    onConfirm,
-    onCancel,
-    position = 'top',
-    ...prop
-  } = props;
+  const { children, onConfirm, onCancel, position = 'top', ...prop } = props;
   const [visible, setVisible] = useState(false);
 
   const refEl = useRef(null);
@@ -135,7 +128,7 @@ function Popconfirm(props: PopconfirmProps) {
           setVisible(true);
           event.stopPropagation();
         },
-        className: clsx(className, `${prefix}-popconfirm-target`),
+        className: `${prefix}-popconfirm-target`,
         ref: refEl,
       })}
       <Popup
