@@ -1,0 +1,48 @@
+@import '../index.less';
+
+.@{prefix}-badge {
+  &-container {
+    position: relative;
+    display: inline-block;
+  }
+  &-sub {
+    z-index: auto;
+    min-width: 20px;
+    height: 20px;
+    padding: 0 6px;
+    color: @fullBrightColor;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 20px;
+    white-space: nowrap;
+    text-align: center;
+    background-color: @errorColor;
+    border-radius: 10px;
+    box-shadow: 0 0 0 1px #fff;
+    display: inline-block;
+    overflow: hidden;
+    position: absolute;
+    top: 0;
+    right: 0;
+    transform: translate(50%, -50%);
+    transform-origin: 100% 0%;
+    &-num {
+    }
+    &-dom {
+      position: absolute;
+      top: 0;
+      right: 0;
+      transform: translate(50%, -50%);
+      transform-origin: 100% 0%;
+    }
+    &-dot {
+      z-index: auto;
+      width: 6px;
+      min-width: 6px;
+      height: 6px;
+      background: @errorColor;
+      border-radius: 100%;
+      box-shadow: 0 0 0 1px @fullBrightColor;
+    }
+  }
+}
