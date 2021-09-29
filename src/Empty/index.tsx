@@ -34,6 +34,12 @@ export interface EmptyProps {
   type: string;
 
   /**
+   * @description      自定义提示文字
+   * @default           -
+   */
+  describe?: string;
+
+  /**
    * @description      需要显示的图标
    * @default           -
    */
@@ -47,45 +53,46 @@ export interface EmptyProps {
 }
 
 function Empty(props: EmptyProps) {
-  const { className, type, icon, disabled, children, ...prop } = props;
+  const { className, type, icon, disabled, children, describe, ...prop } =
+    props;
 
   let show = useMemo(() => {
     let config: any = {
       approved: {
         image: approved,
-        describe: '审核通过',
+        describe: describe || '审核通过',
       },
       auditFailure: {
         image: auditFailure,
-        describe: '审核失败',
+        describe: describe || '审核失败',
       },
       connectInterrupt: {
         image: connectInterrupt,
-        describe: '好像断开连接了<br/>刷新一下吧',
+        describe: describe || '好像断开连接了<br/>刷新一下吧',
       },
       development: {
         image: development,
-        describe: '该模块功能正在开发中<br/>敬请期待',
+        describe: describe || '该模块功能正在开发中<br/>敬请期待',
       },
       emptyData: {
         image: emptyData,
-        describe: '暂无相关数据',
+        describe: describe || '暂无相关数据',
       },
       error: {
         image: error,
-        describe: '加载失败',
+        describe: describe || '加载失败',
       },
       requestError: {
         image: requestError,
-        describe: '请设置好相关条件<br/>再来查看数据吧',
+        describe: describe || '请设置好相关条件<br/>再来查看数据吧',
       },
       review: {
         image: review,
-        describe: '审核中',
+        describe: describe || '审核中',
       },
       searchEmptyData: {
         image: searchEmptyData,
-        describe: '没有找到相关数据',
+        describe: describe || '没有找到相关数据',
       },
     };
     return config[type] || config['emptyData'];

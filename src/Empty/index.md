@@ -69,4 +69,20 @@ export default () => {
 };
 ```
 
+自定义提示文字：
+
+```tsx
+import React from 'react';
+import { Empty, Grid } from 'rootnet-design';
+const { Row, Col } = Grid;
+
+export default () => {
+  return (
+    <div>
+      <Empty type="approved" describe="自定义文本"></Empty>
+    </div>
+  );
+};
+```
+
 <API />
