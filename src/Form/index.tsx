@@ -142,6 +142,7 @@ export const Form = (props: FormProps, ref: any) => {
       value={{
         formValue: value,
         formRef: formRef.current,
+        layout,
         onChange: (name: string, v: string) => {
           value[name] = v;
           setValue({ ...value });
@@ -200,6 +201,12 @@ export interface FormItemProps {
   label?: ReactNode;
 
   /**
+   * @description      label 标签宽度
+   * @default           -
+   */
+  labelWidth?: any;
+
+  /**
    * @description      设置表单域内字段
    * @default           -
    */
@@ -219,8 +226,16 @@ export interface FormItemProps {
 }
 
 export const Item = (props: FormItemProps, ref: any) => {
-  const { className, label, name, children, rules, ...prop } = props;
-  const { onChange, onFocus, onBlur, formValue, formRef } =
+  const {
+    className,
+    label,
+    name,
+    children,
+    rules,
+    labelWidth = 200,
+    ...prop
+  } = props;
+  const { onChange, onFocus, onBlur, formValue, formRef, layout } =
     useContext(FormContext);
   const [value, setValue] = useState(formValue[name]);
   const [required, setRequired] = useState(false);
@@ -333,6 +348,7 @@ export const Item = (props: FormItemProps, ref: any) => {
         className={clsx(`${prefix}-form-item-laber`, {
           [`${prefix}-form-item-laber-none`]: !label,
         })}
+        style={layout === 'horizontal' ? { width: labelWidth } : {}}
       >
         {required && (
           <span className={clsx(`${prefix}-form-item-required`)}>*</span>

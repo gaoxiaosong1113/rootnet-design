@@ -30,6 +30,12 @@ export interface InputProps {
   icon?: any;
 
   /**
+   * @description      input 后面需要显示的图标
+   * @default           -
+   */
+  affterIcon?: any;
+
+  /**
    * @description      是否禁用输入框
    * @default           false
    */
@@ -78,6 +84,12 @@ export interface InputProps {
   onBlur?: Function;
 
   /**
+   * @description      是否显示关闭按钮
+   * @default           -
+   */
+  close?: boolean;
+
+  /**
    * @description      name
    * @default           -
    */
@@ -103,18 +115,20 @@ function Input(props: InputProps, ref: any) {
     before,
     after,
     icon,
+    affterIcon,
     onChange,
     onFocus,
     onBlur,
     name,
     disabled,
+    close = false,
     ...prop
   } = props;
 
   const [value, setValue] = useState(props.value || '');
   const [focus, setFocus] = useState(props.focus);
 
-  const refEl = useRef(null);
+  const refEl = useRef(null) as any;
 
   useImperativeHandle(ref, () => refEl.current);
 
@@ -169,7 +183,21 @@ function Input(props: InputProps, ref: any) {
           ref={refEl}
         />
       </div>
-
+      {value && value != undefined && close && (
+        <div
+          onClick={() => {
+            refEl.current.value = '';
+            setValue('');
+            handleChange({ target: refEl.current });
+          }}
+          className={clsx(`${prefix}-input-close`, {})}
+        >
+          <Icon name="shibai" size={14} />
+        </div>
+      )}
+      {affterIcon && (
+        <div className={clsx(`${prefix}-input-affterIcon`)}>{affterIcon}</div>
+      )}
       {after && <div className={clsx(`${prefix}-input-after`)}>{after}</div>}
     </div>
   );
