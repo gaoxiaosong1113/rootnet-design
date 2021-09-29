@@ -64,6 +64,12 @@ export interface FormProps {
   onError?: (error: Object) => void;
 
   /**
+   * @description      数据校验失败后的回调事件
+   * @default           -
+   */
+  onValuesChange?: (changeValues: Object, allValues: Object) => void;
+
+  /**
    * @description      支持调用 onSubmit 和 validation
    * @default           -
    */
@@ -77,6 +83,7 @@ export const Form = (props: FormProps, ref: any) => {
     layout = 'inline',
     onSubmit,
     onError,
+    onValuesChange,
     initialValues,
     ...prop
   } = props;
@@ -114,6 +121,16 @@ export const Form = (props: FormProps, ref: any) => {
       handleSubmit(null);
     },
     validation,
+    getValue: (name?: string) => {
+      if (name) {
+        return value[name];
+      }
+      return { ...value };
+    },
+    setValue: (name: string, v: any) => {
+      value[name] = v;
+      setValue({ ...value });
+    },
   }));
 
   useEffect(() => {
@@ -126,10 +143,9 @@ export const Form = (props: FormProps, ref: any) => {
         formValue: value,
         formRef: formRef.current,
         onChange: (name: string, v: string) => {
-          setValue((val: any) => {
-            val[name] = v;
-            return { ...val };
-          });
+          value[name] = v;
+          setValue({ ...value });
+          onValuesChange?.({ [`${name}`]: v }, value);
         },
         onError: (error: any) => {
           // setError(error);

@@ -869,6 +869,9 @@ export default () => {
               console.log('校验错误');
               console.log(error);
             }}
+            onValuesChange={(changeValues, allValues) => {
+              console.log(changeValues, allValues);
+            }}
             ref={ref}
           >
             <Form.Item

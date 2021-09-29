@@ -1256,7 +1256,7 @@
   resolved "http://nexus.croot.com:8081/repository/npm-public/@bloomberg/record-tuple-polyfill/-/record-tuple-polyfill-0.0.3.tgz#0b03d18b88a30894caab14abd669b1cbbf47b843"
   integrity sha1-CwPRi4ijCJTKqxSr1mmxy79HuEM=
 
-"@ckeditor/ckeditor5-react@^2.1.0":
+"@ckeditor/ckeditor5-react@2.1.0":
   version "2.1.0"
   resolved "http://nexus.croot.com:8081/repository/npm-public/@ckeditor/ckeditor5-react/-/ckeditor5-react-2.1.0.tgz#f612546a5a328899a436d71b72ffd632600049e8"
   integrity sha1-9hJUaloyiJmkNtcbcv/WMmAASeg=

@@ -46,28 +46,70 @@ function MenuItem(props: any) {
     expandable,
     setExpandable,
     index,
+    setChecked,
+    checked,
+    collapsed,
   } = props;
 
   const [open, setOpen] = useState(false);
-  const [subMenuEnd, setSubMenuEnd] = useState(false);
+  const [height, setHeight] = useState(0) as any;
 
   const subMenuRef = useRef() as any;
-  const subMenuEndRef = useRef(false) as any;
+
+  // useEffect(()=>{
+  //   if(collapsed){
+  //     setHeight('auto')
+  //   }
+  // },[collapsed])
 
   useEffect(() => {
-    setOpen(expandable && expandable?.indexOf(data[rowKey]) != -1);
-  }, [expandable]);
-
-  const handleOpen = (event: Event) => {
-    let targetOpen = !open;
-    if (targetOpen) {
-      onchecked(expandable, data[rowKey]);
-    } else {
-      unchecked(expandable, data[rowKey]);
+    let targetOpen = expandable.indexOf(data[rowKey]) != -1;
+    // handleCloseAn(targetOpen);
+    if (!targetOpen) {
+      if (collapsed) {
+        setHeight('auto');
+      } else {
+        setHeight(0);
+      }
     }
     setOpen(targetOpen);
-    setExpandable([...expandable]);
+  }, [expandable, collapsed]);
+
+  const handleClick = (event: any): any => {
+    if (child) {
+      if (collapsed) {
+        return;
+      }
+
+      let targetOpen = !open;
+      if (targetOpen) {
+        onchecked(expandable, data[rowKey]);
+      } else {
+        unchecked(expandable, data[rowKey]);
+      }
+      handleCloseAn(targetOpen);
+      setOpen(targetOpen);
+      setExpandable([...expandable]);
+    } else {
+      setChecked(data[rowKey], data);
+    }
     event.stopPropagation();
+  };
+
+  const handleCloseAn = (targetOpen: any) => {
+    if (!subMenuRef.current) return;
+    setHeight(subMenuRef.current.getBoundingClientRect().height);
+    if (targetOpen) {
+      let time = setTimeout(() => {
+        clearTimeout(time);
+        setHeight('auto');
+      }, 350);
+    } else {
+      let time = setTimeout(() => {
+        clearTimeout(time);
+        setHeight(0);
+      }, 5);
+    }
   };
 
   const child = useMemo(() => {
@@ -88,44 +130,37 @@ function MenuItem(props: any) {
     }
   }, [data, layer]);
 
-  const handleTransitionEnd = () => {
-    setSubMenuEnd(true);
-  };
-
-  useEffect(() => {
-    if (!open) {
-      setSubMenuEnd(false);
-    }
-  }, [open]);
-
-  const height = useMemo(() => {
-    if (open) {
-      if (subMenuRef.current && !subMenuEnd) {
-        return subMenuRef.current.getBoundingClientRect().height;
-      } else {
-        return 'auto';
-      }
-    } else {
-      return 0;
-    }
-  }, [open, subMenuRef.current, subMenuEnd]);
-
   return (
-    <div className={clsx(`${prefix}-menu-item`)}>
+    <div
+      className={clsx(`${prefix}-menu-item`, {
+        [`${prefix}-menu-item-collapsed`]: collapsed,
+      })}
+      onMouseOver={() => {
+        if (collapsed && child) {
+          setOpen(true);
+        }
+      }}
+      onMouseOut={() => {
+        if (collapsed && child) {
+          setOpen(false);
+        }
+      }}
+    >
       <div
         className={clsx(
           `${prefix}-menu-row`,
           `${prefix}-menu-row-${layer + 1}`,
           {
             [`${prefix}-menu-row-open`]: open,
+            [`${prefix}-menu-row-checked`]: checked === data[rowKey],
           },
         )}
         key={rowKey}
-        style={{ paddingLeft: (layer + 2) * 16 + 8 }}
+        style={{ paddingLeft: (layer + 1) * 16 }}
       >
         <div
           className={clsx(`${prefix}-menu-row-content`)}
-          onClick={child && handleOpen}
+          onClick={(event) => handleClick(event)}
         >
           <MenuIcon />
           {!onRow && (
@@ -147,7 +182,6 @@ function MenuItem(props: any) {
             [`${prefix}-menu-submenu-open`]: open,
             [`${prefix}-menu-submenu-close`]: !open,
           })}
-          onTransitionEnd={handleTransitionEnd}
           style={{
             height,
           }}
@@ -238,6 +272,24 @@ export interface MenuProps {
    * @default           id
    */
   rowKey?: string;
+
+  /**
+   * @description      展开收起
+   * @default           false
+   */
+  collapsed?: boolean;
+
+  /**
+   * @description      展开收起的回调
+   * @default           -
+   */
+  onCollapsed?: Function;
+
+  /**
+   * @description      选中的回调
+   * @default           -
+   */
+  onChecked?: Function;
 }
 
 function Menu(props: MenuProps) {
@@ -251,41 +303,56 @@ function Menu(props: MenuProps) {
     rowTitle = 'text',
     onRow,
     onExpandableChange,
+    onCollapsed,
+    onChecked,
     ...prop
   } = props;
 
-  const [isTree, setIsTree] = useState(true);
-  const [open, setOpen] = useState(true);
-  const [expandable, setExpandable] = useState([] as any);
+  const [checked, setChecked] = useState(null);
+  const [expandable, setExpandable] = useState(props.expandable || []);
+  const [collapsed, setCollapsed] = useState(props.collapsed || false) as any;
 
   useEffect(() => {
-    if (!props.expandable) return;
-    setExpandable(props.expandable);
+    if (props.expandable !== undefined) setExpandable(props.expandable);
   }, [props.expandable]);
+
+  useEffect(() => {
+    if (props.collapsed !== undefined) setCollapsed(props.collapsed);
+  }, [props.collapsed]);
 
   function handleChangeExpandable(keys: any) {
     setExpandable(keys);
     onExpandableChange?.(keys);
   }
 
+  function handleClose() {
+    setCollapsed(!collapsed);
+    setExpandable([]);
+    onExpandableChange?.([]);
+  }
+
+  function handleChecked(v: any, d: any) {
+    onChecked?.(v, d);
+    setChecked(v);
+  }
+
   return (
     <div
-      className={clsx({
+      className={clsx(className, {
         [`${prefix}-menu`]: true,
         [`${prefix}-menu-${type}`]: type,
         [`${prefix}-menu-${size}`]: size,
-        [`${prefix}-menu-collapsed`]: !open,
+        [`${prefix}-menu-collapsed`]: collapsed,
       })}
-      {...prop}
     >
       <div
         className={clsx({
           [`${prefix}-menu-collapsed-button`]: true,
         })}
-        onClick={() => setOpen(!open)}
+        onClick={handleClose}
       >
         <Icon
-          name={open ? 'tiaojianzhankai' : 'tiaojianshouqi'}
+          name={collapsed ? 'tiaojianshouqi' : 'tiaojianzhankai'}
           className={`${prefix}-menu-collapsed-icon`}
           size={16}
         />
@@ -305,7 +372,10 @@ function Menu(props: MenuProps) {
           dataSource={dataSource}
           onRow={onRow}
           layer={0}
-          isTree={isTree}
+          isTree={true}
+          checked={checked}
+          setChecked={handleChecked}
+          collapsed={collapsed}
         />
       </div>
     </div>
