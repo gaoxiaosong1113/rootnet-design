@@ -46,6 +46,12 @@ export interface PopconfirmProps {
   onCancel?: Function;
 
   /**
+   * @description      空白处关闭弹框回调
+   * @default           -
+   */
+  onClose?: Function;
+
+  /**
    * @description      确认按钮文字
    * @default           -
    */
@@ -100,7 +106,14 @@ function Content(props: any) {
 }
 
 function Popconfirm(props: PopconfirmProps) {
-  const { children, onConfirm, onCancel, position = 'top', ...prop } = props;
+  const {
+    children,
+    onConfirm,
+    onCancel,
+    onClose,
+    position = 'top',
+    ...prop
+  } = props;
   const [visible, setVisible] = useState(false);
 
   const refEl = useRef(null);
@@ -121,6 +134,14 @@ function Popconfirm(props: PopconfirmProps) {
     }
   }
 
+  function handleClose(e: any) {
+    e?.stopPropagation();
+    setVisible(false);
+    if (onClose) {
+      onClose(e);
+    }
+  }
+
   return (
     <>
       {React.cloneElement(children, {
@@ -132,7 +153,7 @@ function Popconfirm(props: PopconfirmProps) {
         ref: refEl,
       })}
       <Popup
-        onClose={handleCancel}
+        onClose={handleClose}
         visible={visible}
         refEl={refEl}
         position={position}
