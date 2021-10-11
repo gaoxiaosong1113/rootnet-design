@@ -51,22 +51,45 @@
       &:hover {
       }
 
+      .@{prefix}-tooltip-target {
+        display: block;
+      }
+
       .@{prefix}-menu-row:not(.@{prefix}-menu-row-1) {
         .@{prefix}-menu-title {
           opacity: 1 !important;
         }
       }
 
+      .@{prefix}-menu-row-content {
+        justify-content: center;
+      }
+
+      .@{prefix}-menu-row-1 {
+        width: 48px;
+        padding: 0;
+
+        .@{prefix}-menu-title {
+          display: none;
+        }
+      }
+
       .@{prefix}-menu-submenu {
-        padding: 2px;
         position: absolute;
         left: calc(100%);
         top: 0;
-        width: 96px;
-        background: #ffffff;
-        box-shadow: 0px 6px 20px 0px rgba(153, 161, 194, 0.3);
-        border-radius: 2px;
         display: none;
+        padding-left: 4px;
+        overflow: visible;
+
+        & > div {
+          padding: 2px 0;
+          width: 96px;
+          background: #fff;
+          box-shadow: 0px 6px 20px 0px rgba(153, 161, 194, 0.3);
+          border-radius: 2px;
+        }
+
         &-open {
           display: block;
         }
@@ -132,7 +155,6 @@
     }
 
     &-1 {
-      padding-left: 16px !important;
     }
 
     &-open {

@@ -20,7 +20,7 @@ import './index.less';
 import { prefix } from '../config';
 
 // 引入组件
-import { Icon } from '../index';
+import { Icon, Tooltip } from '../index';
 
 import {
   loopData,
@@ -116,7 +116,7 @@ function MenuItem(props: any) {
     return data.children && data.children.length > 0;
   }, [data]);
 
-  let MenuIcon = useCallback(() => {
+  const MenuIcon = useCallback(() => {
     if (layer > 0) {
       return null;
     }
@@ -129,6 +129,40 @@ function MenuItem(props: any) {
       return <div className={clsx(`iconfont icon-${data.icon}`)}>图标</div>;
     }
   }, [data, layer]);
+
+  const Title = useCallback(
+    (titleProps) => {
+      const content = (
+        <div
+          className={clsx(
+            `${prefix}-menu-row`,
+            `${prefix}-menu-row-${layer + 1}`,
+            {
+              [`${prefix}-menu-row-open`]: open,
+              [`${prefix}-menu-row-checked`]: checked === data[rowKey],
+            },
+          )}
+          key={rowKey}
+          style={{ paddingLeft: collapsed ? 0 : (layer + 1) * 16 }}
+        >
+          {titleProps.children}
+        </div>
+      );
+      if (collapsed && !child && layer == 0) {
+        return (
+          <Tooltip
+            trigger={'hover'}
+            position={'right'}
+            content={data[rowTitle]}
+          >
+            {content}
+          </Tooltip>
+        );
+      }
+      return content;
+    },
+    [collapsed, checked],
+  );
 
   return (
     <div
@@ -146,18 +180,7 @@ function MenuItem(props: any) {
         }
       }}
     >
-      <div
-        className={clsx(
-          `${prefix}-menu-row`,
-          `${prefix}-menu-row-${layer + 1}`,
-          {
-            [`${prefix}-menu-row-open`]: open,
-            [`${prefix}-menu-row-checked`]: checked === data[rowKey],
-          },
-        )}
-        key={rowKey}
-        style={{ paddingLeft: (layer + 1) * 16 }}
-      >
+      <Title>
         <div
           className={clsx(`${prefix}-menu-row-content`)}
           onClick={(event) => handleClick(event)}
@@ -175,7 +198,8 @@ function MenuItem(props: any) {
             </div>
           )}
         </div>
-      </div>
+      </Title>
+
       {child && (
         <div
           className={clsx(`${prefix}-menu-submenu`, {

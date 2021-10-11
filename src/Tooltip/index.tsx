@@ -26,7 +26,7 @@ export interface TooltipProps {
    */
   className?: string;
   style?: Object;
-  children: ReactElement[];
+  children: any;
 
   /**
    * @description      主体内容
@@ -38,7 +38,7 @@ export interface TooltipProps {
    * @description      关闭回调
    * @default           -
    */
-  onCancel: Function;
+  onCancel?: Function;
 
   /**
    * @description      弹出位置
@@ -51,6 +51,12 @@ export interface TooltipProps {
    * @default           -
    */
   trigger?: string;
+
+  /**
+   * @description      禁用弹出层
+   * @default           false
+   */
+  disable?: boolean;
 }
 
 function Content(props: any) {
@@ -91,6 +97,7 @@ function Tooltip(props: TooltipProps) {
     onCancel,
     trigger = 'click',
     position = 'top',
+    disable = false,
     ...prop
   } = props;
   const [visible, setVisible] = useState(false);
@@ -98,11 +105,20 @@ function Tooltip(props: TooltipProps) {
   const refEl = useRef(null);
 
   function handleOpen() {
+    if (disable) return;
     setVisible(true);
   }
   function handleClose() {
+    if (disable) return;
     setVisible(false);
     onCancel && onCancel();
+  }
+
+  function handleClick() {
+    if (disable) return;
+    setVisible((prevOpen) => {
+      return !prevOpen;
+    });
   }
 
   return (
@@ -122,9 +138,7 @@ function Tooltip(props: TooltipProps) {
                 event && event.persist();
                 item.props.onClick && item.props.onClick(event);
                 if (trigger == 'click') {
-                  setVisible((prevOpen) => {
-                    return !prevOpen;
-                  });
+                  handleClick();
                 }
               },
               onMouseOver: (event: any) => {

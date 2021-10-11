@@ -125,6 +125,24 @@ export default () => {
             <span>hover</span>
           </Tooltip>
         </Col>
+        <Col span={4}>
+          <Tooltip
+            trigger="hover"
+            disable
+            content={'我是一段提示，并且字数不是很多'}
+          >
+            <span>禁用</span>
+          </Tooltip>
+        </Col>
+        <Col span={4}>
+          <Tooltip
+            trigger="click"
+            disable
+            content={'我是一段提示，并且字数不是很多'}
+          >
+            <span>禁用</span>
+          </Tooltip>
+        </Col>
       </Row>
     </div>
   );
