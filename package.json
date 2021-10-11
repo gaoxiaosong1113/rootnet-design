@@ -1,7 +1,7 @@
 {
   "private": false,
   "name": "rootnet-design",
-  "version": "0.0.81",
+  "version": "0.0.85",
   "files": [
     "dist",
     "lib",
@@ -37,8 +37,10 @@
     ]
   },
   "dependencies": {
+    "@ckeditor/ckeditor5-react": "2.1.0",
     "@types/react-transition-group": "^4.4.2",
     "babel-plugin-import": "^1.13.3",
+    "ckeditor5-custom": "^1.0.0",
     "clsx": "^1.1.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",

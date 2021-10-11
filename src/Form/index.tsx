@@ -64,6 +64,12 @@ export interface FormProps {
   onError?: (error: Object) => void;
 
   /**
+   * @description      数据校验失败后的回调事件
+   * @default           -
+   */
+  onValuesChange?: (changeValues: Object, allValues: Object) => void;
+
+  /**
    * @description      支持调用 onSubmit 和 validation
    * @default           -
    */
@@ -77,6 +83,7 @@ export const Form = (props: FormProps, ref: any) => {
     layout = 'inline',
     onSubmit,
     onError,
+    onValuesChange,
     initialValues,
     ...prop
   } = props;
@@ -114,6 +121,16 @@ export const Form = (props: FormProps, ref: any) => {
       handleSubmit(null);
     },
     validation,
+    getValue: (name?: string) => {
+      if (name) {
+        return value[name];
+      }
+      return { ...value };
+    },
+    setValue: (name: string, v: any) => {
+      value[name] = v;
+      setValue({ ...value });
+    },
   }));
 
   useEffect(() => {
@@ -125,11 +142,11 @@ export const Form = (props: FormProps, ref: any) => {
       value={{
         formValue: value,
         formRef: formRef.current,
+        layout,
         onChange: (name: string, v: string) => {
-          setValue((val: any) => {
-            val[name] = v;
-            return { ...val };
-          });
+          value[name] = v;
+          setValue({ ...value });
+          onValuesChange?.({ [`${name}`]: v }, value);
         },
         onError: (error: any) => {
           // setError(error);
@@ -184,6 +201,12 @@ export interface FormItemProps {
   label?: ReactNode;
 
   /**
+   * @description      label 标签宽度
+   * @default           -
+   */
+  labelWidth?: any;
+
+  /**
    * @description      设置表单域内字段
    * @default           -
    */
@@ -203,8 +226,16 @@ export interface FormItemProps {
 }
 
 export const Item = (props: FormItemProps, ref: any) => {
-  const { className, label, name, children, rules, ...prop } = props;
-  const { onChange, onFocus, onBlur, formValue, formRef } =
+  const {
+    className,
+    label,
+    name,
+    children,
+    rules,
+    labelWidth = 200,
+    ...prop
+  } = props;
+  const { onChange, onFocus, onBlur, formValue, formRef, layout } =
     useContext(FormContext);
   const [value, setValue] = useState(formValue[name]);
   const [required, setRequired] = useState(false);
@@ -317,6 +348,7 @@ export const Item = (props: FormItemProps, ref: any) => {
         className={clsx(`${prefix}-form-item-laber`, {
           [`${prefix}-form-item-laber-none`]: !label,
         })}
+        style={layout === 'horizontal' ? { width: labelWidth } : {}}
       >
         {required && (
           <span className={clsx(`${prefix}-form-item-required`)}>*</span>

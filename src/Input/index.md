@@ -83,6 +83,8 @@ export default () => {
           <Input
             placeholder="请输入内容"
             icon={<Icon name="mima1" />}
+            close
+            affterIcon={<Icon name="mima1" />}
             onChange={(e) => {
               console.log(e);
             }}
