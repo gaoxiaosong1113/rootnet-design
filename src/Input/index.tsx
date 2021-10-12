@@ -78,6 +78,12 @@ export interface InputProps {
   onFocus?: Function;
 
   /**
+   * @description      输入框触发事件的回调
+   * @default           -
+   */
+  onInput?: Function;
+
+  /**
    * @description      输入框失去焦点的回调
    * @default           -
    */
@@ -106,6 +112,12 @@ export interface InputProps {
    * @default           -
    */
   focus?: boolean;
+
+  /**
+   * @description      是否设置最大长度
+   * @default           -
+   */
+  maxLength?: number;
 }
 
 function Input(props: InputProps, ref: any) {
@@ -121,6 +133,8 @@ function Input(props: InputProps, ref: any) {
     onBlur,
     name,
     disabled,
+    maxLength,
+    onInput,
     close = false,
     ...prop
   } = props;
@@ -133,6 +147,9 @@ function Input(props: InputProps, ref: any) {
   useImperativeHandle(ref, () => refEl.current);
 
   const handleChange = (e: any) => {
+    let val = e.target.value;
+    if (maxLength + '' && val.length > maxLength)
+      e.target.value = val.slice(0, maxLength);
     setValue(e.target.value);
     if (onChange) {
       onChange(e.target.value, e);
@@ -150,6 +167,12 @@ function Input(props: InputProps, ref: any) {
     setFocus(false);
     if (onBlur) {
       onBlur(value, e);
+    }
+  };
+  const handleInput = (e: any) => {
+    setFocus(false);
+    if (onInput) {
+      onInput(value, e);
     }
   };
 
@@ -178,7 +201,9 @@ function Input(props: InputProps, ref: any) {
           onChange={handleChange}
           onFocus={handleFocus}
           onBlur={handleBlur}
+          onInput={handleInput}
           disabled={disabled}
+          maxLength={maxLength}
           placeholder={placeholder || '请输入'}
           ref={refEl}
         />
