@@ -78,6 +78,12 @@ export interface InputProps {
   onFocus?: Function;
 
   /**
+   * @description      输入框触发事件的回调
+   * @default           -
+   */
+  onInput?: Function;
+
+  /**
    * @description      输入框失去焦点的回调
    * @default           -
    */
@@ -128,6 +134,7 @@ function Input(props: InputProps, ref: any) {
     name,
     disabled,
     maxLength,
+    onInput,
     close = false,
     ...prop
   } = props;
@@ -140,6 +147,9 @@ function Input(props: InputProps, ref: any) {
   useImperativeHandle(ref, () => refEl.current);
 
   const handleChange = (e: any) => {
+    let val = e.target.value;
+    if (maxLength + '' && val.length > maxLength)
+      e.target.value = val.slice(0, maxLength);
     setValue(e.target.value);
     if (onChange) {
       onChange(e.target.value, e);
@@ -160,9 +170,10 @@ function Input(props: InputProps, ref: any) {
     }
   };
   const handleInput = (e: any) => {
-    let val = e.target.value;
-    if (maxLength + '' && val.length > maxLength)
-      e.target.value = val.slice(0, maxLength);
+    setFocus(false);
+    if (onInput) {
+      onInput(value, e);
+    }
   };
 
   useEffect(() => {

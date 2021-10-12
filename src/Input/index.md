@@ -212,6 +212,24 @@ export default () => {
             icon={<Icon name="mima1" />}
           />
         </Col>
+        <Col span={8}>
+          <Input
+            placeholder="请输入内容"
+            onChange={(v) => setValue(v)}
+            value={value}
+            maxLength={4}
+            icon={<Icon name="mima1" />}
+          />
+        </Col>
+        <Col span={8}>
+          <Input
+            placeholder="请输入内容"
+            onInput={(v) => console.log(v)}
+            value={value}
+            maxLength={4}
+            icon={<Icon name="mima1" />}
+          />
+        </Col>
       </Row>
     </div>
   );
