@@ -106,6 +106,12 @@ export interface InputProps {
    * @default           -
    */
   focus?: boolean;
+
+  /**
+   * @description      是否设置最大长度
+   * @default           -
+   */
+  maxLength?: number;
 }
 
 function Input(props: InputProps, ref: any) {
@@ -121,6 +127,7 @@ function Input(props: InputProps, ref: any) {
     onBlur,
     name,
     disabled,
+    maxLength,
     close = false,
     ...prop
   } = props;
@@ -152,6 +159,11 @@ function Input(props: InputProps, ref: any) {
       onBlur(value, e);
     }
   };
+  const handleInput = (e: any) => {
+    let val = e.target.value;
+    if (maxLength + '' && val.length > maxLength)
+      e.target.value = val.slice(0, maxLength);
+  };
 
   useEffect(() => {
     setValue(props.value || '');
@@ -178,7 +190,9 @@ function Input(props: InputProps, ref: any) {
           onChange={handleChange}
           onFocus={handleFocus}
           onBlur={handleBlur}
+          onInput={handleInput}
           disabled={disabled}
+          maxLength={maxLength}
           placeholder={placeholder || '请输入'}
           ref={refEl}
         />
