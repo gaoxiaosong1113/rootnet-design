@@ -272,13 +272,13 @@ export function Modal(props: ModalProps): any {
   }, [visible]);
 
   useEffect(() => {
-    document.addEventListener('click', (e) => {
-      // console.log(e)
-      e.pageX;
-      e.pageY;
-      setEv(e);
-      return false;
-    });
+    // document.addEventListener('click', (e) => {
+    //   // console.log(e)
+    //   e.pageX;
+    //   e.pageY;
+    //   setEv(e);
+    //   return false;
+    // });
   }, []);
 
   // if (!forceRender && destroyOnClose && !animatedVisible) {
