@@ -146,6 +146,9 @@ export default () => {
             onCancel={(e) => {
               console.log('取消');
             }}
+            onClose={(e) => {
+              console.log('关闭');
+            }}
             confirmButtonText="确定"
             cancelButtonText="重置"
           >
