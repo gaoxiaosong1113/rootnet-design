@@ -88,6 +88,7 @@ function cascader(props: CascaderProps) {
   const [value, setValue] = useState(props.value || multiple ? [] : null);
   const [visible, setVisible] = useState(false);
   const oldValue = useRef<any>(null);
+  const refSelect = useRef(null);
 
   function handleOnChange(data: any) {
     oldValue.current = data;
@@ -115,7 +116,7 @@ function cascader(props: CascaderProps) {
     } else {
       oldValue.current = newData;
     }
-  }, [props.value]);
+  }, [props.value, props.options]);
 
   function findData(data: Array<any>, key: any) {
     let val: any = {
@@ -155,6 +156,7 @@ function cascader(props: CascaderProps) {
     >
       <div
         className={clsx(`${prefix}-cascader-target-content`, {})}
+        ref={refSelect}
         onClick={(event) => {
           event.persist();
           if (disabled) return;
@@ -178,18 +180,26 @@ function cascader(props: CascaderProps) {
       )}
 
       {visible && (
-        <CascaderPopup
-          {...props}
-          value={oldValue}
-          onChange={(value: any) => {
-            setVisible(false);
-            handleOnChange(value);
-          }}
-          onCancel={() => {
-            setVisible(false);
-            onCancel?.();
-          }}
-        />
+        <Popup
+          position="bottom-left"
+          refEl={refSelect}
+          visible={visible}
+          trigger="click"
+          onClose={() => {}}
+        >
+          <CascaderPopup
+            {...props}
+            value={oldValue}
+            onChange={(value: any) => {
+              setVisible(false);
+              handleOnChange(value);
+            }}
+            onCancel={() => {
+              setVisible(false);
+              onCancel?.();
+            }}
+          />
+        </Popup>
       )}
     </div>
   );
