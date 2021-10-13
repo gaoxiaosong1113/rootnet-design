@@ -104,9 +104,9 @@ function cascader(props: CascaderProps) {
     } as any;
 
     props.value?.forEach((item: any) => {
-      newData.value.push(findData(props.options, item.value).value);
-      newData.label.push(findData(props.options, item.value).label);
-      newData.childrens.push(findData(props.options, item.value).children);
+      newData.value.push(findData(props.options, item).value);
+      newData.label.push(findData(props.options, item).label);
+      newData.childrens.push(findData(props.options, item).children);
     });
 
     setValue(newData.label);
@@ -285,7 +285,7 @@ function CascaderPopup(props: CascaderProps) {
                 <li
                   className={clsx(`${prefix}-cascader-menu-item`, {
                     [`${prefix}-cascader-menu-item-active`]:
-                      regionData.value.indexOf(item.value) !== -1,
+                      regionData.value[i] == item.value,
                   })}
                   key={index}
                   onClick={(e) => onCheckedHandel(item, e, i)}
