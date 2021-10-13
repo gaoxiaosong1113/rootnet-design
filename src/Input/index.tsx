@@ -118,6 +118,12 @@ export interface InputProps {
    * @default           -
    */
   maxLength?: number;
+
+  /**
+   * @description      设置类型
+   * @default           -
+   */
+  type?: string;
 }
 
 function Input(props: InputProps, ref: any) {
@@ -135,6 +141,7 @@ function Input(props: InputProps, ref: any) {
     disabled,
     maxLength,
     onInput,
+    type = 'text',
     close = false,
     ...prop
   } = props;
@@ -148,7 +155,7 @@ function Input(props: InputProps, ref: any) {
 
   const handleChange = (e: any) => {
     let val = e.target.value;
-    if (maxLength + '' && val.length > maxLength)
+    if (maxLength && val.length > maxLength)
       e.target.value = val.slice(0, maxLength);
     setValue(e.target.value);
     if (onChange) {
@@ -195,7 +202,7 @@ function Input(props: InputProps, ref: any) {
       {icon && <div className={clsx(`${prefix}-input-icon`)}>{icon}</div>}
       <div className={clsx(`${prefix}-input-content`)}>
         <input
-          type="text"
+          type={type}
           name={name}
           value={value}
           onChange={handleChange}
