@@ -36,20 +36,7 @@ export default () => {
           <Cascader
             region
             close
-            value={[
-              {
-                label: '北京市',
-                value: '110000',
-              },
-              {
-                label: '北京市',
-                value: '110100',
-              },
-              {
-                label: '西城区',
-                value: '110102',
-              },
-            ]}
+            value={['110000', '110100', '110102']}
             options={regionData}
             placeholder={'请选择'}
             onChange={(label, value) => {
@@ -61,20 +48,7 @@ export default () => {
           <Cascader
             region
             disabled
-            value={[
-              {
-                label: '北京市',
-                value: '110000',
-              },
-              {
-                label: '北京市',
-                value: '110100',
-              },
-              {
-                label: '西城区',
-                value: '110102',
-              },
-            ]}
+            value={['110000', '110100', '110102']}
             options={regionData}
             placeholder={'请选择'}
             onChange={(label, value) => {
