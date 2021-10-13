@@ -178,4 +178,60 @@ export default () => {
 };
 ```
 
+菜单模式：
+
+```tsx
+import React, { useState } from 'react';
+import { Tabs, Icon, Button, Grid } from 'rootnet-design';
+
+const { Row, Col } = Grid;
+
+export default () => {
+  const [activeTabKey, setActiveTabKey] = useState();
+
+  return (
+    <div>
+      <Row gutter={[16, 16]}>
+        <Col span={24}>
+          <Tabs
+            layout="horizontal"
+            tabList={[
+              {
+                key: 'one',
+                name: (
+                  <Button icon="Rootnet" type="primary" size="sm">
+                    标签一
+                  </Button>
+                ),
+              },
+              {
+                key: 'tow',
+                name: <Icon name="Rootnet" />,
+              },
+              {
+                key: '3',
+                name: '标签三',
+              },
+              {
+                key: '4',
+                name: '标签四',
+                disabled: true,
+              },
+            ]}
+            menu
+            activeTabKey={activeTabKey}
+            changeTabKey={(key) => setActiveTabKey(key)}
+          >
+            <div>1</div>
+            <div>2</div>
+            <div>3</div>
+            <div>4</div>
+          </Tabs>
+        </Col>
+      </Row>
+    </div>
+  );
+};
+```
+
 <API />

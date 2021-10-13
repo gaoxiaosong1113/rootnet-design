@@ -62,6 +62,12 @@ export interface TabsProps {
    * @default           vertical
    */
   layout?: 'horizontal' | 'vertical' | 'inline';
+
+  /**
+   * @description      menu模式
+   * @default           false
+   */
+  menu?: boolean;
 }
 
 export default function Tabs(props: TabsProps) {
@@ -77,6 +83,7 @@ export default function Tabs(props: TabsProps) {
     layout = 'vertical',
     activeTabKey,
     changeTabKey,
+    menu = false,
     ...prop
   } = props;
   const [activeKey, setActiveKey] = useState(
@@ -115,6 +122,7 @@ export default function Tabs(props: TabsProps) {
     <div
       className={clsx(className, `${prefix}-tabs`, {
         [`${prefix}-tabs-${layout}`]: layout,
+        [`${prefix}-tabs-menu`]: menu,
       })}
       style={{ width, height, ...style }}
       {...prop}
@@ -126,18 +134,20 @@ export default function Tabs(props: TabsProps) {
         <div className={clsx(`${prefix}-tabs-extra`, {})}>{extra}</div>
       </div>
       <div className={clsx(`${prefix}-tabs-body`, {})}>
-        {React.Children.map(children, (item, index) => {
-          return (
-            <div
-              className={clsx(`${prefix}-tabs-tab-item`, {
-                [`${prefix}-tabs-tab-item-active`]:
-                  tabList[index] && tabList[index].key == activeKey,
-              })}
-            >
-              {item}
-            </div>
-          );
-        })}
+        {menu
+          ? children
+          : React.Children.map(children, (item, index) => {
+              return (
+                <div
+                  className={clsx(`${prefix}-tabs-tab-item`, {
+                    [`${prefix}-tabs-tab-item-active`]:
+                      tabList[index] && tabList[index].key == activeKey,
+                  })}
+                >
+                  {item}
+                </div>
+              );
+            })}
       </div>
       <div className={clsx(`${prefix}-tabs-footer`, {})}></div>
     </div>
