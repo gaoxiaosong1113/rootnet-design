@@ -219,7 +219,7 @@ function ModalContent(props: ModalContentProps) {
               )}
             </div>
             <div className={clsx(`${prefix}-modal-body`)}>
-              <span>{type ? content : children}</span>
+              <div>{type ? content : children}</div>
             </div>
             {footer !== null && (
               <div className={clsx(`${prefix}-modal-footer`)}>
