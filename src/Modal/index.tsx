@@ -286,6 +286,10 @@ export function Modal(props: ModalProps): any {
   //   return null;
   // }
 
+  if (!document) {
+    return null;
+  }
+
   return ReactDOM.createPortal(
     <ModalContent
       {...props}
