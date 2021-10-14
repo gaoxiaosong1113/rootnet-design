@@ -262,6 +262,7 @@ export function Modal(props: ModalProps): any {
 
   // 判断是否已经挂载
   const [ev, setEv] = useState<any>();
+  const [isLoad, setIsLoad] = useState<any>(false);
 
   const [animatedVisible, setAnimatedVisible] = useState<boolean>(visible);
 
@@ -272,6 +273,7 @@ export function Modal(props: ModalProps): any {
   }, [visible]);
 
   useEffect(() => {
+    setIsLoad(true);
     // document.addEventListener('click', (e) => {
     //   // console.log(e)
     //   e.pageX;
@@ -286,7 +288,7 @@ export function Modal(props: ModalProps): any {
   //   return null;
   // }
 
-  if (!document) {
+  if (!isLoad) {
     return null;
   }
 
