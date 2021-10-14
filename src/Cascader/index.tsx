@@ -102,11 +102,17 @@ function cascader(props: CascaderProps) {
       label: [],
       childrens: [],
     } as any;
+    let nextFindData: any = [];
 
     props.value?.forEach((item: any) => {
-      newData.value.push(findData(props.options, item).value);
-      newData.label.push(findData(props.options, item).label);
-      newData.childrens.push(findData(props.options, item).children);
+      let filterData = findData(
+        nextFindData.length > 0 ? nextFindData : props.options,
+        item,
+      );
+      nextFindData = filterData.nextFindData;
+      newData.value.push(filterData.value);
+      newData.label.push(filterData.label);
+      newData.childrens.push(filterData.children);
     });
 
     setValue(newData.label);
@@ -123,16 +129,15 @@ function cascader(props: CascaderProps) {
       value: '',
       label: '',
       children: [],
+      nextFindData: [],
     };
     function find(loopData: any) {
       loopData.map((item: any) => {
-        if (item.children) {
-          find(item.children);
-        }
         if (item.value === key) {
           val.label = item.label;
           val.value = item.value;
           val.children = loopData;
+          val.nextFindData = item.children;
         }
       });
     }
