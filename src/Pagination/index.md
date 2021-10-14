@@ -39,8 +39,8 @@ const { Row, Col } = Grid;
 export default () => {
   const [num, setNum] = useState(100);
   setTimeout(() => {
-    setNum(10);
-  }, 0);
+    setNum(2);
+  }, 2000);
   return (
     <div>
       <Row gutter={[16, 16]}>

@@ -215,7 +215,7 @@ function Pagination(props: PaginationProps) {
   const onNext = useCallback(() => {
     if (now + 1 > totalPage) return;
     pageChanging(now + 1);
-  }, [now]);
+  }, [now, totalPage]);
 
   // 左右展开跳组事件
   const onSetStep = useCallback(
@@ -355,7 +355,7 @@ function Pagination(props: PaginationProps) {
       </li>
       {/* 每页显示多少条 */}
       {!simple && pageSizeShow && (
-        <li className="c-pagination-pageSize2">
+        <li className="c-pagination-pageSize">
           {!Array.isArray(selector) && (
             <Select
               options={[
