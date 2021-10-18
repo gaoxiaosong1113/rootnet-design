@@ -111,8 +111,8 @@ import { Alert, Grid } from 'rootnet-design';
 const { Row, Col } = Grid;
 
 export default () => {
-  const [visible, setVisible] = useState(false);
-  const [visible1, setVisible1] = useState(false);
+  const [closed, setClosed] = useState(false);
+  const [closed1, setClosed1] = useState(false);
 
   return (
     <div>
@@ -122,9 +122,9 @@ export default () => {
             close
             content="恭喜！你所提交操作已通过，如有问题请联系客服。"
             type="primary"
-            visible={visible}
+            closed={closed}
             onClose={() => {
-              setVisible(true);
+              setClosed(true);
             }}
           />
         </Col>
@@ -134,9 +134,9 @@ export default () => {
             title="系统提示"
             content="恭喜！你所提交操作已通过，如有问题请联系客服。"
             type="success"
-            visible={visible1}
+            closed={closed1}
             onClose={() => {
-              setVisible1(true);
+              setClosed1(true);
             }}
           />
         </Col>
