@@ -45,7 +45,7 @@ export interface AlertProps {
    * @description      alert 是否关闭
    * @default           false
    */
-  visible: boolean;
+  closed: boolean;
 
   /**
    * @description      是否显示关闭按钮
@@ -79,7 +79,7 @@ export default function Alert(props: AlertProps) {
     title,
     content,
     type = 'primary',
-    visible,
+    closed,
     close,
     extra,
     width,
@@ -102,7 +102,7 @@ export default function Alert(props: AlertProps) {
       className={clsx(className, `${prefix}-alert`, {
         [`${prefix}-alert-lg`]: title,
         [`${prefix}-alert-${type}`]: type,
-        [`${prefix}-alert-closed`]: visible,
+        [`${prefix}-alert-closed`]: closed,
       })}
       style={{
         width,
