@@ -122,6 +122,11 @@ export default () => {
         </Col>
         <Col span={4}>
           <Tooltip trigger="hover" content={'我是一段提示，并且字数不是很多'}>
+            <Input placeholder="hover" />
+          </Tooltip>
+        </Col>
+        <Col span={4}>
+          <Tooltip trigger="hover" content={'我是一段提示，并且字数不是很多'}>
             <span>hover</span>
           </Tooltip>
         </Col>
