@@ -159,6 +159,45 @@ export default () => {
 };
 ```
 
+关闭拦截：
+
+```tsx
+import React, { useState } from 'react';
+import { Modal, Button } from 'rootnet-design';
+
+export default () => {
+  const [visible, setVisible] = useState(false);
+  const [onConfirmLoading, setOnConfirmLoading] = useState(false);
+  return (
+    <div>
+      <Button title="First Demo" onClick={() => setVisible(true)}>
+        打开弹窗
+      </Button>
+      <Modal
+        title="First Demo"
+        visible={visible}
+        confirmLoading={onConfirmLoading}
+        onCancel={() => {
+          console.log('关闭');
+          setVisible(false);
+        }}
+        onConfirm={() => {
+          return new Promise((resolve, reject) => {
+            console.log('延迟关闭');
+            setOnConfirmLoading(true);
+            window.setTimeout(() => {
+              setVisible(false);
+              setOnConfirmLoading(false);
+              resolve();
+            }, 3000);
+          });
+        }}
+      />
+    </div>
+  );
+};
+```
+
 确认框：
 
 ```tsx
