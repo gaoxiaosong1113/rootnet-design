@@ -39,10 +39,16 @@ export interface ModalProps {
   visible: boolean;
 
   /**
-   * @description      确认按钮
+   * @description      确认按钮，支持promise延迟关闭
    * @default           -
    */
   onConfirm: Function;
+
+  /**
+   * @description      确认按钮loading
+   * @default           false
+   */
+  confirmLoading: boolean;
 
   /**
    * @description      取消按钮
@@ -143,6 +149,7 @@ function ModalContent(props: ModalContentProps) {
     forceRender,
     confirm = false,
     destroyOnClose,
+    confirmLoading = false,
     ...prop
   } = props;
 
@@ -169,7 +176,26 @@ function ModalContent(props: ModalContentProps) {
   }
 
   function handleConfirm() {
-    onConfirm ? onConfirm() : null;
+    if (confirmLoading) {
+      return;
+    }
+    if (onConfirm) {
+      let confirm = onConfirm();
+      if (confirm instanceof Promise) {
+        console.log('Promise');
+        confirm.then((res) => {
+          if (res !== false) {
+            handleClose();
+          }
+        });
+        return;
+      }
+      if (confirm === false) {
+        return;
+      }
+      handleClose();
+      return;
+    }
     handleClose();
   }
 
@@ -228,7 +254,11 @@ function ModalContent(props: ModalContentProps) {
                 ) : (
                   <>
                     <Button onClick={handleCancel}>{cancelButtonText}</Button>
-                    <Button type="primary" onClick={handleConfirm}>
+                    <Button
+                      type="primary"
+                      onClick={handleConfirm}
+                      loading={confirmLoading}
+                    >
                       {confirmButtonText}
                     </Button>
                   </>
@@ -299,12 +329,6 @@ export function Modal(props: ModalProps): any {
       event={ev}
       onClose={() => {
         setAnimatedVisible(false);
-      }}
-      onCancel={() => {
-        onCancel && onCancel();
-      }}
-      onConfirm={() => {
-        onConfirm && onConfirm();
       }}
     />,
     document.body,

@@ -18,6 +18,7 @@
     margin-right: 5px;
     margin-left: -3px;
   }
+
   span {
     line-height: 16px;
   }
@@ -26,6 +27,7 @@
     background: #fff;
     border-color: @borderColor;
     color: @fullDarkColor;
+
     &:hover {
       border-color: @primaryColorHover;
       color: @primaryColorHover;
@@ -38,10 +40,32 @@
     fill: #fff;
     background: @primaryColor;
     border-color: @primaryColor;
+
     &:hover {
       color: #fff;
       background: @primaryColorHover;
       fill: #fff;
+    }
+
+    &.@{prefix}-button-disabled {
+      background: @primaryColor;
+      color: #ffff;
+      fill: @primaryColor;
+      opacity: 0.5;
+
+      .@{prefix}-spin {
+        &-dot {
+          opacity: 0.6;
+        }
+      }
+    }
+
+    .@{prefix}-spin {
+      &-dot {
+        &-item {
+          background-color: #fff;
+        }
+      }
     }
   }
 
@@ -49,21 +73,25 @@
     background: #fff;
     border-style: dashed;
     border-color: @borderColor;
+
     &:hover {
       border-color: @primaryColorHover;
       color: @primaryColorHover;
       fill: @primaryColorHover;
     }
   }
+
   &&-text {
     background: none;
     border: 0;
+
     &:hover {
       border-color: @primaryColorHover;
       color: @primaryColorHover;
       fill: @primaryColorHover;
     }
   }
+
   &&-link {
     background: none;
     border: 0;
@@ -79,20 +107,43 @@
 
   &&-disabled {
     cursor: not-allowed;
+
     background: @fullDisableColor;
     color: @disableColor;
     fill: @disableColor;
+    .@{prefix}-spin {
+      &-dot {
+        opacity: 0.6;
+      }
+    }
   }
+
   &&-lg {
     padding: 10px 16px;
   }
+
   &&-sm {
     padding: 4px 16px;
     font-size: 12px;
   }
+
   &&-inline {
   }
 
-  &-spin {
+  .@{prefix}-spin {
+    width: 16px;
+    height: 16px;
+    // padding-right: 20px;
+    margin-left: -10px;
+    transform: scale(0.6);
+    margin-right: 4px;
+
+    & + .@{prefix}-icon {
+      margin-left: 0px;
+    }
+
+    &-dot {
+      margin-top: -10px;
+    }
   }
 }

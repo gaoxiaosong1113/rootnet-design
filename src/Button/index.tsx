@@ -12,7 +12,7 @@ import './index.less';
 import { prefix } from '../config';
 
 // 引入组件
-import { Icon } from '../index';
+import { Icon, Spin } from '../index';
 
 export interface ButtonProps {
   /**
@@ -64,6 +64,12 @@ export interface ButtonProps {
    * @default           -
    */
   htmlType?: 'button' | 'submit' | 'reset' | undefined;
+
+  /**
+   * @description      loading
+   * @default           false
+   */
+  loading?: boolean;
 }
 
 function Button(props: ButtonProps, ref: any) {
@@ -78,6 +84,7 @@ function Button(props: ButtonProps, ref: any) {
     interval,
     size,
     htmlType,
+    loading = false,
     ...prop
   } = props;
 
@@ -105,6 +112,7 @@ function Button(props: ButtonProps, ref: any) {
       ref={eleRef}
       {...prop}
     >
+      {loading && <Spin loading title=""></Spin>}
       {icon && <Icon name={icon} />}
       <span>{children}</span>
     </button>

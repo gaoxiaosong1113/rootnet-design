@@ -22,7 +22,7 @@ export default () => {
     <div>
       <Row gutter={[16, 16]}>
         <Col span={4}>
-          <Button type="primary" size="sm">
+          <Button type="primary" size="sm" disabled>
             按钮
           </Button>
         </Col>
