@@ -153,6 +153,7 @@ function NotificationContent(props: any) {
           type={type}
           close={close}
           extra={extra}
+          visible={false}
           onClose={closeAlert}
         />
       </div>
