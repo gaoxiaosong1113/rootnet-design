@@ -105,12 +105,15 @@ export default () => {
 可关闭：
 
 ```tsx
-import React from 'react';
+import React, { useState } from 'react';
 import { Alert, Grid } from 'rootnet-design';
 
 const { Row, Col } = Grid;
 
 export default () => {
+  const [visible, setVisible] = useState(false);
+  const [visible1, setVisible1] = useState(false);
+
   return (
     <div>
       <Row gutter={[16, 16]}>
@@ -119,6 +122,10 @@ export default () => {
             close
             content="恭喜！你所提交操作已通过，如有问题请联系客服。"
             type="primary"
+            visible={visible}
+            onClose={() => {
+              setVisible(true);
+            }}
           />
         </Col>
         <Col span={12}>
@@ -127,6 +134,10 @@ export default () => {
             title="系统提示"
             content="恭喜！你所提交操作已通过，如有问题请联系客服。"
             type="success"
+            visible={visible1}
+            onClose={() => {
+              setVisible1(true);
+            }}
           />
         </Col>
       </Row>

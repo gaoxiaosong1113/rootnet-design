@@ -42,6 +42,12 @@ export interface AlertProps {
   type?: string;
 
   /**
+   * @description      alert 是否关闭
+   * @default           false
+   */
+  visible: boolean;
+
+  /**
    * @description      是否显示关闭按钮
    * @default           false
    */
@@ -73,13 +79,13 @@ export default function Alert(props: AlertProps) {
     title,
     content,
     type = 'primary',
+    visible,
     close,
     extra,
     width,
     onClose,
     ...prop
   } = props;
-  const [closed, setClosed] = useState(false);
 
   const color = useMemo(() => {
     const colorObj: any = {
@@ -96,7 +102,7 @@ export default function Alert(props: AlertProps) {
       className={clsx(className, `${prefix}-alert`, {
         [`${prefix}-alert-lg`]: title,
         [`${prefix}-alert-${type}`]: type,
-        [`${prefix}-alert-closed`]: closed,
+        [`${prefix}-alert-closed`]: visible,
       })}
       style={{
         width,
@@ -117,7 +123,6 @@ export default function Alert(props: AlertProps) {
         <div
           className={clsx(`${prefix}-alert-close`)}
           onClick={() => {
-            setClosed(true);
             onClose ? onClose() : null;
           }}
         >
