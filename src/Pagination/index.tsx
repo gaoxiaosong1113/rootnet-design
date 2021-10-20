@@ -377,7 +377,7 @@ function Pagination(props: PaginationProps) {
                 },
               ]}
               className="c-pagination-item c-pagination-select"
-              placeholder={`${pageSize2}条每页`}
+              placeholder={`${pageSize2}条/页`}
               disabled={disabled}
               onChange={pageSizeChange}
             />
