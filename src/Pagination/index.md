@@ -118,7 +118,7 @@ export default () => {
   const onSizeChange = (page, pageSize) => {
     console.log(page, pageSize);
   };
-  const totalNum = 1000;
+  const totalNum = 0;
   return (
     <div>
       <Row gutter={[16, 16]}>
