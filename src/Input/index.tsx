@@ -124,6 +124,12 @@ export interface InputProps {
    * @default           -
    */
   type?: string;
+
+  /**
+   * @description      启用自动完成功能的表单
+   * @default           -
+   */
+  autoComplete?: string;
 }
 
 function Input(props: InputProps, ref: any) {
@@ -143,6 +149,7 @@ function Input(props: InputProps, ref: any) {
     onInput,
     type = 'text',
     close = false,
+    autoComplete,
     ...prop
   } = props;
 
@@ -213,6 +220,7 @@ function Input(props: InputProps, ref: any) {
           maxLength={maxLength}
           placeholder={placeholder || '请输入'}
           ref={refEl}
+          autoComplete={autoComplete}
         />
       </div>
       {value && value != undefined && close && (

@@ -1,7 +1,7 @@
 {
   "private": false,
   "name": "rootnet-design",
-  "version": "0.0.89",
+  "version": "0.0.99",
   "files": [
     "dist",
     "lib",
@@ -18,7 +18,7 @@
     "test": "umi-test",
     "test:coverage": "umi-test --coverage",
     "patch": "npm version patch",
-    "upload": "npm run build && npm publish --registry=http://nexus.croot.com:8081/repository/npm-hosted/",
+    "upload": "npm version patch && npm run build && npm publish --registry=http://nexus.croot.com:8081/repository/npm-hosted",
     "unpublish": "npm unpublish rootnet-design --force",
     "link-react": "npm link ../edit-reportnp/node_modules/react"
   },

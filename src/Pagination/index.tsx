@@ -148,7 +148,7 @@ function Pagination(props: PaginationProps) {
   const [leftStepper, setLeftStepper] = useState(false); //*左侧的省略号
   const [rightStepper, setRightStepper] = useState(false); //*右侧的省略号
   const [node, setNode] = useState([] as any); //*节点渲染数组
-  const [pageSize2, setPageSize2] = useState(pageSize || 20); //每页显示多少条
+  const [pageSize2, setPageSize2] = useState(pageSize || 10); //每页显示多少条
   const [toPage, setToPage] = useState(null as any); //跳至多少页
   // const pageSizeRecent = useRef(''); // 最新pageSize值
   // 指定数组
