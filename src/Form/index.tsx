@@ -281,7 +281,9 @@ export const Item = (props: FormItemProps, ref: any) => {
           // 必填项
           if (item.required !== undefined && item.required === true) {
             if (v === undefined || v.length <= 0) {
-              return item;
+              return {
+                message: `必填项`,
+              };
             }
           }
 
@@ -304,6 +306,15 @@ export const Item = (props: FormItemProps, ref: any) => {
               max: item.min,
               message: `最少输入${item.min}个字符`,
             };
+          }
+
+          if (item.validate) {
+            let validateRes = item.validate(v);
+            if (!validateRes) {
+              return {
+                message: item.message,
+              };
+            }
           }
         })
         .filter((item: any) => item !== undefined);
