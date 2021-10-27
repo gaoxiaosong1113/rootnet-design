@@ -49,7 +49,6 @@ export default () => {
                   name="username"
                   rules={[
                     {
-                      required: true,
                       max: 2,
                       message: '请输入用户名',
                     },

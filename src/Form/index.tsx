@@ -293,7 +293,13 @@ export const Item = (props: FormItemProps, ref: any) => {
           }
 
           // 验证长度
-          if (item.max && item.max < v.length) {
+          if (
+            item.max &&
+            v !== undefined &&
+            v !== null &&
+            v !== '' &&
+            item.max < v.length
+          ) {
             return {
               max: item.max,
               message: `最多输入${item.max}个字符`,
@@ -301,7 +307,13 @@ export const Item = (props: FormItemProps, ref: any) => {
           }
 
           // 验证长度
-          if (item.min && item.min > v.length) {
+          if (
+            item.min &&
+            v !== undefined &&
+            v !== null &&
+            v !== '' &&
+            item.min > v.length
+          ) {
             return {
               max: item.min,
               message: `最少输入${item.min}个字符`,
