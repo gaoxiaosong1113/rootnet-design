@@ -321,7 +321,7 @@ export const Item = (props: FormItemProps, ref: any) => {
           }
 
           if (item.validate) {
-            let validateRes = item.validate(v, value);
+            let validateRes = item.validate(v, formValue);
             if (!validateRes) {
               return {
                 message: item.message,
@@ -338,9 +338,9 @@ export const Item = (props: FormItemProps, ref: any) => {
 
   const handleChange = (v: any) => {
     setValue(v);
-    validationData(name, v);
     if (name && onChange) {
       onChange(name, v);
+      validationData(name, v);
     }
   };
 

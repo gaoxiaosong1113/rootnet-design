@@ -982,8 +982,8 @@ export default () => {
               rules={[
                 {
                   required: true,
-                  validate: (value) => {
-                    console.log(value);
+                  validate: (value, values) => {
+                    console.log(value, values);
                     return value.length > 10;
                   },
                   message: '我是自定义校验，长度不能小于10',
