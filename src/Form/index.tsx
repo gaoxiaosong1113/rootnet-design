@@ -384,6 +384,7 @@ export const Item = (props: FormItemProps, ref: any) => {
           value,
           onChange: (e: any) => {
             handleChange(e);
+            children.props.onChange?.(e);
           },
         })}
         {error && error.length && error.length > 0 ? (
