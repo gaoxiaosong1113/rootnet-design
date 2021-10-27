@@ -280,7 +280,7 @@ export const Item = (props: FormItemProps, ref: any) => {
         .map((item: any) => {
           // 必填项
           if (item.required !== undefined && item.required === true) {
-            if (v === undefined || v.length <= 0) {
+            if (v === undefined || v === null || v.length <= 0) {
               return {
                 message: `必填项`,
               };
@@ -321,7 +321,7 @@ export const Item = (props: FormItemProps, ref: any) => {
           }
 
           if (item.validate) {
-            let validateRes = item.validate(v);
+            let validateRes = item.validate(v, value);
             if (!validateRes) {
               return {
                 message: item.message,
