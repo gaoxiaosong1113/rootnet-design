@@ -104,6 +104,12 @@ function Tooltip(props: TooltipProps) {
 
   const refEl = useRef(null);
 
+  useEffect(() => {
+    if (disable) {
+      setVisible(false);
+    }
+  }, [disable]);
+
   function handleOpen() {
     if (disable) return;
     setVisible(true);

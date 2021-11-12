@@ -29,7 +29,7 @@ export interface PaginationProps {
     prev 上一页(组件、字符串)
     next 下一页(组件、字符串)
     simple 简单分页 boolean 默认false
-    pageSizeShow 是否展示 pageSize2 切换器 boolean 默认true
+    pageSizeShow 是否展示 pageSize 切换器 boolean 默认true
     toPageShow 是否可以快速跳转至某页 boolean 默认true
     totalNumShow 数据总量是否展示 boolean 默认true
     disabled 禁用分页 boolean 默认false
@@ -83,7 +83,7 @@ export interface PaginationProps {
   simple?: boolean;
 
   /**
-   * @description      是否展示 pageSize2 切换器(简单分页不展示)
+   * @description      是否展示 pageSize 切换器(简单分页不展示)
    * @default           true
    */
   pageSizeShow?: boolean;
@@ -148,7 +148,7 @@ function Pagination(props: PaginationProps) {
   const [leftStepper, setLeftStepper] = useState(false); //*左侧的省略号
   const [rightStepper, setRightStepper] = useState(false); //*右侧的省略号
   const [node, setNode] = useState([] as any); //*节点渲染数组
-  const [pageSize2, setPageSize2] = useState(pageSize || 20); //每页显示多少条
+  const [pageSize2, setPageSize2] = useState(pageSize || 10); //每页显示多少条
   const [toPage, setToPage] = useState(null as any); //跳至多少页
   // const pageSizeRecent = useRef(''); // 最新pageSize值
   // 指定数组
@@ -377,7 +377,7 @@ function Pagination(props: PaginationProps) {
                 },
               ]}
               className="c-pagination-item c-pagination-select"
-              placeholder={`${pageSize2}条每页`}
+              placeholder={`${pageSize}条每页`}
               disabled={disabled}
               onChange={pageSizeChange}
             />
@@ -391,7 +391,7 @@ function Pagination(props: PaginationProps) {
                 };
               })}
               className="c-pagination-item c-pagination-select"
-              placeholder={`${pageSize2}条/页`}
+              placeholder={`${pageSize}条/页`}
               disabled={disabled}
               onChange={pageSizeChange}
             />
@@ -417,7 +417,7 @@ function Pagination(props: PaginationProps) {
       )}
       {/* 数据总条数 */}
       {!simple && totalNumShow && !totalDOM && (
-        <li className="c-pagination-totalNum">共 {totalNum || '1000'} 条</li>
+        <li className="c-pagination-totalNum">共 {totalNum || '0'} 条</li>
       )}
       {/* 数据总条数 */}
       {!simple && totalNumShow && totalDOM && (

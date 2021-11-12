@@ -280,8 +280,10 @@ export const Item = (props: FormItemProps, ref: any) => {
         .map((item: any) => {
           // 必填项
           if (item.required !== undefined && item.required === true) {
-            if (v === undefined || v.length <= 0) {
-              return item;
+            if (v === undefined || v === null || v.length <= 0) {
+              return {
+                message: `必填项`,
+              };
             }
           }
 
@@ -291,7 +293,13 @@ export const Item = (props: FormItemProps, ref: any) => {
           }
 
           // 验证长度
-          if (item.max && item.max < v.length) {
+          if (
+            item.max &&
+            v !== undefined &&
+            v !== null &&
+            v !== '' &&
+            item.max < v.length
+          ) {
             return {
               max: item.max,
               message: `最多输入${item.max}个字符`,
@@ -299,11 +307,26 @@ export const Item = (props: FormItemProps, ref: any) => {
           }
 
           // 验证长度
-          if (item.min && item.min > v.length) {
+          if (
+            item.min &&
+            v !== undefined &&
+            v !== null &&
+            v !== '' &&
+            item.min > v.length
+          ) {
             return {
               max: item.min,
               message: `最少输入${item.min}个字符`,
             };
+          }
+
+          if (item.validate) {
+            let validateRes = item.validate(v, formValue);
+            if (!validateRes) {
+              return {
+                message: item.message,
+              };
+            }
           }
         })
         .filter((item: any) => item !== undefined);
@@ -315,9 +338,9 @@ export const Item = (props: FormItemProps, ref: any) => {
 
   const handleChange = (v: any) => {
     setValue(v);
-    validationData(name, v);
     if (name && onChange) {
       onChange(name, v);
+      validationData(name, v);
     }
   };
 
@@ -361,6 +384,7 @@ export const Item = (props: FormItemProps, ref: any) => {
           value,
           onChange: (e: any) => {
             handleChange(e);
+            children.props.onChange?.(e);
           },
         })}
         {error && error.length && error.length > 0 ? (

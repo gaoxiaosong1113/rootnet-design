@@ -1,5 +1,5 @@
 // 引入react依赖
-import React, { useMemo, useRef, useState, ReactNode } from 'react';
+import React, { useMemo, useRef, useState, ReactNode, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 
 // 引入第三方依赖
@@ -58,8 +58,15 @@ function Image(props: ImageProps) {
 
   const [load, setLoad] = useState(false);
 
+  useEffect(() => {
+    console.log(ref.current);
+  }, [ref.current]);
+
   const imgStyle = useMemo(() => {
-    let size = ref.current?.getBoundingClientRect();
+    if (!ref.current) {
+      return {};
+    }
+    let size = ref.current.getBoundingClientRect();
     if (!size) {
       return {};
     }
@@ -147,10 +154,13 @@ function Image(props: ImageProps) {
           backgroundRepeat: 'no-repeat',
         };
     }
-  }, [src, mode, load]);
+  }, [src, mode, load, ref.current]);
 
   const warpStyle = useMemo(() => {
-    let size = ref.current?.getBoundingClientRect();
+    if (!ref.current) {
+      return {};
+    }
+    let size = ref.current.getBoundingClientRect();
     if (!size) {
       return {};
     }
@@ -191,8 +201,8 @@ function Image(props: ImageProps) {
       case 'bottom right':
         return {};
     }
-  }, [src, mode, load]);
-
+  }, [src, mode, load, ref.current]);
+  console.log(ref.current);
   return (
     <div
       className={clsx(className, `${prefix}-image`)}
