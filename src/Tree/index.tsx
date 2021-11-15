@@ -59,6 +59,10 @@ function TreeItem(props: any) {
   const [indeterminate, setIndeterminate] = useState(false);
 
   useEffect(() => {
+    setChecked(selectedRowKeys.indexOf(data[rowKey]) != -1);
+  }, [data]);
+
+  useEffect(() => {
     setOpen(expandable && expandable?.indexOf(data[rowKey]) != -1);
   }, [expandable]);
 
