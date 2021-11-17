@@ -3,11 +3,11 @@ nav:
   title: 组件
   path: /components
 group:
-  title: Popover 进度条
+  title: Progress 进度条
   order: 29
 ---
 
-## Popover 进度条
+## Progress 进度条
 
 示例：
 
