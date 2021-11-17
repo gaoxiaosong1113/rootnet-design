@@ -27,18 +27,12 @@ export default () => {
             </Tooltip>
           </Col>
           <Col span={4}>
-            <Tooltip
-              position="top-left"
-              content={'我是一段提示，并且字数不是很多'}
-            >
+            <Tooltip position="top-left" content={'我是一段提示，并且字数不是很多'}>
               <span>top-left</span>
             </Tooltip>
           </Col>
           <Col span={4}>
-            <Tooltip
-              position="top-right"
-              content={'我是一段提示，并且字数不是很多'}
-            >
+            <Tooltip position="top-right" content={'我是一段提示，并且字数不是很多'}>
               <span>top-right</span>
             </Tooltip>
           </Col>
@@ -48,34 +42,22 @@ export default () => {
             </Tooltip>
           </Col>
           <Col span={4}>
-            <Tooltip
-              position="right"
-              content={'我是一段提示，并且字数不是很多'}
-            >
+            <Tooltip position="right" content={'我是一段提示，并且字数不是很多'}>
               <span>right</span>
             </Tooltip>
           </Col>
           <Col span={4}>
-            <Tooltip
-              position="bottom"
-              content={'我是一段提示，并且字数不是很多'}
-            >
+            <Tooltip position="bottom" content={'我是一段提示，并且字数不是很多'}>
               <span>bottom</span>
             </Tooltip>
           </Col>
           <Col span={4}>
-            <Tooltip
-              position="bottom-left"
-              content={'我是一段提示，并且字数不是很多'}
-            >
+            <Tooltip position="bottom-left" content={'我是一段提示，并且字数不是很多'}>
               <span>bottom-left</span>
             </Tooltip>
           </Col>
           <Col span={4}>
-            <Tooltip
-              position="bottom-right"
-              content={'我是一段提示，并且字数不是很多'}
-            >
+            <Tooltip position="bottom-right" content={'我是一段提示，并且字数不是很多'}>
               <span>bottom-right</span>
             </Tooltip>
           </Col>
@@ -131,24 +113,95 @@ export default () => {
           </Tooltip>
         </Col>
         <Col span={4}>
-          <Tooltip
-            trigger="hover"
-            disable
-            content={'我是一段提示，并且字数不是很多'}
-          >
+          <Tooltip trigger="hover" disable content={'我是一段提示，并且字数不是很多'}>
             <span>禁用</span>
           </Tooltip>
         </Col>
         <Col span={4}>
-          <Tooltip
-            trigger="click"
-            disable
-            content={'我是一段提示，并且字数不是很多'}
-          >
-            <span>禁用</span>
+          <Tooltip trigger="click" position="top-right" arrowPointAtCenter content={'箭头指向中心'}>
+            <span>箭头指向中心</span>
           </Tooltip>
         </Col>
       </Row>
+    </div>
+  );
+};
+```
+
+箭头指向中心：
+
+```tsx
+import React from 'react';
+import { Tooltip, Button, Grid } from 'rootnet-design';
+const { Row, Col } = Grid;
+
+export default () => {
+  return (
+    <div style={{ overflow: 'auto', height: 200 }}>
+      <div style={{ height: 800 }}>
+        <Row gutter={[16, 16]}>
+          <Col span={4}>
+            <Tooltip position="top" arrowPointAtCenter content={'我是一段提示，并且字数不是很多'}>
+              <Button>top</Button>
+            </Tooltip>
+          </Col>
+          <Col span={4}>
+            <Tooltip
+              position="top-left"
+              arrowPointAtCenter
+              content={'我是一段提示，并且字数不是很多'}
+            >
+              <Button>top-left</Button>
+            </Tooltip>
+          </Col>
+          <Col span={4}>
+            <Tooltip
+              position="top-right"
+              arrowPointAtCenter
+              content={'我是一段提示，并且字数不是很多'}
+            >
+              <Button>top-right</Button>
+            </Tooltip>
+          </Col>
+          <Col span={4}>
+            <Tooltip position="left" arrowPointAtCenter content={'我是一段提示，并且字数不是很多'}>
+              <Button>left</Button>
+            </Tooltip>
+          </Col>
+          <Col span={4}>
+            <Tooltip position="right" arrowPointAtCenter content={'我是一段提示，并且字数不是很多'}>
+              <Button>right</Button>
+            </Tooltip>
+          </Col>
+          <Col span={4}>
+            <Tooltip
+              position="bottom"
+              arrowPointAtCenter
+              content={'我是一段提示，并且字数不是很多'}
+            >
+              <Button>bottom</Button>
+            </Tooltip>
+          </Col>
+          <Col span={4}>
+            <Tooltip
+              position="bottom-left"
+              arrowPointAtCenter
+              content={'我是一段提示，并且字数不是很多'}
+            >
+              <Button>bottom-left</Button>
+            </Tooltip>
+          </Col>
+          <Col span={4}>
+            <Tooltip
+              position="bottom-right"
+              arrowPointAtCenter
+              content={'我是一段提示，并且字数不是很多'}
+            >
+              <Button>bottom-right</Button>
+            </Tooltip>
+          </Col>
+        </Row>
+      </div>
     </div>
   );
 };

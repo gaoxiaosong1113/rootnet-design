@@ -1,11 +1,4 @@
-import React, {
-  useEffect,
-  useState,
-  useRef,
-  useMemo,
-  useCallback,
-  ReactNode,
-} from 'react';
+import React, { useEffect, useState, useRef, useMemo, useCallback, ReactNode } from 'react';
 
 import ReactDOM from 'react-dom';
 
@@ -69,6 +62,12 @@ export interface PopupProps {
    */
   offset?: any;
 
+  /**
+   * @description      箭头将指向目标元素的中心
+   * @default           false
+   */
+  arrowPointAtCenter?: boolean;
+
   scrollRef?: any;
 }
 
@@ -84,6 +83,7 @@ function Popup(props: PopupProps): any {
     targetHidden = false,
     offset = 0,
     scrollRef,
+    arrowPointAtCenter = false,
     ...prop
   } = props;
 
@@ -94,7 +94,7 @@ function Popup(props: PopupProps): any {
 
   const ref = useRef(null as any);
 
-  useEffect(() => {
+  function handlePopupResize() {
     function handleStyle() {
       if (!visible || !refEl.current || !ref.current) return {};
       let refTarget = ref.current.getBoundingClientRect();
@@ -110,18 +110,21 @@ function Popup(props: PopupProps): any {
               top - 12 - refHeight
             }px)`,
           };
-        case 'top-right':
-          return {
-            transform: `translate(${left + refElWidth - refWidth + offset}px, ${
-              top - 12 - refHeight
-            }px)`,
-          };
         case 'top-left':
           return {
-            transform: `translate(${left - offset}px, ${
-              top - 12 - refHeight
-            }px)`,
+            transform: arrowPointAtCenter
+              ? `translate(${left - offset + refElWidth / 2 - 16}px, ${top - 12 - refHeight}px)`
+              : `translate(${left - offset}px, ${top - 12 - refHeight}px)`,
           };
+        case 'top-right':
+          return {
+            transform: arrowPointAtCenter
+              ? `translate(${left + refElWidth / 2 - refWidth + 21 + offset}px, ${
+                  top - 12 - refHeight
+                }px)`
+              : `translate(${left + refElWidth - refWidth + offset}px, ${top - 12 - refHeight}px)`,
+          };
+
         case 'left':
           return {
             transform: `translate(${left - refWidth - 12}px, ${
@@ -142,15 +145,19 @@ function Popup(props: PopupProps): any {
           };
         case 'bottom-left':
           return {
-            transform: `translate(${left - offset}px, ${
-              top + refElHeight + 12
-            }px)`,
+            transform: arrowPointAtCenter
+              ? `translate(${left - offset + refElWidth / 2 - 16}px, ${top + refElHeight + 12}px)`
+              : `translate(${left - offset}px, ${top + refElHeight + 12}px)`,
           };
         case 'bottom-right':
           return {
-            transform: `translate(${left + refElWidth - refWidth + offset}px, ${
-              top + refElHeight + 12
-            }px)`,
+            transform: arrowPointAtCenter
+              ? `translate(${left + refElWidth / 2 - refWidth + 21 + offset}px, ${
+                  top + refElHeight + 12
+                }px)`
+              : `translate(${left + refElWidth - refWidth + offset}px, ${
+                  top + refElHeight + 12
+                }px)`,
           };
         default:
           return {
@@ -161,18 +168,19 @@ function Popup(props: PopupProps): any {
       }
     }
     setStyle(handleStyle());
-  }, [top, left, refEl.current]);
+  }
 
-  useEffect(() => {}, [refEl.current]);
+  useEffect(() => {
+    handlePopupResize();
+  }, [top, left, refEl.current]);
 
   useEffect(() => {
     function handleClick(e: any) {
       if (!visible) return;
-
       if (!refEl.current) return;
       if (!ref.current) return;
-      // 判断选定区域
 
+      // 判断选定区域
       if (targetHidden) {
         if (!ReactDOM.findDOMNode(refEl.current)?.contains(e.target)) {
           onClose && onClose();
@@ -189,6 +197,7 @@ function Popup(props: PopupProps): any {
     if (trigger == 'click' && visible) {
       document.addEventListener('click', handleClick);
     }
+
     return () => {
       if (trigger == 'click') {
         document.removeEventListener('click', handleClick);
@@ -210,6 +219,9 @@ function Popup(props: PopupProps): any {
     function handleScroll(e: any) {
       setPosition(e.target);
     }
+    function handleResize(e: any) {
+      setPosition(e.target);
+    }
     if (scrollRef) {
       scrollRef.addEventListener('scroll', handleScroll);
     }
@@ -217,11 +229,9 @@ function Popup(props: PopupProps): any {
     parent.forEach((item: any) => {
       item.addEventListener('scroll', handleScroll);
     });
-    // parent.addEventListener('scroll', handleScroll);
-    // if (parent.nodeName !== '#document') {
-    //   document.addEventListener('scroll', handleBodyScroll);
-    // }
-    // document.documentElement.addEventListener('scroll', handleScroll);
+
+    window.addEventListener('resize', handleResize);
+
     return () => {
       parent.forEach((item: any) => {
         item.removeEventListener('scroll', handleScroll);
@@ -229,6 +239,7 @@ function Popup(props: PopupProps): any {
       if (scrollRef) {
         scrollRef.removeEventListener('scroll', handleScroll);
       }
+      window.removeEventListener('resize', handleResize);
     };
   }, [parent, visible, refEl.current]);
 
