@@ -76,7 +76,7 @@ function Content(props: any) {
     >
       <div
         className={clsx(`${prefix}-tooltip`, {
-          [`${prefix}-tooltip-${position}`]: position,
+          // [`${prefix}-tooltip-${position}`]: position,
           [`${prefix}-tooltip-visible`]: visible,
         })}
       >

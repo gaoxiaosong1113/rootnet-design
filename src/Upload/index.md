@@ -27,7 +27,7 @@ export default () => {
             action={(form, config) => {
               console.log(form, config);
               return new Promise((resolve, reject) => {
-                resolve('上传的地址');
+                resolve({ data: '上传的地址' });
               });
             }}
             onPreview={(file) => {
@@ -270,7 +270,7 @@ export default () => {
             action={(form, config) => {
               console.log(form, config);
               return new Promise((resolve, reject) => {
-                reject('上传的地址');
+                resolve({ data: '上传的地址' });
               });
             }}
             beforeUpload={(file, files) => {
@@ -333,11 +333,7 @@ export default () => {
           ></Upload>
         </Col>
         <Col span={12}>
-          <Upload
-            accept=".png,.jpg,.jpeg,.gif"
-            drag
-            uploadText={'此处可自定义文字'}
-          >
+          <Upload accept=".png,.jpg,.jpeg,.gif" drag uploadText={'此处可自定义文字'}>
             <Icon name="shangchuan" size={24} />
           </Upload>
         </Col>

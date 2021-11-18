@@ -100,9 +100,7 @@ function DatePicker(props: DatePickerProps) {
   }, [props.value]);
 
   const isPlaceholder = useMemo(() => {
-    return (
-      value === undefined || value === null || JSON.stringify(value) === '[]'
-    );
+    return value === undefined || value === null || JSON.stringify(value) === '[]';
   }, [value]);
 
   return (
@@ -193,14 +191,14 @@ export function Calendar(props: any) {
   ]) as any;
 
   // 获取本月第一天
-  function getMonthDay(date) {
+  function getMonthDay(date: any) {
     date = new Date(date.valueOf());
     date.setDate(1);
     return date;
   }
 
   // 获取本月最后一天
-  function getMonthLastDay(date) {
+  function getMonthLastDay(date: any) {
     date = new Date(date.valueOf());
     date.setMonth(date.getMonth() + 1);
     date.setDate(0);
@@ -208,7 +206,7 @@ export function Calendar(props: any) {
   }
 
   // 获取时间
-  function getPrevDay(date, index) {
+  function getPrevDay(date: any, index: any) {
     date = new Date(date.valueOf());
     date.setMonth(date.getMonth());
     date.setDate(index);
@@ -216,14 +214,14 @@ export function Calendar(props: any) {
   }
 
   // 获取时间
-  function getDay(date, index) {
+  function getDay(date: any, index: any) {
     date = new Date(date.valueOf());
     date.setDate(index);
     return date;
   }
 
   // 获取时间
-  function getNextDay(date, index) {
+  function getNextDay(date: any, index: any) {
     date = new Date(date.valueOf());
     date.setMonth(date.getMonth() + 1);
     date.setDate(index);
@@ -283,27 +281,21 @@ export function Calendar(props: any) {
         rows.push({
           type: 'prev',
           date: t,
-          value: `${t.getFullYear()}-${formater(t.getMonth() + 1)}-${formater(
-            t.getDate(),
-          )}`,
+          value: `${t.getFullYear()}-${formater(t.getMonth() + 1)}-${formater(t.getDate())}`,
         });
       } else if (i > lastTimeDate + fastTimeDay) {
         let t = getNextDay(lastTime, i - (lastTimeDate + fastTimeDay));
         rows.push({
           type: 'next',
           date: t,
-          value: `${t.getFullYear()}-${formater(t.getMonth() + 1)}-${formater(
-            t.getDate(),
-          )}`,
+          value: `${t.getFullYear()}-${formater(t.getMonth() + 1)}-${formater(t.getDate())}`,
         });
       } else {
         let t = getDay(time, i - fastTimeDay + 1);
         rows.push({
           type: 'current',
           date: t,
-          value: `${t.getFullYear()}-${formater(t.getMonth() + 1)}-${formater(
-            t.getDate(),
-          )}`,
+          value: `${t.getFullYear()}-${formater(t.getMonth() + 1)}-${formater(t.getDate())}`,
         });
       }
     }
@@ -334,13 +326,13 @@ export function Calendar(props: any) {
     setCurrentTime(date);
   }
 
-  function checkedDate(data) {
+  function checkedDate(data: any) {
     if (data.type == 'current') {
       onChange?.(data.value, data.date);
     }
   }
 
-  function formater(date) {
+  function formater(date: any) {
     let time = date + '';
     if (time.length == 1) {
       time = '0' + time;
@@ -355,19 +347,13 @@ export function Calendar(props: any) {
       <div className={clsx(`${prefix}-calendar-time-content`)}>
         <div className={clsx(`${prefix}-calendar-head`)}>
           <div
-            className={clsx(
-              `${prefix}-calendar-button`,
-              `${prefix}-calendar-button-prev`,
-            )}
+            className={clsx(`${prefix}-calendar-button`, `${prefix}-calendar-button-prev`)}
             onClick={prevYear}
           >
             <Icon size={12} color="#3A415C" name="a-doubleleft" />
           </div>
           <div
-            className={clsx(
-              `${prefix}-calendar-button`,
-              `${prefix}-calendar-button-prev`,
-            )}
+            className={clsx(`${prefix}-calendar-button`, `${prefix}-calendar-button-prev`)}
             onClick={prevMonth}
           >
             <Icon size={12} color="#3A415C" name="zuo" />
@@ -381,19 +367,13 @@ export function Calendar(props: any) {
             </div>
           </div>
           <div
-            className={clsx(
-              `${prefix}-calendar-button`,
-              `${prefix}-calendar-button-next`,
-            )}
+            className={clsx(`${prefix}-calendar-button`, `${prefix}-calendar-button-next`)}
             onClick={nextMonth}
           >
             <Icon size={12} color="#3A415C" name="you" />
           </div>
           <div
-            className={clsx(
-              `${prefix}-calendar-button`,
-              `${prefix}-calendar-button-next`,
-            )}
+            className={clsx(`${prefix}-calendar-button`, `${prefix}-calendar-button-next`)}
             onClick={nextYear}
           >
             <Icon size={12} color="#3A415C" name="a-doubleright" />
@@ -412,14 +392,13 @@ export function Calendar(props: any) {
             </ul>
           </div>
           <ul className={clsx(`${prefix}-calendar-time`)}>
-            {calendar.map((item, index) => {
+            {calendar.map((item: any, index: any) => {
               return (
                 <li
                   key={index}
                   className={clsx(`${prefix}-calendar-time-item`, {
                     [`${prefix}-calendar-time-item-${item.type}`]: item.type,
-                    [`${prefix}-calendar-time-item-checked`]:
-                      value === item.value,
+                    [`${prefix}-calendar-time-item-checked`]: value === item.value,
                   })}
                   onClick={() => checkedDate(item)}
                 >
@@ -434,10 +413,7 @@ export function Calendar(props: any) {
       <div className={clsx(`${prefix}-calendar-year-content`)}>
         <div className={clsx(`${prefix}-calendar-head`)}>
           <div
-            className={clsx(
-              `${prefix}-calendar-button`,
-              `${prefix}-calendar-button-prev`,
-            )}
+            className={clsx(`${prefix}-calendar-button`, `${prefix}-calendar-button-prev`)}
             onClick={prevYear}
           >
             <Icon size={12} color="#3A415C" name="a-doubleleft" />
@@ -446,17 +422,13 @@ export function Calendar(props: any) {
             <div className={clsx(`${prefix}-calendar-date-year`)}>
               {currentYearList.length > 0 && (
                 <span>
-                  {currentYearList[0].date} -{' '}
-                  {currentYearList.slice(-1)[0].date}
+                  {currentYearList[0].date} - {currentYearList.slice(-1)[0].date}
                 </span>
               )}
             </div>
           </div>
           <div
-            className={clsx(
-              `${prefix}-calendar-button`,
-              `${prefix}-calendar-button-next`,
-            )}
+            className={clsx(`${prefix}-calendar-button`, `${prefix}-calendar-button-next`)}
             onClick={nextYear}
           >
             <Icon size={12} color="#3A415C" name="a-doubleright" />
@@ -464,14 +436,13 @@ export function Calendar(props: any) {
         </div>
         <div className={clsx(`${prefix}-calendar-body`)}>
           <ul className={clsx(`${prefix}-calendar-time`)}>
-            {currentYearList.map((item, index) => {
+            {currentYearList.map((item: any, index: any) => {
               return (
                 <li
                   key={index}
                   className={clsx(`${prefix}-calendar-time-item`, {
                     [`${prefix}-calendar-time-item-${item.type}`]: item.type,
-                    [`${prefix}-calendar-time-item-checked`]:
-                      value === item.value,
+                    [`${prefix}-calendar-time-item-checked`]: value === item.value,
                   })}
                   onClick={() => checkedDate(item)}
                 >
@@ -486,10 +457,7 @@ export function Calendar(props: any) {
       <div className={clsx(`${prefix}-calendar-month-content`)}>
         <div className={clsx(`${prefix}-calendar-head`)}>
           <div
-            className={clsx(
-              `${prefix}-calendar-button`,
-              `${prefix}-calendar-button-prev`,
-            )}
+            className={clsx(`${prefix}-calendar-button`, `${prefix}-calendar-button-prev`)}
             onClick={prevYear}
           >
             <Icon size={12} color="#3A415C" name="a-doubleleft" />
@@ -500,10 +468,7 @@ export function Calendar(props: any) {
             </div>
           </div>
           <div
-            className={clsx(
-              `${prefix}-calendar-button`,
-              `${prefix}-calendar-button-next`,
-            )}
+            className={clsx(`${prefix}-calendar-button`, `${prefix}-calendar-button-next`)}
             onClick={nextYear}
           >
             <Icon size={12} color="#3A415C" name="a-doubleright" />
@@ -511,13 +476,12 @@ export function Calendar(props: any) {
         </div>
         <div className={clsx(`${prefix}-calendar-body`)}>
           <ul className={clsx(`${prefix}-calendar-time`)}>
-            {currentMonthList.map((item, index) => {
+            {currentMonthList.map((item: any, index: any) => {
               return (
                 <li
                   key={index}
                   className={clsx(`${prefix}-calendar-time-item`, {
-                    [`${prefix}-calendar-time-item-checked`]:
-                      value === item.value,
+                    [`${prefix}-calendar-time-item-checked`]: value === item.value,
                   })}
                   onClick={() => checkedDate(item)}
                 >
@@ -532,10 +496,7 @@ export function Calendar(props: any) {
       <div className={clsx(`${prefix}-calendar-quarter-content`)}>
         <div className={clsx(`${prefix}-calendar-head`)}>
           <div
-            className={clsx(
-              `${prefix}-calendar-button`,
-              `${prefix}-calendar-button-prev`,
-            )}
+            className={clsx(`${prefix}-calendar-button`, `${prefix}-calendar-button-prev`)}
             onClick={prevYear}
           >
             <Icon size={12} color="#3A415C" name="a-doubleleft" />
@@ -546,10 +507,7 @@ export function Calendar(props: any) {
             </div>
           </div>
           <div
-            className={clsx(
-              `${prefix}-calendar-button`,
-              `${prefix}-calendar-button-next`,
-            )}
+            className={clsx(`${prefix}-calendar-button`, `${prefix}-calendar-button-next`)}
             onClick={nextYear}
           >
             <Icon size={12} color="#3A415C" name="a-doubleright" />
@@ -557,15 +515,14 @@ export function Calendar(props: any) {
         </div>
         <div className={clsx(`${prefix}-calendar-body`)}>
           <ul className={clsx(`${prefix}-calendar-time`)}>
-            {quarter.map((item, index) => {
+            {quarter.map((item: any, index: any) => {
               return (
                 <li
                   key={index}
                   className={clsx(`${prefix}-calendar-time-item`, {
-                    [`${prefix}-calendar-time-item-checked`]:
-                      value === item.value,
+                    [`${prefix}-calendar-time-item-checked`]: value === item.value,
                   })}
-                  onClick={() => checkedDate(item, index)}
+                  onClick={() => checkedDate(item)}
                 >
                   Q{index + 1}
                 </li>
@@ -580,16 +537,7 @@ export function Calendar(props: any) {
 }
 
 function DatePickerContent(props: DatePickerProps) {
-  const {
-    className,
-    options,
-    value,
-    multiple,
-    onChange,
-    onCancel,
-    target,
-    ...prop
-  } = props;
+  const { className, options, value, multiple, onChange, onCancel, target, ...prop } = props;
 
   const refEl = useRef<any>(null);
 
@@ -611,7 +559,7 @@ function DatePickerContent(props: DatePickerProps) {
     onCancel();
   }
 
-  function handleChange(v: any, date) {
+  function handleChange(v: any, date: any) {
     onChange(v, date);
   }
 
@@ -622,25 +570,13 @@ function DatePickerContent(props: DatePickerProps) {
           <Calendar onChange={handleChange} value={value} />
         </div>
       </div>
-      <div
-        className={clsx(`${prefix}-select-mask`, {})}
-        onClick={handleCancel}
-      ></div>
+      <div className={clsx(`${prefix}-select-mask`, {})} onClick={handleCancel}></div>
     </div>
   );
 }
 
 function DatePickerValue(props: DatePickerProps) {
-  const {
-    options,
-    value,
-    placeholder,
-    onChange,
-    onCancel,
-    target,
-    multiple,
-    ...prop
-  } = props;
+  const { options, value, placeholder, onChange, onCancel, target, multiple, ...prop } = props;
   if (value !== undefined) {
     return value;
   }
