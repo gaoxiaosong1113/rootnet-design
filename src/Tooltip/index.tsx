@@ -114,14 +114,12 @@ function Tooltip(props: TooltipProps) {
     setVisible(true);
   }
   function handleClose() {
-    console.log('handleClose');
     if (disable) return;
     setVisible(false);
     onCancel && onCancel();
   }
 
   function handleClick() {
-    console.log('handleClick');
     if (disable) return;
     setVisible((prevOpen) => {
       return !prevOpen;
