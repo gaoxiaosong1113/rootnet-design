@@ -132,7 +132,7 @@ export default () => {
             }}
             fileList={[
               {
-                uid: '-1',
+                uuid: '-1',
                 name: 'image.png',
                 status: 'success',
                 percent: 10,
@@ -214,7 +214,7 @@ export default () => {
             maxCount={2}
             fileList={[
               {
-                uid: '-1',
+                uuid: '-1',
                 name: 'image.png',
                 status: 'success',
                 percent: 10,
@@ -323,7 +323,7 @@ export default () => {
             uploadText={'自定义文字'}
             fileList={[
               {
-                uid: '-1',
+                uuid: '-1',
                 name: 'image.png',
                 status: 'success',
                 percent: 10,

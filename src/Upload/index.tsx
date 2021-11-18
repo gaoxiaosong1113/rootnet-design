@@ -1,12 +1,5 @@
 // 引入react依赖
-import React, {
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-  ReactNode,
-} from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState, ReactNode } from 'react';
 import ReactDOM from 'react-dom';
 
 // 引入第三方依赖
@@ -25,12 +18,7 @@ import { Icon, Image, Progress } from '../index';
 // 引入工具类
 import { uuid, fileUpload } from '../_util';
 
-export type UploadFileStatus =
-  | 'error'
-  | 'success'
-  | 'done'
-  | 'uploading'
-  | 'removed';
+export type UploadFileStatus = 'error' | 'success' | 'done' | 'uploading' | 'removed';
 export interface UploadFile {
   /**
    * @description      文件名
@@ -60,7 +48,7 @@ export interface UploadFile {
    * @description      唯一标识符，不设置时会自动生成
    * @default           -
    */
-  uid?: string;
+  uuid?: string;
 
   /**
    * @description      上传的文件
@@ -124,11 +112,7 @@ export interface UploadProps {
    * @description      自定义上传列表项
    * @default           -
    */
-  itemRender?: (
-    file: UploadFile,
-    fileList: Array<{}>,
-    index: number,
-  ) => React.ReactNode;
+  itemRender?: (file: UploadFile, fileList: Array<{}>, index: number) => React.ReactNode;
 
   /**
    * @description      上传列表的内建样式 text, picture, picture-card
@@ -272,9 +256,7 @@ function Upload(props: UploadProps) {
                     '#F5221B': item.status == 'error',
                     '#1890FF': item.status == 'uploading',
                     '#3A415C':
-                      item.status == 'removed' ||
-                      item.status == 'success' ||
-                      item.status == 'done',
+                      item.status == 'removed' || item.status == 'success' || item.status == 'done',
                   })}
                 />
               </div>
@@ -285,19 +267,13 @@ function Upload(props: UploadProps) {
               </div>
             )}
             {listType !== 'picture-card' && (
-              <div className={clsx(`${prefix}-upload-fillName`, {})}>
-                {item.name}
-              </div>
+              <div className={clsx(`${prefix}-upload-fillName`, {})}>{item.name}</div>
             )}
             {operation(item)}
           </div>
           {item.percent !== undefined && (
             <div className={clsx(`${prefix}-upload-progress`, {})}>
-              <Progress
-                percent={item.percent as any}
-                status={item.status}
-                minimum
-              />
+              <Progress percent={item.percent as any} status={item.status} minimum />
             </div>
           )}
         </div>
@@ -356,7 +332,7 @@ function Upload(props: UploadProps) {
         percent: 0,
         status: 'uploading' as UploadFileStatus,
         thumbUrl: reader.result,
-        uid: uuid(),
+        uuid: uuid(),
         file: file,
       };
       fileList.push(uploadData);
@@ -380,9 +356,7 @@ function Upload(props: UploadProps) {
         {
           // 监听上传进度
           onUploadProgress(progressEvent: any) {
-            const percentCompleted = Math.round(
-              (progressEvent.loaded * 100) / progressEvent.total,
-            );
+            const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
             upItem.percent = percentCompleted;
             setFileList(newFileList);
           },
@@ -411,11 +385,7 @@ function Upload(props: UploadProps) {
   useEffect(() => {
     if (!drag) return;
     ['dragenter', 'dragover', 'dragleave', 'drop'].forEach((eventName) => {
-      uploadFileArea.current.addEventListener(
-        eventName,
-        preventDefaults,
-        false,
-      );
+      uploadFileArea.current.addEventListener(eventName, preventDefaults, false);
       document.body.addEventListener(eventName, preventDefaults, false);
     });
 
@@ -509,9 +479,7 @@ function Upload(props: UploadProps) {
           </div>
         )}
         {accept && showAccept && (
-          <div className={clsx(`${prefix}-upload-accept`, {})}>
-            支持扩展名{accept}
-          </div>
+          <div className={clsx(`${prefix}-upload-accept`, {})}>支持扩展名{accept}</div>
         )}
       </div>
 
@@ -521,10 +489,7 @@ function Upload(props: UploadProps) {
           {listType == 'picture-card' &&
             (maxCount != undefined ? fileList.length < maxCount : true) && (
               <div
-                className={clsx(
-                  `${prefix}-upload-item`,
-                  `${prefix}-upload-item-add`,
-                )}
+                className={clsx(`${prefix}-upload-item`, `${prefix}-upload-item-add`)}
                 onClick={handleClick}
               >
                 <Icon size={24} name="jiahao" />
