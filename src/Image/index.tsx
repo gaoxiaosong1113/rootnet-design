@@ -58,10 +58,6 @@ function Image(props: ImageProps) {
 
   const [load, setLoad] = useState(false);
 
-  useEffect(() => {
-    console.log(ref.current);
-  }, [ref.current]);
-
   const imgStyle = useMemo(() => {
     if (!ref.current) {
       return {};
@@ -173,14 +169,11 @@ function Image(props: ImageProps) {
         return {};
       case 'widthFix':
         return {
-          height:
-            (size.width / ref.current.naturalWidth) * ref.current.naturalHeight,
+          height: (size.width / ref.current.naturalWidth) * ref.current.naturalHeight,
         };
       case 'heightFix':
         return {
-          width:
-            (size.height / ref.current.naturalHeight) *
-            ref.current.naturalWidth,
+          width: (size.height / ref.current.naturalHeight) * ref.current.naturalWidth,
         };
       case 'top':
         return {};
@@ -202,7 +195,7 @@ function Image(props: ImageProps) {
         return {};
     }
   }, [src, mode, load, ref.current]);
-  console.log(ref.current);
+
   return (
     <div
       className={clsx(className, `${prefix}-image`)}

@@ -1,7 +1,7 @@
 import { defineConfig } from 'dumi';
 
 export default defineConfig({
-  title: 'rootnet-design',
+  title: 'Rootnet Design',
   logo: '/logo.png',
   favicon: '/logo.png',
   outputPath: 'docs-dist',

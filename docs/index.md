@@ -1,7 +1,7 @@
 ---
 hero:
-  title: rootnet-design
-  desc: rootnet-design 组件库文档
+  title: Rootnet Design
+  desc: 私募事业部组件库文档
   actions:
     - text: 开始使用
       link: /components

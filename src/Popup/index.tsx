@@ -1,11 +1,4 @@
-import React, {
-  useEffect,
-  useState,
-  useRef,
-  useMemo,
-  useCallback,
-  ReactNode,
-} from 'react';
+import React, { useEffect, useState, useRef, useMemo, useCallback, ReactNode } from 'react';
 
 import ReactDOM from 'react-dom';
 
@@ -69,6 +62,12 @@ export interface PopupProps {
    */
   offset?: any;
 
+  /**
+   * @description      箭头将指向目标元素的中心
+   * @default           false
+   */
+  arrowPointAtCenter?: boolean;
+
   scrollRef?: any;
 }
 
@@ -84,95 +83,140 @@ function Popup(props: PopupProps): any {
     targetHidden = false,
     offset = 0,
     scrollRef,
+    arrowPointAtCenter = false,
     ...prop
   } = props;
 
-  const [left, setLeft] = useState(0);
-  const [top, setTop] = useState(0);
+  const [left, setLeft] = useState(null) as any;
+  const [top, setTop] = useState(null) as any;
   const [style, setStyle] = useState({});
+  const [innerPosition, setInnerPosition] = useState(position);
   const parent = useGetElementParent(refEl.current);
 
   const ref = useRef(null as any);
 
-  useEffect(() => {
-    function handleStyle() {
-      if (!visible || !refEl.current || !ref.current) return {};
-      let refTarget = ref.current.getBoundingClientRect();
-      let refElTarget = refEl.current.getBoundingClientRect();
-      let refWidth = refTarget.width;
-      let refHeight = refTarget.height;
-      let refElWidth = refElTarget.width;
-      let refElHeight = refElTarget.height;
-      switch (position) {
-        case 'top':
-          return {
-            transform: `translate(${left + refElWidth / 2 - refWidth / 2}px, ${
-              top - 12 - refHeight
-            }px)`,
-          };
-        case 'top-right':
-          return {
-            transform: `translate(${left + refElWidth - refWidth + offset}px, ${
-              top - 12 - refHeight
-            }px)`,
-          };
-        case 'top-left':
-          return {
-            transform: `translate(${left - offset}px, ${
-              top - 12 - refHeight
-            }px)`,
-          };
-        case 'left':
-          return {
-            transform: `translate(${left - refWidth - 12}px, ${
-              top + refElHeight / 2 - refHeight / 2
-            }px)`,
-          };
-        case 'right':
-          return {
-            transform: `translate(${left + refElWidth + 12}px, ${
-              top + refElHeight / 2 - refHeight / 2
-            }px)`,
-          };
-        case 'bottom':
-          return {
-            transform: `translate(${left + refElWidth / 2 - refWidth / 2}px, ${
-              top + refElHeight + 12
-            }px)`,
-          };
-        case 'bottom-left':
-          return {
-            transform: `translate(${left - offset}px, ${
-              top + refElHeight + 12
-            }px)`,
-          };
-        case 'bottom-right':
-          return {
-            transform: `translate(${left + refElWidth - refWidth + offset}px, ${
-              top + refElHeight + 12
-            }px)`,
-          };
-        default:
-          return {
-            transform: `translate(${left}px, ${top}px)`,
-            width: refElWidth,
-            height: refElHeight,
-          };
+  function getSizePosition() {
+    if (!visible || !refEl.current || !ref.current) return null;
+    let refTarget = ref.current.getBoundingClientRect();
+    let refElTarget = refEl.current.getBoundingClientRect();
+    let refWidth = refTarget.width;
+    let refHeight = refTarget.height;
+    let refElWidth = refElTarget.width;
+    let refElHeight = refElTarget.height;
+
+    return {
+      refWidth,
+      refHeight,
+      top: {
+        x: left + refElWidth / 2 - refWidth / 2,
+        y: top - 12 - refHeight,
+      },
+      'top-left': {
+        x: arrowPointAtCenter ? left - offset + refElWidth / 2 - 16 : left - offset,
+        y: top - 12 - refHeight,
+      },
+      'top-right': {
+        x: arrowPointAtCenter
+          ? left + refElWidth / 2 - refWidth + 21 + offset
+          : left + refElWidth - refWidth + offset,
+        y: top - 12 - refHeight,
+      },
+      left: {
+        x: left - refWidth - 12,
+        y: top + refElHeight / 2 - refHeight / 2,
+      },
+      right: {
+        x: left + refElWidth + 12,
+        y: top + refElHeight / 2 - refHeight / 2,
+      },
+      bottom: {
+        x: left + refElWidth / 2 - refWidth / 2,
+        y: top + refElHeight + 12,
+      },
+      'bottom-left': {
+        x: arrowPointAtCenter ? left - offset + refElWidth / 2 - 16 : left - offset,
+        y: top + refElHeight + 12,
+      },
+      'bottom-right': {
+        x: arrowPointAtCenter
+          ? left + refElWidth / 2 - refWidth + 21 + offset
+          : left + refElWidth - refWidth + offset,
+        y: top + refElHeight + 12,
+        width: refElWidth,
+        height: refElHeight,
+      },
+      default: {
+        x: left,
+        y: top,
+        width: refElWidth,
+        height: refElHeight,
+      },
+    };
+  }
+
+  function handleRePosition() {
+    let rePosition = position;
+
+    let positionSize = getSizePosition() as any;
+
+    if (!positionSize) return;
+
+    if (position.indexOf('left') != -1) {
+      if (positionSize[rePosition].x + positionSize.refWidth > window.innerWidth) {
+        rePosition = rePosition.replace('left', 'right');
       }
     }
-    setStyle(handleStyle());
-  }, [top, left, refEl.current]);
 
-  useEffect(() => {}, [refEl.current]);
+    if (rePosition.indexOf('right') != -1) {
+      if (positionSize[rePosition].x <= 0) {
+        rePosition = rePosition.replace('right', 'left');
+      }
+    }
+
+    if (rePosition.indexOf('bottom') != -1) {
+      if (positionSize[rePosition].y + positionSize.refHeight > window.innerHeight) {
+        rePosition = rePosition.replace('bottom', 'top');
+      }
+    }
+
+    if (rePosition.indexOf('top') != -1) {
+      if (positionSize[rePosition].y <= 0) {
+        rePosition = rePosition.replace('top', 'bottom');
+      }
+    }
+    setInnerPosition(rePosition);
+  }
+
+  useEffect(() => {
+    if (!visible) return;
+    function handleStyle() {
+      let positionSize = getSizePosition() as any;
+      if (!positionSize) return {};
+      if (innerPosition === 'default') {
+        return {
+          transform: `translate(${positionSize[innerPosition].x}px, ${positionSize[innerPosition].y}px)`,
+          width: positionSize[innerPosition].width,
+          height: positionSize[innerPosition].height,
+        };
+      }
+      return {
+        transform: `translate(${positionSize[innerPosition].x}px, ${positionSize[innerPosition].y}px)`,
+      };
+    }
+    setStyle(handleStyle());
+  }, [left, top, refEl.current, innerPosition]);
+
+  useEffect(() => {
+    handleRePosition();
+  }, [top, left]);
 
   useEffect(() => {
     function handleClick(e: any) {
       if (!visible) return;
-
       if (!refEl.current) return;
       if (!ref.current) return;
-      // 判断选定区域
 
+      // 判断选定区域
       if (targetHidden) {
         if (!ReactDOM.findDOMNode(refEl.current)?.contains(e.target)) {
           onClose && onClose();
@@ -189,6 +233,7 @@ function Popup(props: PopupProps): any {
     if (trigger == 'click' && visible) {
       document.addEventListener('click', handleClick);
     }
+
     return () => {
       if (trigger == 'click') {
         document.removeEventListener('click', handleClick);
@@ -210,18 +255,21 @@ function Popup(props: PopupProps): any {
     function handleScroll(e: any) {
       setPosition(e.target);
     }
+    function handleResize(e: any) {
+      setPosition(e.target);
+    }
     if (scrollRef) {
       scrollRef.addEventListener('scroll', handleScroll);
     }
+
     setPosition(parent);
+
     parent.forEach((item: any) => {
       item.addEventListener('scroll', handleScroll);
     });
-    // parent.addEventListener('scroll', handleScroll);
-    // if (parent.nodeName !== '#document') {
-    //   document.addEventListener('scroll', handleBodyScroll);
-    // }
-    // document.documentElement.addEventListener('scroll', handleScroll);
+
+    window.addEventListener('resize', handleResize);
+
     return () => {
       parent.forEach((item: any) => {
         item.removeEventListener('scroll', handleScroll);
@@ -229,6 +277,7 @@ function Popup(props: PopupProps): any {
       if (scrollRef) {
         scrollRef.removeEventListener('scroll', handleScroll);
       }
+      window.removeEventListener('resize', handleResize);
     };
   }, [parent, visible, refEl.current]);
 
@@ -239,7 +288,7 @@ function Popup(props: PopupProps): any {
         className={clsx(
           `${prefix}-popup`,
           {
-            [`${prefix}-popup-${position}`]: position,
+            [`${prefix}-popup-${innerPosition}`]: innerPosition,
           },
           className,
         )}

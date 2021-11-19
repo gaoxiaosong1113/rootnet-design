@@ -182,7 +182,6 @@ function ModalContent(props: ModalContentProps) {
     if (onConfirm) {
       let confirm = onConfirm();
       if (confirm instanceof Promise) {
-        console.log('Promise');
         confirm.then((res) => {
           if (res !== false) {
             handleClose();
@@ -254,11 +253,7 @@ function ModalContent(props: ModalContentProps) {
                 ) : (
                   <>
                     <Button onClick={handleCancel}>{cancelButtonText}</Button>
-                    <Button
-                      type="primary"
-                      onClick={handleConfirm}
-                      loading={confirmLoading}
-                    >
+                    <Button type="primary" onClick={handleConfirm} loading={confirmLoading}>
                       {confirmButtonText}
                     </Button>
                   </>

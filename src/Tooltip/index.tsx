@@ -57,18 +57,16 @@ export interface TooltipProps {
    * @default           false
    */
   disable?: boolean;
+
+  /**
+   * @description      箭头将指向目标元素的中心
+   * @default           false
+   */
+  arrowPointAtCenter?: boolean;
 }
 
 function Content(props: any) {
-  const {
-    className,
-    style,
-    content,
-    children,
-    visible,
-    position = 'top',
-    ...prop
-  } = props;
+  const { className, style, content, children, visible, position = 'top', ...prop } = props;
 
   return (
     <div
@@ -78,7 +76,7 @@ function Content(props: any) {
     >
       <div
         className={clsx(`${prefix}-tooltip`, {
-          [`${prefix}-tooltip-${position}`]: position,
+          // [`${prefix}-tooltip-${position}`]: position,
           [`${prefix}-tooltip-visible`]: visible,
         })}
       >
@@ -98,6 +96,7 @@ function Tooltip(props: TooltipProps) {
     trigger = 'click',
     position = 'top',
     disable = false,
+    arrowPointAtCenter = false,
     ...prop
   } = props;
   const [visible, setVisible] = useState(false);
@@ -202,6 +201,7 @@ function Tooltip(props: TooltipProps) {
         refEl={refEl}
         position={position}
         trigger={trigger}
+        arrowPointAtCenter={arrowPointAtCenter}
         className={clsx({
           [`${className}-popup`]: className,
         })}

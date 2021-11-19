@@ -69,12 +69,7 @@ export default () => {
           <Button ref={ref1} onClick={() => setVisible1(true)}>
             'top'
           </Button>
-          <Popup
-            className="class1221"
-            position="top"
-            refEl={ref1}
-            visible={visible1}
-          >
+          <Popup className="class1221" position="top" refEl={ref1} visible={visible1}>
             我是一段提示，并且字数不是很多
           </Popup>
         </Col>
@@ -82,12 +77,7 @@ export default () => {
           <Button ref={ref2} onClick={() => setVisible2(true)}>
             'top-left'
           </Button>
-          <Popup
-            className="class1221"
-            position="top-left"
-            refEl={ref2}
-            visible={visible2}
-          >
+          <Popup className="class1221" position="top-left" refEl={ref2} visible={visible2}>
             我是一段提示，并且字数不是很多
           </Popup>
         </Col>
@@ -95,12 +85,7 @@ export default () => {
           <Button ref={ref3} onClick={() => setVisible3(true)}>
             'top-right'
           </Button>
-          <Popup
-            className="class1221"
-            position="top-right"
-            refEl={ref3}
-            visible={visible3}
-          >
+          <Popup className="class1221" position="top-right" refEl={ref3} visible={visible3}>
             我是一段提示，并且字数不是很多
           </Popup>
         </Col>
@@ -108,12 +93,7 @@ export default () => {
           <Button ref={ref4} onClick={() => setVisible4(true)}>
             'left'
           </Button>
-          <Popup
-            className="class1221"
-            position="left"
-            refEl={ref4}
-            visible={visible4}
-          >
+          <Popup className="class1221" position="left" refEl={ref4} visible={visible4}>
             我是一段提示，并且字数不是很多
           </Popup>
         </Col>
@@ -121,12 +101,7 @@ export default () => {
           <Button ref={ref5} onClick={() => setVisible5(true)}>
             'right'
           </Button>
-          <Popup
-            className="class1221"
-            position="right"
-            refEl={ref5}
-            visible={visible5}
-          >
+          <Popup className="class1221" position="right" refEl={ref5} visible={visible5}>
             我是一段提示，并且字数不是很多
           </Popup>
         </Col>
@@ -134,12 +109,7 @@ export default () => {
           <Button ref={ref6} onClick={() => setVisible6(true)}>
             'bottom'
           </Button>
-          <Popup
-            className="class1221"
-            position="bottom"
-            refEl={ref6}
-            visible={visible6}
-          >
+          <Popup className="class1221" position="bottom" refEl={ref6} visible={visible6}>
             我是一段提示，并且字数不是很多
           </Popup>
         </Col>
@@ -147,12 +117,7 @@ export default () => {
           <Button ref={ref7} onClick={() => setVisible7(true)}>
             'bottom-left'
           </Button>
-          <Popup
-            className="class1221"
-            position="bottom-left"
-            refEl={ref7}
-            visible={visible7}
-          >
+          <Popup className="class1221" position="bottom-left" refEl={ref7} visible={visible7}>
             我是一段提示，并且字数不是很多
           </Popup>
         </Col>
@@ -160,13 +125,8 @@ export default () => {
           <Button ref={ref8} onClick={() => setVisible8(true)}>
             'bottom-right'
           </Button>
-          <Popup
-            className="class1221"
-            position="bottom-right"
-            refEl={ref8}
-            visible={visible8}
-          >
-            我是一段提示，并且字数不是很多
+          <Popup className="class1221" position="bottom-right" refEl={ref8} visible={visible8}>
+            我是一段提示，并且字数不是很多我是一段提示，并且字数不是很多我是一段提示，并且字数不是很多我是一段提示，并且字数不是很多我是一段提示，并且字数不是很多我是一段提示，并且字数不是很多我是一段提示，并且字数不是很多我是一段提示，并且字数不是很多
           </Popup>
         </Col>
       </Row>
