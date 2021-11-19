@@ -115,7 +115,7 @@ export default () => {
             picker="quarter"
             value={quarter}
             onChange={(value, date) => {
-              setQuarter(value);
+              setQuarter(date.getFullYear() + '-' + (date.getMonth() + 1));
               console.log('当前值：', value);
               console.log('当前时间Date：', date);
             }}
@@ -256,4 +256,4 @@ export default () => {
 };
 ```
 
-<API />
+<API exports='["default", "Calendar"]'/>
