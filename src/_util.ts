@@ -185,3 +185,38 @@ export const fileUpload = (fileData: any, config: any, request: any) => {
       });
   });
 };
+
+//日期格式化
+export function dateFormat(date: any, format: any) {
+  if (!date) return '';
+  let dateTime = date;
+  if (!(date instanceof Date)) dateTime = new Date(date);
+  if (dateTime + '' === 'Invalid Date') return '';
+
+  let year = dateTime.getFullYear();
+  let month = dateTime.getMonth() + 1;
+  let day = dateTime.getDate();
+  let hour = dateTime.getHours();
+  let min = dateTime.getMinutes();
+  let sec = dateTime.getSeconds();
+  let quarter = Math.floor(month % 3 == 0 ? month / 3 : month / 3 + 1);
+
+  return format
+    .replace(/YYYY/, year)
+    .replace(/MM/, formaterZero(month))
+    .replace(/DD/, formaterZero(day))
+    .replace(/HH/, formaterZero(hour))
+    .replace(/mm/, formaterZero(min))
+    .replace(/ss/, formaterZero(sec))
+    .replace(/q/, quarter)
+    .replace(format, date);
+}
+
+// 时间补0
+export function formaterZero(date: any) {
+  let time = date + '';
+  if (time.length == 1) {
+    time = '0' + time;
+  }
+  return time;
+}

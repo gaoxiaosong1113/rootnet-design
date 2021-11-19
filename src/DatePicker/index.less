@@ -1,6 +1,15 @@
 @import '../index.less';
 
-.@{prefix}-t {
+.@{prefix}-picker {
+  width: 180px;
+
+  &-arrow {
+    position: absolute;
+    z-index: 0;
+    right: 9px;
+    top: 0px;
+    transition: all 0.3s;
+  }
 }
 
 .@{prefix}-calendar {
@@ -18,12 +27,36 @@
   &-year-content {
     .@{prefix}-calendar-time-item {
       width: 33.3333333%;
+      height: 55px;
+      line-height: 55px;
+
+      &-content {
+        width: 48px;
+      }
+    }
+  }
+
+  &-month-content {
+    .@{prefix}-calendar-time-item {
+      width: 33.3333333%;
+      height: 55px;
+      line-height: 55px;
+
+      &-content {
+        width: 48px;
+      }
     }
   }
 
   &-quarter-content {
     .@{prefix}-calendar-time-item {
-      width: 33.3333333%;
+      width: 25%;
+      height: 55px;
+      line-height: 55px;
+
+      &-content {
+        width: 48px;
+      }
     }
   }
 
@@ -34,15 +67,20 @@
     border-bottom: 1px solid #f0f1f5;
     height: 40px;
     padding: 0 10px;
+    user-select: none;
   }
 
   &-button {
-    width: 32px;
-    height: 40px;
+    width: 20px;
+    height: 20px;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
+
+    &:hover {
+      background: @tableItemHoverBackgroundColor;
+    }
 
     &-prev {
     }
@@ -74,6 +112,7 @@
 
   &-body {
     padding: 0 10px;
+    user-select: none;
   }
 
   &-day {
@@ -86,7 +125,7 @@
       text-align: center;
       line-height: 32px;
       display: inline-block;
-      width: 32px;
+      width: 14.285%;
       height: 32px;
 
       font-size: 12px;
@@ -101,12 +140,12 @@
 
     &-item {
       display: inline-block;
-      width: 32px;
+      width: 14.285%;
       height: 32px;
       text-align: center;
-      line-height: 32px;
       font-size: 12px;
-      cursor: no-drop;
+      cursor: pointer;
+      padding: 4px;
 
       &-next {
         color: #d0d1d9;
@@ -121,17 +160,38 @@
         cursor: pointer;
       }
 
+      &-content {
+        display: inline-block;
+        width: 24px;
+        height: 24px;
+        line-height: 24px;
+
+        &:hover {
+          border-radius: 2px;
+          background: @tableItemHoverBackgroundColor;
+        }
+      }
+
       &-checked {
+        border-radius: 2px;
+        background: @primaryColor;
+        color: #ffffff;
+
+        &:hover {
+          background: @primaryColor;
+        }
+      }
+
+      &-today {
         position: relative;
 
         &:after {
           content: '';
           position: absolute;
-          left: 3px;
-          top: 3px;
-          right: 3px;
-          bottom: 3px;
-
+          left: 2px;
+          top: 2px;
+          right: 2px;
+          bottom: 2px;
           border-radius: 2px;
           border: 1px solid #5477ff;
         }
