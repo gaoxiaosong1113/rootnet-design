@@ -1,11 +1,5 @@
 // 引入react依赖
-import React, {
-  useReducer,
-  useEffect,
-  Fragment,
-  useState,
-  ReactNode,
-} from 'react';
+import React, { useReducer, useEffect, Fragment, useState, ReactNode } from 'react';
 
 import clsx from 'clsx';
 
@@ -15,13 +9,7 @@ import { prefix } from '../config';
 
 import { Icon, Checkbox } from '../index';
 
-import {
-  loopData,
-  checkAllData,
-  farmatSelectedRowKeys,
-  unchecked,
-  onchecked,
-} from '../_util';
+import { loopData, checkAllData, farmatSelectedRowKeys, unchecked, onchecked } from '../_util';
 
 function TreeItem(props: any) {
   const {
@@ -46,7 +34,7 @@ function TreeItem(props: any) {
     setExpandable,
     checkable,
     value,
-    setValue,
+    onCheck,
     index,
   } = props;
 
@@ -138,10 +126,7 @@ function TreeItem(props: any) {
         style={{ marginLeft: layer * 20 }}
       >
         {isTree && child && (
-          <div
-            className={`${prefix}-tree-collapsed`}
-            onClick={child && handleOpen}
-          >
+          <div className={`${prefix}-tree-collapsed`} onClick={child && handleOpen}>
             <Icon
               name={open ? 'xuanzexiala' : 'xuanzeyou'}
               className={`${prefix}-tree-collapsed-icon`}
@@ -169,7 +154,7 @@ function TreeItem(props: any) {
             key={data.dataIndex}
             onClick={() => {
               if (checkable) {
-                setValue(data[rowKey]);
+                onCheck(data[rowKey]);
               }
             }}
           >
@@ -179,12 +164,7 @@ function TreeItem(props: any) {
         {onRow && onRow(data)}
       </div>
       {open && child && (
-        <TreeChildren
-          {...props}
-          key={index + layer + ''}
-          data={data.children}
-          layer={layer + 1}
-        />
+        <TreeChildren {...props} key={index + layer + ''} data={data.children} layer={layer + 1} />
       )}
     </>
   );
@@ -340,13 +320,6 @@ export default function Tree(props: TreeProps) {
   }, [rowSelection?.selectedRowKeys]);
 
   useEffect(() => {
-    if (!value) return;
-    if (onCheck) {
-      onCheck(value);
-    }
-  }, [value]);
-
-  useEffect(() => {
     if (!props.value) return;
     if (props.value != value) {
       setValue(props.value);
@@ -357,6 +330,14 @@ export default function Tree(props: TreeProps) {
     if (!props.expandable) return;
     setExpandable(props.expandable);
   }, [props.expandable]);
+
+  function handleCheck(value: any) {
+    if (!value) return;
+    setValue(value);
+    if (onCheck) {
+      onCheck(value);
+    }
+  }
 
   function handleChange(key: any) {
     let loopRows = loopData(dataSource, key, rowKey);
@@ -396,7 +377,7 @@ export default function Tree(props: TreeProps) {
         rowSelection={rowSelection}
         onRow={onRow}
         value={value}
-        setValue={setValue}
+        onCheck={handleCheck}
         layer={0}
         isTree={isTree}
       />
