@@ -100,9 +100,7 @@ function Select(props: SelectProps) {
   }, [props.value]);
 
   const isPlaceholder = useMemo(() => {
-    return (
-      value === undefined || value === null || JSON.stringify(value) === '[]'
-    );
+    return value === undefined || value === null || JSON.stringify(value) === '[]';
   }, [value]);
 
   return (
@@ -174,16 +172,7 @@ function Select(props: SelectProps) {
 }
 
 function SelectContent(props: SelectProps) {
-  const {
-    className,
-    options,
-    value,
-    multiple,
-    onChange,
-    onCancel,
-    target,
-    ...prop
-  } = props;
+  const { className, options, value, multiple, onChange, onCancel, target, ...prop } = props;
 
   const refEl = useRef<any>(null);
 
@@ -245,6 +234,7 @@ function SelectContent(props: SelectProps) {
               onCheck={(v: any) => {
                 handleChange(v);
               }}
+              value={value}
               dataSource={options}
               rowTitle="label"
               rowKey="value"
@@ -252,25 +242,13 @@ function SelectContent(props: SelectProps) {
           )}
         </div>
       </div>
-      <div
-        className={clsx(`${prefix}-select-mask`, {})}
-        onClick={handleCancel}
-      ></div>
+      <div className={clsx(`${prefix}-select-mask`, {})} onClick={handleCancel}></div>
     </div>
   );
 }
 
 function SelectValue(props: SelectProps) {
-  const {
-    options,
-    value,
-    placeholder,
-    onChange,
-    onCancel,
-    target,
-    multiple,
-    ...prop
-  } = props;
+  const { options, value, placeholder, onChange, onCancel, target, multiple, ...prop } = props;
   if (value !== undefined) {
     if (multiple) {
       if (value.length > 0) {
