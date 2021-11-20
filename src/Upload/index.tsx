@@ -1,5 +1,13 @@
 // 引入react依赖
-import React, { useCallback, useEffect, useMemo, useRef, useState, ReactNode } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  ReactNode,
+  useImperativeHandle,
+} from 'react';
 import ReactDOM from 'react-dom';
 
 // 引入第三方依赖
@@ -187,7 +195,7 @@ export interface UploadProps {
   onRemove?: (file: File) => boolean | Promise<any>;
 }
 
-function Upload(props: UploadProps) {
+function Upload(props: UploadProps, ref: any) {
   const {
     className,
     children,
@@ -214,6 +222,8 @@ function Upload(props: UploadProps) {
 
   const uploadFile = useRef(null as any);
   const uploadFileArea = useRef(null as any);
+
+  useImperativeHandle(ref, () => uploadFile.current);
 
   const [fileList, setFileList] = useState(props.fileList || []);
 
@@ -504,4 +514,4 @@ function Upload(props: UploadProps) {
 
 export const UploadFileInterface = (props: UploadFile) => null;
 
-export default Upload;
+export default React.forwardRef(Upload);

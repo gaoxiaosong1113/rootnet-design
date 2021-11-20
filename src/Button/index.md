@@ -126,6 +126,34 @@ export default () => {
             按钮
           </Button>
         </Col>
+        <Col span={4}>
+          <Button type="primary" loading>
+            按钮
+          </Button>
+        </Col>
+        <Col span={4}>
+          <Button loading>按钮</Button>
+        </Col>
+        <Col span={4}>
+          <Button type="dashed" loading>
+            按钮
+          </Button>
+        </Col>
+        <Col span={4}>
+          <Button disabled="disabled" loading>
+            按钮
+          </Button>
+        </Col>
+        <Col span={4}>
+          <Button type="text" loading>
+            按钮
+          </Button>
+        </Col>
+        <Col span={4}>
+          <Button type="link" loading>
+            按钮
+          </Button>
+        </Col>
       </Row>
     </div>
   );
