@@ -459,6 +459,7 @@ function Upload(props: UploadProps, ref: any) {
         [`${prefix}-upload-disabled`]: disabled,
         [`${prefix}-upload-drag`]: drag,
       })}
+      {...prop}
     >
       <div
         className={clsx(`${prefix}-upload-input`, {})}
