@@ -1,11 +1,4 @@
-import React, {
-  useEffect,
-  useState,
-  useRef,
-  useMemo,
-  useImperativeHandle,
-  ReactNode,
-} from 'react';
+import React, { useEffect, useState, useRef, useMemo, useImperativeHandle, ReactNode } from 'react';
 import ReactDOM from 'react-dom';
 
 import clsx from 'clsx';
@@ -93,13 +86,11 @@ export function OperationPopup(props: OperationPopupProps) {
       position={position}
       targetHidden={true}
       content={
-        <div
-          className={clsx(`${prefix}-operation-popover`, {})}
-          onClick={(event) => {}}
-        >
+        <div className={clsx(`${prefix}-operation-popover`, {})} onClick={(event) => {}}>
           {children}
         </div>
       }
+      {...prop}
     >
       <div>{component || <Icon name="gengduo2" color="#5477ff" />}</div>
     </Popover>
