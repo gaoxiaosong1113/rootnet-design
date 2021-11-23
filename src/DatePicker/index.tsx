@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef, useMemo, ReactNode } from 'react';
+import React, { useEffect, useState, useRef, useMemo, ReactNode, useCallback } from 'react';
 import ReactDOM from 'react-dom';
 
 import clsx from 'clsx';
@@ -8,7 +8,14 @@ import './index.less';
 import { prefix } from '../config';
 
 import { Icon, Popup } from '../index';
-import { dateFormat, formaterZero } from '../_util';
+import {
+  dateFormat,
+  formaterZero,
+  isBetweenTimes,
+  isBeforeTimes,
+  isAfterTimes,
+  isDate,
+} from '../_util';
 
 const MONTH = [
   '1月',
@@ -38,7 +45,7 @@ export interface DatePickerProps {
    * @description      时间选择器类型
    * @default           'date'
    */
-  picker?: 'date' | 'month' | 'quarter' | 'year';
+  picker?: 'date' | 'month' | 'quarter' | 'year' | 'dateRange';
 
   /**
    * @description      时间选中值
@@ -68,13 +75,13 @@ export interface DatePickerProps {
    * @description      时间发生变化的回调
    * @default           -
    */
-  onChange?: any;
+  onChange?: Function;
 
   /**
    * @description      关闭时间面板回调
    * @default           -
    */
-  onCancel?: any;
+  onCancel?: Function;
 
   /**
    * @description      是否显示删除按钮
@@ -90,7 +97,7 @@ export interface CalendarProps {
    * @description      时间选择器类型
    * @default           'date'
    */
-  picker?: 'date' | 'month' | 'quarter' | 'year';
+  picker?: 'date' | 'month' | 'quarter' | 'year' | 'dateRange';
 
   /**
    * @description      时间选中值
@@ -105,8 +112,15 @@ export interface CalendarProps {
   onChange?: any;
 }
 
+// 获取时间
+function getDay(date: any, index: any) {
+  date = new Date(date.valueOf());
+  date.setDate(index);
+  return date;
+}
+
 function DatePicker(props: DatePickerProps) {
-  const { className, placeholder, disabled, onChange, onCancel, close, ...prop } = props;
+  const { className, placeholder, disabled, onChange, onCancel, close, picker, ...prop } = props;
 
   const [value, setValue] = useState(props.value || null);
   const [visible, setVisible] = useState(false);
@@ -132,6 +146,7 @@ function DatePicker(props: DatePickerProps) {
         [`${prefix}-select-target-disabled`]: disabled,
         [`${prefix}-select-target-visible`]: visible,
         [`${prefix}-select-placeholder`]: isPlaceholder,
+        [`${prefix}-picker-range`]: picker === 'dateRange',
       })}
       ref={refEl}
     >
@@ -146,7 +161,7 @@ function DatePicker(props: DatePickerProps) {
       >
         <DatePickerValue {...props} value={value} />
       </div>
-      {value && value != undefined && close ? (
+      {value && value != undefined && !disabled && close ? (
         <div
           onClick={() => handleOnChange(null, null)}
           className={clsx(`${prefix}-select-target-close`, {})}
@@ -181,7 +196,7 @@ function DatePicker(props: DatePickerProps) {
             onCancel && onCancel();
           }}
           onChange={(v: any, date: any) => {
-            setVisible(false);
+            if (picker !== 'dateRange' || v?.length > 1) setVisible(false);
             handleOnChange(v, date);
           }}
         />
@@ -190,50 +205,131 @@ function DatePicker(props: DatePickerProps) {
   );
 }
 
-export function Calendar(props: CalendarProps) {
-  const { onChange, value, picker = 'date' } = props;
-
-  const [toDay, setToDay] = useState(dateFormat(new Date(), 'YYYY-MM-DD')) as any;
-  const [currentTime, setCurrentTime] = useState(null) as any;
+function CalendarHead(props: any) {
+  const {
+    onPanelChange,
+    picker,
+    currentTime,
+    currentYearList,
+    isShowPrev = true,
+    isShowNext = true,
+  } = props;
   const [currentYear, setCurrentYear] = useState(null) as any;
   const [currentMonth, setCurrentMonth] = useState(null) as any;
-  const [currentDate, setCurrentDate] = useState(null) as any;
+
+  const showPrev = isShowPrev;
+  const showNext = isShowNext;
+  const showMonthPrev = picker === 'date' && isShowPrev;
+  const showMonthNext = picker === 'date' && isShowNext;
+
+  function prevYear() {
+    let date = new Date(currentTime.valueOf());
+    date.setFullYear((picker === 'year' ? currentYearList[0].value : currentYear) - 1);
+    onPanelChange(date);
+  }
+
+  function nextYear() {
+    let date = new Date(currentTime.valueOf());
+    date.setFullYear((picker === 'year' ? currentYearList.slice(-1)[0].value : currentYear) + 1);
+    onPanelChange(date);
+  }
+
+  function prevMonth() {
+    let date = new Date(currentTime.valueOf());
+    date.setMonth(currentMonth - 1);
+    onPanelChange(date);
+  }
+
+  function nextMonth() {
+    let date = new Date(currentTime.valueOf());
+    date.setMonth(currentMonth + 1);
+    onPanelChange(date);
+  }
+
+  useEffect(() => {
+    if (!currentTime) return;
+    let year = currentTime.getFullYear();
+    let month = currentTime.getMonth();
+
+    setCurrentYear(year);
+    setCurrentMonth(month);
+  }, [currentTime]);
+
+  const yearText = useMemo(() => {
+    return picker !== 'year'
+      ? currentYear
+      : currentYearList[0] && `${currentYearList[0].value} - ${currentYearList.slice(-1)[0].value}`;
+  }, [currentYear, currentYearList]);
+
+  return (
+    <div className={clsx(`${prefix}-calendar-head`)}>
+      {showPrev && (
+        <div
+          className={clsx(`${prefix}-calendar-button`, `${prefix}-calendar-button-prev`)}
+          onClick={prevYear}
+        >
+          <Icon size={12} color="#3A415C" name="a-doubleleft" />
+        </div>
+      )}
+      {showMonthPrev && (
+        <div
+          className={clsx(`${prefix}-calendar-button`, `${prefix}-calendar-button-prev`)}
+          onClick={prevMonth}
+        >
+          <Icon size={12} color="#3A415C" name="zuo" />
+        </div>
+      )}
+      <div className={clsx(`${prefix}-calendar-date`)}>
+        <div className={clsx(`${prefix}-calendar-date-year`)}>
+          <span>{yearText}</span>
+          {(showMonthPrev || showMonthNext) && '年'}
+        </div>
+        {(showMonthPrev || showMonthNext) && (
+          <div className={clsx(`${prefix}-calendar-date-month`)}>
+            <span>{currentMonth + 1}</span>月
+          </div>
+        )}
+      </div>
+      {showMonthNext && (
+        <div
+          className={clsx(`${prefix}-calendar-button`, `${prefix}-calendar-button-next`)}
+          onClick={nextMonth}
+        >
+          <Icon size={12} color="#3A415C" name="you" />
+        </div>
+      )}
+      {showNext && (
+        <div
+          className={clsx(`${prefix}-calendar-button`, `${prefix}-calendar-button-next`)}
+          onClick={nextYear}
+        >
+          <Icon size={12} color="#3A415C" name="a-doubleright" />
+        </div>
+      )}
+    </div>
+  );
+}
+
+// 时间面板
+function DateCalendar(props: any) {
+  const {
+    isShowPrev,
+    isShowNext,
+    panelChange,
+    currentTime,
+    checkedDate,
+    value,
+    showHoverValues,
+    onMouseEnterCell,
+    onMouseLeaveCell,
+  } = props;
+  const [toDay, setToDay] = useState(dateFormat(new Date(), 'YYYY-MM-DD')) as any;
   const [calendar, setCalendar] = useState([]) as any;
-  const [currentYearList, setCurrentYearList] = useState([]) as any;
-  const [currentMonthList, setCurrentMonthList] = useState(MONTH) as any;
-  const [quarter, seQuarter] = useState([
-    [0, 2],
-    [3, 5],
-    [6, 8],
-    [9, 11],
-  ]) as any;
-
-  // 获取本月第一天
-  function getMonthDay(date: any) {
-    date = new Date(date.valueOf());
-    date.setDate(1);
-    return date;
-  }
-
-  // 获取本月最后一天
-  function getMonthLastDay(date: any) {
-    date = new Date(date.valueOf());
-    date.setMonth(date.getMonth() + 1);
-    date.setDate(0);
-    return date;
-  }
 
   // 获取时间
   function getPrevDay(date: any, index: any) {
     date = new Date(date.valueOf());
     date.setMonth(date.getMonth());
-    date.setDate(index);
-    return date;
-  }
-
-  // 获取时间
-  function getDay(date: any, index: any) {
-    date = new Date(date.valueOf());
     date.setDate(index);
     return date;
   }
@@ -247,72 +343,50 @@ export function Calendar(props: CalendarProps) {
   }
 
   useEffect(() => {
-    setCurrentTime(value ? new Date(value) : new Date());
-  }, [value]);
-
-  useEffect(() => {
     if (!currentTime) return;
     let time = currentTime;
-    let year = time.getFullYear();
-    let month = time.getMonth();
-    let date = time.getDate();
-    let day = time.getDay();
     let aryLength = 42;
-    let yearLength = 10;
-    let yearList = [];
     let rows = [];
 
-    setCurrentTime(time);
-    setCurrentYear(year);
-    setCurrentMonth(month);
-    setCurrentDate(date);
-
-    for (let i = 0; i < yearLength; i++) {
-      let y = getDay(`${year.toString().slice(0, -1)}${i}`, 1);
-      yearList.push({
-        type: 'current',
-        date: y,
-        value: `${year.toString().slice(0, -1)}${i}`,
-      });
+    // 获取本月第一天
+    function getMonthDay(date: any) {
+      date = new Date(date.valueOf());
+      date.setDate(1);
+      return date;
     }
-    yearList.unshift({
-      type: 'prev',
-      date: getDay(Number(yearList[0].value) - 1, 1),
-      value: Number(yearList[0].value) - 1,
-    });
 
-    yearList.push({
-      type: 'next',
-      date: getDay(Number(yearList.slice(-1)[0].value) + 1, 1),
-      value: Number(yearList.slice(-1)[0].value) + 1,
-    });
-    setCurrentYearList(yearList);
+    // 获取本月最后一天
+    function getMonthLastDay(date: any) {
+      date = new Date(date.valueOf());
+      date.setMonth(date.getMonth() + 1);
+      date.setDate(0);
+      return date;
+    }
 
     // 获取本月第一天
     var fastTime = getMonthDay(time);
     // 获取第一天是周几
-    var fastTimeDay = fastTime.getDay() - 1;
-
+    var fastTimeDay = (fastTime.getDay() === 0 ? 7 : fastTime.getDay()) - 1;
     var lastTime = getMonthLastDay(time);
     var lastTimeDate = lastTime.getDate() - 1;
 
     for (let i = 0; i < aryLength; i++) {
       if (i < fastTimeDay) {
-        let t = getPrevDay(fastTime, i - fastTimeDay + 1);
+        let pt = getPrevDay(fastTime, i - fastTimeDay + 1);
         rows.push({
           type: 'prev',
-          date: t,
-          value: `${t.getFullYear()}-${formaterZero(t.getMonth() + 1)}-${formaterZero(
-            t.getDate(),
+          date: pt,
+          value: `${pt.getFullYear()}-${formaterZero(pt.getMonth() + 1)}-${formaterZero(
+            pt.getDate(),
           )}`,
         });
       } else if (i > lastTimeDate + fastTimeDay) {
-        let t = getNextDay(lastTime, i - (lastTimeDate + fastTimeDay));
+        let nt = getNextDay(fastTime, i - (lastTimeDate + fastTimeDay));
         rows.push({
           type: 'next',
-          date: t,
-          value: `${t.getFullYear()}-${formaterZero(t.getMonth() + 1)}-${formaterZero(
-            t.getDate(),
+          date: nt,
+          value: `${nt.getFullYear()}-${formaterZero(nt.getMonth() + 1)}-${formaterZero(
+            nt.getDate(),
           )}`,
         });
       } else {
@@ -329,137 +403,295 @@ export function Calendar(props: CalendarProps) {
     setCalendar(rows);
   }, [currentTime]);
 
-  function prevYear() {
+  const isInRange = useCallback(
+    (current: any) => {
+      if (!(value instanceof Array)) return false;
+      return isBetweenTimes(current.value, value[0], value[1]) && current.type === 'current';
+    },
+    [value],
+  );
+
+  const isInHoverRange = useCallback(
+    (current: any) => {
+      if (!(value instanceof Array)) return false;
+      return (
+        isBetweenTimes(current.value, showHoverValues?.[0], showHoverValues?.[1]) &&
+        current.type === 'current'
+      );
+    },
+    [showHoverValues],
+  );
+
+  return (
+    <div className={clsx(`${prefix}-calendar-time-content`)}>
+      <CalendarHead
+        isShowPrev={isShowPrev}
+        isShowNext={isShowNext}
+        currentTime={currentTime}
+        onPanelChange={panelChange}
+        picker={'date'}
+      />
+      <div className={clsx(`${prefix}-calendar-body`)}>
+        <div className={clsx(`${prefix}-calendar-day`)}>
+          <ul>
+            <li>一</li>
+            <li>二</li>
+            <li>三</li>
+            <li>四</li>
+            <li>五</li>
+            <li>六</li>
+            <li>日</li>
+          </ul>
+        </div>
+        <ul className={clsx(`${prefix}-calendar-time`)}>
+          {calendar.map((item: any, index: any) => {
+            let selected =
+              value instanceof Array
+                ? value[0] === item.value || value[1] === item.value
+                : value === item.value;
+            return (
+              <li
+                key={index}
+                className={clsx(`${prefix}-calendar-time-item`, {
+                  [`${prefix}-calendar-time-item-${item.type}`]: item.type,
+                  [`${prefix}-calendar-time-item-in-range`]: isInRange(item),
+                  [`${prefix}-calendar-time-item-in-range-hover`]: isInHoverRange(item),
+                })}
+                onClick={() => checkedDate(item)}
+                onMouseEnter={() => onMouseEnterCell && onMouseEnterCell(item)}
+                onMouseLeave={() => onMouseLeaveCell && onMouseLeaveCell()}
+              >
+                <span
+                  className={clsx(`${prefix}-calendar-time-item-content`, {
+                    [`${prefix}-calendar-time-item-checked`]: selected && item.type === 'current',
+                    [`${prefix}-calendar-time-item-today`]: toDay === item.value,
+                  })}
+                >
+                  {item.date.getDate()}
+                </span>
+              </li>
+            );
+          })}
+        </ul>
+      </div>
+      <div className={clsx(`${prefix}-calendar-footer`)}></div>
+    </div>
+  );
+}
+
+function RangeDatePanel(props: any) {
+  const { currentTime, panelChange, checkedDate, value } = props;
+
+  const [date1, setDate1] = useState(value?.[0] || null);
+  const [date2, setDate2] = useState(value?.[1] || null);
+  const [currentTime1, setCurrentTime1] = useState(null) as any;
+  const [currentTime2, setCurrentTime2] = useState(null) as any;
+  const [showHoverValues, setShowHoverValues] = useState([]) as any;
+  const [selectTime, setSelectTime] = useState([]) as any;
+
+  // 获取下个月
+  function getNextMonth() {
+    if (!currentTime) return null;
     let date = new Date(currentTime.valueOf());
-    date.setFullYear((picker === 'year' ? currentYearList[0].value : currentYear) - 1);
-    setCurrentTime(date);
+    date.setMonth(date.getMonth() + 1);
+    return date;
   }
 
-  function nextYear() {
-    let date = new Date(currentTime.valueOf());
-    date.setFullYear((picker === 'year' ? currentYearList.slice(-1)[0].value : currentYear) + 1);
-    setCurrentTime(date);
+  useEffect(() => {
+    setCurrentTime1(currentTime);
+    setCurrentTime2(getNextMonth());
+  }, [currentTime]);
+
+  useEffect(() => {
+    setDate1(value?.[0]);
+    setDate2(value?.[1]);
+    setSelectTime(value || []);
+  }, [value]);
+
+  function onCheckedDate(item: any) {
+    let selectValue = selectTime.concat();
+    // let selectDate = selectTime.concat();
+
+    // 第一次选中
+    if ((!date1 && !date2) || !isDate(date1) || !isDate(date2)) {
+      selectValue = [item.value];
+    }
+
+    if (date1 && !date2 && isBeforeTimes(item.value, date1)) {
+      selectValue = [item.value, value?.[0]];
+    } else if (date1 && !date2 && isAfterTimes(item.value, date1)) {
+      selectValue = [value?.[0], item.value];
+    } else if (date2 && isAfterTimes(item.value, date2)) {
+      selectValue = [value?.[1], item.value];
+    } else if (date1 && date2 && isBeforeTimes(item.value, date2)) {
+      selectValue = [item.value, value?.[1]];
+    }
+
+    setSelectTime(selectValue);
+    checkedDate({
+      type: 'current',
+      value: selectValue,
+      date: [new Date(value?.[0]), new Date(value?.[1])],
+    });
   }
 
-  function prevMonth() {
-    let date = new Date(currentTime.valueOf());
-    date.setMonth(currentMonth - 1);
-    setCurrentTime(date);
-  }
+  function onPanelChange(isPrev: boolean, date: any) {
+    if (isPrev) {
+      panelChange(date);
+      return;
+    }
+    let newDate = new Date(date);
+    let oldDate = new Date(currentTime);
 
-  function nextMonth() {
-    let date = new Date(currentTime.valueOf());
-    date.setMonth(currentMonth + 1);
-    setCurrentTime(date);
-  }
+    if (newDate.getMonth() !== oldDate.getMonth() + 1) {
+      oldDate.setMonth(oldDate.getMonth() + 1);
+      panelChange(oldDate);
+      return;
+    }
 
-  function checkedDate(data: any) {
-    if (data.type == 'current') {
-      onChange?.(data.value, data.date);
+    if (newDate.getFullYear() - oldDate.getFullYear() == 1) {
+      newDate.setMonth(oldDate.getMonth());
+      panelChange(newDate);
     }
   }
 
+  // 鼠标移入单元格的回调
+  function onMouseEnterCell(item: any) {
+    let cloneHoverValues = showHoverValues.concat();
+
+    if (date1 && !date2 && isBeforeTimes(item.value, date1)) {
+      cloneHoverValues = [item.value, value?.[0]];
+    } else if (date1 && !date2 && isAfterTimes(item.value, date1)) {
+      cloneHoverValues = [value?.[0], item.value];
+    } else if (date2 && isAfterTimes(item.value, date2)) {
+      cloneHoverValues = [value?.[1], item.value];
+    } else if (date1 && date2 && isBeforeTimes(item.value, date2)) {
+      cloneHoverValues = [item.value, value?.[1]];
+    }
+
+    setShowHoverValues(cloneHoverValues);
+  }
+
+  function onMouseLeaveCell() {
+    setShowHoverValues([]);
+  }
   return (
-    <div className={clsx(`${prefix}-calendar`)}>
+    <>
+      <DateCalendar
+        isShowNext={false}
+        currentTime={currentTime1}
+        panelChange={(date: any) => onPanelChange(true, date)}
+        checkedDate={onCheckedDate}
+        value={value}
+        showHoverValues={showHoverValues}
+        onMouseEnterCell={onMouseEnterCell}
+        onMouseLeaveCell={onMouseLeaveCell}
+      />
+      <DateCalendar
+        isShowPrev={false}
+        currentTime={currentTime2}
+        panelChange={(date: any) => onPanelChange(false, date)}
+        checkedDate={onCheckedDate}
+        value={value}
+        showHoverValues={showHoverValues}
+        onMouseEnterCell={onMouseEnterCell}
+        onMouseLeaveCell={onMouseLeaveCell}
+      />
+    </>
+  );
+}
+
+export function Calendar(props: CalendarProps) {
+  const { onChange, value, picker = 'date' } = props;
+
+  const [currentTime, setCurrentTime] = useState(null) as any;
+  const [currentYear, setCurrentYear] = useState(null) as any;
+  const [currentYearList, setCurrentYearList] = useState([]) as any;
+  const [currentMonthList, setCurrentMonthList] = useState(MONTH) as any;
+  const [quarter, seQuarter] = useState([
+    [0, 2],
+    [3, 5],
+    [6, 8],
+    [9, 11],
+  ]) as any;
+
+  useEffect(() => {
+    let currentDate = picker === 'dateRange' ? new Date(value?.[0]) : new Date(value);
+    setCurrentTime(isDate(currentDate) ? currentDate : new Date());
+  }, [value]);
+
+  useEffect(() => {
+    if (!currentTime) return;
+    let time = currentTime;
+    let year = time.getFullYear();
+    let yearLength = 10;
+    let yearList = [];
+
+    setCurrentTime(time);
+    setCurrentYear(year);
+
+    for (let i = 0; i < yearLength; i++) {
+      let y = getDay(`${year.toString().slice(0, -1)}${i}`, 1);
+      yearList.push({
+        type: 'current',
+        date: y,
+        value: `${year.toString().slice(0, -1)}${i}`,
+      });
+    }
+    yearList.unshift({
+      type: 'prev',
+      date: getDay((Number(yearList[0].value) - 1).toString(), 1),
+      value: (Number(yearList[0].value) - 1).toString(),
+    });
+
+    yearList.push({
+      type: 'next',
+      date: getDay((Number(yearList.slice(-1)[0].value) + 1).toString(), 1),
+      value: (Number(yearList.slice(-1)[0].value) + 1).toString(),
+    });
+    setCurrentYearList(yearList);
+  }, [currentTime]);
+
+  function checkedDate(data: any) {
+    // if (data.type == 'current') {
+    onChange?.(data.value, data.date);
+    // }
+  }
+
+  function panelChange(date: any) {
+    setCurrentTime(date);
+  }
+
+  return (
+    <div
+      className={clsx(`${prefix}-calendar`, {
+        [`${prefix}-calendar-range`]: picker === 'dateRange',
+      })}
+    >
       {picker === 'date' && (
-        <div className={clsx(`${prefix}-calendar-time-content`)}>
-          <div className={clsx(`${prefix}-calendar-head`)}>
-            <div
-              className={clsx(`${prefix}-calendar-button`, `${prefix}-calendar-button-prev`)}
-              onClick={prevYear}
-            >
-              <Icon size={12} color="#3A415C" name="a-doubleleft" />
-            </div>
-            <div
-              className={clsx(`${prefix}-calendar-button`, `${prefix}-calendar-button-prev`)}
-              onClick={prevMonth}
-            >
-              <Icon size={12} color="#3A415C" name="zuo" />
-            </div>
-            <div className={clsx(`${prefix}-calendar-date`)}>
-              <div className={clsx(`${prefix}-calendar-date-year`)}>
-                <span>{currentYear}</span>年
-              </div>
-              <div className={clsx(`${prefix}-calendar-date-month`)}>
-                <span>{currentMonth + 1}</span>月
-              </div>
-            </div>
-            <div
-              className={clsx(`${prefix}-calendar-button`, `${prefix}-calendar-button-next`)}
-              onClick={nextMonth}
-            >
-              <Icon size={12} color="#3A415C" name="you" />
-            </div>
-            <div
-              className={clsx(`${prefix}-calendar-button`, `${prefix}-calendar-button-next`)}
-              onClick={nextYear}
-            >
-              <Icon size={12} color="#3A415C" name="a-doubleright" />
-            </div>
-          </div>
-          <div className={clsx(`${prefix}-calendar-body`)}>
-            <div className={clsx(`${prefix}-calendar-day`)}>
-              <ul>
-                <li>一</li>
-                <li>二</li>
-                <li>三</li>
-                <li>四</li>
-                <li>五</li>
-                <li>六</li>
-                <li>日</li>
-              </ul>
-            </div>
-            <ul className={clsx(`${prefix}-calendar-time`)}>
-              {calendar.map((item: any, index: any) => {
-                return (
-                  <li
-                    key={index}
-                    className={clsx(`${prefix}-calendar-time-item`, {
-                      [`${prefix}-calendar-time-item-${item.type}`]: item.type,
-                    })}
-                    onClick={() => checkedDate(item)}
-                  >
-                    <span
-                      className={clsx(`${prefix}-calendar-time-item-content`, {
-                        [`${prefix}-calendar-time-item-checked`]: value === item.value,
-                        [`${prefix}-calendar-time-item-today`]: toDay === item.value,
-                      })}
-                    >
-                      {item.date.getDate()}
-                    </span>
-                  </li>
-                );
-              })}
-            </ul>
-          </div>
-          <div className={clsx(`${prefix}-calendar-footer`)}></div>
-        </div>
+        <DateCalendar
+          currentTime={currentTime}
+          panelChange={panelChange}
+          checkedDate={checkedDate}
+          value={value}
+        />
+      )}
+      {picker === 'dateRange' && (
+        <RangeDatePanel
+          currentTime={currentTime}
+          panelChange={panelChange}
+          checkedDate={checkedDate}
+          value={value}
+        />
       )}
       {picker === 'year' && (
         <div className={clsx(`${prefix}-calendar-year-content`)}>
-          <div className={clsx(`${prefix}-calendar-head`)}>
-            <div
-              className={clsx(`${prefix}-calendar-button`, `${prefix}-calendar-button-prev`)}
-              onClick={prevYear}
-            >
-              <Icon size={12} color="#3A415C" name="a-doubleleft" />
-            </div>
-            <div className={clsx(`${prefix}-calendar-date`)}>
-              <div className={clsx(`${prefix}-calendar-date-year`)}>
-                {currentYearList.length > 0 && (
-                  <span>
-                    {currentYearList[0].value} - {currentYearList.slice(-1)[0].value}
-                  </span>
-                )}
-              </div>
-            </div>
-            <div
-              className={clsx(`${prefix}-calendar-button`, `${prefix}-calendar-button-next`)}
-              onClick={nextYear}
-            >
-              <Icon size={12} color="#3A415C" name="a-doubleright" />
-            </div>
-          </div>
+          <CalendarHead
+            currentTime={currentTime}
+            onPanelChange={panelChange}
+            currentYearList={currentYearList}
+            picker={picker}
+          />
           <div className={clsx(`${prefix}-calendar-body`)}>
             <ul className={clsx(`${prefix}-calendar-time`)}>
               {currentYearList.map((item: any, index: any) => {
@@ -488,25 +720,7 @@ export function Calendar(props: CalendarProps) {
       )}
       {picker === 'month' && (
         <div className={clsx(`${prefix}-calendar-month-content`)}>
-          <div className={clsx(`${prefix}-calendar-head`)}>
-            <div
-              className={clsx(`${prefix}-calendar-button`, `${prefix}-calendar-button-prev`)}
-              onClick={prevYear}
-            >
-              <Icon size={12} color="#3A415C" name="a-doubleleft" />
-            </div>
-            <div className={clsx(`${prefix}-calendar-date`)}>
-              <div className={clsx(`${prefix}-calendar-date-year`)}>
-                <span>{currentYear}</span>年
-              </div>
-            </div>
-            <div
-              className={clsx(`${prefix}-calendar-button`, `${prefix}-calendar-button-next`)}
-              onClick={nextYear}
-            >
-              <Icon size={12} color="#3A415C" name="a-doubleright" />
-            </div>
-          </div>
+          <CalendarHead currentTime={currentTime} onPanelChange={panelChange} picker={picker} />
           <div className={clsx(`${prefix}-calendar-body`)}>
             <ul className={clsx(`${prefix}-calendar-time`)}>
               {currentMonthList.map((item: any, index: any) => {
@@ -543,25 +757,7 @@ export function Calendar(props: CalendarProps) {
       )}
       {picker === 'quarter' && (
         <div className={clsx(`${prefix}-calendar-quarter-content`)}>
-          <div className={clsx(`${prefix}-calendar-head`)}>
-            <div
-              className={clsx(`${prefix}-calendar-button`, `${prefix}-calendar-button-prev`)}
-              onClick={prevYear}
-            >
-              <Icon size={12} color="#3A415C" name="a-doubleleft" />
-            </div>
-            <div className={clsx(`${prefix}-calendar-date`)}>
-              <div className={clsx(`${prefix}-calendar-date-year`)}>
-                <span>{currentYear}</span>年
-              </div>
-            </div>
-            <div
-              className={clsx(`${prefix}-calendar-button`, `${prefix}-calendar-button-next`)}
-              onClick={nextYear}
-            >
-              <Icon size={12} color="#3A415C" name="a-doubleright" />
-            </div>
-          </div>
+          <CalendarHead currentTime={currentTime} onPanelChange={panelChange} picker={picker} />
           <div className={clsx(`${prefix}-calendar-body`)}>
             <ul className={clsx(`${prefix}-calendar-time`)}>
               {quarter.map((item: any, index: any) => {
@@ -622,11 +818,11 @@ function DatePickerContent(props: DatePickerProps) {
   }, []);
 
   function handleCancel(e: any) {
-    onCancel();
+    onCancel && onCancel();
   }
 
   function handleChange(v: any, date: any) {
-    onChange(v, date);
+    onChange && onChange(v, date);
   }
 
   return (
@@ -644,16 +840,48 @@ function DatePickerContent(props: DatePickerProps) {
 function DatePickerValue(props: DatePickerProps) {
   const { value, placeholder, picker = 'date', format } = props;
 
-  const placeholderText = { date: '时间', month: '月份', quarter: '季度', year: '年份' };
-  const formatRules = { date: 'YYYY-MM-DD', month: 'YYYY-MM', quarter: 'YYYY-Qq', year: 'YYYY' };
+  const placeholderText = {
+    date: '时间',
+    month: '月份',
+    quarter: '季度',
+    year: '年份',
+    dateRange: '开始日期 ~ 结束日期',
+  };
+  const formatRules = {
+    date: 'YYYY-MM-DD',
+    month: 'YYYY-MM',
+    quarter: 'YYYY-Qq',
+    year: 'YYYY',
+    dateRange: 'YYYY-MM-DD ~ YYYY-MM-DD',
+  };
+
+  function rangeDateFormat() {
+    const startDate = new Date(value?.[0]);
+    const endDate = new Date(value?.[1]);
+    let startYear = startDate.getFullYear();
+    let startMonth = startDate.getMonth() + 1;
+    let startDay = startDate.getDate();
+    let endYear = endDate.getFullYear();
+    let endMonth = endDate.getMonth() + 1;
+    let endDay = endDate.getDate();
+
+    let startText = `${startYear}-${formaterZero(startMonth)}-${formaterZero(startDay)}`;
+    let endText = isNaN(endYear)
+      ? '结束日期'
+      : `${endYear}-${formaterZero(endMonth)}-${formaterZero(endDay)}`;
+
+    return `${startText} ~ ${endText}`;
+  }
 
   if (value !== undefined && value !== null) {
+    if (picker === 'dateRange') return rangeDateFormat();
     return dateFormat(value, format || formatRules[picker]);
   }
   if (placeholder) {
     return placeholder;
   }
-  return '请选择' + placeholderText[picker];
+
+  return picker !== 'dateRange' ? '请选择' : '' + placeholderText[picker];
 }
 
 DatePicker.Calendar = Calendar;

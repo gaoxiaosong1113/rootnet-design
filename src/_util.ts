@@ -49,11 +49,7 @@ export function checkAllData(data: any, rowKey: any) {
 }
 
 // 格式化所有的数据，处理依赖逻辑
-export function farmatSelectedRowKeys(
-  formatData: any,
-  selectedRowKeys: any,
-  rowKey: any,
-) {
+export function farmatSelectedRowKeys(formatData: any, selectedRowKeys: any, rowKey: any) {
   /*
    * 由于直接递归处理选中逻辑会有不同步的问题，所以先抽取所有带children的项，然后反转后重新format
    * 相当于从底层往上遍历
@@ -202,13 +198,13 @@ export function dateFormat(date: any, format: any) {
   let quarter = Math.floor(month % 3 == 0 ? month / 3 : month / 3 + 1);
 
   return format
-    .replace(/YYYY/, year)
-    .replace(/MM/, formaterZero(month))
-    .replace(/DD/, formaterZero(day))
-    .replace(/HH/, formaterZero(hour))
-    .replace(/mm/, formaterZero(min))
-    .replace(/ss/, formaterZero(sec))
-    .replace(/q/, quarter)
+    .replace(/YYYY/g, year)
+    .replace(/MM/g, formaterZero(month))
+    .replace(/DD/g, formaterZero(day))
+    .replace(/HH/g, formaterZero(hour))
+    .replace(/mm/g, formaterZero(min))
+    .replace(/ss/g, formaterZero(sec))
+    .replace(/q/g, quarter)
     .replace(format, date);
 }
 
@@ -219,4 +215,40 @@ export function formaterZero(date: any) {
     time = '0' + time;
   }
   return time;
+}
+
+// 判断是否在一个时间段内
+export function isBetweenTimes(currentDate: any, startDate: any, endDate: any) {
+  const c = new Date(currentDate);
+  const s = new Date(startDate);
+  const e = new Date(endDate);
+
+  if (c >= s && c <= e) return true;
+  return false;
+}
+
+// 判断是否在一个时间之前
+export function isBeforeTimes(currentDate: any, startDate: any) {
+  const c = new Date(currentDate);
+  const s = new Date(startDate);
+
+  if (c <= s) return true;
+  return false;
+}
+
+// 判断是否在一个时间之后
+export function isAfterTimes(currentDate: any, endDate: any) {
+  const c = new Date(currentDate);
+  const e = new Date(endDate);
+
+  if (c >= e) return true;
+  return false;
+}
+
+// 判断是否为Date
+export function isDate(date: any) {
+  if (!date) return false;
+  let dateTime = date;
+  if (!(date instanceof Date)) dateTime = new Date(date);
+  return !isNaN(dateTime.getTime());
 }
