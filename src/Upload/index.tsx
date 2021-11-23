@@ -231,7 +231,7 @@ function Upload(props: UploadProps, ref: any) {
     (uploadItem) => {
       return (
         <div className={clsx(`${prefix}-upload-item-operation`, {})}>
-          {uploadItem.status == 'success' && (
+          { onPreview &&uploadItem.status == 'success' && (
             <span onClick={() => handlePreview(uploadItem)}>
               <Icon name="xianshi" />
             </span>
