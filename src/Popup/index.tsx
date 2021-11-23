@@ -145,7 +145,7 @@ function Popup(props: PopupProps): any {
         width: refElWidth,
         height: refElHeight,
       },
-      default: {
+      content: {
         x: left,
         y: top,
         width: refElWidth,
@@ -192,7 +192,8 @@ function Popup(props: PopupProps): any {
     function handleStyle() {
       let positionSize = getSizePosition() as any;
       if (!positionSize) return {};
-      if (innerPosition === 'default') {
+      if (!positionSize[innerPosition]) return {};
+      if (innerPosition === 'content') {
         return {
           transform: `translate(${positionSize[innerPosition].x}px, ${positionSize[innerPosition].y}px)`,
           width: positionSize[innerPosition].width,
