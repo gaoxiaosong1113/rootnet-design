@@ -3,6 +3,10 @@
 .@{prefix}-picker {
   width: 180px;
 
+  &-range {
+    width: 240px;
+  }
+
   &-arrow {
     position: absolute;
     z-index: 0;
@@ -19,6 +23,11 @@
   box-shadow: 0px 4px 16px 0px rgba(188, 182, 204, 0.2);
   border-radius: 4px;
 
+  &-range {
+    width: 488px;
+    display: flex;
+  }
+
   &-time-content {
     .@{prefix}-calendar-time-item {
     }
@@ -27,8 +36,8 @@
   &-year-content {
     .@{prefix}-calendar-time-item {
       width: 33.3333333%;
-      height: 55px;
-      line-height: 55px;
+      height: 54px;
+      line-height: 54px;
 
       &-content {
         width: 48px;
@@ -39,8 +48,8 @@
   &-month-content {
     .@{prefix}-calendar-time-item {
       width: 33.3333333%;
-      height: 55px;
-      line-height: 55px;
+      height: 54px;
+      line-height: 54px;
 
       &-content {
         width: 48px;
@@ -51,8 +60,8 @@
   &-quarter-content {
     .@{prefix}-calendar-time-item {
       width: 25%;
-      height: 55px;
-      line-height: 55px;
+      height: 54px;
+      line-height: 54px;
 
       &-content {
         width: 48px;
@@ -141,12 +150,13 @@
     &-item {
       display: inline-block;
       width: 14.285%;
-      height: 32px;
+      height: 28px;
       text-align: center;
       font-size: 12px;
       cursor: pointer;
-      padding: 4px;
-
+      // padding: 4px;
+      padding: 2px 4px;
+      margin: 2px 0;
       &-next {
         color: #d0d1d9;
       }
@@ -194,6 +204,18 @@
           bottom: 2px;
           border-radius: 2px;
           border: 1px solid #5477ff;
+        }
+      }
+    }
+
+    &-item-in-range {
+      background: #e8f0ff;
+
+      &-hover {
+        background: #adc5ff;
+
+        .@{prefix}-calendar-time-item-content:hover {
+          background: #adc5ff;
         }
       }
     }

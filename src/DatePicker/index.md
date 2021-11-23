@@ -21,6 +21,16 @@ export default () => {
   return (
     <div>
       <Row gutter={[16, 16]}>
+        <Col span={24}>
+          <DatePicker
+            picker="dateRange"
+            close
+            onChange={(value, date) => {
+              console.log('当前值：', value);
+              console.log('当前时间Date：', date);
+            }}
+          />
+        </Col>
         <Col span={6}>
           <DatePicker
             onChange={(value, date) => {
@@ -73,6 +83,7 @@ const [day, setDay] = useState('2021-11-12');
 const [year, setYear] = useState('2021');
 const [month, setMonth] = useState('2021-06');
 const [quarter, setQuarter] = useState('2021-06');
+const [dateRange, setDateRange] = useState(['2021-11-11', '2021-12-12']);
 
 export default () => {
   return (
@@ -116,6 +127,17 @@ export default () => {
             value={quarter}
             onChange={(value, date) => {
               setQuarter(date.getFullYear() + '-' + (date.getMonth() + 1));
+              console.log('当前值：', value);
+              console.log('当前时间Date：', date);
+            }}
+          />
+        </Col>
+        <Col span={24}>
+          <Calendar
+            picker="dateRange"
+            value={dateRange}
+            onChange={(value, date) => {
+              setDateRange(value);
               console.log('当前值：', value);
               console.log('当前时间Date：', date);
             }}
