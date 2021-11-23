@@ -52,6 +52,45 @@ export default () => {
 };
 ```
 
+默认不需要预览按钮：
+
+```tsx
+import React from 'react';
+import { Upload, Grid, Button } from 'rootnet-design';
+
+const { Row, Col } = Grid;
+
+export default () => {
+  return (
+    <div>
+      <Row gutter={[16, 16]}>
+        <Col span={12}>
+          <Upload
+            accept=".png,.jpg,.jpeg,.gif"
+            action={(form, config) => {
+              console.log(form, config);
+              return new Promise((resolve, reject) => {
+                resolve({ data: '上传的地址' });
+              });
+            }}
+            onRemove={(file) => {
+              console.log('删除');
+              console.log(file);
+            }}
+            onChange={(files) => {
+              console.log('更改');
+              console.log(files);
+            }}
+          >
+            <Button icon="shangchuan">上传文件</Button>
+          </Upload>
+        </Col>
+      </Row>
+    </div>
+  );
+};
+```
+
 简单上传：
 
 ```tsx
