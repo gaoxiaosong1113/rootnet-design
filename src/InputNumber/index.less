@@ -1,4 +1,177 @@
 @import '../index.less';
 
-.@{prefix}-t {
+.@{prefix}-inputNumber {
+  display: flex;
+  border: 1px solid @borderColor;
+  border-radius: 4px;
+  transition: border 0.3s;
+  position: relative;
+
+  &:hover:not(.@{prefix}-input-disabled) {
+    border-color: @primaryColorHover;
+
+    // .@{prefix}-inputNumber-handler {
+    //   border-color: @primaryColorHover;
+
+    //   &-up {
+    //     border-color: @primaryColorHover;
+    //   }
+
+    // }
+  }
+
+  &-disabled {
+    border-color: #cfd3e3;
+    background: #ededef;
+    cursor: no-drop !important;
+  }
+
+  &-disabled &-content {
+    input {
+      color: #d0d1d9;
+
+      cursor: no-drop !important;
+    }
+  }
+
+  &-disabled div.labe {
+    color: #d0d1d9;
+    fill: #d0d1d9;
+  }
+
+  &-disabled &-icon {
+    color: #d0d1d9;
+    fill: #d0d1d9;
+  }
+
+  &-disabled &-before {
+    color: #d0d1d9;
+    fill: #d0d1d9;
+  }
+
+  &-disabled &-after {
+    color: #d0d1d9;
+    fill: #d0d1d9;
+  }
+
+  &.horizontal {
+    flex-direction: row;
+  }
+
+  div.label {
+    font-size: 14px;
+    line-height: 32px;
+    color: @auxiliaryTextColor;
+
+    .label-required {
+      font-size: 14px;
+      color: @errorColor;
+      line-height: 32px;
+      margin-right: 4px;
+    }
+  }
+
+  &-focus {
+    border-color: @primaryColorActive;
+  }
+
+  &-icon {
+    line-height: 32px;
+    margin-left: 8px;
+    color: @fullDarkColor;
+  }
+
+  &-close {
+    margin-right: 8px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    opacity: 0.2;
+
+    &:hover {
+      opacity: 0.6;
+    }
+  }
+
+  &-affterIcon {
+    line-height: 32px;
+    margin-right: 8px;
+    color: @fullDarkColor;
+  }
+
+  &-content {
+    flex: 1;
+    user-select: none;
+
+    input {
+      outline: 0;
+      padding: 0px 8px;
+      width: 100%;
+      border: none;
+      font-size: 14px;
+      line-height: 32px;
+      background: none;
+      user-select: none;
+      &::placeholder {
+        color: @promptTextColor;
+      }
+    }
+  }
+
+  &-before {
+    font-size: 14px;
+    padding: 0 10px;
+    min-width: 32px;
+    background: @tableHeadBackgroundColor;
+    border-right: 1px solid #d0d3e3;
+    border-radius: 4px 0 0 4px;
+    text-align: center;
+    line-height: 30px;
+    color: @auxiliaryTextColor;
+
+    svg {
+      display: inline-block;
+      vertical-align: middle;
+    }
+  }
+
+  &-after {
+    font-size: 14px;
+    padding: 0 10px;
+    flex: 0 0 auto;
+    min-width: 32px;
+    background: @tableHeadBackgroundColor;
+    border-left: 1px solid #d0d3e3;
+    border-radius: 0 4px 4px 0;
+    text-align: center;
+    line-height: 30px;
+    color: @auxiliaryTextColor;
+  }
+
+  &-handler {
+    width: 20px;
+    // background: #ccc;
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    border-left: 1px solid @borderColor;
+
+    &-up {
+      border-bottom: 1px solid @borderColor;
+    }
+
+    &-btn {
+      flex: 1;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      fill: @auxiliaryTextColor;
+
+      &:hover {
+        fill: @primaryColorHover;
+      }
+    }
+  }
 }
