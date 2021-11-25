@@ -1,4 +1,29 @@
 @import '../index.less';
 
-.@{prefix}-t {
+.@{prefix}-space {
+  display: inline-flex;
+
+  &-vertical {
+    flex-direction: column;
+  }
+
+  &-align-center {
+    align-items: center;
+  }
+
+  &-align-start {
+    align-items: flex-start;
+  }
+
+  &-align-end {
+    align-items: flex-end;
+  }
+
+  &-align-baseline {
+    align-items: baseline;
+  }
+
+  &-item:empty {
+    display: none;
+  }
 }

@@ -1,5 +1,5 @@
 // 引入react依赖
-import React, { ReactNode } from 'react';
+import React, { ReactNode, useMemo } from 'react';
 import ReactDOM from 'react-dom';
 
 // 引入第三方依赖
@@ -25,74 +25,113 @@ export interface SpaceProps {
   children?: ReactNode;
 
   /**
-   * @description      按钮的类型
+   * @description      对齐方式
    * @default           -
    */
-  type?: string;
+  align?: 'start' | 'end' | 'center' | 'baseline';
 
   /**
-   * @description      需要显示的图标
-   * @default           -
+   * @description      间距方向
+   * @default           horizontal
    */
-  icon?: string;
+  direction?: 'vertical' | 'horizontal';
 
   /**
-   * @description      是否禁用按钮
+   * @description      间距大小
+   * @default          small
+   */
+  size?: 'small' | 'middle' | 'large' | number | Array<any>;
+
+  /**
+   * @description      是否自动换行，仅在 horizontal 时有效
    * @default           false
    */
-  disabled?: boolean;
+  wrap?: boolean;
 
   /**
-   * @description      Space点击事件
+   * @description      设置拆分
    * @default           -
    */
-  onClick?: Function;
-
-  /**
-   * @description      Space左右的间隔
-   * @default           -
-   */
-  interval?: string;
-
-  /**
-   * @description      Space的尺寸
-   * @default           -
-   */
-  size?: string;
+  split?: ReactNode;
 }
 
 function Space(props: SpaceProps) {
   const {
     className,
-    type,
-    icon,
-    disabled,
+    align = 'center',
+    direction = 'horizontal',
+    size = 'small',
+    wrap,
     children,
-    onClick,
-    interval,
-    size,
+    split,
     ...prop
   } = props;
 
-  function handleClick() {
-    if (!disabled && onClick) {
-      onClick();
+  const style = useMemo(() => {
+    let innerStyle = {} as any;
+
+    if (typeof size === 'number') {
+      innerStyle.gap = size;
     }
-  }
+    if (typeof size === 'string') {
+      switch (size) {
+        case 'small':
+          innerStyle.gap = '8px';
+          break;
+        case 'middle':
+          innerStyle.gap = '16px';
+          break;
+        case 'large':
+          innerStyle.gap = '24px';
+          break;
+      }
+    }
+
+    if (wrap) {
+      innerStyle.flexWrap = 'wrap';
+    }
+
+    if (Object.prototype.toString.call(size) === '[object Array]') {
+      if (typeof size === 'object') {
+        if (size.length == 1) {
+          innerStyle.gap = `${size[0]}px`;
+        }
+        if (size.length == 2) {
+          innerStyle.gap = `${size[0]}px ${size[1]}px`;
+        }
+      }
+    }
+
+    return innerStyle;
+  }, [size, wrap]);
+
+  let innerChildren = useMemo(() => {
+    let newChildren = [] as any;
+    if (split) {
+      React.Children.forEach(children, (item, index) => {
+        newChildren.push(item);
+        newChildren.push(split);
+      });
+      newChildren.splice(-1);
+      return newChildren;
+    }
+    return children;
+  }, [children]);
+
   return (
     <div
       className={clsx(className, `${prefix}-space`, {
-        [`${prefix}-space-default`]: !type && !disabled,
-        [`${prefix}-space-${type}`]: type,
-        [`${prefix}-space-disabled`]: disabled,
-        [`${prefix}-space-${size}`]: size,
+        [`${prefix}-space-${direction}`]: direction,
+        [`${prefix}-space-${align}`]: align,
+        [`${prefix}-space-${wrap}`]: wrap,
       })}
-      style={{ margin: interval }}
-      onClick={handleClick}
-      {...prop}
+      style={style}
     >
-      {icon && <Icon name={icon} />}
-      <span>{children}</span>
+      {React.Children.map(innerChildren, (item, index) =>
+        React.cloneElement(item, {
+          key: index,
+        }),
+      )}
     </div>
   );
 }
