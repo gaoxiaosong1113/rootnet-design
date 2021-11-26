@@ -130,9 +130,11 @@ function Popover(props: PopoverProps) {
     <>
       {React.cloneElement(children, {
         onClick: (event: any) => {
-          event.stopPropagation();
+          // event.stopPropagation();
           event.persist();
-          setVisible(true);
+          setVisible((prevOpen) => {
+            return !prevOpen;
+          });
         },
         className: clsx(children.props.className, `${prefix}-popconfirm-target`),
         ref: refEl,
