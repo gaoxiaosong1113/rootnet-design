@@ -36,7 +36,7 @@ export { default as Space } from './Space';
 export { default as Spin } from './Spin';
 export { default as Steps } from './Steps';
 export { default as Switch } from './Switch';
-export { default as Score } from './Score';
+export { default as Rote } from './Rote';
 export { default as Table } from './Table';
 export { default as Tabs } from './Tabs';
 export { default as Tag } from './Tag';

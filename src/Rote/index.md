@@ -3,17 +3,17 @@ nav:
   title: 组件
   path: /components
 group:
-  title: Score 评分
+  title: Rote 评分
   order: 48
 ---
 
-## Score 评分
+## Rote 评分
 
 示例：
 
 ```tsx
 import React from 'react';
-import { Card, Score, Grid } from 'rootnet-design';
+import { Card, Rote, Grid } from 'rootnet-design';
 
 const { Row, Col } = Grid;
 
@@ -22,22 +22,22 @@ export default () => {
     <div>
       <Row gutter={[16, 16]}>
         <Col span={4}>
-          <Score />
+          <Rote />
         </Col>
         <Col span={4}>
-          <Score num="1" />
+          <Rote value={1} />
         </Col>
         <Col span={4}>
-          <Score num="1.5" fill="red" />
+          <Rote value={1.5} color="red" />
         </Col>
         <Col span={4}>
-          <Score num="2.5" fill="green" />
+          <Rote value={2.5} color="green" />
         </Col>
         <Col span={4}>
-          <Score num="3.5" fill="blue" />
+          <Rote value={3.5} color="blue" />
         </Col>
         <Col span={4}>
-          <Score num="5" fill="red" style={{ fontSize: '20px' }} />
+          <Rote value={5} color="red" style={{ fontSize: '20px' }} />
         </Col>
       </Row>
     </div>

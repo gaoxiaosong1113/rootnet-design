@@ -14,7 +14,7 @@ group:
 ```tsx
 import React from 'react';
 import { Timeline } from 'rootnet-design';
-const arr = [
+const data = [
   { time: '2020-02-22', title: '时间筹备时间筹备时间筹备时间筹备' },
   { time: '2016', title: '事件准备' },
   { time: '2019', title: '事件开始' },
@@ -24,7 +24,7 @@ const arr = [
 export default () => {
   return (
     <div>
-      <Timeline arr={arr} />
+      <Timeline data={data} />
     </div>
   );
 };
@@ -35,7 +35,7 @@ export default () => {
 ```tsx
 import React from 'react';
 import { Timeline } from 'rootnet-design';
-const arr = [
+const data = [
   { time: '2020-02-22', title: '事件筹备' },
   { time: '2020-02-22', title: '事件准备' },
   { time: '2020-02-22', title: '事件开始' },
@@ -45,7 +45,7 @@ const arr = [
 export default () => {
   return (
     <div>
-      <Timeline arr={arr} type="row" color="red" style={{ color: 'pink' }} />
+      <Timeline data={data} type="horizontal" color="red" />
     </div>
   );
 };

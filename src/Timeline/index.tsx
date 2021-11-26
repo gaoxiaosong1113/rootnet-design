@@ -25,9 +25,9 @@ export interface StatePointProps {
 
   /**
    * @description      排列方式
-   * @default           column
+   * @default           vertical
    */
-  type?: 'column' | 'row';
+  type?: 'vertical' | 'horizontal';
 
   /**
    * @description      颜色
@@ -36,39 +36,57 @@ export interface StatePointProps {
   color?: string;
 
   /**
+   * @description      左边宽度
+   * @default           80
+   */
+  timeWidth?: number;
+
+  /**
+   * @description      右边宽度
+   * @default           -
+   */
+  infoWidth?: number;
+
+  /**
    * @description      数据
    * @default          -
    */
-  arr?: Array<{ key: string; value: string }>;
+  data: Array<{ key: string; value: string }>;
 }
 
 function Timeline(props: StatePointProps) {
-  const { className, style, type, color, arr, ...prop } = props;
+  const {
+    className,
+    style,
+    type = 'vertical',
+    color,
+    timeWidth = 80,
+    infoWidth,
+    data = [],
+    ...prop
+  } = props;
   return (
     <div
-      className={clsx(className, `${prefix}-Timeline`, `${prefix}-Timeline-${type}`)}
-      style={style}
+      className={clsx(className, `${prefix}-timeline`, `${prefix}-timeline-${type}`)}
+      style={{
+        ...style,
+        color,
+      }}
       {...prop}
     >
-      {arr.map((item: any, index: any) => {
+      {data.map((item: any, index: any) => {
         return (
-          <>
-            {index != 0 && type != 'row' && <div className="line"></div>}
-            <div className="con">
-              <div className="time">{item.time}</div>
-              {type != 'row' && <b style={{ borderColor: color }}></b>}
-              {type == 'row' && (
-                <div>
-                  <span className={index == 0 ? 'line-left-first' : 'line-left'}></span>
-                  <b className="radius" style={{ borderColor: color }}></b>
-                  <span
-                    className={index == arr.length - 1 ? 'line-right-last' : 'line-right'}
-                  ></span>
-                </div>
-              )}
-              <div className="title">{item.title}</div>
+          <div className={clsx(`${prefix}-timeline-item`)}>
+            <div className={clsx(`${prefix}-timeline-time`)} style={{ width: timeWidth }}>
+              {item.time}
             </div>
-          </>
+            <div className={clsx(`${prefix}-timeline-point`)}>
+              <div className="point"></div>
+            </div>
+            <div className={clsx(`${prefix}-timeline-title`)} style={{ width: infoWidth }}>
+              {item.title}
+            </div>
+          </div>
         );
       })}
     </div>
