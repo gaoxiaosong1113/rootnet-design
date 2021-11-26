@@ -199,6 +199,7 @@ function Upload(props: UploadProps, ref: any) {
   const {
     className,
     children,
+    style,
     accept,
     action,
     defaultFileList,
@@ -231,7 +232,7 @@ function Upload(props: UploadProps, ref: any) {
     (uploadItem) => {
       return (
         <div className={clsx(`${prefix}-upload-item-operation`, {})}>
-          {uploadItem.status == 'success' && (
+          {onPreview && uploadItem.status == 'success' && (
             <span onClick={() => handlePreview(uploadItem)}>
               <Icon name="xianshi" />
             </span>
@@ -459,7 +460,7 @@ function Upload(props: UploadProps, ref: any) {
         [`${prefix}-upload-disabled`]: disabled,
         [`${prefix}-upload-drag`]: drag,
       })}
-      {...prop}
+      style={style}
     >
       <div
         className={clsx(`${prefix}-upload-input`, {})}
