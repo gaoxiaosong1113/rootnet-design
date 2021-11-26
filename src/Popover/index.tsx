@@ -1,11 +1,4 @@
-import React, {
-  useEffect,
-  useState,
-  useRef,
-  useMemo,
-  ReactNode,
-  ReactElement,
-} from 'react';
+import React, { useEffect, useState, useRef, useMemo, ReactNode, ReactElement } from 'react';
 import ReactDOM from 'react-dom';
 
 import clsx from 'clsx';
@@ -106,10 +99,7 @@ function Content(props: any) {
           <span>{content}</span>
         </div>
       </div>
-      <div
-        className={clsx(`${prefix}-popover-mask`)}
-        onClick={handleCancel}
-      ></div>
+      <div className={clsx(`${prefix}-popover-mask`)} onClick={handleCancel} />
     </>
   );
 }
@@ -144,10 +134,7 @@ function Popover(props: PopoverProps) {
           event.persist();
           setVisible(true);
         },
-        className: clsx(
-          children.props.className,
-          `${prefix}-popconfirm-target`,
-        ),
+        className: clsx(children.props.className, `${prefix}-popconfirm-target`),
         ref: refEl,
       })}
       <Popup

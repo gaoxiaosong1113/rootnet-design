@@ -43,7 +43,6 @@ export { default as Timeline } from './Timeline';
 export { default as Tooltip } from './Tooltip';
 export { default as Transfer } from './Transfer';
 export { default as Tree } from './Tree';
-export { default as TreeSelect } from './TreeSelect';
 export { default as Upload } from './Upload';
 export { default as Popup } from './Popup';
 export { default as UacTransfer } from './UacTransfer';
@@ -52,6 +51,7 @@ export { default as HeadPortrait } from './HeadPortrait';
 export { default as StatePoint } from './StatePoint';
 export { default as Cascader } from './Cascader';
 export { default as Badge } from './Badge';
+export { default as SmallEditor } from './SmallEditor';
 
 import * as _util from './_util';
 
