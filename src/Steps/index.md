@@ -15,7 +15,6 @@ group:
 import React from 'react';
 import { Steps, Grid, Icon, Button, Input, Checkbox } from 'rootnet-design';
 const { Row, Col } = Grid;
-const { Step } = Steps;
 
 export default () => {
   return (
@@ -27,15 +26,15 @@ export default () => {
             alert(1);
           }}
         >
-          <Step
+          <Steps.Item
             title="正在处理"
             status="wait"
             description="这里是描述文案这里是描述文案这里是描述文案这里是描述文案这里是描述文案这里是描述文案这里是描述文案"
           />
-          <Step title="正在处理" description="这里是描述文案" />
-          <Step title="正在处理" status="finish" description="这里是描述文案" />
-          <Step title="正在处理" status="error" description="" />
-          <Step title="自定义图标" icon={<Icon name="liangduanduiqi" />} description="" />
+          <Steps.Item title="正在处理" description="这里是描述文案" />
+          <Steps.Item title="正在处理" status="finish" description="这里是描述文案" />
+          <Steps.Item title="正在处理" status="error" description="" />
+          <Steps.Item title="自定义图标" icon={<Icon name="liangduanduiqi" />} description="" />
         </Steps>
       </Col>
     </Row>
@@ -62,15 +61,15 @@ export default () => {
             alert(1);
           }}
         >
-          <Step
+          <Steps.Item
             title="正在处理"
             status="wait"
             description="这里是描述文案这里是描述文案这里是描述文案这里是描述文案这里是描述文案这里是描述文案这里是描述文案"
           />
-          <Step title="正在处理" description="这里是描述文案" />
-          <Step title="正在处理" status="finish" description="这里是描述文案" />
-          <Step title="正在处理" status="error" description="" />
-          <Step title="自定义图标" icon={<Icon name="liangduanduiqi" />} description="" />
+          <Steps.Item title="正在处理" description="这里是描述文案" />
+          <Steps.Item title="正在处理" status="finish" description="这里是描述文案" />
+          <Steps.Item title="正在处理" status="error" description="" />
+          <Steps.Item title="自定义图标" icon={<Icon name="liangduanduiqi" />} description="" />
         </Steps>
       </Col>
     </Row>
@@ -97,15 +96,15 @@ export default () => {
             alert(1);
           }}
         >
-          <Step
+          <Steps.Item
             title="正在处理"
             status="wait"
             description="这里是描述文案这里是描述文案这里是描述这里是描述文案这里是描述文案这里是描述文案这里是描述文案这里是描述文案这里是描述文案这里是描述文案这里是描述文案这里是描述文案这里是描述文案这里是描述文案这里是描述文案这里是描述文案这里是描述文案文案这里是描述文案这里是描述文案这里是描述文案这里是描述文案"
           />
-          <Step title="正在处理" description="这里是描述文案" />
-          <Step title="正在处理" status="finish" description="这里是描述文案" />
-          <Step title="正在处理" status="error" description="" />
-          <Step title="自定义图标" icon={<Icon name="liangduanduiqi" />} description="" />
+          <Steps.Item title="正在处理" description="这里是描述文案" />
+          <Steps.Item title="正在处理" status="finish" description="这里是描述文案" />
+          <Steps.Item title="正在处理" status="error" description="" />
+          <Steps.Item title="自定义图标" icon={<Icon name="liangduanduiqi" />} description="" />
         </Steps>
       </Col>
       <Col span={12}>
@@ -117,15 +116,15 @@ export default () => {
             alert(1);
           }}
         >
-          <Step
+          <Steps.Item
             title="正在处理"
             status="wait"
             description="这里是描述文案这里是描述文案这里是描述文案这里是描述文案这里是描述文案这里是描述文案这里是描述文案"
           />
-          <Step title="正在处理" description="这里是描述文案" />
-          <Step title="正在处理" status="finish" description="这里是描述文案" />
-          <Step title="正在处理" status="error" description="" />
-          <Step title="自定义图标" icon={<Icon name="liangduanduiqi" />} description="" />
+          <Steps.Item title="正在处理" description="这里是描述文案" />
+          <Steps.Item title="正在处理" status="finish" description="这里是描述文案" />
+          <Steps.Item title="正在处理" status="error" description="" />
+          <Steps.Item title="自定义图标" icon={<Icon name="liangduanduiqi" />} description="" />
         </Steps>
       </Col>
     </Row>
@@ -153,13 +152,13 @@ export default () => {
             alert(1);
           }}
         >
-          <Step
+          <Steps.Item
             customDot={<Checkbox></Checkbox>}
             title="已完成"
             description="这里是描述文案这里是描述文案这里是描述文案这里是描述文案这里是描述文案这里是描述文案这里是描述文案"
           />
-          <Step title="正在处理" description="这里是描述文案" />
-          <Step
+          <Steps.Item title="正在处理" description="这里是描述文案" />
+          <Steps.Item
             disabled
             title={<Button type="primary">自定义标题</Button>}
             description={
@@ -168,13 +167,13 @@ export default () => {
               </div>
             }
           />
-          <Step
+          <Steps.Item
             title="步骤错误"
             status="error"
             description={<Button type="primary">审核</Button>}
           />
-          <Step title="自定义图标" icon={<Icon name="liangduanduiqi" />} description="" />
-          <Step title="正在处理" description="" />
+          <Steps.Item title="自定义图标" icon={<Icon name="liangduanduiqi" />} description="" />
+          <Steps.Item title="正在处理" description="" />
         </Steps>
       </Col>
     </Row>
