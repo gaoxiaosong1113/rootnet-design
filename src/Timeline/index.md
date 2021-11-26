@@ -9,11 +9,46 @@ group:
 
 ## Timeline 时间轴
 
-示例：
+示例一：
 
 ```tsx
 import React from 'react';
-import { Foo } from 'rootnet-design';
+import { Timeline } from 'rootnet-design';
+const arr = [
+  { time: '2020-02-22', title: '时间筹备时间筹备时间筹备时间筹备' },
+  { time: '2016', title: '事件准备' },
+  { time: '2019', title: '事件开始' },
+  { time: '2022', title: '事件结束' },
+];
 
-export default () => <span>First Demo</span>;
+export default () => {
+  return (
+    <div>
+      <Timeline arr={arr} />
+    </div>
+  );
+};
 ```
+
+示例二：
+
+```tsx
+import React from 'react';
+import { Timeline } from 'rootnet-design';
+const arr = [
+  { time: '2020-02-22', title: '事件筹备' },
+  { time: '2020-02-22', title: '事件准备' },
+  { time: '2020-02-22', title: '事件开始' },
+  { time: '2022', title: '事件结束事件结束事件结束事件结束事件结束' },
+];
+
+export default () => {
+  return (
+    <div>
+      <Timeline arr={arr} type="row" color="red" style={{ color: 'pink' }} />
+    </div>
+  );
+};
+```
+
+<API />

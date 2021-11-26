@@ -1,5 +1,5 @@
 // 引入react依赖
-import React, { ReactNode } from 'react';
+import React, { useMemo, useRef, useState } from 'react';
 import ReactDOM from 'react-dom';
 
 // 引入第三方依赖
@@ -13,86 +13,64 @@ import './index.less';
 import { prefix } from '../config';
 
 // 引入组件
-import { Icon } from '../index';
+import { Image } from '../index';
 
-export interface TimelineProps {
+export interface StatePointProps {
   /**
    * @description      类名
    * @default           -
    */
   className?: string;
   style?: Object;
-  children?: ReactNode;
 
   /**
-   * @description      按钮的类型
+   * @description      排列方式
+   * @default           column
+   */
+  type?: 'column' | 'row';
+
+  /**
+   * @description      颜色
    * @default           -
    */
-  type?: string;
+  color?: string;
 
   /**
-   * @description      需要显示的图标
-   * @default           -
+   * @description      数据
+   * @default          -
    */
-  icon?: string;
-
-  /**
-   * @description      是否禁用按钮
-   * @default           false
-   */
-  disabled?: boolean;
-
-  /**
-   * @description      Timeline点击事件
-   * @default           -
-   */
-  onClick?: Function;
-
-  /**
-   * @description      Timeline左右的间隔
-   * @default           -
-   */
-  interval?: string;
-
-  /**
-   * @description      Timeline的尺寸
-   * @default           -
-   */
-  size?: string;
+  arr?: Array<{ key: string; value: string }>;
 }
 
-function Timeline(props: TimelineProps) {
-  const {
-    className,
-    type,
-    icon,
-    disabled,
-    children,
-    onClick,
-    interval,
-    size,
-    ...prop
-  } = props;
-
-  function handleClick() {
-    if (!disabled && onClick) {
-      onClick();
-    }
-  }
+function Timeline(props: StatePointProps) {
+  const { className, style, type, color, arr, ...prop } = props;
   return (
     <div
-      className={clsx(className, `${prefix}-timeline`, {
-        [`${prefix}-timeline-default`]: !type && !disabled,
-        [`${prefix}-timeline-${type}`]: type,
-        [`${prefix}-timeline-disabled`]: disabled,
-        [`${prefix}-timeline-${size}`]: size,
-      })}
-      style={{ margin: interval }}
-      onClick={handleClick}
+      className={clsx(className, `${prefix}-Timeline`, `${prefix}-Timeline-${type}`)}
+      style={style}
       {...prop}
     >
-      {icon && <Icon name={icon} />}
-      <span>{children}</span>
+      {arr.map((item: any, index: any) => {
+        return (
+          <>
+            {index != 0 && type != 'row' && <div className="line"></div>}
+            <div className="con">
+              <div className="time">{item.time}</div>
+              {type != 'row' && <b style={{ borderColor: color }}></b>}
+              {type == 'row' && (
+                <div>
+                  <span className={index == 0 ? 'line-left-first' : 'line-left'}></span>
+                  <b className="radius" style={{ borderColor: color }}></b>
+                  <span
+                    className={index == arr.length - 1 ? 'line-right-last' : 'line-right'}
+                  ></span>
+                </div>
+              )}
+              <div className="title">{item.title}</div>
+            </div>
+          </>
+        );
+      })}
     </div>
   );
 }
