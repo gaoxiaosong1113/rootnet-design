@@ -58,7 +58,7 @@ export const linkTextColor = primaryColor;
     背景颜色 
 */
 // 导航栏背景色
-export const navbarBackgroundColor = '#15171f';
+export const navbarBackgroundColor = '#111628';
 // 整体页面背景色
 export const mainackgroundColor = '#f9fafe';
 // 模块背景色
