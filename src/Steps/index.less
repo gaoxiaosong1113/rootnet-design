@@ -25,7 +25,9 @@
       width: 8px;
       height: 8px;
       border-radius: 50%;
+      margin-top: 8px;
     }
+
     &-wait .@{prefix}-step-item-icon {
       background-color: @borderColor;
     }
@@ -63,6 +65,12 @@
 
   &-vertical {
     flex-direction: column;
+
+    &.@{prefix}-steps-dot .@{prefix}-step-item {
+      &-icon {
+        margin-left: 8px;
+      }
+    }
 
     .@{prefix}-step-item {
       min-height: 88px;

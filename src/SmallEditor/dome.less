@@ -1,0 +1,73 @@
+.toolbar {
+  position: absolute;
+  top: -50px;
+  height: 40px;
+  background: #ffffff;
+  box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.11);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  // transform: translate(-50%, -100%);
+
+  &-type {
+    line-height: 40px;
+    font-size: 14px;
+    color: #15171f;
+    padding: 0 15px;
+    white-space: nowrap;
+    border-right: 1px solid #e9eaf2;
+  }
+
+  &-size {
+    line-height: 40px;
+    font-size: 14px;
+    color: #15171f;
+    padding: 0 15px;
+    white-space: nowrap;
+    border-right: 1px solid #e9eaf2;
+  }
+
+  &-items {
+    display: flex;
+    align-items: center;
+    padding: 0 4px;
+  }
+
+  .rootnet-design-select-target {
+    min-width: 90px;
+  }
+
+  &-item {
+    height: 24px;
+    width: 24px;
+    margin: 0 8px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &.active {
+      background: rgba(33, 78, 255, 0.1);
+    }
+
+    svg {
+      cursor: pointer;
+    }
+  }
+
+  &-color {
+    .rootnet-design-popover {
+      background: none;
+      box-shadow: none;
+    }
+
+    .rootnet-design-popover-body {
+      padding: 0;
+    }
+  }
+}
+
+.contentEditable-text {
+  display: block;
+  outline: 1px solid #1565ff;
+}

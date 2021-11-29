@@ -160,7 +160,7 @@ function Steps(props: StepsProps) {
   );
 }
 
-export function Step(props: StepProps, ref: any) {
+export function Item(props: StepProps, ref: any) {
   const {
     className,
     style,
@@ -235,6 +235,6 @@ export function Step(props: StepProps, ref: any) {
   );
 }
 
-Steps.Step = React.forwardRef(Step);
+Steps.Item = React.forwardRef(Item);
 
 export default Steps;

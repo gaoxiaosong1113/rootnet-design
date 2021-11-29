@@ -1,4 +1,146 @@
 @import '../index.less';
 
-.@{prefix}-t {
+.@{prefix}-timeline {
+  display: inline-block;
+  font-size: 14px;
+
+  &-item {
+    display: flex;
+    padding: 9px 0;
+    position: relative;
+
+    &:first-child {
+      .@{prefix}-timeline-point {
+        .point {
+          &::after {
+            display: none;
+          }
+        }
+      }
+    }
+
+    &:last-child {
+      .@{prefix}-timeline-point {
+        .point {
+          &::before {
+            display: none;
+          }
+        }
+      }
+    }
+  }
+
+  .@{prefix}-timeline-point {
+    position: relative;
+    margin: 0 8px;
+
+    .point {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      border: 2px solid #5477ff;
+      box-sizing: border-box;
+
+      &:after {
+        content: '';
+        position: absolute;
+        background: #e9eaf2;
+      }
+
+      &::before {
+        content: '';
+        position: absolute;
+        background: #e9eaf2;
+      }
+    }
+  }
+
+  &-vertical {
+    display: flex;
+    flex-direction: column;
+
+    .@{prefix}-timeline-time {
+      overflow: hidden;
+      text-align: right;
+    }
+
+    .@{prefix}-timeline-point {
+      .point {
+        &:after {
+          left: 4px;
+          top: -14px;
+          bottom: 9px;
+          width: 1px;
+        }
+
+        &::before {
+          left: 4px;
+          top: 9px;
+          bottom: -14px;
+          width: 1px;
+        }
+      }
+    }
+
+    .@{prefix}-timeline-title {
+      text-align: center;
+      text-decoration: none;
+    }
+
+    .@{prefix}-timeline-item {
+      flex-direction: row;
+      align-items: center;
+    }
+  }
+
+  &-horizontal {
+    display: flex;
+    flex-direction: row;
+
+    .@{prefix}-timeline-time {
+      width: 78px;
+      overflow: hidden;
+      text-align: center;
+    }
+
+    .@{prefix}-timeline-point {
+      width: 100%;
+      margin: 8px 0;
+      .point {
+        margin: 0 auto;
+
+        &:after {
+          top: 4px;
+          left: -16px;
+          right: calc(50% + 4px);
+          height: 1px;
+        }
+
+        &::before {
+          top: 4px;
+          left: calc(50% + 5px);
+          right: -16px;
+          height: 1px;
+        }
+      }
+    }
+
+    .@{prefix}-timeline-title {
+      text-align: center;
+      text-decoration: none;
+    }
+
+    .@{prefix}-timeline-item {
+      flex-direction: column;
+      align-items: center;
+      padding: 0 16px;
+    }
+  }
 }
+
+// .line {
+//   width: 1px;
+//   height: 32px;
+//   background: #e9eaf2;
+//   margin-left: 90px;
+// }

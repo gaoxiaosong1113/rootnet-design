@@ -22,7 +22,7 @@ export interface OperationProps {
 }
 
 function Item(props: any, ref: any) {
-  const { className, disabled, select, children, onClick, ...prop } = props;
+  const { className, disabled, select, children, onClick, active, ...prop } = props;
 
   const refEl = useRef(null);
 
