@@ -72,7 +72,7 @@ export interface CascaderProps {
   target?: any;
 }
 
-function cascader(props: CascaderProps) {
+function Cascader(props: CascaderProps) {
   const {
     className,
     placeholder,
@@ -105,10 +105,7 @@ function cascader(props: CascaderProps) {
     let nextFindData: any = [];
 
     props.value?.forEach((item: any) => {
-      let filterData = findData(
-        nextFindData.length > 0 ? nextFindData : props.options,
-        item,
-      );
+      let filterData = findData(nextFindData.length > 0 ? nextFindData : props.options, item);
       nextFindData = filterData.nextFindData;
       newData.value.push(filterData.value);
       newData.label.push(filterData.label);
@@ -146,9 +143,7 @@ function cascader(props: CascaderProps) {
   }
 
   const isPlaceholder = useMemo(() => {
-    return (
-      value === undefined || value === null || JSON.stringify(value) === '[]'
-    );
+    return value === undefined || value === null || JSON.stringify(value) === '[]';
   }, [value]);
 
   return (
@@ -158,10 +153,10 @@ function cascader(props: CascaderProps) {
         [`${prefix}-cascader-target-visible`]: visible,
         [`${prefix}-cascader-placeholder`]: isPlaceholder,
       })}
+      ref={refSelect}
     >
       <div
         className={clsx(`${prefix}-cascader-target-content`, {})}
-        ref={refSelect}
         onClick={(event) => {
           event.persist();
           if (disabled) return;
@@ -184,28 +179,26 @@ function cascader(props: CascaderProps) {
         </div>
       )}
 
-      {visible && (
-        <Popup
-          position="bottom-left"
-          refEl={refSelect}
-          visible={visible}
-          trigger="click"
-          onClose={() => {}}
-        >
-          <CascaderPopup
-            {...props}
-            value={oldValue}
-            onChange={(value: any) => {
-              setVisible(false);
-              handleOnChange(value);
-            }}
-            onCancel={() => {
-              setVisible(false);
-              onCancel?.();
-            }}
-          />
-        </Popup>
-      )}
+      <Popup
+        position="bottom-left"
+        refEl={refSelect}
+        visible={visible}
+        trigger="click"
+        onClose={() => {}}
+      >
+        <CascaderPopup
+          {...props}
+          value={oldValue}
+          onChange={(value: any) => {
+            setVisible(false);
+            handleOnChange(value);
+          }}
+          onCancel={() => {
+            setVisible(false);
+            onCancel?.();
+          }}
+        />
+      </Popup>
     </div>
   );
 }
@@ -289,17 +282,13 @@ function CascaderPopup(props: CascaderProps) {
               return (
                 <li
                   className={clsx(`${prefix}-cascader-menu-item`, {
-                    [`${prefix}-cascader-menu-item-active`]:
-                      regionData.value[i] == item.value,
+                    [`${prefix}-cascader-menu-item-active`]: regionData.value[i] == item.value,
                   })}
                   key={index}
                   onClick={(e) => onCheckedHandel(item, e, i)}
                 >
-                  <span
-                    className={clsx(`${prefix}-cascader-menu-item-content`, {})}
-                  >
-                    {' '}
-                    {item.label}{' '}
+                  <span className={clsx(`${prefix}-cascader-menu-item-content`, {})}>
+                    {item.label}
                   </span>
                   {item.children && <Icon size={15} name="xuanzeyou" />}
                 </li>
@@ -313,16 +302,7 @@ function CascaderPopup(props: CascaderProps) {
 }
 
 function CascaderValue(props: CascaderProps) {
-  const {
-    options,
-    value,
-    placeholder,
-    onChange,
-    onCancel,
-    target,
-    multiple,
-    ...prop
-  } = props;
+  const { options, value, placeholder, onChange, onCancel, target, multiple, ...prop } = props;
 
   if (value !== null && value?.length > 0) {
     if (multiple) {
@@ -347,4 +327,4 @@ function CascaderValue(props: CascaderProps) {
   return '请选择';
 }
 
-export default cascader;
+export default Cascader;

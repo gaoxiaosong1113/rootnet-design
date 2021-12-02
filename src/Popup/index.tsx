@@ -1,4 +1,12 @@
-import React, { useEffect, useState, useRef, useMemo, useCallback, ReactNode } from 'react';
+import React, {
+  useEffect,
+  useState,
+  useRef,
+  useMemo,
+  useCallback,
+  ReactNode,
+  useImperativeHandle,
+} from 'react';
 
 import ReactDOM from 'react-dom';
 
@@ -10,7 +18,7 @@ import { prefix } from '../config';
 
 import { Icon, Button } from '../index';
 
-import { getOffsetLeft, getOffsetTop, useGetElementParent } from '../_util';
+import { getOffsetLeft, getOffsetTop, useGetElementParent, uuid } from '../_util';
 
 export interface PopupProps {
   /**
@@ -91,6 +99,7 @@ function Popup(props: PopupProps): any {
   const [top, setTop] = useState(null) as any;
   const [style, setStyle] = useState({});
   const [innerPosition, setInnerPosition] = useState(position);
+  const [uid, setUid] = useState(uuid());
   const parent = useGetElementParent(refEl.current);
 
   const ref = useRef(null as any);
@@ -211,37 +220,6 @@ function Popup(props: PopupProps): any {
     handleRePosition();
   }, [top, left]);
 
-  useEffect(() => {
-    function handleClick(e: any) {
-      if (!visible) return;
-      if (!refEl.current) return;
-      if (!ref.current) return;
-
-      // 判断选定区域
-      if (targetHidden) {
-        if (!ReactDOM.findDOMNode(refEl.current)?.contains(e.target)) {
-          onClose && onClose();
-        }
-      } else {
-        if (
-          !ReactDOM.findDOMNode(refEl.current)?.contains(e.target) &&
-          !ReactDOM.findDOMNode(ref.current)?.contains(e.target)
-        ) {
-          onClose && onClose();
-        }
-      }
-    }
-    if (trigger == 'click' && visible) {
-      document.addEventListener('click', handleClick);
-    }
-
-    return () => {
-      if (trigger == 'click') {
-        document.removeEventListener('click', handleClick);
-      }
-    };
-  }, [visible]);
-
   function setPosition(ele: any) {
     let offset = refEl.current.getBoundingClientRect();
     let left = offset.left;
@@ -304,4 +282,4 @@ function Popup(props: PopupProps): any {
   return null;
 }
 
-export default Popup;
+export default React.forwardRef(Popup);

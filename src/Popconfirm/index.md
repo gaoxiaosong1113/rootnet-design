@@ -13,7 +13,7 @@ group:
 
 ```tsx
 import React from 'react';
-import { Popconfirm, Grid } from 'rootnet-design';
+import { Popconfirm, Grid, Select } from 'rootnet-design';
 const { Row, Col } = Grid;
 
 export default () => {
@@ -22,13 +22,35 @@ export default () => {
       <Row gutter={[16, 16]}>
         <Col span={4}>
           <Popconfirm
-            content={'我是一段提示，并且字数不是很多'}
+            content={
+              <Select
+                options={[
+                  {
+                    label: '选项一选项一选项一选项一选项一选项一选项一选项一',
+                    value: 1,
+                  },
+                  {
+                    label: '选项二',
+                    value: 2,
+                  },
+                  {
+                    label: '选项三',
+                    value: 3,
+                  },
+                ]}
+                placeholder={'多选下拉框'}
+                onChange={(value) => {
+                  console.log(value);
+                }}
+              />
+            }
             onConfirm={(e) => {
               console.log('确认');
             }}
             onCancel={(e) => {
               console.log('取消');
             }}
+            targetHidden={false}
           >
             <span>默认</span>
           </Popconfirm>
@@ -65,58 +87,37 @@ export default () => {
           </Popconfirm>
         </Col>
         <Col span={4}>
-          <Popconfirm
-            position="top-left"
-            content={'我是一段提示，并且字数不是很多'}
-          >
+          <Popconfirm position="top-left" content={'我是一段提示，并且字数不是很多'}>
             <span>top-left</span>
           </Popconfirm>
         </Col>
         <Col span={4}>
-          <Popconfirm
-            position="top-right"
-            content={'我是一段提示，并且字数不是很多'}
-          >
+          <Popconfirm position="top-right" content={'我是一段提示，并且字数不是很多'}>
             <span>top-right</span>
           </Popconfirm>
         </Col>
         <Col span={4}>
-          <Popconfirm
-            position="left"
-            content={'我是一段提示，并且字数不是很多'}
-          >
+          <Popconfirm position="left" content={'我是一段提示，并且字数不是很多'}>
             <span>left</span>
           </Popconfirm>
         </Col>
         <Col span={4}>
-          <Popconfirm
-            position="right"
-            content={'我是一段提示，并且字数不是很多'}
-          >
+          <Popconfirm position="right" content={'我是一段提示，并且字数不是很多'}>
             <span>right</span>
           </Popconfirm>
         </Col>
         <Col span={4}>
-          <Popconfirm
-            position="bottom"
-            content={'我是一段提示，并且字数不是很多'}
-          >
+          <Popconfirm position="bottom" content={'我是一段提示，并且字数不是很多'}>
             <span>bottom</span>
           </Popconfirm>
         </Col>
         <Col span={4}>
-          <Popconfirm
-            position="bottom-left"
-            content={'我是一段提示，并且字数不是很多'}
-          >
+          <Popconfirm position="bottom-left" content={'我是一段提示，并且字数不是很多'}>
             <span>bottom-left</span>
           </Popconfirm>
         </Col>
         <Col span={4}>
-          <Popconfirm
-            position="bottom-right"
-            content={'我是一段提示，并且字数不是很多'}
-          >
+          <Popconfirm position="bottom-right" content={'我是一段提示，并且字数不是很多'}>
             <span>bottom-right</span>
           </Popconfirm>
         </Col>

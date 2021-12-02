@@ -106,6 +106,7 @@ function Content(props: any) {
 
 function Popover(props: PopoverProps) {
   const {
+    className,
     children,
     onConfirm,
     onCancel,
@@ -126,19 +127,33 @@ function Popover(props: PopoverProps) {
     onCancel && onCancel(e);
   }
 
+  function handleClick(e: any) {
+    if (!refEl.current) return;
+    if (!ReactDOM.findDOMNode(refEl.current)?.contains(e.target)) {
+      handleClose(e);
+    }
+  }
+
+  useEffect(() => {
+    document.body.addEventListener('click', handleClick);
+    return () => {
+      document.body.removeEventListener('click', handleClick);
+    };
+  }, []);
+
   return (
-    <>
-      {React.cloneElement(children, {
-        onClick: (event: any) => {
-          // event.stopPropagation();
-          event.persist();
-          setVisible((prevOpen) => {
-            return !prevOpen;
-          });
-        },
-        className: clsx(children.props.className, `${prefix}-popconfirm-target`),
-        ref: refEl,
-      })}
+    <div
+      className={clsx(className, `${prefix}-popconfirm-target`)}
+      ref={refEl}
+      onClick={(event: any) => {
+        // event.stopPropagation();
+        event.persist();
+        setVisible((prevOpen) => {
+          return !prevOpen;
+        });
+      }}
+    >
+      {children}
       <Popup
         onClose={() => {
           setVisible(false);
@@ -155,7 +170,7 @@ function Popover(props: PopoverProps) {
       >
         <Content {...props} onCancel={handleClose} />
       </Popup>
-    </>
+    </div>
   );
 }
 

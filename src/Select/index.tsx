@@ -141,7 +141,7 @@ function Select(props: SelectProps) {
           onCancel && onCancel();
         }}
         scrollRef={scrollRef}
-        targetHidden={false}
+        // targetHidden={false}
         visible={visible}
         refEl={refEl}
         position={'bottom-left'}

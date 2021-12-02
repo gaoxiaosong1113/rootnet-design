@@ -1,11 +1,4 @@
-import React, {
-  useEffect,
-  useState,
-  useRef,
-  useMemo,
-  ReactNode,
-  ReactElement,
-} from 'react';
+import React, { useEffect, useState, useRef, useMemo, ReactNode, ReactElement } from 'react';
 import ReactDOM from 'react-dom';
 
 import clsx from 'clsx';
@@ -16,7 +9,7 @@ import { prefix } from '../config';
 
 import { Icon, Button, Popup } from '../index';
 
-import { getOffsetLeft, getOffsetTop } from '../_util';
+import { getOffsetLeft, getOffsetTop, uuid } from '../_util';
 
 export interface PopconfirmProps {
   /**
@@ -106,17 +99,13 @@ function Content(props: any) {
 }
 
 function Popconfirm(props: PopconfirmProps) {
-  const {
-    children,
-    onConfirm,
-    onCancel,
-    onClose,
-    position = 'top',
-    ...prop
-  } = props;
+  const { className, children, onConfirm, onCancel, onClose, position = 'top', ...prop } = props;
+
   const [visible, setVisible] = useState(false);
+  const [uid, setUid] = useState(uuid());
 
   const refEl = useRef(null);
+  const refPopup = useRef(null);
 
   function handleCancel(e: any) {
     e?.stopPropagation();
@@ -135,6 +124,7 @@ function Popconfirm(props: PopconfirmProps) {
   }
 
   function handleClose(e: any) {
+    console.log('关闭');
     e?.stopPropagation();
     setVisible(false);
     if (onClose) {
@@ -142,31 +132,42 @@ function Popconfirm(props: PopconfirmProps) {
     }
   }
 
+  // function handleClick(e: any) {
+  //   console.log('关闭')
+  //   if (!ReactDOM.findDOMNode(document.querySelectorAll(`.${prefix}-popconfirm-${uid}`)[0])?.contains(e.target)) {
+  //     // handleClose(e);
+  //   }
+  // }
+
+  // useEffect(() => {
+  //   document.body.addEventListener('click', handleClick);
+  //   return () => {
+  //     document.body.removeEventListener('click', handleClick);
+  //   };
+  // }, []);
+
   return (
-    <>
-      {React.cloneElement(children, {
-        onClick: (event: any) => {
-          setVisible(true);
-          event.stopPropagation();
-        },
-        className: `${prefix}-popconfirm-target`,
-        ref: refEl,
-      })}
+    <div
+      className={clsx(className, `${prefix}-popconfirm-target`)}
+      ref={refEl}
+      onClick={(event: any) => {
+        setVisible(true);
+        event.stopPropagation();
+      }}
+    >
+      {children}
       <Popup
         onClose={handleClose}
         visible={visible}
         refEl={refEl}
+        ref={refPopup}
         position={position}
         trigger={'click'}
+        className={`${prefix}-popconfirm-${uid}`}
       >
-        <Content
-          {...prop}
-          position={position}
-          onConfirm={handleConfirm}
-          onCancel={handleCancel}
-        />
+        <Content {...prop} position={position} onConfirm={handleConfirm} onCancel={handleCancel} />
       </Popup>
-    </>
+    </div>
   );
 }
 

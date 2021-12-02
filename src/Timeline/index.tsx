@@ -76,7 +76,7 @@ function Timeline(props: StatePointProps) {
     >
       {data.map((item: any, index: any) => {
         return (
-          <div className={clsx(`${prefix}-timeline-item`)}>
+          <div className={clsx(`${prefix}-timeline-item`)} key={index}>
             <div className={clsx(`${prefix}-timeline-time`)} style={{ width: timeWidth }}>
               {item.time}
             </div>

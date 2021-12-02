@@ -126,72 +126,88 @@ function Tooltip(props: TooltipProps) {
     });
   }
 
+  function handleBodyClick(e: any) {
+    if (!refEl.current) return;
+    if (!ReactDOM.findDOMNode(refEl.current)?.contains(e.target)) {
+      handleClose();
+    }
+  }
+
+  useEffect(() => {
+    if (trigger === 'click') {
+      document.body.addEventListener('click', handleBodyClick);
+    }
+    return () => {
+      if (trigger === 'click') {
+        document.body.removeEventListener('click', handleBodyClick);
+      }
+    };
+  }, []);
+
   return (
-    <>
-      <span
-        className={clsx(`${prefix}-tooltip-target`, {
-          [`${className}-target`]: className,
-        })}
-        ref={refEl}
-        onMouseOver={(event: any) => {
-          if (trigger == 'hover') {
-            handleOpen();
-          }
-        }}
-        onMouseOut={(event: any) => {
-          if (trigger == 'hover') {
-            handleClose();
-          }
-        }}
-      >
-        {React.Children.map(children, (item: any) => {
-          return (
-            item &&
-            React.cloneElement(item, {
-              onClick: (event: any) => {
-                // event.stopPropagation();
-                event && event.persist();
-                item.props.onClick && item.props.onClick(event);
-                if (trigger == 'click') {
-                  handleClick();
-                }
-              },
-              // onMouseOver: (event: any) => {
-              //   // event.stopPropagation();
-              //   event && event.persist();
-              //   item.props.onMouseOver && item.props.onMouseOver(event);
-              //   if (trigger == 'hover') {
-              //     handleOpen();
-              //   }
-              // },
-              // onMouseOut: (event: any) => {
-              //   // event.stopPropagation();
-              //   event && event.persist();
-              //   item.props.onMouseOut && item.props.onMouseOut(event);
-              //   if (trigger == 'hover') {
-              //     handleClose();
-              //   }
-              // },
-              onFocus: (value: any, event: any) => {
-                // event.stopPropagation();
-                event && event.persist();
-                item.props.onFocus && item.props.onFocus(event);
-                if (trigger == 'focus') {
-                  handleOpen();
-                }
-              },
-              onBlur: (value: any, event: any) => {
-                // event.stopPropagation();
-                event && event.persist();
-                item.props.onBlur && item.props.onBlur(event);
-                if (trigger == 'focus') {
-                  handleClose();
-                }
-              },
-            })
-          );
-        })}
-      </span>
+    <span
+      className={clsx(`${prefix}-tooltip-target`, {
+        [`${className}-target`]: className,
+      })}
+      ref={refEl}
+      onMouseOver={(event: any) => {
+        if (trigger == 'hover') {
+          handleOpen();
+        }
+      }}
+      onMouseOut={(event: any) => {
+        if (trigger == 'hover') {
+          handleClose();
+        }
+      }}
+    >
+      {React.Children.map(children, (item: any) => {
+        return (
+          item &&
+          React.cloneElement(item, {
+            onClick: (event: any) => {
+              // event.stopPropagation();
+              event && event.persist();
+              item.props.onClick && item.props.onClick(event);
+              if (trigger == 'click') {
+                handleClick();
+              }
+            },
+            // onMouseOver: (event: any) => {
+            //   // event.stopPropagation();
+            //   event && event.persist();
+            //   item.props.onMouseOver && item.props.onMouseOver(event);
+            //   if (trigger == 'hover') {
+            //     handleOpen();
+            //   }
+            // },
+            // onMouseOut: (event: any) => {
+            //   // event.stopPropagation();
+            //   event && event.persist();
+            //   item.props.onMouseOut && item.props.onMouseOut(event);
+            //   if (trigger == 'hover') {
+            //     handleClose();
+            //   }
+            // },
+            onFocus: (value: any, event: any) => {
+              // event.stopPropagation();
+              event && event.persist();
+              item.props.onFocus && item.props.onFocus(event);
+              if (trigger == 'focus') {
+                handleOpen();
+              }
+            },
+            onBlur: (value: any, event: any) => {
+              // event.stopPropagation();
+              event && event.persist();
+              item.props.onBlur && item.props.onBlur(event);
+              if (trigger == 'focus') {
+                handleClose();
+              }
+            },
+          })
+        );
+      })}
       <Popup
         onClose={() => {
           setVisible(false);
@@ -208,7 +224,7 @@ function Tooltip(props: TooltipProps) {
       >
         <Content {...props} visible={visible} />
       </Popup>
-    </>
+    </span>
   );
 }
 
