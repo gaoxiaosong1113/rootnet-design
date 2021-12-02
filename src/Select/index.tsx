@@ -249,7 +249,7 @@ function SelectContent(props: SelectProps) {
 
 function SelectValue(props: SelectProps) {
   const { options, value, placeholder, onChange, onCancel, target, multiple, ...prop } = props;
-  if (value !== undefined) {
+  if (value !== undefined && value !== '' && value !== null) {
     if (multiple) {
       if (value.length > 0) {
         return value.map((item: any, index: any) => {
