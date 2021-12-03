@@ -85,7 +85,7 @@ function Select(props: SelectProps) {
     ...prop
   } = props;
 
-  const [value, setValue] = useState(props.value || multiple ? [] : null);
+  const [value, setValue] = useState(props.value || (multiple ? [] : null));
   const [visible, setVisible] = useState(false);
 
   const refEl = useRef(null);
@@ -100,7 +100,7 @@ function Select(props: SelectProps) {
   }, [props.value]);
 
   const isPlaceholder = useMemo(() => {
-    return value === undefined || value === null || JSON.stringify(value) === '[]';
+    return value === '' || value === undefined || value === null || JSON.stringify(value) === '[]';
   }, [value]);
 
   return (
