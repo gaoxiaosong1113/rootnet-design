@@ -97,7 +97,7 @@ function Popup(props: PopupProps): any {
 
   const [left, setLeft] = useState(null) as any;
   const [top, setTop] = useState(null) as any;
-  const [style, setStyle] = useState({});
+  const [style, setStyle] = useState({ transform: `translate(-100%, -100%)` }) as any;
   const [innerPosition, setInnerPosition] = useState(position);
   const [uid, setUid] = useState(uuid());
   const parent = useGetElementParent(refEl.current);
@@ -214,7 +214,7 @@ function Popup(props: PopupProps): any {
       };
     }
     setStyle(handleStyle());
-  }, [left, top, refEl.current, innerPosition]);
+  }, [left, top, innerPosition]);
 
   useEffect(() => {
     handleRePosition();
@@ -258,7 +258,7 @@ function Popup(props: PopupProps): any {
       }
       window.removeEventListener('resize', handleResize);
     };
-  }, [parent, visible, refEl.current]);
+  }, [parent, visible]);
 
   if (visible) {
     return ReactDOM.createPortal(
