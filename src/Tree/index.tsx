@@ -158,10 +158,10 @@ function TreeItem(props: any) {
               }
             }}
           >
-            {data.render ? data.render(data, index) : data[rowTitle]}
+            {data.render ? data.render(data, index, layer) : data[rowTitle]}
           </div>
         )}
-        {onRow && onRow(data)}
+        {onRow && onRow(data, index, layer)}
       </div>
       {open && child && (
         <TreeChildren {...props} key={index + layer + ''} data={data.children} layer={layer + 1} />
