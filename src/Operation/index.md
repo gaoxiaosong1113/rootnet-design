@@ -61,9 +61,11 @@ export default () => {
             <Operation.Item>注销</Operation.Item>
             <Operation.Popup component={<span>更多</span>}>
               <Operation.Item disabled>另存为pdf</Operation.Item>
-              <Operation.Item active>另存为jpg</Operation.Item>
-              <Operation.Item>另存为png</Operation.Item>
-              <Operation.Item>另存为gif</Operation.Item>
+              <Operation.Item onClick={() => console.log('另存为')} active>
+                另存为jpg
+              </Operation.Item>
+              <Operation.Item onClick={() => console.log('另存为')}>另存为png</Operation.Item>
+              <Operation.Item onClick={() => console.log('另存为')}>另存为gif</Operation.Item>
             </Operation.Popup>
           </Operation>
         </Col>

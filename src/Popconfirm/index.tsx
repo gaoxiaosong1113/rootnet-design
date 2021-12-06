@@ -9,7 +9,7 @@ import { prefix } from '../config';
 
 import { Icon, Button, Popup } from '../index';
 
-import { getOffsetLeft, getOffsetTop, uuid } from '../_util';
+import { getOffsetLeft, getOffsetTop } from '../_util';
 
 export interface PopconfirmProps {
   /**
@@ -99,13 +99,10 @@ function Content(props: any) {
 }
 
 function Popconfirm(props: PopconfirmProps) {
-  const { className, children, onConfirm, onCancel, onClose, position = 'top', ...prop } = props;
-
+  const { children, onConfirm, onCancel, onClose, position = 'top', ...prop } = props;
   const [visible, setVisible] = useState(false);
-  const [uid, setUid] = useState(uuid());
 
   const refEl = useRef(null);
-  const refPopup = useRef(null);
 
   function handleCancel(e: any) {
     e?.stopPropagation();
@@ -124,50 +121,31 @@ function Popconfirm(props: PopconfirmProps) {
   }
 
   function handleClose(e: any) {
-    console.log('关闭');
-    e?.stopPropagation();
     setVisible(false);
     if (onClose) {
       onClose(e);
     }
   }
 
-  // function handleClick(e: any) {
-  //   console.log('关闭')
-  //   if (!ReactDOM.findDOMNode(document.querySelectorAll(`.${prefix}-popconfirm-${uid}`)[0])?.contains(e.target)) {
-  //     // handleClose(e);
-  //   }
-  // }
-
-  // useEffect(() => {
-  //   document.body.addEventListener('click', handleClick);
-  //   return () => {
-  //     document.body.removeEventListener('click', handleClick);
-  //   };
-  // }, []);
-
   return (
-    <div
-      className={clsx(className, `${prefix}-popconfirm-target`)}
-      ref={refEl}
-      onClick={(event: any) => {
-        setVisible(true);
-        event.stopPropagation();
-      }}
-    >
-      {children}
+    <>
+      {React.cloneElement(children, {
+        onClick: (event: any) => {
+          setVisible(true);
+        },
+        className: `${prefix}-popconfirm-target`,
+        ref: refEl,
+      })}
       <Popup
         onClose={handleClose}
         visible={visible}
         refEl={refEl}
-        ref={refPopup}
         position={position}
         trigger={'click'}
-        className={`${prefix}-popconfirm-${uid}`}
       >
         <Content {...prop} position={position} onConfirm={handleConfirm} onCancel={handleCancel} />
       </Popup>
-    </div>
+    </>
   );
 }
 

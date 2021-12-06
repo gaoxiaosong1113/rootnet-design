@@ -85,11 +85,7 @@ export function OperationPopup(props: OperationPopupProps) {
       offset={13}
       position={position}
       targetHidden={true}
-      content={
-        <div className={clsx(`${prefix}-operation-popover`, {})} onClick={(event) => {}}>
-          {children}
-        </div>
-      }
+      content={<div className={clsx(`${prefix}-operation-popover`, {})}>{children}</div>}
       {...prop}
     >
       <div>{component || <Icon name="gengduo2" color="#5477ff" />}</div>
