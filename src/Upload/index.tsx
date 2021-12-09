@@ -21,7 +21,7 @@ import './index.less';
 import { prefix } from '../config';
 
 // 引入组件
-import { Icon, Image, Progress } from '../index';
+import { Icon, Image, Progress, Message } from '../index';
 
 // 引入工具类
 import { uuid, fileUpload } from '../_util';
@@ -73,6 +73,8 @@ export interface UploadFile {
 
 export interface UploadProps {
   /**
+   *
+   *
    * @description      类名
    * @default           -
    */
@@ -326,7 +328,6 @@ function Upload(props: UploadProps, ref: any) {
   function handleChange(event: any) {
     let files = event.target.files;
 
-    // 超出数量不做任何处理
     files = convertFiles(files);
 
     files.map((file: any) => {
@@ -414,7 +415,7 @@ function Upload(props: UploadProps, ref: any) {
 
       // 超出数量不做任何处理
       files = convertFiles(files);
-
+      console.log(files, 1010);
       files.map((file: any) => {
         handleFileListAdd(file, files);
       });
@@ -438,8 +439,17 @@ function Upload(props: UploadProps, ref: any) {
   }, []);
 
   function convertFiles(files: any) {
-    // 超出数量不做任何处理
     files = Object.values(files);
+    files = files.filter((item: any) => {
+      if (item.name && accept?.indexOf(item.name.split('.').pop()) != -1) {
+        return item;
+      } else {
+        Message.show({
+          content: `${item.name}文件格式不对，无法上传！`,
+          type: 'warning',
+        });
+      }
+    });
 
     if (maxCount !== undefined) {
       if (fileList.length > maxCount) {

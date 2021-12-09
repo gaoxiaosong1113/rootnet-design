@@ -1,10 +1,4 @@
-import React, {
-  useEffect,
-  useState,
-  ReactNode,
-  useRef,
-  useImperativeHandle,
-} from 'react';
+import React, { useEffect, useState, ReactNode, useRef, useImperativeHandle } from 'react';
 
 import clsx from 'clsx';
 
@@ -162,8 +156,7 @@ function Input(props: InputProps, ref: any) {
 
   const handleChange = (e: any) => {
     let val = e.target.value;
-    if (maxLength && val.length > maxLength)
-      e.target.value = val.slice(0, maxLength);
+    if (maxLength && val.length > maxLength) e.target.value = val.slice(0, maxLength);
     setValue(e.target.value);
     if (onChange) {
       onChange(e.target.value, e);
@@ -184,9 +177,8 @@ function Input(props: InputProps, ref: any) {
     }
   };
   const handleInput = (e: any) => {
-    setFocus(false);
     if (onInput) {
-      onInput(value, e);
+      onInput(e.target.value, e);
     }
   };
 
@@ -235,9 +227,7 @@ function Input(props: InputProps, ref: any) {
           <Icon name="shibai" size={14} />
         </div>
       )}
-      {affterIcon && (
-        <div className={clsx(`${prefix}-input-affterIcon`)}>{affterIcon}</div>
-      )}
+      {affterIcon && <div className={clsx(`${prefix}-input-affterIcon`)}>{affterIcon}</div>}
       {after && <div className={clsx(`${prefix}-input-after`)}>{after}</div>}
     </div>
   );
