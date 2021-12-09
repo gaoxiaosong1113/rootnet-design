@@ -620,7 +620,11 @@ function YearCalendar(props: any) {
                   [`${prefix}-calendar-time-item-${item.type}`]: item.type,
                   [`${prefix}-calendar-time-item-checked`]: value === item.value,
                 })}
-                onClick={() => checkedDate(item)}
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  checkedDate(item);
+                }}
               >
                 <span className={clsx(`${prefix}-calendar-time-item-content`, {})}>
                   {item.value}
@@ -708,7 +712,11 @@ function MonthCalendar(props: any) {
                 className={clsx(`${prefix}-calendar-time-item`, {
                   [`${prefix}-calendar-time-item-checked`]: checked,
                 })}
-                onClick={() => checkedDate(monthItem)}
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  checkedDate(monthItem);
+                }}
               >
                 <span className={clsx(`${prefix}-calendar-time-item-content`, {})}>{item}</span>
               </li>
