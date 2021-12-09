@@ -29,11 +29,14 @@
   }
 
   &-time-content {
+    min-width: 244px;
     .@{prefix}-calendar-time-item {
     }
   }
 
   &-year-content {
+    min-width: 244px;
+
     .@{prefix}-calendar-time-item {
       width: 33.3333333%;
       height: 54px;
@@ -46,6 +49,7 @@
   }
 
   &-month-content {
+    min-width: 244px;
     .@{prefix}-calendar-time-item {
       width: 33.3333333%;
       height: 54px;
@@ -58,6 +62,7 @@
   }
 
   &-quarter-content {
+    min-width: 244px;
     .@{prefix}-calendar-time-item {
       width: 25%;
       height: 54px;
@@ -105,8 +110,6 @@
     justify-content: center;
     text-align: center;
     line-height: 40px;
-    cursor: pointer;
-
     font-size: 12px;
     font-weight: 400;
     color: #15171f;
@@ -115,7 +118,13 @@
       margin-right: 10px;
     }
 
+    &-year-y,
     &-month {
+      cursor: pointer;
+
+      &:hover {
+        color: @primaryColor;
+      }
     }
   }
 
@@ -150,13 +159,12 @@
     &-item {
       display: inline-block;
       width: 14.285%;
-      height: 28px;
+      height: 32px;
       text-align: center;
       font-size: 12px;
       cursor: pointer;
-      // padding: 4px;
-      padding: 2px 4px;
-      margin: 2px 0;
+      padding: 2px 0px;
+
       &-next {
         color: #d0d1d9;
       }
@@ -182,7 +190,7 @@
         }
       }
 
-      &-checked {
+      &-checked &-content {
         border-radius: 2px;
         background: @primaryColor;
         color: #ffffff;
@@ -206,16 +214,34 @@
           border: 1px solid #5477ff;
         }
       }
+
+      &-date {
+        display: flex;
+        height: 100%;
+        width: 100%;
+        box-sizing: border-box;
+        cursor: pointer;
+        padding: 2px 0;
+        justify-content: center;
+      }
     }
 
     &-item-in-range {
-      background: #e8f0ff;
+      .@{prefix}-calendar-time-item-date {
+        background: #e8f0ff;
+      }
 
       &-hover {
-        background: #adc5ff;
+        .@{prefix}-calendar-time-item-date {
+          background: #adc5ff;
+        }
 
         .@{prefix}-calendar-time-item-content:hover {
           background: #adc5ff;
+        }
+
+        .@{prefix}-calendar-time-item-checked .@{prefix}-calendar-time-item-content {
+          background: @primaryColor;
         }
       }
     }
