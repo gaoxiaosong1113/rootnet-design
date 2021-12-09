@@ -110,6 +110,7 @@ export interface CalendarProps {
    * @default           -
    */
   onChange?: any;
+  onPanelModeFlagChange?: Function;
 }
 
 // 获取时间
@@ -213,6 +214,7 @@ function CalendarHead(props: any) {
     currentYearList,
     isShowPrev = true,
     isShowNext = true,
+    onPanelModeChange,
   } = props;
   const [currentYear, setCurrentYear] = useState(null) as any;
   const [currentMonth, setCurrentMonth] = useState(null) as any;
@@ -224,13 +226,15 @@ function CalendarHead(props: any) {
 
   function prevYear() {
     let date = new Date(currentTime.valueOf());
-    date.setFullYear((picker === 'year' ? currentYearList[0].value : currentYear) - 1);
+    date.setFullYear((picker === 'year' ? Number(currentYearList[0].value) : currentYear) - 1);
     onPanelChange(date);
   }
 
   function nextYear() {
     let date = new Date(currentTime.valueOf());
-    date.setFullYear((picker === 'year' ? currentYearList.slice(-1)[0].value : currentYear) + 1);
+    date.setFullYear(
+      (picker === 'year' ? Number(currentYearList.slice(-1)[0].value) : currentYear) + 1,
+    );
     onPanelChange(date);
   }
 
@@ -255,6 +259,18 @@ function CalendarHead(props: any) {
     setCurrentMonth(month);
   }, [currentTime]);
 
+  function handleYearPanelMode(e: any) {
+    e.preventDefault();
+    e.stopPropagation();
+    onPanelModeChange ? onPanelModeChange('year') : null;
+  }
+
+  function handleMonthPanelMode(e: any) {
+    e.preventDefault();
+    e.stopPropagation();
+    onPanelModeChange ? onPanelModeChange('month') : null;
+  }
+
   const yearText = useMemo(() => {
     return picker !== 'year'
       ? currentYear
@@ -273,26 +289,42 @@ function CalendarHead(props: any) {
       )}
       {showMonthPrev && (
         <div
-          className={clsx(`${prefix}-calendar-button`, `${prefix}-calendar-button-prev`)}
+          className={clsx(
+            'panel-mode',
+            `${prefix}-calendar-button`,
+            `${prefix}-calendar-button-prev`,
+          )}
           onClick={prevMonth}
         >
           <Icon size={12} color="#3A415C" name="zuo" />
         </div>
       )}
       <div className={clsx(`${prefix}-calendar-date`)}>
-        <div className={clsx(`${prefix}-calendar-date-year`)}>
-          <span>{yearText}</span>
+        <div
+          className={clsx('panel-mode', `${prefix}-calendar-date-year`, {
+            [`${prefix}-calendar-date-year-y`]: picker !== 'year',
+          })}
+          onClick={handleYearPanelMode}
+        >
+          <span className="panel-mode">{yearText}</span>
           {(showMonthPrev || showMonthNext) && '年'}
         </div>
         {(showMonthPrev || showMonthNext) && (
-          <div className={clsx(`${prefix}-calendar-date-month`)}>
-            <span>{currentMonth + 1}</span>月
+          <div
+            className={clsx('panel-mode', `${prefix}-calendar-date-month`)}
+            onClick={handleMonthPanelMode}
+          >
+            <span className="panel-mode">{currentMonth + 1}</span>月
           </div>
         )}
       </div>
       {showMonthNext && (
         <div
-          className={clsx(`${prefix}-calendar-button`, `${prefix}-calendar-button-next`)}
+          className={clsx(
+            'panel-mode',
+            `${prefix}-calendar-button`,
+            `${prefix}-calendar-button-next`,
+          )}
           onClick={nextMonth}
         >
           <Icon size={12} color="#3A415C" name="you" />
@@ -319,12 +351,16 @@ function DateCalendar(props: any) {
     currentTime,
     checkedDate,
     value,
+    panelModeValue,
     showHoverValues,
     onMouseEnterCell,
     onMouseLeaveCell,
+    onPanelModeFlagChange,
   } = props;
   const [toDay, setToDay] = useState(dateFormat(new Date(), 'YYYY-MM-DD')) as any;
   const [calendar, setCalendar] = useState([]) as any;
+  const [panelMode, setPanelMode] = useState('date') as any;
+  const [currentYear, setCurrentYear] = useState(null) as any;
 
   // 获取时间
   function getPrevDay(date: any, index: any) {
@@ -403,6 +439,11 @@ function DateCalendar(props: any) {
     setCalendar(rows);
   }, [currentTime]);
 
+  useEffect(() => {
+    let currentDate = new Date(value instanceof Array ? panelModeValue : value);
+    setCurrentYear(isDate(currentDate) ? currentDate.getFullYear() : '');
+  }, [value]);
+
   const isInRange = useCallback(
     (current: any) => {
       if (!(value instanceof Array)) return false;
@@ -422,6 +463,47 @@ function DateCalendar(props: any) {
     [showHoverValues],
   );
 
+  function onPanelModeChange(mode: any) {
+    onPanelModeFlagChange && onPanelModeFlagChange(true);
+    setPanelMode(mode);
+  }
+
+  function changeYearDate(date: any) {
+    let currentDate = new Date(currentTime.valueOf());
+    currentDate.setFullYear(date.value);
+    setPanelMode('date');
+    panelChange(currentDate, true);
+  }
+
+  function changeMonthDate(date: any) {
+    let currentDate = new Date(date.value);
+    setPanelMode('date');
+    panelChange(currentDate, true);
+  }
+
+  if (panelMode === 'month') {
+    return (
+      <MonthCalendar
+        currentTime={currentTime}
+        panelChange={panelChange}
+        checkedDate={changeMonthDate}
+        value={value instanceof Array ? panelModeValue : value}
+        onPanelModeFlagChange={onPanelModeFlagChange}
+      />
+    );
+  }
+
+  if (panelMode === 'year') {
+    return (
+      <YearCalendar
+        currentTime={currentTime}
+        panelChange={panelChange}
+        checkedDate={changeYearDate}
+        value={currentYear + ''}
+      />
+    );
+  }
+
   return (
     <div className={clsx(`${prefix}-calendar-time-content`)}>
       <CalendarHead
@@ -429,6 +511,7 @@ function DateCalendar(props: any) {
         isShowNext={isShowNext}
         currentTime={currentTime}
         onPanelChange={panelChange}
+        onPanelModeChange={onPanelModeChange}
         picker={'date'}
       />
       <div className={clsx(`${prefix}-calendar-body`)}>
@@ -461,13 +544,266 @@ function DateCalendar(props: any) {
                 onMouseEnter={() => onMouseEnterCell && onMouseEnterCell(item)}
                 onMouseLeave={() => onMouseLeaveCell && onMouseLeaveCell()}
               >
-                <span
-                  className={clsx(`${prefix}-calendar-time-item-content`, {
+                <div
+                  className={clsx(`${prefix}-calendar-time-item-date`, {
                     [`${prefix}-calendar-time-item-checked`]: selected && item.type === 'current',
-                    [`${prefix}-calendar-time-item-today`]: toDay === item.value,
                   })}
                 >
-                  {item.date.getDate()}
+                  <span
+                    className={clsx(`${prefix}-calendar-time-item-content`, {
+                      [`${prefix}-calendar-time-item-today`]: toDay === item.value,
+                    })}
+                  >
+                    {item.date.getDate()}
+                  </span>
+                </div>
+              </li>
+            );
+          })}
+        </ul>
+      </div>
+      <div className={clsx(`${prefix}-calendar-footer`)}></div>
+    </div>
+  );
+}
+
+// 年面板
+function YearCalendar(props: any) {
+  const { panelChange, currentTime, checkedDate, value } = props;
+
+  const [currentYearList, setCurrentYearList] = useState([]) as any;
+
+  useEffect(() => {
+    if (!currentTime) return;
+    let time = currentTime;
+    let year = time.getFullYear();
+    let yearLength = 10;
+    let yearList = [];
+
+    for (let i = 0; i < yearLength; i++) {
+      let y = getDay(`${year.toString().slice(0, -1)}${i}`, 1);
+      yearList.push({
+        type: 'current',
+        date: y,
+        value: `${year.toString().slice(0, -1)}${i}`,
+      });
+    }
+    yearList.unshift({
+      type: 'prev',
+      date: getDay((Number(yearList[0].value) - 1).toString(), 1),
+      value: (Number(yearList[0].value) - 1).toString(),
+    });
+
+    yearList.push({
+      type: 'next',
+      date: getDay((Number(yearList.slice(-1)[0].value) + 1).toString(), 1),
+      value: (Number(yearList.slice(-1)[0].value) + 1).toString(),
+    });
+    setCurrentYearList(yearList);
+  }, [currentTime]);
+
+  return (
+    <div className={clsx(`${prefix}-calendar-year-content`)}>
+      <CalendarHead
+        currentTime={currentTime}
+        onPanelChange={panelChange}
+        currentYearList={currentYearList}
+        picker={'year'}
+      />
+      <div className={clsx(`${prefix}-calendar-body`)}>
+        <ul className={clsx(`${prefix}-calendar-time`)}>
+          {currentYearList.map((item: any, index: any) => {
+            return (
+              <li
+                key={index}
+                className={clsx(`${prefix}-calendar-time-item`, {
+                  [`${prefix}-calendar-time-item-${item.type}`]: item.type,
+                  [`${prefix}-calendar-time-item-checked`]: value === item.value,
+                })}
+                onClick={() => checkedDate(item)}
+              >
+                <span className={clsx(`${prefix}-calendar-time-item-content`, {})}>
+                  {item.value}
+                </span>
+              </li>
+            );
+          })}
+        </ul>
+      </div>
+      <div className={clsx(`${prefix}-calendar-footer`)}></div>
+    </div>
+  );
+}
+
+// 月面板
+function MonthCalendar(props: any) {
+  const { panelChange, currentTime, checkedDate, value, onPanelModeFlagChange } = props;
+  const [currentMonthList, setCurrentMonthList] = useState(MONTH) as any;
+  const [currentYear, setCurrentYear] = useState(null) as any;
+  const [activeYear, setActiveYear] = useState(null) as any;
+  const [panelMode, setPanelMode] = useState('month') as any;
+
+  useEffect(() => {
+    if (!currentTime) return;
+    let time = currentTime;
+    let year = time.getFullYear();
+
+    setCurrentYear(year);
+  }, [currentTime]);
+
+  useEffect(() => {
+    let currentDate = new Date(value);
+    setActiveYear(isDate(currentDate) ? currentDate.getFullYear() : '');
+  }, [value]);
+
+  function onPanelModeChange(mode: any) {
+    onPanelModeFlagChange && onPanelModeFlagChange(true);
+    setPanelMode(mode);
+  }
+
+  function changeYearDate(date: any) {
+    let currentDate = new Date(currentTime.valueOf());
+    currentDate.setFullYear(date.value);
+    setPanelMode('month');
+    panelChange(currentDate);
+  }
+
+  if (panelMode === 'year') {
+    return (
+      <YearCalendar
+        currentTime={currentTime}
+        panelChange={panelChange}
+        checkedDate={changeYearDate}
+        value={activeYear + ''}
+      />
+    );
+  }
+
+  return panelMode === 'year' ? (
+    <YearCalendar />
+  ) : (
+    <div className={clsx(`${prefix}-calendar-month-content`)}>
+      <CalendarHead
+        currentTime={currentTime}
+        onPanelChange={panelChange}
+        picker={'month'}
+        onPanelModeChange={onPanelModeChange}
+      />
+      <div className={clsx(`${prefix}-calendar-body`)}>
+        <ul className={clsx(`${prefix}-calendar-time`)}>
+          {currentMonthList.map((item: any, index: any) => {
+            let checked =
+              value &&
+              value.split('-')[0] == currentYear &&
+              value.split('-')[1] === formaterZero(index + 1);
+            let monthItem = {
+              type: 'current',
+              date: getDay(`${currentYear}-${formaterZero(index + 1)}`, 1),
+              value: `${currentYear}-${formaterZero(index + 1)}`,
+            };
+
+            return (
+              <li
+                key={index}
+                className={clsx(`${prefix}-calendar-time-item`, {
+                  [`${prefix}-calendar-time-item-checked`]: checked,
+                })}
+                onClick={() => checkedDate(monthItem)}
+              >
+                <span className={clsx(`${prefix}-calendar-time-item-content`, {})}>{item}</span>
+              </li>
+            );
+          })}
+        </ul>
+      </div>
+      <div className={clsx(`${prefix}-calendar-footer`)}></div>
+    </div>
+  );
+}
+
+// 季度面板
+function QuarterCalendar(props: any) {
+  const { panelChange, currentTime, checkedDate, value, onPanelModeFlagChange } = props;
+
+  const [currentYear, setCurrentYear] = useState(null) as any;
+  const [activeYear, setActiveYear] = useState(null) as any;
+  const [quarter, seQuarter] = useState([
+    [0, 2],
+    [3, 5],
+    [6, 8],
+    [9, 11],
+  ]) as any;
+  const [panelMode, setPanelMode] = useState('quarter') as any;
+
+  useEffect(() => {
+    if (!currentTime) return;
+    let time = currentTime;
+    let year = time.getFullYear();
+
+    setCurrentYear(year);
+  }, [currentTime]);
+
+  useEffect(() => {
+    let currentDate = new Date(value);
+    setActiveYear(isDate(currentDate) ? currentDate.getFullYear() : '');
+  }, [value]);
+
+  function onPanelModeChange(mode: any) {
+    onPanelModeFlagChange && onPanelModeFlagChange(true);
+    setPanelMode(mode);
+  }
+
+  function changeYearDate(date: any) {
+    let currentDate = new Date(currentTime.valueOf());
+    currentDate.setFullYear(date.value);
+    setPanelMode('quarter');
+    panelChange(currentDate);
+  }
+
+  if (panelMode === 'year') {
+    return (
+      <YearCalendar
+        currentTime={currentTime}
+        panelChange={panelChange}
+        checkedDate={changeYearDate}
+        value={activeYear + ''}
+      />
+    );
+  }
+
+  return (
+    <div className={clsx(`${prefix}-calendar-quarter-content`)}>
+      <CalendarHead
+        currentTime={currentTime}
+        onPanelChange={panelChange}
+        picker={'quarter'}
+        onPanelModeChange={onPanelModeChange}
+      />
+      <div className={clsx(`${prefix}-calendar-body`)}>
+        <ul className={clsx(`${prefix}-calendar-time`)}>
+          {quarter.map((item: any, index: any) => {
+            const currentValue = value && value.split('-');
+            const currentValueMonth = currentValue && formaterZero(currentValue[1]);
+            let checked =
+              value &&
+              currentValue[0] == currentYear &&
+              formaterZero(item[0] + 1) <= currentValueMonth &&
+              currentValueMonth <= formaterZero(item[1] + 1);
+            let quarterItem = {
+              type: 'current',
+              date: getDay(`${currentYear}-${formaterZero(item[0] + 1)}`, 1),
+              value: `${currentYear}-Q${index + 1}`,
+            };
+            return (
+              <li
+                key={index}
+                className={clsx(`${prefix}-calendar-time-item`, {
+                  [`${prefix}-calendar-time-item-checked`]: checked,
+                })}
+                onClick={() => checkedDate(quarterItem)}
+              >
+                <span className={clsx(`${prefix}-calendar-time-item-content`, {})}>
+                  Q{index + 1}
                 </span>
               </li>
             );
@@ -480,7 +816,7 @@ function DateCalendar(props: any) {
 }
 
 function RangeDatePanel(props: any) {
-  const { currentTime, panelChange, checkedDate, value } = props;
+  const { currentTime, panelChange, checkedDate, value, onPanelModeFlagChange } = props;
 
   const [date1, setDate1] = useState(value?.[0] || null);
   const [date2, setDate2] = useState(value?.[1] || null);
@@ -513,25 +849,19 @@ function RangeDatePanel(props: any) {
     // let selectDate = selectTime.concat();
 
     // 第一次选中
-    if ((!date1 && !date2) || !isDate(date1) || !isDate(date2)) {
+    if (selectValue.length === 2 || (!date1 && !date2) || (!isDate(date1) && !isDate(date2))) {
       selectValue = [item.value];
-    }
-
-    if (date1 && !date2 && isBeforeTimes(item.value, date1)) {
+    } else if (date1 && isBeforeTimes(item.value, date1)) {
       selectValue = [item.value, value?.[0]];
-    } else if (date1 && !date2 && isAfterTimes(item.value, date1)) {
+    } else if (date1 && isAfterTimes(item.value, date1)) {
       selectValue = [value?.[0], item.value];
-    } else if (date2 && isAfterTimes(item.value, date2)) {
-      selectValue = [value?.[1], item.value];
-    } else if (date1 && date2 && isBeforeTimes(item.value, date2)) {
-      selectValue = [item.value, value?.[1]];
     }
 
     setSelectTime(selectValue);
     checkedDate({
       type: 'current',
       value: selectValue,
-      date: [new Date(value?.[0]), new Date(value?.[1])],
+      date: [new Date(selectValue?.[0]), new Date(selectValue?.[1])],
     });
   }
 
@@ -559,14 +889,12 @@ function RangeDatePanel(props: any) {
   function onMouseEnterCell(item: any) {
     let cloneHoverValues = showHoverValues.concat();
 
-    if (date1 && !date2 && isBeforeTimes(item.value, date1)) {
+    if (date1 && date2) {
+      cloneHoverValues = [];
+    } else if (date1 && isBeforeTimes(item.value, date1)) {
       cloneHoverValues = [item.value, value?.[0]];
-    } else if (date1 && !date2 && isAfterTimes(item.value, date1)) {
+    } else if (date1 && isAfterTimes(item.value, date1)) {
       cloneHoverValues = [value?.[0], item.value];
-    } else if (date2 && isAfterTimes(item.value, date2)) {
-      cloneHoverValues = [value?.[1], item.value];
-    } else if (date1 && date2 && isBeforeTimes(item.value, date2)) {
-      cloneHoverValues = [item.value, value?.[1]];
     }
 
     setShowHoverValues(cloneHoverValues);
@@ -580,40 +908,35 @@ function RangeDatePanel(props: any) {
       <DateCalendar
         isShowNext={false}
         currentTime={currentTime1}
-        panelChange={(date: any) => onPanelChange(true, date)}
+        panelChange={(date: any, changeType: boolean = true) => onPanelChange(changeType, date)}
         checkedDate={onCheckedDate}
         value={value}
+        panelModeValue={value?.[0]}
         showHoverValues={showHoverValues}
         onMouseEnterCell={onMouseEnterCell}
         onMouseLeaveCell={onMouseLeaveCell}
+        onPanelModeFlagChange={onPanelModeFlagChange}
       />
       <DateCalendar
         isShowPrev={false}
         currentTime={currentTime2}
-        panelChange={(date: any) => onPanelChange(false, date)}
+        panelChange={(date: any, changeType: boolean = false) => onPanelChange(changeType, date)}
         checkedDate={onCheckedDate}
         value={value}
+        panelModeValue={value?.[1]}
         showHoverValues={showHoverValues}
         onMouseEnterCell={onMouseEnterCell}
         onMouseLeaveCell={onMouseLeaveCell}
+        onPanelModeFlagChange={onPanelModeFlagChange}
       />
     </>
   );
 }
 
 export function Calendar(props: CalendarProps) {
-  const { onChange, value, picker = 'date' } = props;
+  const { onChange, value, picker = 'date', onPanelModeFlagChange } = props;
 
   const [currentTime, setCurrentTime] = useState(null) as any;
-  const [currentYear, setCurrentYear] = useState(null) as any;
-  const [currentYearList, setCurrentYearList] = useState([]) as any;
-  const [currentMonthList, setCurrentMonthList] = useState(MONTH) as any;
-  const [quarter, seQuarter] = useState([
-    [0, 2],
-    [3, 5],
-    [6, 8],
-    [9, 11],
-  ]) as any;
 
   useEffect(() => {
     let currentDate = picker === 'dateRange' ? new Date(value?.[0]) : new Date(value);
@@ -623,33 +946,8 @@ export function Calendar(props: CalendarProps) {
   useEffect(() => {
     if (!currentTime) return;
     let time = currentTime;
-    let year = time.getFullYear();
-    let yearLength = 10;
-    let yearList = [];
 
     setCurrentTime(time);
-    setCurrentYear(year);
-
-    for (let i = 0; i < yearLength; i++) {
-      let y = getDay(`${year.toString().slice(0, -1)}${i}`, 1);
-      yearList.push({
-        type: 'current',
-        date: y,
-        value: `${year.toString().slice(0, -1)}${i}`,
-      });
-    }
-    yearList.unshift({
-      type: 'prev',
-      date: getDay((Number(yearList[0].value) - 1).toString(), 1),
-      value: (Number(yearList[0].value) - 1).toString(),
-    });
-
-    yearList.push({
-      type: 'next',
-      date: getDay((Number(yearList.slice(-1)[0].value) + 1).toString(), 1),
-      value: (Number(yearList.slice(-1)[0].value) + 1).toString(),
-    });
-    setCurrentYearList(yearList);
   }, [currentTime]);
 
   function checkedDate(data: any) {
@@ -659,6 +957,7 @@ export function Calendar(props: CalendarProps) {
   }
 
   function panelChange(date: any) {
+    onPanelModeFlagChange && onPanelModeFlagChange(true);
     setCurrentTime(date);
   }
 
@@ -674,6 +973,7 @@ export function Calendar(props: CalendarProps) {
           panelChange={panelChange}
           checkedDate={checkedDate}
           value={value}
+          onPanelModeFlagChange={onPanelModeFlagChange}
         />
       )}
       {picker === 'dateRange' && (
@@ -682,117 +982,35 @@ export function Calendar(props: CalendarProps) {
           panelChange={panelChange}
           checkedDate={checkedDate}
           value={value}
+          onPanelModeFlagChange={onPanelModeFlagChange}
         />
       )}
       {picker === 'year' && (
-        <div className={clsx(`${prefix}-calendar-year-content`)}>
-          <CalendarHead
-            currentTime={currentTime}
-            onPanelChange={panelChange}
-            currentYearList={currentYearList}
-            picker={picker}
-          />
-          <div className={clsx(`${prefix}-calendar-body`)}>
-            <ul className={clsx(`${prefix}-calendar-time`)}>
-              {currentYearList.map((item: any, index: any) => {
-                return (
-                  <li
-                    key={index}
-                    className={clsx(`${prefix}-calendar-time-item`, {
-                      [`${prefix}-calendar-time-item-${item.type}`]: item.type,
-                    })}
-                    onClick={() => checkedDate(item)}
-                  >
-                    <span
-                      className={clsx(`${prefix}-calendar-time-item-content`, {
-                        [`${prefix}-calendar-time-item-checked`]: value === item.value,
-                      })}
-                    >
-                      {item.value}
-                    </span>
-                  </li>
-                );
-              })}
-            </ul>
-          </div>
-          <div className={clsx(`${prefix}-calendar-footer`)}></div>
-        </div>
+        <YearCalendar
+          currentTime={currentTime}
+          panelChange={panelChange}
+          checkedDate={checkedDate}
+          value={value}
+          onPanelModeFlagChange={onPanelModeFlagChange}
+        />
       )}
       {picker === 'month' && (
-        <div className={clsx(`${prefix}-calendar-month-content`)}>
-          <CalendarHead currentTime={currentTime} onPanelChange={panelChange} picker={picker} />
-          <div className={clsx(`${prefix}-calendar-body`)}>
-            <ul className={clsx(`${prefix}-calendar-time`)}>
-              {currentMonthList.map((item: any, index: any) => {
-                let checked =
-                  value &&
-                  value.split('-')[0] == currentYear &&
-                  value.split('-')[1] === formaterZero(index + 1);
-                let monthItem = {
-                  type: 'current',
-                  date: getDay(`${currentYear}-${formaterZero(index + 1)}`, 1),
-                  value: `${currentYear}-${formaterZero(index + 1)}`,
-                };
-
-                return (
-                  <li
-                    key={index}
-                    className={clsx(`${prefix}-calendar-time-item`, {})}
-                    onClick={() => checkedDate(monthItem)}
-                  >
-                    <span
-                      className={clsx(`${prefix}-calendar-time-item-content`, {
-                        [`${prefix}-calendar-time-item-checked`]: checked,
-                      })}
-                    >
-                      {item}
-                    </span>
-                  </li>
-                );
-              })}
-            </ul>
-          </div>
-          <div className={clsx(`${prefix}-calendar-footer`)}></div>
-        </div>
+        <MonthCalendar
+          currentTime={currentTime}
+          panelChange={panelChange}
+          checkedDate={checkedDate}
+          value={value}
+          onPanelModeFlagChange={onPanelModeFlagChange}
+        />
       )}
       {picker === 'quarter' && (
-        <div className={clsx(`${prefix}-calendar-quarter-content`)}>
-          <CalendarHead currentTime={currentTime} onPanelChange={panelChange} picker={picker} />
-          <div className={clsx(`${prefix}-calendar-body`)}>
-            <ul className={clsx(`${prefix}-calendar-time`)}>
-              {quarter.map((item: any, index: any) => {
-                const currentValue = value && value.split('-');
-                const currentValueMonth = currentValue && formaterZero(currentValue[1]);
-                let checked =
-                  value &&
-                  currentValue[0] == currentYear &&
-                  formaterZero(item[0] + 1) <= currentValueMonth &&
-                  currentValueMonth <= formaterZero(item[1] + 1);
-                let quarterItem = {
-                  type: 'current',
-                  date: getDay(`${currentYear}-${formaterZero(item[0] + 1)}`, 1),
-                  value: `${currentYear}-Q${index + 1}`,
-                };
-                return (
-                  <li
-                    key={index}
-                    className={clsx(`${prefix}-calendar-time-item`, {})}
-                    onClick={() => checkedDate(quarterItem)}
-                  >
-                    <span
-                      className={clsx(`${prefix}-calendar-time-item-content`, {
-                        [`${prefix}-calendar-time-item-checked`]: checked,
-                      })}
-                    >
-                      Q{index + 1}
-                    </span>
-                  </li>
-                );
-              })}
-            </ul>
-          </div>
-          <div className={clsx(`${prefix}-calendar-footer`)}></div>
-        </div>
+        <QuarterCalendar
+          currentTime={currentTime}
+          panelChange={panelChange}
+          checkedDate={checkedDate}
+          value={value}
+          onPanelModeFlagChange={onPanelModeFlagChange}
+        />
       )}
     </div>
   );
@@ -802,11 +1020,14 @@ function DatePickerContent(props: DatePickerProps) {
   const { className, value, picker = 'date', onChange, onCancel } = props;
 
   const refEl = useRef<any>(null);
+  const panelModeFlagRef = useRef<any>(null);
 
   function handleClick(e: any) {
     if (!refEl.current) return;
-    if (!ReactDOM.findDOMNode(refEl.current)?.contains(e.target)) {
+    if (!ReactDOM.findDOMNode(refEl.current)?.contains(e.target) && !panelModeFlagRef.current) {
       handleCancel(e);
+    } else {
+      onPanelModeFlagChange(false);
     }
   }
 
@@ -817,19 +1038,29 @@ function DatePickerContent(props: DatePickerProps) {
     };
   }, []);
 
+  function onPanelModeFlagChange(panelModeFlag: any) {
+    panelModeFlagRef.current = panelModeFlag;
+  }
+
   function handleCancel(e: any) {
     onCancel && onCancel();
   }
 
   function handleChange(v: any, date: any) {
     onChange && onChange(v, date);
+    onPanelModeFlagChange(false);
   }
 
   return (
     <div className={clsx(`${prefix}-select-warp`, className)} ref={refEl}>
       <div className={clsx(`${prefix}-select`, {})} style={{}}>
         <div className={clsx(`${prefix}-select-body`, {})}>
-          <Calendar picker={picker} onChange={handleChange} value={value} />
+          <Calendar
+            picker={picker}
+            onChange={handleChange}
+            value={value}
+            onPanelModeFlagChange={onPanelModeFlagChange}
+          />
         </div>
       </div>
       <div className={clsx(`${prefix}-select-mask`, {})} onClick={handleCancel}></div>
@@ -881,7 +1112,7 @@ function DatePickerValue(props: DatePickerProps) {
     return placeholder;
   }
 
-  return picker !== 'dateRange' ? '请选择' : '' + placeholderText[picker];
+  return (picker !== 'dateRange' ? '请选择' : '') + placeholderText[picker];
 }
 
 DatePicker.Calendar = Calendar;
