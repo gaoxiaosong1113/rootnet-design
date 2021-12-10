@@ -138,7 +138,7 @@ function DatePicker(props: DatePickerProps) {
   }, [props.value]);
 
   const isPlaceholder = useMemo(() => {
-    return value === undefined || value === null || JSON.stringify(value) === '[]';
+    return value === '' || value === undefined || value === null || JSON.stringify(value) === '[]';
   }, [value]);
 
   return (
@@ -1104,7 +1104,7 @@ function DatePickerValue(props: DatePickerProps) {
     return `${startText} ~ ${endText}`;
   }
 
-  if (value !== undefined && value !== null) {
+  if (value !== '' && value !== undefined && value !== null) {
     if (picker === 'dateRange') return rangeDateFormat();
     return dateFormat(value, format || formatRules[picker]);
   }
