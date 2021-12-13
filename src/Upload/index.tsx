@@ -237,6 +237,8 @@ function Upload(props: UploadProps, ref: any) {
 
   const [fileList, setFileList] = useState(props.fileList || []);
 
+  const fileListRef = useRef([]) as any;
+
   useEffect(() => {
     if (value !== undefined) {
       setFileList(value);
@@ -339,6 +341,7 @@ function Upload(props: UploadProps, ref: any) {
   }
 
   function handleChange(event: any) {
+    fileListRef.current = fileList;
     let files = event.target.files;
 
     files = convertFiles(files);
@@ -360,8 +363,8 @@ function Upload(props: UploadProps, ref: any) {
         uuid: uuid(),
         file: file,
       };
-      fileList.push(uploadData);
-      setFileList([...fileList]);
+      fileListRef.current.push(uploadData);
+      setFileList([...fileListRef.current]);
       handleUploadFile(uploadData, files);
     };
   }
@@ -371,10 +374,8 @@ function Upload(props: UploadProps, ref: any) {
     if (beforeUpload) {
       if (!(await beforeUpload(file, files))) return;
     }
-
     if (action) {
-      let newFileList = [...fileList];
-      let upItem = newFileList.filter((item: any) => item.uuid == file.uuid)[0];
+      let upItem = fileListRef.current.filter((item: any) => item.uuid == file.uuid)[0];
       upItem.status = 'uploading';
       fileUpload(
         file,
@@ -383,7 +384,7 @@ function Upload(props: UploadProps, ref: any) {
           onUploadProgress(progressEvent: any) {
             const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
             upItem.percent = percentCompleted;
-            setFileList(newFileList);
+            setFileList(fileListRef.current);
           },
         },
         action,
@@ -391,17 +392,18 @@ function Upload(props: UploadProps, ref: any) {
         .then((res: any) => {
           upItem.status = 'success';
           upItem.url = res.data;
-          setFileList(newFileList);
-          onChange?.(newFileList);
+          console.log(fileListRef.current);
+          setFileList([...fileListRef.current]);
+          onChange?.(fileListRef.current);
         })
         .catch((error: any) => {
           upItem.status = 'error';
           upItem.percent = 0;
-          setFileList(newFileList);
-          onChange?.(newFileList);
+          setFileList([...fileListRef.current]);
+          onChange?.(fileListRef.current);
         });
     } else {
-      onChange?.(fileList);
+      onChange?.(fileListRef.current);
     }
   }
 

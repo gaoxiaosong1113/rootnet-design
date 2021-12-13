@@ -9,6 +9,8 @@ group:
 
 ## SmallEditor 富文本
 
+> 实验阶段
+
 示例：
 
 <code src="./dome.tsx"></code>
