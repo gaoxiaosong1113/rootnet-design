@@ -13,16 +13,7 @@ group:
 
 ```tsx
 import React, { useState } from 'react';
-import {
-  Form,
-  Input,
-  Select,
-  Radio,
-  Checkbox,
-  Button,
-  Icon,
-  Grid,
-} from 'rootnet-design';
+import { Form, Input, Select, Radio, Checkbox, Button, Icon, Grid } from 'rootnet-design';
 const { Row, Col } = Grid;
 
 export default () => {
@@ -54,10 +45,7 @@ export default () => {
                     },
                   ]}
                 >
-                  <Input
-                    placeholder="请输入用户名"
-                    icon={<Icon name="Rootnet" />}
-                  />
+                  <Input placeholder="请输入用户名" icon={<Icon name="Rootnet" />} />
                 </Form.Item>
               </Col>
               <Col span={8}>
@@ -75,10 +63,7 @@ export default () => {
                     },
                   ]}
                 >
-                  <Input
-                    placeholder="请输入电话号码"
-                    icon={<Icon name="Rootnet" />}
-                  />
+                  <Input placeholder="请输入电话号码" icon={<Icon name="Rootnet" />} />
                 </Form.Item>
               </Col>
               <Col span={8}>
@@ -95,8 +80,7 @@ export default () => {
                   <Select
                     options={[
                       {
-                        label:
-                          '选项一选项一选项一选项一选项一选项一选项一选项一',
+                        label: '选项一选项一选项一选项一选项一选项一选项一选项一',
                         value: 1,
                       },
                       {
@@ -172,16 +156,7 @@ Inline：
 
 ```tsx
 import React, { useState } from 'react';
-import {
-  Form,
-  Input,
-  Select,
-  Radio,
-  Checkbox,
-  Button,
-  Icon,
-  Grid,
-} from 'rootnet-design';
+import { Form, Input, Select, Radio, Checkbox, Button, Icon, Grid } from 'rootnet-design';
 const { Row, Col } = Grid;
 
 export default () => {
@@ -213,10 +188,7 @@ export default () => {
                 },
               ]}
             >
-              <Input
-                placeholder="请输入用户名"
-                icon={<Icon name="Rootnet" />}
-              />
+              <Input placeholder="请输入用户名" icon={<Icon name="Rootnet" />} />
             </Form.Item>
             <Form.Item
               label="电话号码"
@@ -232,10 +204,7 @@ export default () => {
                 },
               ]}
             >
-              <Input
-                placeholder="请输入电话号码"
-                icon={<Icon name="Rootnet" />}
-              />
+              <Input placeholder="请输入电话号码" icon={<Icon name="Rootnet" />} />
             </Form.Item>
             <Form.Item
               label="协议"
@@ -350,16 +319,7 @@ Vertical：
 
 ```tsx
 import React, { useState } from 'react';
-import {
-  Form,
-  Input,
-  Select,
-  Radio,
-  Checkbox,
-  Button,
-  Icon,
-  Grid,
-} from 'rootnet-design';
+import { Form, Input, Select, Radio, Checkbox, Button, Icon, Grid } from 'rootnet-design';
 const { Row, Col } = Grid;
 
 export default () => {
@@ -391,10 +351,7 @@ export default () => {
                 },
               ]}
             >
-              <Input
-                placeholder="请输入用户名"
-                icon={<Icon name="Rootnet" />}
-              />
+              <Input placeholder="请输入用户名" icon={<Icon name="Rootnet" />} />
             </Form.Item>
             <Form.Item
               label="电话号码"
@@ -410,10 +367,7 @@ export default () => {
                 },
               ]}
             >
-              <Input
-                placeholder="请输入电话号码"
-                icon={<Icon name="Rootnet" />}
-              />
+              <Input placeholder="请输入电话号码" icon={<Icon name="Rootnet" />} />
             </Form.Item>
             <Form.Item
               label="协议"
@@ -528,16 +482,7 @@ Horizontal：
 
 ```tsx
 import React, { useState } from 'react';
-import {
-  Form,
-  Input,
-  Select,
-  Radio,
-  Checkbox,
-  Button,
-  Icon,
-  Grid,
-} from 'rootnet-design';
+import { Form, Input, Select, Radio, Checkbox, Button, Icon, Grid, Upload } from 'rootnet-design';
 const { Row, Col } = Grid;
 
 export default () => {
@@ -569,10 +514,7 @@ export default () => {
                 },
               ]}
             >
-              <Input
-                placeholder="请输入用户名"
-                icon={<Icon name="Rootnet" />}
-              />
+              <Input placeholder="请输入用户名" icon={<Icon name="Rootnet" />} />
             </Form.Item>
             <Form.Item
               label="电话号码"
@@ -588,10 +530,7 @@ export default () => {
                 },
               ]}
             >
-              <Input
-                placeholder="请输入电话号码"
-                icon={<Icon name="Rootnet" />}
-              />
+              <Input placeholder="请输入电话号码" icon={<Icon name="Rootnet" />} />
             </Form.Item>
             <Form.Item
               label="协议"
@@ -661,6 +600,20 @@ export default () => {
                 placeholder={'默认下拉框'}
               />
             </Form.Item>
+            <Form.Item
+              label="文件"
+              name="file"
+              rules={[
+                {
+                  required: true,
+                  message: '请选择',
+                },
+              ]}
+            >
+              <Upload listType="picture" accept=".png,.jpg,.jpeg,.gif">
+                <Button icon="shangchuan">上传文件</Button>
+              </Upload>
+            </Form.Item>
             <Form.Item>
               <Button type="primary" htmlType="submit">
                 提交
@@ -678,16 +631,7 @@ ref
 
 ```tsx
 import React, { useState, useRef } from 'react';
-import {
-  Form,
-  Input,
-  Select,
-  Radio,
-  Checkbox,
-  Button,
-  Icon,
-  Grid,
-} from 'rootnet-design';
+import { Form, Input, Select, Radio, Checkbox, Button, Icon, Grid } from 'rootnet-design';
 const { Row, Col } = Grid;
 
 export default () => {
@@ -722,10 +666,7 @@ export default () => {
                 },
               ]}
             >
-              <Input
-                placeholder="请输入用户名"
-                icon={<Icon name="Rootnet" />}
-              />
+              <Input placeholder="请输入用户名" icon={<Icon name="Rootnet" />} />
             </Form.Item>
             <Form.Item
               label="电话号码"
@@ -741,10 +682,7 @@ export default () => {
                 },
               ]}
             >
-              <Input
-                placeholder="请输入电话号码"
-                icon={<Icon name="Rootnet" />}
-              />
+              <Input placeholder="请输入电话号码" icon={<Icon name="Rootnet" />} />
             </Form.Item>
             <Form.Item
               label="协议"
@@ -837,16 +775,7 @@ ref 校验
 
 ```tsx
 import React, { useState, useRef } from 'react';
-import {
-  Form,
-  Input,
-  Select,
-  Radio,
-  Checkbox,
-  Button,
-  Icon,
-  Grid,
-} from 'rootnet-design';
+import { Form, Input, Select, Radio, Checkbox, Button, Icon, Grid } from 'rootnet-design';
 const { Row, Col } = Grid;
 
 export default () => {
@@ -884,10 +813,7 @@ export default () => {
                 },
               ]}
             >
-              <Input
-                placeholder="请输入用户名"
-                icon={<Icon name="Rootnet" />}
-              />
+              <Input placeholder="请输入用户名" icon={<Icon name="Rootnet" />} />
             </Form.Item>
             <Form.Item
               label="电话号码"
@@ -903,10 +829,7 @@ export default () => {
                 },
               ]}
             >
-              <Input
-                placeholder="请输入电话号码"
-                icon={<Icon name="Rootnet" />}
-              />
+              <Input placeholder="请输入电话号码" icon={<Icon name="Rootnet" />} />
             </Form.Item>
           </Form>
         </Col>
@@ -940,16 +863,7 @@ export default () => {
 
 ```tsx
 import React, { useState, useRef } from 'react';
-import {
-  Form,
-  Input,
-  Select,
-  Radio,
-  Checkbox,
-  Button,
-  Icon,
-  Grid,
-} from 'rootnet-design';
+import { Form, Input, Select, Radio, Checkbox, Button, Icon, Grid } from 'rootnet-design';
 const { Row, Col } = Grid;
 
 export default () => {
@@ -1012,10 +926,7 @@ export default () => {
                 },
               ]}
             >
-              <Input
-                placeholder="请输入用户名"
-                icon={<Icon name="Rootnet" />}
-              />
+              <Input placeholder="请输入用户名" icon={<Icon name="Rootnet" />} />
             </Form.Item>
             <Form.Item
               label="电话号码"
@@ -1031,10 +942,7 @@ export default () => {
                 },
               ]}
             >
-              <Input
-                placeholder="请输入电话号码"
-                icon={<Icon name="Rootnet" />}
-              />
+              <Input placeholder="请输入电话号码" icon={<Icon name="Rootnet" />} />
             </Form.Item>
           </Form>
         </Col>
@@ -1056,6 +964,116 @@ export default () => {
             }}
           >
             校验数据
+          </Button>
+        </Col>
+      </Row>
+    </div>
+  );
+};
+```
+
+条件判断
+
+```tsx
+import React, { useState, useRef } from 'react';
+import { Form, Input, Select, Radio, Checkbox, Button, Icon, Grid } from 'rootnet-design';
+const { Row, Col } = Grid;
+
+export default () => {
+  const ref = useRef(null);
+
+  const [user, setUser] = useState('1');
+
+  return (
+    <div>
+      <Row gutter={[16, 16]}>
+        <Col span={24}>
+          <Form
+            layout={'horizontal'}
+            name={'n3'}
+            initialValues={{
+              checkbox: user,
+            }}
+            onSubmit={(form) => {
+              console.log('校验成功');
+              console.log(form);
+            }}
+            onError={(error) => {
+              console.log('校验错误');
+              console.log(error);
+            }}
+            onValuesChange={(changeValues, allValues) => {
+              console.log(changeValues, allValues);
+            }}
+            ref={ref}
+          >
+            {user == 1 && (
+              <Form.Item
+                label="用户名1"
+                name="username"
+                rules={[
+                  {
+                    required: true,
+                    validate: (value, values) => {
+                      console.log(value, values, 1111);
+                      return value.length > 10;
+                    },
+                    message: '我是自定义校验，长度不能小于10',
+                  },
+                ]}
+              >
+                <Input
+                  placeholder="请输入用户名"
+                  icon={<Icon name="Rootnet" />}
+                  onChange={(value) => {
+                    console.log(value);
+                  }}
+                />
+              </Form.Item>
+            )}
+            {user == 2 && (
+              <Form.Item
+                label="用户名2"
+                name="username2"
+                rules={[
+                  {
+                    required: true,
+                    validate: (value, values) => {
+                      console.log(value, values);
+                      return value.length > 10;
+                    },
+                    message: '我是自定义校验，长度不能小于10',
+                  },
+                ]}
+              >
+                <Input placeholder="请输入用户名" icon={<Icon name="Rootnet" />} />
+              </Form.Item>
+            )}
+            <Form.Item
+              label="选项"
+              name="checkbox"
+              rules={[
+                {
+                  required: true,
+                  message: '请输入电话号码',
+                },
+              ]}
+            >
+              <Radio.Group onChange={(value) => setUser(value)}>
+                <Radio value="1">用户1</Radio>
+                <Radio value="2">用户2</Radio>
+              </Radio.Group>
+            </Form.Item>
+          </Form>
+        </Col>
+        <Col span={24}>
+          <Button
+            type="primary"
+            onClick={() => {
+              ref.current.onSubmit();
+            }}
+          >
+            提交
           </Button>
         </Col>
       </Row>

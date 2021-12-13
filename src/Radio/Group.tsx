@@ -30,6 +30,12 @@ export interface EadioProps {
   checked?: any;
 
   /**
+   * @description      form中使用
+   * @default           -
+   */
+  value?: any;
+
+  /**
    * @description      是否禁用按钮
    * @default           false
    */
@@ -47,9 +53,7 @@ export const GroupContext = React.createContext({} as any);
 function Group(props: EadioProps) {
   const { className, children, onChange } = props;
 
-  const [checked, setChecked] = useState(
-    props.checked === undefined ? null : props.checked,
-  );
+  const [checked, setChecked] = useState(props.checked === undefined ? null : props.checked);
 
   function handleChange(e: any, v: any) {
     setChecked(v);
@@ -61,6 +65,10 @@ function Group(props: EadioProps) {
   useEffect(() => {
     setChecked(props.checked);
   }, [props.checked]);
+
+  useEffect(() => {
+    setChecked(props.value);
+  }, [props.value]);
 
   const context = {
     checked,

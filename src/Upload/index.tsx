@@ -119,6 +119,12 @@ export interface UploadProps {
   fileList?: Array<UploadFile>;
 
   /**
+   * @description      form 组件使用
+   * @default           -
+   */
+  value?: any;
+
+  /**
    * @description      自定义上传列表项
    * @default           -
    */
@@ -219,6 +225,7 @@ function Upload(props: UploadProps, ref: any) {
     onDrop,
     onPreview,
     onRemove,
+    value,
     drag,
     ...prop
   } = props;
@@ -229,6 +236,12 @@ function Upload(props: UploadProps, ref: any) {
   useImperativeHandle(ref, () => uploadFile.current);
 
   const [fileList, setFileList] = useState(props.fileList || []);
+
+  useEffect(() => {
+    if (value !== undefined) {
+      setFileList(value);
+    }
+  }, [value]);
 
   const operation = useCallback(
     (uploadItem) => {
@@ -379,18 +392,16 @@ function Upload(props: UploadProps, ref: any) {
           upItem.status = 'success';
           upItem.url = res.data;
           setFileList(newFileList);
-          if (onChange) {
-            onChange(newFileList);
-          }
+          onChange?.(newFileList);
         })
         .catch((error: any) => {
           upItem.status = 'error';
           upItem.percent = 0;
           setFileList(newFileList);
-          if (onChange) {
-            onChange(newFileList);
-          }
+          onChange?.(newFileList);
         });
+    } else {
+      onChange?.(fileList);
     }
   }
 

@@ -226,17 +226,8 @@ export interface FormItemProps {
 }
 
 export const Item = (props: FormItemProps, ref: any) => {
-  const {
-    className,
-    label,
-    name,
-    children,
-    rules,
-    labelWidth = 200,
-    ...prop
-  } = props;
-  const { onChange, onFocus, onBlur, formValue, formRef, layout } =
-    useContext(FormContext);
+  const { className, label, name, children, rules, labelWidth = 200, ...prop } = props;
+  const { onChange, onFocus, onBlur, formValue, formRef, layout } = useContext(FormContext);
   const [value, setValue] = useState(formValue[name]);
   const [required, setRequired] = useState(false);
   const [error, setError] = useState([] as Array<any>);
@@ -266,6 +257,9 @@ export const Item = (props: FormItemProps, ref: any) => {
     if (onChange && name) {
       onChange(name, value);
     }
+    return () => {
+      delete formRef[name];
+    };
   }, []);
 
   useEffect(() => {
@@ -293,13 +287,7 @@ export const Item = (props: FormItemProps, ref: any) => {
           }
 
           // 验证长度
-          if (
-            item.max &&
-            v !== undefined &&
-            v !== null &&
-            v !== '' &&
-            item.max < v.length
-          ) {
+          if (item.max && v !== undefined && v !== null && v !== '' && item.max < v.length) {
             return {
               max: item.max,
               message: `最多输入${item.max}个字符`,
@@ -307,13 +295,7 @@ export const Item = (props: FormItemProps, ref: any) => {
           }
 
           // 验证长度
-          if (
-            item.min &&
-            v !== undefined &&
-            v !== null &&
-            v !== '' &&
-            item.min > v.length
-          ) {
+          if (item.min && v !== undefined && v !== null && v !== '' && item.min > v.length) {
             return {
               max: item.min,
               message: `最少输入${item.min}个字符`,
@@ -373,9 +355,7 @@ export const Item = (props: FormItemProps, ref: any) => {
         })}
         style={layout === 'horizontal' ? { width: labelWidth } : {}}
       >
-        {required && (
-          <span className={clsx(`${prefix}-form-item-required`)}>*</span>
-        )}
+        {required && <span className={clsx(`${prefix}-form-item-required`)}>*</span>}
         {label}
       </label>
       <div className={clsx(`${prefix}-form-item-control`)}>
@@ -383,22 +363,20 @@ export const Item = (props: FormItemProps, ref: any) => {
           name,
           value,
           onChange: (e: any) => {
+            console.log(e);
             handleChange(e);
             children.props.onChange?.(e);
           },
         })}
         {error && error.length && error.length > 0 ? (
-          <div className={clsx(`${prefix}-form-item-error`)}>
-            {error[0].message}
-          </div>
+          <div className={clsx(`${prefix}-form-item-error`)}>{error[0].message}</div>
         ) : null}
       </div>
     </div>
   );
 };
 
-export interface CompoundedComponent
-  extends React.ForwardRefExoticComponent<any> {
+export interface CompoundedComponent extends React.ForwardRefExoticComponent<any> {
   Item: any;
 }
 
