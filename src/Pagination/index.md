@@ -21,7 +21,7 @@ export default () => {
     <div>
       <Row gutter={[16, 16]}>
         <Col span={24}>
-          <Pagination simple />
+          <Pagination simple total={70} />
         </Col>
       </Row>
     </div>
@@ -29,7 +29,7 @@ export default () => {
 };
 ```
 
-示例：小尺寸分页（动态传入 totalPage）
+示例：小尺寸分页（动态传入 total）
 
 ```tsx
 import React, { useState, useEffect } from 'react';
@@ -38,19 +38,12 @@ const { Row, Col } = Grid;
 
 export default () => {
   const [num, setNum] = useState(100);
-  setTimeout(() => {
-    setNum(2);
-  }, 2000);
+
   return (
     <div>
       <Row gutter={[16, 16]}>
         <Col span={24}>
-          <Pagination
-            totalPage={num}
-            totalNum={1000}
-            pageSize={20}
-            size="small"
-          />
+          <Pagination total={100000} pageSize={20} size="small" />
         </Col>
       </Row>
     </div>
@@ -70,13 +63,7 @@ export default () => {
     <div>
       <Row gutter={[16, 16]}>
         <Col span={24}>
-          <Pagination
-            totalPage={100}
-            totalNum={1000}
-            pageSize={30}
-            next="下一页"
-            prev="上一页"
-          />
+          <Pagination total={1000} pageSize={30} next="下一页" prev="上一页" />
         </Col>
       </Row>
     </div>
@@ -96,7 +83,7 @@ export default () => {
     <div>
       <Row gutter={[16, 16]}>
         <Col span={24}>
-          <Pagination totalPage={100} totalNum={1000} pageSize={40} disabled />
+          <Pagination total={1000} pageSize={40} disabled />
         </Col>
       </Row>
     </div>
@@ -118,19 +105,18 @@ export default () => {
   const onSizeChange = (page, pageSize) => {
     console.log(page, pageSize);
   };
-  const totalNum = 0;
+  const total = 1000;
   return (
     <div>
       <Row gutter={[16, 16]}>
         <Col span={24}>
           <Pagination
-            totalPage={100}
-            totalNum={totalNum}
+            total={total}
             pageSize={50}
             onChange={onChange}
             onSizeChange={onSizeChange}
             selector={[15, 25, 35]}
-            totalDOM={() => `共${totalNum}个用户`}
+            renderTotal={() => `共${total}个用户`}
           />
         </Col>
       </Row>
@@ -138,5 +124,3 @@ export default () => {
   );
 };
 ```
-
-<API />

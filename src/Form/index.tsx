@@ -95,9 +95,7 @@ export const Form = (props: FormProps, ref: any) => {
   function handleSubmit(e: any) {
     e && e.preventDefault();
     if (!validation()) return;
-    if (onSubmit) {
-      onSubmit(value);
-    }
+    onSubmit?.(value);
     return false;
   }
 
@@ -130,6 +128,10 @@ export const Form = (props: FormProps, ref: any) => {
     setValue: (name: string, v: any) => {
       value[name] = v;
       setValue({ ...value });
+    },
+    reset: () => {
+      setValue({});
+      onValuesChange?.({}, {});
     },
   }));
 
@@ -359,14 +361,15 @@ export const Item = (props: FormItemProps, ref: any) => {
         {label}
       </label>
       <div className={clsx(`${prefix}-form-item-control`)}>
-        {React.cloneElement(children, {
-          name,
-          value,
-          onChange: (e: any) => {
-            console.log(e);
-            handleChange(e);
-            children.props.onChange?.(e);
-          },
+        {React.Children.map(children, (item) => {
+          return React.cloneElement(item, {
+            name,
+            value,
+            onChange: (e: any) => {
+              handleChange(e);
+              item.props.onChange?.(e);
+            },
+          });
         })}
         {error && error.length && error.length > 0 ? (
           <div className={clsx(`${prefix}-form-item-error`)}>{error[0].message}</div>

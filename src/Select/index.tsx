@@ -140,6 +140,7 @@ function Select(props: SelectProps) {
           setVisible(false);
           onCancel && onCancel();
         }}
+        interval={4}
         scrollRef={scrollRef}
         targetHidden={false}
         visible={visible}

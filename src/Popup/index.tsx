@@ -63,6 +63,12 @@ export interface PopupProps {
   offset?: any;
 
   /**
+   * @description      自定义间隔
+   * @default           12
+   */
+  interval?: any;
+
+  /**
    * @description      箭头将指向目标元素的中心
    * @default           false
    */
@@ -82,6 +88,7 @@ function Popup(props: PopupProps): any {
     trigger,
     targetHidden = false,
     offset = 0,
+    interval = 12,
     scrollRef,
     arrowPointAtCenter = false,
     ...prop
@@ -109,39 +116,39 @@ function Popup(props: PopupProps): any {
       refHeight,
       top: {
         x: left + refElWidth / 2 - refWidth / 2,
-        y: top - 12 - refHeight,
+        y: top - interval - refHeight,
       },
       'top-left': {
         x: arrowPointAtCenter ? left - offset + refElWidth / 2 - 16 : left - offset,
-        y: top - 12 - refHeight,
+        y: top - interval - refHeight,
       },
       'top-right': {
         x: arrowPointAtCenter
           ? left + refElWidth / 2 - refWidth + 21 + offset
           : left + refElWidth - refWidth + offset,
-        y: top - 12 - refHeight,
+        y: top - interval - refHeight,
       },
       left: {
-        x: left - refWidth - 12,
+        x: left - refWidth - interval,
         y: top + refElHeight / 2 - refHeight / 2,
       },
       right: {
-        x: left + refElWidth + 12,
+        x: left + refElWidth + interval,
         y: top + refElHeight / 2 - refHeight / 2,
       },
       bottom: {
         x: left + refElWidth / 2 - refWidth / 2,
-        y: top + refElHeight + 12,
+        y: top + refElHeight + interval,
       },
       'bottom-left': {
-        x: arrowPointAtCenter ? left - offset + refElWidth / 2 - 16 : left - offset,
-        y: top + refElHeight + 12,
+        x: arrowPointAtCenter ? left - offset + refElWidth / 2 - interval - 4 : left - offset,
+        y: top + refElHeight + interval,
       },
       'bottom-right': {
         x: arrowPointAtCenter
           ? left + refElWidth / 2 - refWidth + 21 + offset
           : left + refElWidth - refWidth + offset,
-        y: top + refElHeight + 12,
+        y: top + refElHeight + interval,
         width: refElWidth,
         height: refElHeight,
       },

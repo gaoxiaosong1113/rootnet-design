@@ -235,15 +235,19 @@ function Upload(props: UploadProps, ref: any) {
 
   useImperativeHandle(ref, () => uploadFile.current);
 
-  const [fileList, setFileList] = useState(props.fileList || []);
+  const [fileList, setFileList] = useState(props.fileList || []) as any;
 
   const fileListRef = useRef([]) as any;
 
   useEffect(() => {
     if (value !== undefined) {
-      setFileList(value);
+      setFileList(value || []);
     }
   }, [value]);
+
+  useEffect(() => {
+    setFileList(props.fileList || []);
+  }, [props.fileList]);
 
   const operation = useCallback(
     (uploadItem) => {

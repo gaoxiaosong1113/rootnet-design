@@ -12,7 +12,7 @@
     button,
     input,
     select,
-    .c-pagination-select {
+    .@{prefix}-pagination-select {
       height: 100%;
       padding: 0;
       margin: 0;
@@ -20,63 +20,69 @@
       background-color: #fff;
       text-align: center;
     }
+
+    .@{prefix}-pagination-item {
+      color: @fontColor;
+      padding: 0 12px;
+      margin: 0 5px;
+      border-radius: 3px;
+      font-size: 12px;
+      cursor: pointer;
+      border: 1px solid #e8e7e7;
+      transition: all 0.1s linear;
+      &:hover {
+        border: 1px solid @activeColor;
+      }
+      &:disabled {
+        cursor: not-allowed;
+        border: 1px solid #e8e7e7;
+      }
+    }
+
+    .@{prefix}-pagination-page-item {
+      min-width: 32px;
+      padding: 0 8px;
+    }
+
+    .@{prefix}-pagination-active {
+      color: #fff;
+      background-color: @activeColor;
+      border: 1px solid @activeColor;
+    }
+    &.@{prefix}-pagination-pageSize {
+      // margin-top: 2px;
+      .@{prefix}-pagination-select {
+        padding: 0;
+      }
+    }
   }
 
   @fontColor: #15171f;
   @activeColor: #5477ff;
 
-  .c-pagination-item {
-    color: @fontColor;
-    padding: 0 12px;
-    margin: 0 5px;
-    border-radius: 3px;
-    font-size: 12px;
-    cursor: pointer;
-    border: 1px solid #e8e7e7;
-    transition: all 0.1s linear;
-  }
-
-  .c-pagination-item:hover {
-    border: 1px solid @activeColor;
-  }
-
-  .c-pagination-active {
-    color: #fff;
-    background-color: @activeColor;
-    border: 1px solid @activeColor;
-  }
-
-  .c-pagination-prev,
-  .c-pagination-next {
+  &-prev,
+  &-next {
     outline: none;
     background-color: transparent;
-  }
-
-  // 禁用
-  .c-pagination-prev:disabled,
-  .c-pagination-next:disabled {
-    cursor: not-allowed;
-  }
-
-  .c-pagination-item:disabled {
-    cursor: not-allowed;
-    border: 1px solid #e8e7e7;
+    // 禁用
+    &:disabled,
+    &:disabled {
+      cursor: not-allowed;
+    }
   }
 
   /* 省略号 */
-  .c-pagination-point-next,
-  .c-pagination-point-prev {
+  &-point-next,
+  &-point-prev {
     // position: relative;
-    width: 40px;
+    width: 32px;
     border: 1px solid transparent;
+    &::after {
+      content: '···';
+    }
   }
 
-  .c-pagination-right::after,
-  .c-pagination-left::after {
-    content: '···';
-  }
-
-  .c-pagination-point-next:hover::after {
+  &-point-next:hover::after {
     content: '»';
     font-size: 14px;
     font-family: '黑体';
@@ -85,7 +91,7 @@
     line-height: 20px;
   }
 
-  .c-pagination-point-prev:hover::after {
+  &-point-prev:hover::after {
     content: '«';
     font-size: 14px;
     font-family: '黑体';
@@ -93,15 +99,15 @@
     color: @activeColor;
   }
 
-  .c-pagination-pageSize {
+  &-pageSize {
     .@{prefix}-select-target {
       text-align: left;
       min-width: 100px;
     }
   }
 
-  .c-pagination-toPage {
-    margin: 0 10px;
+  &-toPage {
+    margin: 0 4px;
     font-size: 12px;
 
     input {
@@ -110,7 +116,7 @@
     }
   }
 
-  .c-pagination-totalNum {
+  &-totalNum {
     height: 100%;
     margin: 0 8px;
     border-color: transparent;
@@ -118,39 +124,44 @@
     font-size: 12px;
     color: @fontColor;
   }
-}
 
-// 禁用
-.@{prefix}-pagination-disabled {
-  cursor: not-allowed;
+  // 禁用
+  &-disabled {
+    cursor: not-allowed;
 
-  li {
-    button,
-    input,
-    select,
-    .c-pagination-select {
-      background-color: #f5f5f5 !important;
-      color: #00000040 !important;
+    .@{prefix}-pagination-select {
+      cursor: not-allowed !important;
+    }
+
+    li {
+      button,
+      input,
+      select,
+      .@{prefix}-pagination-select {
+        background-color: #f5f5f5 !important;
+        color: #00000040 !important;
+      }
+    }
+
+    .@{prefix}-pagination-active,
+    .@{prefix}-pagination-select {
+      background-color: #d9d9d9 !important;
+      border: 1px solid #e8e7e7 !important;
     }
   }
 
-  .c-pagination-active,
-  .c-pagination-select {
-    background-color: #d9d9d9 !important;
-    border: 1px solid #e8e7e7 !important;
-  }
-}
-
-// 小尺寸
-.@{prefix}-pagination-small {
-  height: 24px;
-
-  .c-pagination-totalNum,
-  .c-pagination-select {
-    line-height: 24px;
-  }
-
-  .c-pagination-pageSize {
-    margin-top: 2px;
+  // 小尺寸
+  &-small {
+    height: 24px;
+    li {
+      .@{prefix}-pagination-page-item {
+        min-width: 24px;
+        padding: 0 4px;
+      }
+    }
+    .@{prefix}-pagination-totalNum,
+    .@{prefix}-pagination-select {
+      line-height: 24px;
+    }
   }
 }

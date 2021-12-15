@@ -764,6 +764,15 @@ export default () => {
           >
             提交
           </Button>
+          <Button
+            type="default"
+            onClick={() => {
+              console.log(ref);
+              ref.current.reset();
+            }}
+          >
+            重置
+          </Button>
         </Col>
       </Row>
     </div>

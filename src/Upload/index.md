@@ -347,12 +347,30 @@ export default () => {
 拖拽上传或 listType 类型为 picture-card 自定义显示文字
 
 ```tsx
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Upload, Grid, Button, Icon } from 'rootnet-design';
 
 const { Row, Col } = Grid;
 
 export default () => {
+  const [fileList, setFileList] = useState([]);
+  useEffect(() => {
+    let time = setTimeout(() => {
+      setFileList([
+        {
+          uuid: '-1',
+          name: 'image.png',
+          status: 'success',
+          percent: 10,
+          url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
+        },
+      ]);
+    }, 1000);
+    return () => {
+      clearTimeout(time);
+    };
+  }, []);
+
   return (
     <div>
       <Row gutter={[16, 16]}>
@@ -362,15 +380,7 @@ export default () => {
             accept=".png,.jpg,.jpeg,.gif"
             maxCount={2}
             uploadText={'自定义文字'}
-            fileList={[
-              {
-                uuid: '-1',
-                name: 'image.png',
-                status: 'success',
-                percent: 10,
-                url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-              },
-            ]}
+            fileList={fileList}
           ></Upload>
         </Col>
         <Col span={12}>

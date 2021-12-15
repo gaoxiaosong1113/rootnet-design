@@ -1,5 +1,5 @@
 // 引入react依赖
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import ReactDOM from 'react-dom';
 
 // 引入第三方依赖
@@ -22,30 +22,24 @@ export interface PaginationProps {
   className?: string;
   /*
     props参数枚举
-    totalPage 总页数  number
+    total 总页数  number
     totalNum 总条数 number
-    onChange 页码或 pageSize2 改变的回调，参数是改变后的页码及每页条数 fun
+    onChange 页码或 pageSize 改变的回调，参数是改变后的页码及每页条数 fun
     onSizeChange 每页显示多少条回调 参数是改变后的页码及每页条数 fun
     prev 上一页(组件、字符串)
     next 下一页(组件、字符串)
     simple 简单分页 boolean 默认false
     pageSizeShow 是否展示 pageSize 切换器 boolean 默认true
     toPageShow 是否可以快速跳转至某页 boolean 默认true
-    totalNumShow 数据总量是否展示 boolean 默认true
+    totalShow 数据总量是否展示 boolean 默认true
     disabled 禁用分页 boolean 默认false
     size 当为 small 时，是小尺寸分页
     */
   /**
-   * @description      总页数
+   * @description      总条数
    * @default           100
    */
-  totalPage: number;
-
-  /**
-   * @description      总条数
-   * @default           -
-   */
-  totalNum: number;
+  total: number;
 
   /**
    * @description      每页显示多少条
@@ -54,7 +48,7 @@ export interface PaginationProps {
   pageSize: number;
 
   /**
-   * @description      页码或 pageSize2 改变的回调，参数是改变后的页码及每页条数
+   * @description      页码或 pageSize 改变的回调，参数是改变后的页码及每页条数
    * @default           -
    */
   onChange?: Function;
@@ -98,7 +92,7 @@ export interface PaginationProps {
    * @description      数据总量是否展示(简单分页不展示)
    * @default           true
    */
-  totalNumShow?: boolean;
+  totalShow?: boolean;
 
   /**
    * @description      禁用分页
@@ -122,7 +116,7 @@ export interface PaginationProps {
    * @description      数据总数显示
    * @default           null
    */
-  totalDOM?: Function;
+  renderTotal?: Function;
 
   children?: React.ReactChild;
 }
@@ -130,115 +124,123 @@ export interface PaginationProps {
 function Pagination(props: PaginationProps) {
   const {
     className,
-    totalPage,
-    totalNum,
-    pageSize,
+    total,
     onChange,
     onSizeChange,
     simple = false,
     pageSizeShow = true,
     toPageShow = true,
-    totalNumShow = true,
+    totalShow = true,
     disabled,
     size,
     selector,
-    totalDOM,
+    renderTotal,
   } = props;
-  const [now, setNow] = useState(1); //*当前页码
-  const [leftStepper, setLeftStepper] = useState(false); //*左侧的省略号
-  const [rightStepper, setRightStepper] = useState(false); //*右侧的省略号
-  const [node, setNode] = useState([] as any); //*节点渲染数组
-  const [pageSize2, setPageSize2] = useState(pageSize || 10); //每页显示多少条
+  const [pageIndex, setPageIndex] = useState(1); //*当前页码
+  const [pageSize, setPageSize] = useState(props.pageSize || 10); //每页显示多少条
   const [toPage, setToPage] = useState(null as any); //跳至多少页
-  // const pageSizeRecent = useRef(''); // 最新pageSize值
-  // 指定数组
-  const list = (len: any) => [...new Array(len + 1).keys()];
+  const [showItem, setShowItem] = useState(7); // 最多显示多少个
 
-  useEffect(
-    function () {
-      watcher(now);
-    },
-    [totalPage],
-  );
+  const totalPage = useMemo(() => {
+    return Math.ceil(total / pageSize);
+  }, [pageSize, total]);
 
-  // 渲染展示的分页
-  const watcher = useCallback(
-    (now) => {
-      setLeftStepper(now - 4 > 0 && totalPage > 5);
-      setRightStepper(now + 4 < totalPage && totalPage > 6);
+  const list = useMemo(() => {
+    if (typeof total !== 'number') {
+      console.warn('total 必须为number类型');
+      return [];
+    }
+    if (totalPage <= showItem) {
+      return Array.from(Array(totalPage), (v, k) => k + 1);
+    }
+    let all = Array.from(Array(totalPage), (v, k) => k + 1) as any;
 
-      // 不够5页时显示
-      if (totalPage < 6) {
-        setNode(list(totalPage).splice(2));
-        return;
-      }
-      // 只有一页时显示
-      if (totalPage <= 1) {
-        setNode([]);
-        return;
-      }
-
-      if (now < 4) {
-        setNode([2, 3, 4, 5]);
-      } else if (now > totalPage - 4) {
-        setNode([
-          totalPage - 5,
-          totalPage - 4,
-          totalPage - 3,
-          totalPage - 2,
-          totalPage - 1,
-        ]);
-      } else {
-        setNode([now - 2, now - 1, now, now + 1, now + 2]);
-      }
-    },
-    [totalPage],
-  );
+    if (totalPage > showItem && pageIndex <= 5) {
+      return all
+        .slice(0, 5)
+        .concat([
+          {
+            type: 'next',
+            scope: all.slice(5, -1),
+          },
+        ])
+        .concat(all.slice(-1));
+    }
+    if (totalPage > showItem && pageIndex + 3 < all.slice(-1)[0]) {
+      return all
+        .slice(0, 1)
+        .concat([
+          {
+            type: 'prev',
+            scope: all.slice(1, pageIndex - 2),
+          },
+        ])
+        .concat(all.slice(pageIndex - 2, pageIndex + 1))
+        .concat([
+          {
+            type: 'next',
+            scope: all.slice(pageIndex + 2, -2),
+          },
+        ])
+        .concat(all.slice(-1));
+    }
+    if (totalPage > showItem && pageIndex + 3 >= all.slice(-1)[0]) {
+      return all
+        .slice(0, 1)
+        .concat([
+          {
+            type: 'prev',
+            scope: all.slice(1, pageIndex - 2),
+          },
+        ])
+        .concat(all.slice(all.length - 5));
+    }
+  }, [pageIndex, pageSize, total, totalPage]);
 
   // 页数change
   const pageChanging = useCallback(
     (num) => {
-      setNow(num);
-      watcher(num);
-      onChange && onChange(num, pageSize2);
+      setPageIndex(num);
+      onChange?.(num, pageSize);
     },
-    [now, totalPage],
+    [pageIndex, pageSize, total],
   );
 
   // 上一页
   const onPrev = useCallback(() => {
-    if (now - 1 < 1) return;
-    pageChanging(now - 1);
-  }, [now]);
+    if (pageIndex - 1 < 1) return;
+    pageChanging(pageIndex - 1);
+  }, [pageIndex]);
 
   // 下一页
   const onNext = useCallback(() => {
-    if (now + 1 > totalPage) return;
-    pageChanging(now + 1);
-  }, [now, totalPage]);
+    if (pageIndex + 1 > totalPage) return;
+    pageChanging(pageIndex + 1);
+  }, [pageIndex, total]);
 
   // 左右展开跳组事件
   const onSetStep = useCallback(
     (distance) => {
-      if (now + distance <= 1) {
+      console.log(pageIndex, totalPage);
+      if (pageIndex + distance <= 1) {
         pageChanging(1);
-      } else if (now + distance > totalPage) {
+      } else if (pageIndex + distance > totalPage) {
         pageChanging(totalPage);
       } else {
-        pageChanging(now + distance);
+        pageChanging(pageIndex + distance);
       }
     },
-    [now],
+    [pageIndex],
   );
 
   // 每页多少条
   const pageSizeChange = useCallback(
     (value) => {
-      setPageSize2(+value);
-      onChange && onChange(now, +value);
-      onSizeChange && onSizeChange(now, +value);
+      setPageSize(+value);
+      onChange && onChange(pageIndex, +value);
+      onSizeChange && onSizeChange(pageIndex, +value);
     },
-    [pageSize2],
+    [pageSize],
   );
 
   // 跳页处理
@@ -254,9 +256,9 @@ function Pagination(props: PaginationProps) {
   // 跳转页数失去焦点事件
   const toPageBlur = useCallback(() => {
     if (!toPage) return;
-    setNow(toPage);
+    setPageIndex(toPage);
     pageChanging(toPage);
-    onChange && onChange(toPage, pageSize2);
+    onChange && onChange(toPage, pageSize);
   }, [toPage]);
 
   return (
@@ -269,93 +271,52 @@ function Pagination(props: PaginationProps) {
       {/* 上一页 */}
       <li onClick={onPrev}>
         <button
-          className="c-pagination-item c-pagination-prev"
-          disabled={now == 1 || disabled}
+          className={clsx(`${prefix}-pagination-item`, `${prefix}-pagination-prev`)}
+          disabled={pageIndex == 1 || disabled}
         >
           {props.prev || '<'}
         </button>
       </li>
-      {/* 第一页 */}
-      <li>
-        <button
-          onClick={pageChanging.bind(null, 1)}
-          className={
-            now == 1
-              ? 'c-pagination-item c-pagination-active'
-              : 'c-pagination-item'
-          }
-          disabled={disabled}
-        >
-          1
-        </button>
-      </li>
-      {/* 左侧展开前进 */}
-      {leftStepper && (
-        <li>
-          <button
-            className="c-pagination-item c-pagination-point-prev c-pagination-left"
-            onClick={() => onSetStep(-5)}
-            disabled={disabled}
-          ></button>
-        </li>
-      )}
-      {/* 显示的页码 */}
-      {node.map(function (num: any, index: any) {
-        return (
+      {list.map((item: any, index: any) =>
+        typeof item === 'number' ? (
           <li key={index}>
             <button
-              className={
-                now == num
-                  ? 'c-pagination-item c-pagination-active'
-                  : 'c-pagination-item'
-              }
+              className={clsx(`${prefix}-pagination-item`, `${prefix}-pagination-page-item`, {
+                [`${prefix}-pagination-active`]: pageIndex == item,
+              })}
               key={index}
-              onClick={pageChanging.bind(null, num)}
+              onClick={() => pageChanging(item)}
               disabled={disabled}
             >
-              {num}
+              {item}
             </button>
           </li>
-        );
-      })}
-      {/* 右侧展开前进 */}
-      {rightStepper && (
-        <li>
-          <button
-            className="c-pagination-item c-pagination-point-next c-pagination-right"
-            onClick={() => onSetStep(5)}
-            disabled={disabled}
-          ></button>
-        </li>
-      )}
-      {/* 尾页 */}
-      {totalPage > 5 && (
-        <li>
-          <button
-            onClick={pageChanging.bind(null, totalPage)}
-            className={
-              now == totalPage
-                ? 'c-pagination-item c-pagination-active'
-                : 'c-pagination-item'
-            }
-            disabled={disabled}
-          >
-            {totalPage}
-          </button>
-        </li>
+        ) : (
+          <li key={index}>
+            <button
+              className={clsx(
+                `${prefix}-pagination-item`,
+                `${prefix}-pagination-page-item`,
+                `${prefix}-pagination-point-${item.type}`,
+              )}
+              onClick={() => onSetStep(item.type === 'next' ? +5 : -5)}
+              disabled={disabled}
+            ></button>
+          </li>
+        ),
       )}
       {/* 下一页 */}
       <li onClick={onNext}>
         <button
-          className="c-pagination-item c-pagination-next"
-          disabled={now == totalPage || disabled}
+          className={clsx(`${prefix}-pagination-item`, `${prefix}-pagination-next`)}
+          disabled={pageIndex == totalPage || disabled}
         >
           {props.next || '>'}
         </button>
       </li>
       {/* 每页显示多少条 */}
       {!simple && pageSizeShow && (
-        <li className="c-pagination-pageSize">
+        <li className={clsx(`${prefix}-pagination-pageSize`)}>
           {!Array.isArray(selector) && (
             <Select
               options={[
@@ -376,7 +337,7 @@ function Pagination(props: PaginationProps) {
                   value: 100,
                 },
               ]}
-              className="c-pagination-item c-pagination-select"
+              className={clsx(`${prefix}-pagination-item`, `${prefix}-pagination-select`)}
               placeholder={`${pageSize}条每页`}
               disabled={disabled}
               onChange={pageSizeChange}
@@ -390,7 +351,7 @@ function Pagination(props: PaginationProps) {
                   value: item,
                 };
               })}
-              className="c-pagination-item c-pagination-select"
+              className={clsx(`${prefix}-pagination-item`, `${prefix}-pagination-select`)}
               placeholder={`${pageSize}条/页`}
               disabled={disabled}
               onChange={pageSizeChange}
@@ -399,11 +360,11 @@ function Pagination(props: PaginationProps) {
         </li>
       )}
       {/* 跳转页码 */}
-      {!simple && toPageShow && totalPage != 1 && (
-        <li className="c-pagination-toPage">
-          跳至
+      {!simple && toPageShow && (
+        <li className={clsx(`${prefix}-pagination-toPage`)}>
+          <span>跳至</span>
           <input
-            className="c-pagination-item"
+            className={clsx(`${prefix}-pagination-item`)}
             type="text"
             value={toPage || ''}
             onBlur={toPageBlur}
@@ -416,12 +377,12 @@ function Pagination(props: PaginationProps) {
         </li>
       )}
       {/* 数据总条数 */}
-      {!simple && totalNumShow && !totalDOM && (
-        <li className="c-pagination-totalNum">共 {totalNum || '0'} 条</li>
+      {!simple && totalShow && !renderTotal && (
+        <li className={clsx(`${prefix}-pagination-totalNum`)}>共 {total || '0'} 条</li>
       )}
       {/* 数据总条数 */}
-      {!simple && totalNumShow && totalDOM && (
-        <li className="c-pagination-totalNum">{totalDOM()}</li>
+      {!simple && totalShow && renderTotal && (
+        <li className={clsx(`${prefix}-pagination-totalNum`)}>{renderTotal()}</li>
       )}
     </ul>
   );
