@@ -485,7 +485,7 @@ function DateCalendar(props: any) {
     return (
       <MonthCalendar
         currentTime={currentTime}
-        panelChange={panelChange}
+        panelChange={(date: any) => panelChange(date, true)}
         checkedDate={changeMonthDate}
         value={value instanceof Array ? panelModeValue : value}
         onPanelModeFlagChange={onPanelModeFlagChange}
@@ -497,7 +497,7 @@ function DateCalendar(props: any) {
     return (
       <YearCalendar
         currentTime={currentTime}
-        panelChange={panelChange}
+        panelChange={(date: any) => panelChange(date, true)}
         checkedDate={changeYearDate}
         value={currentYear + ''}
       />
