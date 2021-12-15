@@ -268,49 +268,57 @@ function Upload(props: UploadProps, ref: any) {
   );
 
   const fileListJSX = useMemo(() => {
-    return fileList.map((item, index) => {
-      if (itemRender) {
-        return itemRender(item, fileList, index);
-      }
+    if (fileList instanceof Array) {
       return (
-        <div
-          className={clsx(`${prefix}-upload-item`, {
-            [`${prefix}-upload-item-${item.status}`]: item.status,
-          })}
-          key={index}
-        >
-          <div className={clsx(`${prefix}-upload-item-context`, {})}>
-            {listType == 'text' && (
-              <div className={clsx(`${prefix}-upload-icon`, {})}>
-                <Icon
-                  name="lianjie"
-                  color={clsx({
-                    '#F5221B': item.status == 'error',
-                    '#1890FF': item.status == 'uploading',
-                    '#3A415C':
-                      item.status == 'removed' || item.status == 'success' || item.status == 'done',
-                  })}
-                />
+        fileList &&
+        fileList.map((item: any, index: any) => {
+          if (itemRender) {
+            return itemRender(item, fileList, index);
+          }
+          return (
+            <div
+              className={clsx(`${prefix}-upload-item`, {
+                [`${prefix}-upload-item-${item.status}`]: item.status,
+              })}
+              key={index}
+            >
+              <div className={clsx(`${prefix}-upload-item-context`, {})}>
+                {listType == 'text' && (
+                  <div className={clsx(`${prefix}-upload-icon`, {})}>
+                    <Icon
+                      name="lianjie"
+                      color={clsx({
+                        '#F5221B': item.status == 'error',
+                        '#1890FF': item.status == 'uploading',
+                        '#3A415C':
+                          item.status == 'removed' ||
+                          item.status == 'success' ||
+                          item.status == 'done',
+                      })}
+                    />
+                  </div>
+                )}
+                {listType !== 'text' && (
+                  <div className={clsx(`${prefix}-upload-picture-img`, {})}>
+                    <Image src={item.thumbUrl} mode="aspectFit" />
+                  </div>
+                )}
+                {listType !== 'picture-card' && (
+                  <div className={clsx(`${prefix}-upload-fillName`, {})}>{item.name}</div>
+                )}
+                {operation(item)}
               </div>
-            )}
-            {listType !== 'text' && (
-              <div className={clsx(`${prefix}-upload-picture-img`, {})}>
-                <Image src={item.thumbUrl} mode="aspectFit" />
-              </div>
-            )}
-            {listType !== 'picture-card' && (
-              <div className={clsx(`${prefix}-upload-fillName`, {})}>{item.name}</div>
-            )}
-            {operation(item)}
-          </div>
-          {item.percent !== undefined && (
-            <div className={clsx(`${prefix}-upload-progress`, {})}>
-              <Progress percent={item.percent as any} status={item.status} minimum />
+              {item.percent !== undefined && (
+                <div className={clsx(`${prefix}-upload-progress`, {})}>
+                  <Progress percent={item.percent as any} status={item.status} minimum />
+                </div>
+              )}
             </div>
-          )}
-        </div>
+          );
+        })
       );
-    });
+    }
+    return [];
   }, [fileList]);
 
   async function handlePreview(data: any) {
