@@ -23,13 +23,14 @@ export default () => {
       <Row gutter={[16, 16]}>
         <Col span={12}>
           <Upload
+            multiple
             accept=".png,.jpg,.jpeg,.gif"
             action={(form, config) => {
               console.log(form, config);
               return new Promise((resolve, reject) => {
                 setTimeout(() => {
                   resolve({ data: '上传的地址' });
-                }, 3000);
+                }, (Math.floor(Math.random() * 10) + 5) * 1000);
               });
             }}
             onPreview={(file) => {

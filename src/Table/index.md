@@ -356,12 +356,7 @@ const dataSource = [
 ];
 
 export default () => (
-  <Table
-    columns={columns}
-    dataSource={dataSource}
-    rowKey="id"
-    expandable={['002']}
-  />
+  <Table columns={columns} dataSource={dataSource} rowKey="id" expandable={['002']} />
 );
 ```
 
@@ -535,8 +530,7 @@ const columns = [
     dataIndex: 'productStatus',
     width: 107,
     render: (r, index) => {
-      let text =
-        r.productStatus == 1 ? '上市' : r.productStatus == 2 ? '注销' : '';
+      let text = r.productStatus == 1 ? '上市' : r.productStatus == 2 ? '注销' : '';
       if (index == 0) {
         return {
           children: text,
@@ -580,3 +574,5 @@ export default () => {
   return <Table columns={columns} dataSource={dataSource} />;
 };
 ```
+
+<API/>

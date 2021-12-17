@@ -96,7 +96,7 @@ function Popup(props: PopupProps): any {
 
   const [left, setLeft] = useState(null) as any;
   const [top, setTop] = useState(null) as any;
-  const [style, setStyle] = useState({});
+  const [style, setStyle] = useState({ transform: `translate(-100%, -100%)` });
   const [innerPosition, setInnerPosition] = useState(position);
   const parent = useGetElementParent(refEl.current);
 
@@ -198,8 +198,8 @@ function Popup(props: PopupProps): any {
     if (!visible) return;
     function handleStyle() {
       let positionSize = getSizePosition() as any;
-      if (!positionSize) return {};
-      if (!positionSize[innerPosition]) return {};
+      if (!positionSize) return { transform: `translate(-100%, -100%)` };
+      if (!positionSize[innerPosition]) return { transform: `translate(-100%, -100%)` };
       if (innerPosition === 'content') {
         return {
           transform: `translate(${positionSize[innerPosition].x}px, ${positionSize[innerPosition].y}px)`,

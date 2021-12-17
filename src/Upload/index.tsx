@@ -352,71 +352,83 @@ function Upload(props: UploadProps, ref: any) {
     uploadFile.current.click();
   }
 
-  function handleChange(event: any) {
+  async function handleChange(event: any) {
     fileListRef.current = fileList;
     let files = event.target.files;
 
     files = convertFiles(files);
 
-    files.map((file: any) => {
-      handleFileListAdd(file, files);
-    });
+    await Promise.all(
+      files.map((file: any) => {
+        return handleFileListAdd(file, files);
+      }),
+    );
   }
 
   function handleFileListAdd(file: any, files: any) {
-    let reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => {
-      let uploadData = {
-        name: file.name,
-        percent: 0,
-        status: 'uploading' as UploadFileStatus,
-        thumbUrl: reader.result,
-        uuid: uuid(),
-        file: file,
+    return new Promise((resolve, reject) => {
+      let reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = async () => {
+        let uploadData = {
+          name: file.name,
+          percent: 0,
+          status: 'uploading' as UploadFileStatus,
+          thumbUrl: reader.result,
+          uuid: uuid(),
+          file: file,
+        };
+        fileListRef.current.push(uploadData);
+        setFileList([...fileListRef.current]);
+        await handleUploadFile(uploadData, files);
+        resolve(true);
       };
-      fileListRef.current.push(uploadData);
-      setFileList([...fileListRef.current]);
-      handleUploadFile(uploadData, files);
-    };
+    });
   }
 
   async function handleUploadFile(file: any, files: any) {
-    // 上传前判断是否继续上传
-    if (beforeUpload) {
-      if (!(await beforeUpload(file, files))) return;
-    }
-    if (action) {
-      let upItem = fileListRef.current.filter((item: any) => item.uuid == file.uuid)[0];
-      upItem.status = 'uploading';
-      fileUpload(
-        file,
-        {
-          // 监听上传进度
-          onUploadProgress(progressEvent: any) {
-            const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
-            upItem.percent = percentCompleted;
-            setFileList(fileListRef.current);
+    return new Promise(async (resolve, reject) => {
+      // 上传前判断是否继续上传
+      if (beforeUpload) {
+        if (!(await beforeUpload(file, files))) return;
+      }
+      if (action) {
+        let upItem = fileListRef.current.filter((item: any) => item.uuid == file.uuid)[0];
+        upItem.status = 'uploading';
+        fileUpload(
+          file,
+          {
+            // 监听上传进度
+            onUploadProgress(progressEvent: any) {
+              const percentCompleted = Math.round(
+                (progressEvent.loaded * 100) / progressEvent.total,
+              );
+              upItem.percent = percentCompleted;
+              setFileList(fileListRef.current);
+            },
           },
-        },
-        action,
-      )
-        .then((res: any) => {
-          upItem.status = 'success';
-          upItem.url = res.data;
-          console.log(fileListRef.current);
-          setFileList([...fileListRef.current]);
-          onChange?.(fileListRef.current);
-        })
-        .catch((error: any) => {
-          upItem.status = 'error';
-          upItem.percent = 0;
-          setFileList([...fileListRef.current]);
-          onChange?.(fileListRef.current);
-        });
-    } else {
-      onChange?.(fileListRef.current);
-    }
+          action,
+        )
+          .then((res: any) => {
+            upItem.status = 'success';
+            upItem.url = res.data;
+            console.log(fileListRef.current);
+            setFileList([...fileListRef.current]);
+            onChange?.(fileListRef.current);
+            resolve(true);
+          })
+          .catch((error: any) => {
+            upItem.status = 'error';
+            upItem.percent = 0;
+            setFileList([...fileListRef.current]);
+            onChange?.(fileListRef.current);
+            reject(false);
+          });
+      } else {
+        onChange?.(fileListRef.current);
+        resolve(true);
+      }
+    });
   }
 
   useEffect(() => {
