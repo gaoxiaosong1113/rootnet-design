@@ -53,6 +53,7 @@ export { default as StatePoint } from './StatePoint';
 export { default as Cascader } from './Cascader';
 export { default as Badge } from './Badge';
 export { default as SmallEditor } from './SmallEditor';
+export { default as MoneyInput } from './MoneyInput';
 
 import * as _util from './_util';
 

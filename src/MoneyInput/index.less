@@ -1,20 +1,28 @@
 @import '../index.less';
 
-.@{prefix}-input {
+.@{prefix}-moneyInput {
   display: flex;
-  border: 1px solid @borderColor;
-  border-radius: 4px;
-  transition: border 0.3s;
-  background: #fff;
+
+  .@{prefix}-input {
+    border: 0;
+
+    input {
+      font-weight: bold;
+      color: #15171f;
+      font-size: 20px;
+    }
+  }
 
   &:hover:not(.@{prefix}-input-disabled) {
     border-color: @primaryColorHover;
   }
+
   &-disabled {
     border-color: #cfd3e3;
     background: #ededef;
     cursor: no-drop !important;
   }
+
   &-disabled &-content {
     input {
       color: #d0d1d9;
@@ -22,18 +30,22 @@
       cursor: no-drop !important;
     }
   }
+
   &-disabled div.labe {
     color: #d0d1d9;
     fill: #d0d1d9;
   }
+
   &-disabled &-icon {
     color: #d0d1d9;
     fill: #d0d1d9;
   }
+
   &-disabled &-before {
     color: #d0d1d9;
     fill: #d0d1d9;
   }
+
   &-disabled &-after {
     color: #d0d1d9;
     fill: #d0d1d9;
@@ -55,14 +67,17 @@
       margin-right: 4px;
     }
   }
+
   &-focus {
     border-color: @primaryColorActive;
   }
+
   &-icon {
     line-height: 32px;
     margin-left: 8px;
     color: @fullDarkColor;
   }
+
   &-close {
     margin-right: 8px;
     display: flex;
@@ -74,51 +89,84 @@
       opacity: 0.6;
     }
   }
+
   &-affterIcon {
     line-height: 32px;
     margin-right: 8px;
     color: @fullDarkColor;
   }
+
   &-content {
     flex: 1;
+    position: relative;
+
     input {
+      font-weight: bold;
+      color: #15171f;
+      font-size: 20px;
+      padding: 0;
+      border: 0;
+      background: none;
+
       outline: 0;
-      padding: 0px 8px;
       width: 100%;
       border: none;
-      font-size: 14px;
       line-height: 32px;
       background: none;
+
       &::placeholder {
         color: @promptTextColor;
       }
+
+      &::-webkit-outer-spin-button,
+      &::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+      }
+
+      &[type='number'] {
+        -moz-appearance: textfield;
+      }
     }
   }
+
+  &-tooltip {
+    position: absolute;
+    left: 0;
+    margin-left: -12px;
+    width: 32px;
+    height: 18px;
+    font-size: 12px;
+    background: rgba(0, 0, 0, 0.4);
+    color: #fff;
+    text-align: center;
+
+    &:after {
+      width: 0;
+      height: 0;
+      position: absolute;
+      top: -5px;
+      left: 50%;
+      margin-left: -5px;
+      content: '';
+      border-left: 5px solid transparent;
+      border-right: 5px solid transparent;
+      border-bottom: 5px solid rgba(0, 0, 0, 0.4);
+      -webkit-filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.2));
+      filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.2));
+    }
+  }
+
   &-before {
-    font-size: 14px;
-    padding: 0 10px;
-    min-width: 32px;
-    background: @tableHeadBackgroundColor;
-    border-right: 1px solid #d0d3e3;
-    border-radius: 4px 0 0 4px;
+    font-size: 20px;
+    font-weight: bold;
+    margin-right: 6px;
     text-align: center;
     line-height: 30px;
-    color: @auxiliaryTextColor;
+    color: #15171f;
+
     svg {
       display: inline-block;
       vertical-align: middle;
     }
-  }
-  &-after {
-    font-size: 14px;
-    padding: 0 10px;
-    flex: 0 0 auto;
-    min-width: 32px;
-    background: @tableHeadBackgroundColor;
-    border-left: 1px solid #d0d3e3;
-    border-radius: 0 4px 4px 0;
-    text-align: center;
-    line-height: 30px;
-    color: @auxiliaryTextColor;
   }
 }
