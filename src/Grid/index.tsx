@@ -110,11 +110,48 @@ export interface ColProps {
    * @default           -
    */
   gutter?: any;
+
+  /**
+   * @description      屏幕 < 576px 响应式栅格，可为栅格数或一个包含其他属性的对象
+   * @default           -
+   */
+  xs?: number;
+
+  /**
+   * @description      屏幕 ≥ 576px 响应式栅格，可为栅格数或一个包含其他属性的对象
+   * @default           -
+   */
+  sm?: number;
+
+  /**
+   * @description      屏幕 ≥ 768px 响应式栅格，可为栅格数或一个包含其他属性的对象
+   * @default           -
+   */
+  md?: number;
+
+  /**
+   * @description      屏幕 ≥ 992px 响应式栅格，可为栅格数或一个包含其他属性的对象
+   * @default           -
+   */
+  lg?: number;
+
+  /**
+   * @description      屏幕 ≥ 1200px 响应式栅格，可为栅格数或一个包含其他属性的对象
+   * @default           -
+   */
+  xl?: number;
+
+  /**
+   * @description      屏幕 ≥ 1600px 响应式栅格，可为栅格数或一个包含其他属性的对象
+   * @default           -
+   */
+  xxl?: number;
 }
 
+const sizes = ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'];
+
 export const Col = (props: ColProps) => {
-  const { className, children, span, offset, pull, push, order, gutter } =
-    props;
+  const { className, children, span, offset, pull, push, order, gutter } = props;
 
   let newGutter: Array<any> = useMemo(() => {
     if (!gutter) {
@@ -126,15 +163,39 @@ export const Col = (props: ColProps) => {
     return gutter;
   }, [gutter]);
 
+  let sizeClassObj = {};
+  sizes.forEach((size: string) => {
+    let sizeProps = {} as any;
+    const propSize = props[size];
+    if (typeof propSize === 'number') {
+      sizeProps.span = propSize;
+    }
+
+    sizeClassObj = {
+      ...sizeClassObj,
+      [`${prefix}-col-${size}-${sizeProps.span}`]: sizeProps.span !== undefined,
+      [`${prefix}-col-${size}-order-${sizeProps.order}`]: sizeProps.order || sizeProps.order === 0,
+      [`${prefix}-col-${size}-offset-${sizeProps.offset}`]:
+        sizeProps.offset || sizeProps.offset === 0,
+      [`${prefix}-col-${size}-push-${sizeProps.push}`]: sizeProps.push || sizeProps.push === 0,
+      [`${prefix}-col-${size}-pull-${sizeProps.pull}`]: sizeProps.pull || sizeProps.pull === 0,
+    };
+  });
+
   return (
     <div
-      className={clsx(className, `${prefix}-col`, {
-        [`${prefix}-col-${span}`]: span,
-        [`${prefix}-col-offset-${offset}`]: offset,
-        [`${prefix}-col-pull-${pull}`]: pull,
-        [`${prefix}-col-push-${push}`]: push,
-        [`${prefix}-col-order-${order}`]: order,
-      })}
+      className={clsx(
+        className,
+        `${prefix}-col`,
+        {
+          [`${prefix}-col-${span}`]: span !== undefined,
+          [`${prefix}-col-offset-${offset}`]: offset,
+          [`${prefix}-col-pull-${pull}`]: pull,
+          [`${prefix}-col-push-${push}`]: push,
+          [`${prefix}-col-order-${order}`]: order,
+        },
+        sizeClassObj,
+      )}
       style={{
         paddingLeft: newGutter[0] / 2,
         paddingRight: newGutter[0] / 2,
