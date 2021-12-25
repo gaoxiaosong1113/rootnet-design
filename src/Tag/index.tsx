@@ -66,10 +66,16 @@ export interface TagProps {
   add?: any;
 
   /**
-   * @description      是否新增
+   * @description      关闭后回调函数
    * @default           -
    */
   onClose?: Function;
+
+  /**
+   * @description      鼠标移入显示小手
+   * @default           -
+   */
+  pointer?: any;
 }
 
 function Tag(props: TagProps) {
@@ -86,6 +92,7 @@ function Tag(props: TagProps) {
     close,
     add,
     onClose,
+    pointer,
     ...prop
   } = props;
 
@@ -118,6 +125,7 @@ function Tag(props: TagProps) {
         [`${prefix}-tag-disabled`]: disabled,
         [`${prefix}-tag-${size}`]: size,
         [`${prefix}-tag-color-${color}`]: color,
+        [`${prefix}-tag-pointer`]: pointer,
       })}
       style={{ margin: interval, ...style }}
       onClick={handleClick}
@@ -126,7 +134,12 @@ function Tag(props: TagProps) {
       {add && <Icon name={'cuowu1'} size={14} />}
       <span>{children}</span>
       {close && (
-        <Icon name={'cuowu1'} size={14} onClick={() => handleClose()} />
+        <Icon
+          className={`${prefix}-tag-close`}
+          name={'cuowu1'}
+          size={14}
+          onClick={() => handleClose()}
+        />
       )}
     </div>
   );
