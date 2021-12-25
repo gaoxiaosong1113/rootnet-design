@@ -54,10 +54,6 @@ export default () => {
                   name="phone"
                   rules={[
                     {
-                      required: true,
-                      message: '请输入电话号码',
-                    },
-                    {
                       fields: /^[1][3,4,5,6,7,8,9][0-9]{9}$/,
                       message: '请输入11位电话号码',
                     },
