@@ -37,6 +37,7 @@
         border: 1px dashed @primaryColor;
       }
     }
+
     &-info {
       font-size: 16px;
       color: @textColor;
@@ -55,11 +56,25 @@
       flex-wrap: wrap;
 
       .@{prefix}-upload-progress {
-        top: 50%;
-        bottom: auto;
-        left: 15px;
-        right: 15px;
+        top: 0%;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 10;
+        display: flex;
+        align-items: center;
+        padding: 0 15px;
+        background: rgba(0, 0, 0, 0.5);
+
+        .@{prefix}-progress {
+          flex: 1;
+
+          &-outer {
+            margin: 0;
+          }
+        }
       }
+
       .@{prefix}-upload-item {
         min-width: 104px;
         height: 104px;
@@ -70,6 +85,12 @@
         align-items: center;
         justify-content: center;
         position: relative;
+
+        &-context {
+          height: 100%;
+          position: relative;
+          z-index: 1;
+        }
 
         &-add {
           display: flex;
@@ -136,6 +157,7 @@
   &-input {
     display: inline-block;
     transition: all 0.3s;
+
     &.highlighted {
     }
 

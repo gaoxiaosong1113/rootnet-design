@@ -259,7 +259,7 @@ export default () => {
                 uuid: '-1',
                 name: 'image.png',
                 status: 'success',
-                percent: 10,
+                percent: 100,
                 url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
               },
             ]}
