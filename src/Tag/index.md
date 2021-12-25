@@ -40,6 +40,9 @@ export default () => {
             添加
           </Tag>
         </Col>
+        <Col span={4}>
+          <Tag pointer>小手标签</Tag>
+        </Col>
       </Row>
     </div>
   );
