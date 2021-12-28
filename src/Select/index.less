@@ -77,7 +77,6 @@
 
 .@{prefix}-select {
   position: relative;
-  z-index: 9999;
   background: #ffffff;
   box-shadow: 0px 6px 20px 0px rgba(153, 161, 194, 0.3);
   border-radius: 2px;
@@ -87,7 +86,7 @@
   overflow-y: auto;
 
   &-popup {
-    z-index: 9999;
+    z-index: @modalZIndex + 100;
   }
 
   &-noData {
