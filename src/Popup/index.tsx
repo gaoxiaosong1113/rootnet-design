@@ -1,4 +1,12 @@
-import React, { useEffect, useState, useRef, useMemo, useCallback, ReactNode } from 'react';
+import React, {
+  useEffect,
+  useState,
+  useRef,
+  useMemo,
+  useCallback,
+  ReactNode,
+  useImperativeHandle,
+} from 'react';
 
 import ReactDOM from 'react-dom';
 
@@ -74,10 +82,16 @@ export interface PopupProps {
    */
   arrowPointAtCenter?: boolean;
 
+  /**
+   * @description      禁止自动切换位置
+   * @default           false
+   */
+  disPositionSize?: boolean;
+
   scrollRef?: any;
 }
 
-function Popup(props: PopupProps): any {
+function Popup(props: PopupProps, ref: any): any {
   const {
     className,
     children,
@@ -91,25 +105,40 @@ function Popup(props: PopupProps): any {
     interval = 12,
     scrollRef,
     arrowPointAtCenter = false,
+    disPositionSize = false,
     ...prop
   } = props;
 
   const [left, setLeft] = useState(null) as any;
   const [top, setTop] = useState(null) as any;
   const [style, setStyle] = useState({ transform: `translate(-100%, -100%)` });
-  const [innerPosition, setInnerPosition] = useState(position);
   const parent = useGetElementParent(refEl.current);
 
-  const ref = useRef(null as any);
+  const innerRef = useRef(null as any);
+  const sizeRef = useRef({
+    left: 0,
+    top: 0,
+    innerPosition: position,
+  } as any);
+
+  useImperativeHandle(ref, () => {
+    return {
+      handleStyle: () => {
+        setStyle(handleStyle());
+      },
+    };
+  });
 
   function getSizePosition() {
-    if (!visible || !refEl.current || !ref.current) return null;
-    let refTarget = ref.current.getBoundingClientRect();
+    if (!visible || !refEl.current || !innerRef.current) return null;
+    let refTarget = innerRef.current.getBoundingClientRect();
     let refElTarget = refEl.current.getBoundingClientRect();
     let refWidth = refTarget.width;
     let refHeight = refTarget.height;
     let refElWidth = refElTarget.width;
     let refElHeight = refElTarget.height;
+    let left = sizeRef.current.left;
+    let top = sizeRef.current.top;
 
     return {
       refWidth,
@@ -168,61 +197,66 @@ function Popup(props: PopupProps): any {
 
     if (!positionSize) return;
 
-    if (position.indexOf('left') != -1) {
-      if (positionSize[rePosition].x + positionSize.refWidth > window.innerWidth) {
-        rePosition = rePosition.replace('left', 'right');
+    if (!disPositionSize) {
+      if (position.indexOf('left') != -1) {
+        if (positionSize[rePosition].x + positionSize.refWidth > window.innerWidth) {
+          rePosition = rePosition.replace('left', 'right');
+        }
       }
-    }
 
-    if (rePosition.indexOf('right') != -1) {
-      if (positionSize[rePosition].x <= 0) {
-        rePosition = rePosition.replace('right', 'left');
+      if (rePosition.indexOf('right') != -1) {
+        if (positionSize[rePosition].x <= 0) {
+          rePosition = rePosition.replace('right', 'left');
+        }
       }
-    }
 
-    if (rePosition.indexOf('bottom') != -1) {
-      if (positionSize[rePosition].y + positionSize.refHeight > window.innerHeight) {
-        rePosition = rePosition.replace('bottom', 'top');
+      if (rePosition.indexOf('bottom') != -1) {
+        if (positionSize[rePosition].y + positionSize.refHeight > window.innerHeight) {
+          rePosition = rePosition.replace('bottom', 'top');
+        }
       }
-    }
 
-    if (rePosition.indexOf('top') != -1) {
-      if (positionSize[rePosition].y <= 0) {
-        rePosition = rePosition.replace('top', 'bottom');
+      if (rePosition.indexOf('top') != -1) {
+        if (positionSize[rePosition].y <= 0) {
+          rePosition = rePosition.replace('top', 'bottom');
+        }
       }
     }
-    setInnerPosition(rePosition);
+    sizeRef.current.innerPosition = rePosition;
   }
 
-  useEffect(() => {
-    if (!visible) return;
-    function handleStyle() {
-      let positionSize = getSizePosition() as any;
-      if (!positionSize) return { transform: `translate(-100%, -100%)` };
-      if (!positionSize[innerPosition]) return { transform: `translate(-100%, -100%)` };
-      if (innerPosition === 'content') {
-        return {
-          transform: `translate(${positionSize[innerPosition].x}px, ${positionSize[innerPosition].y}px)`,
-          width: positionSize[innerPosition].width,
-          height: positionSize[innerPosition].height,
-        };
-      }
+  function handleStyle() {
+    let positionSize = getSizePosition() as any;
+    let innerPosition = sizeRef.current.innerPosition;
+    if (!positionSize) return { transform: `translate(-100%, -100%)` };
+    if (!positionSize[innerPosition]) return { transform: `translate(-100%, -100%)` };
+    if (innerPosition === 'content') {
       return {
         transform: `translate(${positionSize[innerPosition].x}px, ${positionSize[innerPosition].y}px)`,
+        width: positionSize[innerPosition].width,
+        height: positionSize[innerPosition].height,
       };
     }
-    setStyle(handleStyle());
-  }, [left, top, refEl.current, innerPosition]);
+    return {
+      transform: `translate(${positionSize[innerPosition].x}px, ${positionSize[innerPosition].y}px)`,
+    };
+  }
 
-  useEffect(() => {
-    handleRePosition();
-  }, [top, left]);
+  // useEffect(() => {
+  //   if (!visible) return;
+
+  //   setStyle(handleStyle());
+  // }, [left, top, innerPosition]);
+
+  // useEffect(() => {
+  //   handleRePosition();
+  // }, [top, left]);
 
   useEffect(() => {
     function handleClick(e: any) {
       if (!visible) return;
       if (!refEl.current) return;
-      if (!ref.current) return;
+      if (!innerRef.current) return;
 
       // 判断选定区域
       if (targetHidden) {
@@ -232,7 +266,7 @@ function Popup(props: PopupProps): any {
       } else {
         if (
           !ReactDOM.findDOMNode(refEl.current)?.contains(e.target) &&
-          !ReactDOM.findDOMNode(ref.current)?.contains(e.target)
+          !ReactDOM.findDOMNode(innerRef.current)?.contains(e.target)
         ) {
           onClose && onClose();
         }
@@ -251,10 +285,10 @@ function Popup(props: PopupProps): any {
 
   function setPosition(ele: any) {
     let offset = refEl.current.getBoundingClientRect();
-    let left = offset.left;
-    let top = offset.top;
-    setLeft(left);
-    setTop(top);
+    sizeRef.current.left = offset.left;
+    sizeRef.current.top = offset.top;
+    handleRePosition();
+    setStyle(handleStyle());
   }
 
   useEffect(() => {
@@ -296,11 +330,11 @@ function Popup(props: PopupProps): any {
         className={clsx(
           `${prefix}-popup`,
           {
-            [`${prefix}-popup-${innerPosition}`]: innerPosition,
+            [`${prefix}-popup-${sizeRef.current.innerPosition}`]: sizeRef.current.innerPosition,
           },
           className,
         )}
-        ref={ref}
+        ref={innerRef}
         {...prop}
       >
         {children}
@@ -311,4 +345,4 @@ function Popup(props: PopupProps): any {
   return null;
 }
 
-export default Popup;
+export default React.forwardRef(Popup);
