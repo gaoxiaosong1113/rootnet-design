@@ -142,6 +142,7 @@ function Popconfirm(props: PopconfirmProps) {
         refEl={refEl}
         position={position}
         trigger={'click'}
+        className={`${prefix}-popconfirm-popup`}
       >
         <Content {...prop} position={position} onConfirm={handleConfirm} onCancel={handleCancel} />
       </Popup>

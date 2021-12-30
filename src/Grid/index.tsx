@@ -115,37 +115,39 @@ export interface ColProps {
    * @description      屏幕 < 576px 响应式栅格，可为栅格数或一个包含其他属性的对象
    * @default           -
    */
-  xs?: number;
+  xs?: any;
 
   /**
    * @description      屏幕 ≥ 576px 响应式栅格，可为栅格数或一个包含其他属性的对象
    * @default           -
    */
-  sm?: number;
+  sm?: any;
 
   /**
    * @description      屏幕 ≥ 768px 响应式栅格，可为栅格数或一个包含其他属性的对象
    * @default           -
    */
-  md?: number;
+  md?: any;
 
   /**
    * @description      屏幕 ≥ 992px 响应式栅格，可为栅格数或一个包含其他属性的对象
    * @default           -
    */
-  lg?: number;
+  lg?: any;
 
   /**
    * @description      屏幕 ≥ 1200px 响应式栅格，可为栅格数或一个包含其他属性的对象
    * @default           -
    */
-  xl?: number;
+  xl?: any;
 
   /**
    * @description      屏幕 ≥ 1600px 响应式栅格，可为栅格数或一个包含其他属性的对象
    * @default           -
    */
-  xxl?: number;
+  xxl?: any;
+
+  [key: string]: any;
 }
 
 const sizes = ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'];

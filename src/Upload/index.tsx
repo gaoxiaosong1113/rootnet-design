@@ -300,7 +300,7 @@ function Upload(props: UploadProps, ref: any) {
                 )}
                 {listType !== 'text' && (
                   <div className={clsx(`${prefix}-upload-picture-img`, {})}>
-                    <Image src={item.thumbUrl} mode="aspectFit" />
+                    <Image src={item.thumbUrl || item.url} mode="aspectFit" />
                   </div>
                 )}
                 {listType !== 'picture-card' && (
@@ -308,9 +308,13 @@ function Upload(props: UploadProps, ref: any) {
                 )}
                 {operation(item)}
               </div>
-              {item.percent !== undefined && (
+              {item.percent !== undefined && item.status != 'success' && (
                 <div className={clsx(`${prefix}-upload-progress`, {})}>
-                  <Progress percent={item.percent as any} status={item.status} minimum />
+                  <Progress
+                    percent={item.percent as any}
+                    status={item.status == 'uploading' ? 'primary' : item.status}
+                    minimum
+                  />
                 </div>
               )}
             </div>

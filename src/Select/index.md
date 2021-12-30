@@ -65,6 +65,30 @@ export default () => {
             }}
           />
         </Col>
+        <Col span={4}>
+          <Select
+            search
+            value={2}
+            options={[
+              {
+                label: '选项一选项一选项一选项一选项一选项一选项一选项一',
+                value: 1,
+              },
+              {
+                label: '选项二',
+                value: 2,
+              },
+              {
+                label: '选项三',
+                value: 3,
+              },
+            ]}
+            placeholder={'默认下拉框'}
+            onChange={(value) => {
+              console.log(value);
+            }}
+          />
+        </Col>
       </Row>
     </div>
   );
@@ -107,6 +131,7 @@ export default () => {
                 value: 3,
               },
             ]}
+            search
             multiple={true}
             placeholder={'多选下拉框'}
             onChange={(value) => {
@@ -451,4 +476,4 @@ export default () => {
 };
 ```
 
-<API></API>
+<!-- <API></API> -->

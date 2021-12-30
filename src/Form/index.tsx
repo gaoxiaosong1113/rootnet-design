@@ -284,7 +284,7 @@ export const Item = (props: FormItemProps, ref: any) => {
           }
 
           // 验证正则
-          if (item.fields && !item.fields.test(v)) {
+          if (v !== undefined && v !== '' && item.fields && !item.fields.test(v)) {
             return item;
           }
 

@@ -7,7 +7,7 @@ import './index.less';
 
 import { prefix } from '../config';
 
-import { Icon, Button, Tree, Popup } from '../index';
+import { Icon, Button, Tree, Popup, Checkbox } from '../index';
 import { getOffsetLeft, getOffsetTop, findKey } from '../_util';
 
 export interface SelectProps {
@@ -67,6 +67,12 @@ export interface SelectProps {
    */
   multiple?: boolean;
 
+  /**
+   * @description      开启搜索
+   * @default           false
+   */
+  search?: boolean;
+
   scrollRef?: any;
 
   target?: any;
@@ -82,16 +88,30 @@ function Select(props: SelectProps) {
     close,
     multiple,
     scrollRef,
+    search = false,
     ...prop
   } = props;
 
   const [value, setValue] = useState(props.value || (multiple ? [] : null));
+  const [searchValue, setSearchValue] = useState('');
+  const [searchFocus, setSearchFocus] = useState(false);
   const [visible, setVisible] = useState(false);
+  const [select, setSelect] = useState(false);
 
   const refEl = useRef(null);
+  const refInput = useRef() as any;
+  const popupRef = useRef() as any;
 
   function handleOnChange(e: any) {
     setValue(e);
+    // if (search) {
+    //   refInput.current.value = SelectValue({
+    //     options: props.options,
+    //     value: e,
+    //     placeholder,
+    //     multiple
+    //   })
+    // }
     if (onChange) onChange(e);
   }
 
@@ -99,9 +119,45 @@ function Select(props: SelectProps) {
     setValue(props.value);
   }, [props.value]);
 
+  useEffect(() => {
+    if (!visible) {
+      if (search && refInput.current) {
+        refInput.current.value = SelectValue({
+          options: props.options,
+          value,
+          placeholder,
+          multiple,
+        });
+      }
+    }
+  }, [visible]);
+
+  const fullOptions = useMemo(() => {
+    let allCheck = [] as any;
+    if (search && searchValue.length > 0 && props.options) {
+      return allCheck.concat(
+        props.options.filter((item) => {
+          return item.label.indexOf(searchValue) != -1;
+        }),
+      );
+    }
+    return props.options;
+  }, [searchValue, props.options]);
+
+  const inputPlaceholder = useMemo(() => {
+    return SelectValue({
+      options: props.options,
+      value,
+      placeholder,
+      multiple,
+    });
+  }, [searchFocus, props.options, value, placeholder, multiple]);
+
   const isPlaceholder = useMemo(() => {
     return value === '' || value === undefined || value === null || JSON.stringify(value) === '[]';
   }, [value]);
+
+  console.log(fullOptions);
 
   return (
     <div
@@ -121,7 +177,31 @@ function Select(props: SelectProps) {
           return false;
         }}
       >
-        <SelectValue {...props} value={value} />
+        {search ? (
+          <input
+            ref={refInput}
+            placeholder={inputPlaceholder}
+            onFocus={(e) => {
+              if (disabled) return;
+              setSearchFocus(true);
+              e.target.value = searchValue;
+              setVisible(true);
+            }}
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+            }}
+            onBlur={() => setSearchFocus(false)}
+            onChange={(e) => {
+              if (disabled) return;
+              setSelect(false);
+              handleOnChange(multiple ? [] : null);
+              setSearchValue(e.target.value);
+            }}
+          />
+        ) : (
+          <SelectValue {...props} value={value} />
+        )}
       </div>
       {value && value != undefined && close ? (
         <div
@@ -140,11 +220,13 @@ function Select(props: SelectProps) {
           setVisible(false);
           onCancel && onCancel();
         }}
+        disPositionSize={search}
         interval={4}
         scrollRef={scrollRef}
         targetHidden={false}
         visible={visible}
         refEl={refEl}
+        ref={popupRef}
         position={'bottom-left'}
         trigger={'click'}
         className={clsx(`${prefix}-select-popup`, {
@@ -153,9 +235,19 @@ function Select(props: SelectProps) {
       >
         <SelectContent
           {...props}
+          options={fullOptions}
           className={clsx({ [`${className}-warp`]: className })}
           target={refEl}
           value={value}
+          setSelect={(v: any) => {
+            setSelect(v);
+            if (v) {
+              handleOnChange(fullOptions.map((item: any) => item.value));
+            } else {
+              handleOnChange([]);
+            }
+          }}
+          select={select}
           onCancel={() => {
             setVisible(false);
             onCancel && onCancel();
@@ -164,6 +256,7 @@ function Select(props: SelectProps) {
             if (!multiple) {
               setVisible(false);
             }
+            setSelect(v.length >= fullOptions.length);
             handleOnChange(v);
           }}
         />
@@ -172,8 +265,20 @@ function Select(props: SelectProps) {
   );
 }
 
-function SelectContent(props: SelectProps) {
-  const { className, options, value, multiple, onChange, onCancel, target, ...prop } = props;
+function SelectContent(props: any) {
+  const {
+    className,
+    options,
+    value,
+    multiple,
+    onChange,
+    onCancel,
+    target,
+    search,
+    setSelect,
+    select,
+    ...prop
+  } = props;
 
   const refEl = useRef<any>(null);
 
@@ -208,6 +313,13 @@ function SelectContent(props: SelectProps) {
         }}
       >
         <div className={clsx(`${prefix}-select-body`, {})}>
+          {search && multiple && (
+            <div className={clsx(`${prefix}-select-all`, {})}>
+              <Checkbox checked={select} onChange={(v: any) => setSelect(v)}>
+                全选
+              </Checkbox>
+            </div>
+          )}
           {(!options || options.length == 0) && (
             <div className={clsx(`${prefix}-select-noData`, {})}>暂无数据</div>
           )}
@@ -249,7 +361,7 @@ function SelectContent(props: SelectProps) {
 }
 
 function SelectValue(props: SelectProps) {
-  const { options, value, placeholder, onChange, onCancel, target, multiple, ...prop } = props;
+  const { options, value, placeholder, multiple } = props;
   if (value !== undefined && value !== '' && value !== null) {
     if (multiple) {
       if (value.length > 0) {
