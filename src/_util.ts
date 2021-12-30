@@ -187,6 +187,7 @@ export function dateFormat(date: any, format: any) {
   if (!date) return '';
   let dateTime = date;
   if (!(date instanceof Date)) dateTime = new Date(date);
+  if (dateTime + '' === 'Invalid Date') dateTime = new Date(`${new Date().getFullYear()} ${date}`);
   if (dateTime + '' === 'Invalid Date') return '';
 
   let year = dateTime.getFullYear();
@@ -201,10 +202,12 @@ export function dateFormat(date: any, format: any) {
     .replace(/YYYY/g, year)
     .replace(/MM/g, formaterZero(month))
     .replace(/DD/g, formaterZero(day))
-    .replace(/HH/g, formaterZero(hour))
+    .replace(/HH|hh/g, hour === 0 ? 12 : formaterZero(hour))
     .replace(/mm/g, formaterZero(min))
     .replace(/ss/g, formaterZero(sec))
     .replace(/q/g, quarter)
+    .replace(/a|A|AM|am/g, '上午')
+    .replace(/p|P|PM|pm/g, '下午')
     .replace(format, date);
 }
 

@@ -1,6 +1,8 @@
 import React, { useEffect, useState, useRef, useMemo, ReactNode, useCallback } from 'react';
 import ReactDOM from 'react-dom';
 
+import TimeCalendar from './calendar/time';
+
 import clsx from 'clsx';
 
 import './index.less';
@@ -45,7 +47,7 @@ export interface DatePickerProps {
    * @description      时间选择器类型
    * @default           'date'
    */
-  picker?: 'date' | 'month' | 'quarter' | 'year' | 'dateRange';
+  picker?: 'date' | 'month' | 'quarter' | 'year' | 'dateRange' | 'time';
 
   /**
    * @description      时间选中值
@@ -72,6 +74,12 @@ export interface DatePickerProps {
   disabled?: boolean;
 
   /**
+   * @description      不可选择的日期
+   * @default
+   */
+  disabledDate?: (currentDate: any) => boolean;
+
+  /**
    * @description      时间发生变化的回调
    * @default           -
    */
@@ -89,7 +97,11 @@ export interface DatePickerProps {
    */
   close?: any;
 
-  target?: any;
+  /**
+   * @description      12小时制（time专有属性）
+   * @default           -
+   */
+  use12Hours?: boolean;
 }
 
 export interface CalendarProps {
@@ -97,7 +109,7 @@ export interface CalendarProps {
    * @description      时间选择器类型
    * @default           'date'
    */
-  picker?: 'date' | 'month' | 'quarter' | 'year' | 'dateRange';
+  picker?: 'date' | 'month' | 'quarter' | 'year' | 'dateRange' | 'time';
 
   /**
    * @description      时间选中值
@@ -111,6 +123,7 @@ export interface CalendarProps {
    */
   onChange?: any;
   onPanelModeFlagChange?: Function;
+  disabledDate?: (currentDate: any) => boolean;
 }
 
 // 获取时间
@@ -171,7 +184,7 @@ function DatePicker(props: DatePickerProps) {
         </div>
       ) : (
         <div className={clsx(`${prefix}-picker-arrow`, {})}>
-          <Icon name="rili" size={14} />
+          <Icon name={picker === 'time' ? 'shijian' : 'rili'} size={14} />
         </div>
       )}
       <Popup
@@ -356,6 +369,7 @@ function DateCalendar(props: any) {
     onMouseEnterCell,
     onMouseLeaveCell,
     onPanelModeFlagChange,
+    disabledDate,
   } = props;
   const [toDay, setToDay] = useState(dateFormat(new Date(), 'YYYY-MM-DD')) as any;
   const [calendar, setCalendar] = useState([]) as any;
@@ -489,6 +503,7 @@ function DateCalendar(props: any) {
         checkedDate={changeMonthDate}
         value={value instanceof Array ? panelModeValue : value}
         onPanelModeFlagChange={onPanelModeFlagChange}
+        disabledDate={disabledDate}
       />
     );
   }
@@ -500,12 +515,13 @@ function DateCalendar(props: any) {
         panelChange={(date: any) => panelChange(date, true)}
         checkedDate={changeYearDate}
         value={currentYear + ''}
+        disabledDate={disabledDate}
       />
     );
   }
 
   return (
-    <div className={clsx(`${prefix}-calendar-time-content`)}>
+    <div className={clsx(`${prefix}-calendar-date-content`)}>
       <CalendarHead
         isShowPrev={isShowPrev}
         isShowNext={isShowNext}
@@ -532,17 +548,19 @@ function DateCalendar(props: any) {
               value instanceof Array
                 ? value[0] === item.value || value[1] === item.value
                 : value === item.value;
+            const disabled = typeof disabledDate === 'function' && disabledDate(item.value);
             return (
               <li
                 key={index}
                 className={clsx(`${prefix}-calendar-time-item`, {
-                  [`${prefix}-calendar-time-item-${item.type}`]: item.type,
+                  [`${prefix}-calendar-time-item-${item.type}`]: !disabled && item.type,
                   [`${prefix}-calendar-time-item-in-range`]: isInRange(item),
                   [`${prefix}-calendar-time-item-in-range-hover`]: isInHoverRange(item),
+                  [`${prefix}-calendar-time-item-disabled`]: disabled,
                 })}
-                onClick={() => checkedDate(item)}
-                onMouseEnter={() => onMouseEnterCell && onMouseEnterCell(item)}
-                onMouseLeave={() => onMouseLeaveCell && onMouseLeaveCell()}
+                onClick={() => !disabled && checkedDate(item)}
+                onMouseEnter={() => !disabled && onMouseEnterCell && onMouseEnterCell(item)}
+                onMouseLeave={() => !disabled && onMouseLeaveCell && onMouseLeaveCell()}
               >
                 <div
                   className={clsx(`${prefix}-calendar-time-item-date`, {
@@ -569,7 +587,7 @@ function DateCalendar(props: any) {
 
 // 年面板
 function YearCalendar(props: any) {
-  const { panelChange, currentTime, checkedDate, value } = props;
+  const { panelChange, currentTime, checkedDate, value, disabledDate } = props;
 
   const [currentYearList, setCurrentYearList] = useState([]) as any;
 
@@ -613,17 +631,19 @@ function YearCalendar(props: any) {
       <div className={clsx(`${prefix}-calendar-body`)}>
         <ul className={clsx(`${prefix}-calendar-time`)}>
           {currentYearList.map((item: any, index: any) => {
+            const disabled = typeof disabledDate === 'function' && disabledDate(item.value);
             return (
               <li
                 key={index}
                 className={clsx(`${prefix}-calendar-time-item`, {
-                  [`${prefix}-calendar-time-item-${item.type}`]: item.type,
+                  [`${prefix}-calendar-time-item-${item.type}`]: !disabled && item.type,
                   [`${prefix}-calendar-time-item-checked`]: value === item.value,
+                  [`${prefix}-calendar-time-item-disabled`]: disabled,
                 })}
                 onClick={(e) => {
                   e.preventDefault();
                   e.stopPropagation();
-                  checkedDate(item);
+                  !disabled && checkedDate(item);
                 }}
               >
                 <span className={clsx(`${prefix}-calendar-time-item-content`, {})}>
@@ -641,7 +661,8 @@ function YearCalendar(props: any) {
 
 // 月面板
 function MonthCalendar(props: any) {
-  const { panelChange, currentTime, checkedDate, value, onPanelModeFlagChange } = props;
+  const { panelChange, currentTime, checkedDate, value, onPanelModeFlagChange, disabledDate } =
+    props;
   const [currentMonthList, setCurrentMonthList] = useState(MONTH) as any;
   const [currentYear, setCurrentYear] = useState(null) as any;
   const [activeYear, setActiveYear] = useState(null) as any;
@@ -679,6 +700,7 @@ function MonthCalendar(props: any) {
         panelChange={panelChange}
         checkedDate={changeYearDate}
         value={activeYear + ''}
+        disabledDate={disabledDate}
       />
     );
   }
@@ -705,17 +727,20 @@ function MonthCalendar(props: any) {
               date: getDay(`${currentYear}-${formaterZero(index + 1)}`, 1),
               value: `${currentYear}-${formaterZero(index + 1)}`,
             };
-
+            const disabled =
+              typeof disabledDate === 'function' &&
+              disabledDate(`${currentYear}-${formaterZero(index + 1)}`);
             return (
               <li
                 key={index}
                 className={clsx(`${prefix}-calendar-time-item`, {
                   [`${prefix}-calendar-time-item-checked`]: checked,
+                  [`${prefix}-calendar-time-item-disabled`]: disabled,
                 })}
                 onClick={(e) => {
                   e.preventDefault();
                   e.stopPropagation();
-                  checkedDate(monthItem);
+                  !disabled && checkedDate(monthItem);
                 }}
               >
                 <span className={clsx(`${prefix}-calendar-time-item-content`, {})}>{item}</span>
@@ -824,7 +849,8 @@ function QuarterCalendar(props: any) {
 }
 
 function RangeDatePanel(props: any) {
-  const { currentTime, panelChange, checkedDate, value, onPanelModeFlagChange } = props;
+  const { currentTime, panelChange, checkedDate, value, onPanelModeFlagChange, disabledDate } =
+    props;
 
   const [date1, setDate1] = useState(value?.[0] || null);
   const [date2, setDate2] = useState(value?.[1] || null);
@@ -924,6 +950,7 @@ function RangeDatePanel(props: any) {
         onMouseEnterCell={onMouseEnterCell}
         onMouseLeaveCell={onMouseLeaveCell}
         onPanelModeFlagChange={onPanelModeFlagChange}
+        disabledDate={disabledDate}
       />
       <DateCalendar
         isShowPrev={false}
@@ -936,13 +963,14 @@ function RangeDatePanel(props: any) {
         onMouseEnterCell={onMouseEnterCell}
         onMouseLeaveCell={onMouseLeaveCell}
         onPanelModeFlagChange={onPanelModeFlagChange}
+        disabledDate={disabledDate}
       />
     </>
   );
 }
 
 export function Calendar(props: CalendarProps) {
-  const { onChange, value, picker = 'date', onPanelModeFlagChange } = props;
+  const { onChange, value, picker = 'date', onPanelModeFlagChange, disabledDate } = props;
 
   const [currentTime, setCurrentTime] = useState(null) as any;
 
@@ -973,6 +1001,7 @@ export function Calendar(props: CalendarProps) {
     <div
       className={clsx(`${prefix}-calendar`, {
         [`${prefix}-calendar-range`]: picker === 'dateRange',
+        [`${prefix}-calendar-time-picker`]: picker === 'time',
       })}
     >
       {picker === 'date' && (
@@ -982,6 +1011,7 @@ export function Calendar(props: CalendarProps) {
           checkedDate={checkedDate}
           value={value}
           onPanelModeFlagChange={onPanelModeFlagChange}
+          disabledDate={disabledDate}
         />
       )}
       {picker === 'dateRange' && (
@@ -991,6 +1021,7 @@ export function Calendar(props: CalendarProps) {
           checkedDate={checkedDate}
           value={value}
           onPanelModeFlagChange={onPanelModeFlagChange}
+          disabledDate={disabledDate}
         />
       )}
       {picker === 'year' && (
@@ -1000,6 +1031,7 @@ export function Calendar(props: CalendarProps) {
           checkedDate={checkedDate}
           value={value}
           onPanelModeFlagChange={onPanelModeFlagChange}
+          disabledDate={disabledDate}
         />
       )}
       {picker === 'month' && (
@@ -1009,12 +1041,21 @@ export function Calendar(props: CalendarProps) {
           checkedDate={checkedDate}
           value={value}
           onPanelModeFlagChange={onPanelModeFlagChange}
+          disabledDate={disabledDate}
         />
       )}
       {picker === 'quarter' && (
         <QuarterCalendar
           currentTime={currentTime}
           panelChange={panelChange}
+          checkedDate={checkedDate}
+          value={value}
+          onPanelModeFlagChange={onPanelModeFlagChange}
+        />
+      )}
+      {picker === 'time' && (
+        <TimeCalendar
+          {...props}
           checkedDate={checkedDate}
           value={value}
           onPanelModeFlagChange={onPanelModeFlagChange}
@@ -1064,6 +1105,7 @@ function DatePickerContent(props: DatePickerProps) {
       <div className={clsx(`${prefix}-select`, {})} style={{}}>
         <div className={clsx(`${prefix}-select-body`, {})}>
           <Calendar
+            {...props}
             picker={picker}
             onChange={handleChange}
             value={value}
@@ -1085,13 +1127,15 @@ function DatePickerValue(props: DatePickerProps) {
     quarter: '季度',
     year: '年份',
     dateRange: '开始日期 ~ 结束日期',
+    time: '时间',
   };
+
   const formatRules = {
     date: 'YYYY-MM-DD',
     month: 'YYYY-MM',
     quarter: 'YYYY-Qq',
     year: 'YYYY',
-    dateRange: 'YYYY-MM-DD ~ YYYY-MM-DD',
+    time: 'HH-mm-ss',
   };
 
   function rangeDateFormat() {

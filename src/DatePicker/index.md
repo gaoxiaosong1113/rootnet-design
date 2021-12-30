@@ -21,10 +21,23 @@ export default () => {
   return (
     <div>
       <Row gutter={[16, 16]}>
-        <Col span={24}>
+        <Col span={12}>
           <DatePicker
             picker="dateRange"
             close
+            onChange={(value, date) => {
+              console.log('当前值：', value);
+              console.log('当前时间Date：', date);
+            }}
+          />
+        </Col>
+        <Col span={12}>
+          <DatePicker
+            picker="time"
+            close
+            format="HH:mm:ss"
+            value="00:12:12"
+            // use12Hours={true}
             onChange={(value, date) => {
               console.log('当前值：', value);
               console.log('当前时间Date：', date);
@@ -63,6 +76,84 @@ export default () => {
             onChange={(value, date) => {
               console.log('当前值：', value);
               console.log('当前时间Date：', date);
+            }}
+          />
+        </Col>
+      </Row>
+    </div>
+  );
+};
+```
+
+不可选取的时间
+
+```tsx
+import React, { useState } from 'react';
+import { DatePicker, Grid } from 'rootnet-design';
+const { Row, Col } = Grid;
+const { Calendar } = DatePicker;
+const [day, setDay] = useState('2021-11-12');
+
+export default () => {
+  return (
+    <div>
+      <Row gutter={[16, 16]}>
+        <Col span={6}>
+          <div style={{ marginBottom: '12px' }}>当前时间以后、1995年前不能选择</div>
+          <DatePicker
+            picker="dateRange"
+            close
+            onChange={(value, date) => {
+              console.log('当前值：', value);
+              console.log('当前时间Date：', date);
+            }}
+            disabledDate={(current) => {
+              // 使用getTime比较时间会有差异 推荐使用moment插件
+              return (
+                current &&
+                (new Date(current).getTime() > new Date().getTime() ||
+                  new Date(current).getTime() < new Date('1995-01-01').getTime())
+              );
+            }}
+          />
+        </Col>
+        <Col span={6}>
+          <div style={{ marginBottom: '12px' }}>当前时间以后不能选择</div>
+          <DatePicker
+            onChange={(value, date) => {
+              console.log('当前值：', value);
+              console.log('当前时间Date：', date);
+            }}
+            disabledDate={(current) => {
+              // 使用getTime比较时间会有差异 推荐使用moment插件
+              return current && new Date(current).getTime() > new Date().getTime();
+            }}
+          />
+        </Col>
+        <Col span={6}>
+          <div style={{ marginBottom: '12px' }}>当前时间以后、1995年前不能选择</div>
+          <DatePicker
+            picker="year"
+            onChange={(value, date) => {
+              console.log('当前值：', value);
+              console.log('当前时间Date：', date);
+            }}
+            disabledDate={(current) => {
+              return current && (current > new Date().getFullYear() || current < '1995');
+            }}
+          />
+        </Col>
+        <Col span={6}>
+          <div style={{ marginBottom: '12px' }}>当前时间以后不能选择</div>
+          <DatePicker
+            picker="month"
+            onChange={(value, date) => {
+              console.log('当前值：', value);
+              console.log('当前时间Date：', date);
+            }}
+            disabledDate={(current) => {
+              // 使用getTime比较时间会有差异 推荐使用moment插件
+              return current && new Date(`${current}-01`).getTime() > new Date().getTime();
             }}
           />
         </Col>
