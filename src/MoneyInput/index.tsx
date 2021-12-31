@@ -165,8 +165,6 @@ function MoneyInput(props: MoneyInputProps, ref: any) {
     return int + (intAry[1] ? '.' + intAry[1] : '');
   }, [value]);
 
-  console.log(formatMoney);
-
   const getMoneyUnit = (money: any) => {
     money = parseInt(money);
     if (money > 9999 && money <= 99999) {

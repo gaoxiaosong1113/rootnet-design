@@ -157,8 +157,6 @@ function Select(props: SelectProps) {
     return value === '' || value === undefined || value === null || JSON.stringify(value) === '[]';
   }, [value]);
 
-  console.log(fullOptions);
-
   return (
     <div
       className={clsx(className, `${prefix}-select-target`, {

@@ -237,7 +237,6 @@ export const Item = (props: FormItemProps, ref: any) => {
   const [value, setValue] = useState(formValue[name]);
   const [required, setRequired] = useState(false);
   const [error, setError] = useState([] as Array<any>);
-  console.log(formValue);
 
   const handleValidation = () => {
     return {
@@ -349,15 +348,13 @@ export const Item = (props: FormItemProps, ref: any) => {
   };
 
   useEffect(() => {
-    console.log(formValue);
     setValue(formValue[name] || null);
   }, [formValue[name]]);
 
   useEffect(() => {
-    console.log(formValue, name);
     setValue(formValue[name] || null);
   }, [formValue]);
-  console.log(value);
+
   return (
     <div
       className={clsx(className, `${prefix}-form-item`, {

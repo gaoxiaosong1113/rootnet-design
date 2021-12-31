@@ -26,7 +26,6 @@ const TimeColumn = (props: any) => {
     const li = ls.current.get(value);
 
     if (li) {
-      console.log(li);
       // li.scrollIntoView({behavior: "smooth", block: "start"});
       li.scrollIntoView();
     }

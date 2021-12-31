@@ -221,7 +221,6 @@ function Pagination(props: PaginationProps) {
   // 左右展开跳组事件
   const onSetStep = useCallback(
     (distance) => {
-      console.log(pageIndex, totalPage);
       if (pageIndex + distance <= 1) {
         pageChanging(1);
       } else if (pageIndex + distance > totalPage) {
