@@ -981,6 +981,155 @@ export default () => {
 };
 ```
 
+设置默认值
+
+```tsx
+import React, { useState, useRef } from 'react';
+import { Form, Input, Select, Radio, Checkbox, Button, Icon, Grid } from 'rootnet-design';
+const { Row, Col } = Grid;
+
+export default () => {
+  const [initialValues, setInitialValues] = useState({});
+  const ref = useRef(null);
+
+  return (
+    <div>
+      <Row gutter={[16, 16]}>
+        <Col span={24}>
+          <Form
+            layout={'horizontal'}
+            name={'n2'}
+            initialValues={initialValues}
+            onSubmit={(form) => {
+              console.log('校验成功');
+              console.log(form);
+            }}
+            onError={(error) => {
+              console.log('校验错误');
+              console.log(error);
+            }}
+            onValuesChange={(changeValues, allValues) => {
+              console.log(changeValues, allValues);
+            }}
+            ref={ref}
+          >
+            <Form.Item
+              label="用户名"
+              name="username"
+              rules={[
+                {
+                  required: true,
+                  validate: (value, values) => {
+                    console.log(value, values, 1111);
+                    return value.length > 10;
+                  },
+                  message: '我是自定义校验，长度不能小于10',
+                },
+              ]}
+            >
+              <Input
+                placeholder="请输入用户名"
+                icon={<Icon name="Rootnet" />}
+                onChange={(value) => {
+                  console.log(value);
+                }}
+              />
+            </Form.Item>
+            <Form.Item
+              label="用户名"
+              name="username2"
+              rules={[
+                {
+                  required: true,
+                  validate: (value, values) => {
+                    console.log(value, values);
+                    return value.length > 10;
+                  },
+                  message: '我是自定义校验，长度不能小于10',
+                },
+              ]}
+            >
+              <Input placeholder="请输入用户名" icon={<Icon name="Rootnet" />} />
+            </Form.Item>
+            <Form.Item
+              label="电话号码"
+              name="phone"
+              rules={[
+                {
+                  required: true,
+                  message: '请输入电话号码',
+                },
+                {
+                  fields: /^[1][3,4,5,6,7,8,9][0-9]{9}$/,
+                  message: '请输入11位电话号码',
+                },
+              ]}
+            >
+              <Input placeholder="请输入电话号码" icon={<Icon name="Rootnet" />} />
+            </Form.Item>
+          </Form>
+        </Col>
+        <Col span={24}>
+          <Button
+            type="primary"
+            onClick={() => {
+              ref.current.onSubmit();
+            }}
+          >
+            提交
+          </Button>
+        </Col>
+        <Col span={24}>
+          <Button
+            type="primary"
+            onClick={() => {
+              ref.current.validation();
+            }}
+          >
+            校验数据
+          </Button>
+        </Col>
+        <Col span={24}>
+          <Button
+            type="primary"
+            onClick={() => {
+              setInitialValues({
+                username: '1',
+                username2: '2',
+                phone: '3',
+              });
+            }}
+          >
+            设置默认值
+          </Button>
+        </Col>
+        <Col span={24}>
+          <Button
+            type="default"
+            onClick={() => {
+              console.log(ref);
+              ref.current.reset();
+            }}
+          >
+            重置为设置的默认值
+          </Button>
+        </Col>
+        <Col span={24}>
+          <Button
+            type="default"
+            onClick={() => {
+              setInitialValues({});
+            }}
+          >
+            重置为空
+          </Button>
+        </Col>
+      </Row>
+    </div>
+  );
+};
+```
+
 条件判断
 
 ```tsx
