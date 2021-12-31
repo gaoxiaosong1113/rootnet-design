@@ -328,6 +328,48 @@ export default () => {
 };
 ```
 
+搜索下拉框：
+
+```tsx
+import React from 'react';
+import { Select, Grid } from 'rootnet-design';
+const { Row, Col } = Grid;
+
+export default () => {
+  return (
+    <div>
+      <Row gutter={[16, 16]}>
+        <Col span={4}>
+          <Select
+            multiple
+            search
+            close
+            options={[
+              {
+                label: '选项一选项一选项一选项一选项一选项一选项一选项一',
+                value: 1,
+              },
+              {
+                label: '选项二',
+                value: 2,
+              },
+              {
+                label: '选项三',
+                value: 3,
+              },
+            ]}
+            placeholder={'多选'}
+            onChange={(value) => {
+              console.log(value);
+            }}
+          />
+        </Col>
+      </Row>
+    </div>
+  );
+};
+```
+
 树形下拉框
 
 ```tsx

@@ -184,9 +184,7 @@ function Descriptions(props: DescriptionsProps) {
       })}
       {...prop}
     >
-      {title && (
-        <div className={clsx(`${prefix}-descriptions-title`)}>{title}</div>
-      )}
+      {title && <div className={clsx(`${prefix}-descriptions-title`)}>{title}</div>}
       {children && (
         <div className={clsx(`${prefix}-descriptions-content`)}>
           {border && (
@@ -276,7 +274,11 @@ export const Item = ({
       <>
         <th
           style={{
-            width: labelSpan ? (labelSpan / 24) * 100 + '%' : 'auto',
+            width: labelWidth || (labelSpan ? (labelSpan / 24) * 100 + '%' : 'auto'),
+            ...(labelWidth && {
+              minWidth: labelWidth,
+              maxWidth: labelWidth,
+            }),
           }}
         >
           {label}
