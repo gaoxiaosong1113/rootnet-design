@@ -141,6 +141,16 @@
 
   &-placeholder {
     color: @promptTextColor;
+
+    input {
+      color: @promptTextColor;
+    }
+
+    &.@{prefix}-select-target-visible {
+      input {
+        color: @textColor;
+      }
+    }
   }
 
   &-mask {

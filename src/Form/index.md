@@ -640,7 +640,9 @@ export default () => {
           <Form
             layout={'horizontal'}
             name={'n2'}
-            initialValues={{}}
+            initialValues={{
+              phone: 16666666666,
+            }}
             onSubmit={(form) => {
               console.log('校验成功');
               console.log(form);
@@ -690,7 +692,9 @@ export default () => {
                 },
               ]}
             >
-              <Radio>同意</Radio>
+              <Radio.Group>
+                <Radio value="1">同意</Radio>
+              </Radio.Group>
             </Form.Item>
             <Form.Item
               label="选项"
@@ -1020,7 +1024,6 @@ export default () => {
                   {
                     required: true,
                     validate: (value, values) => {
-                      console.log(value, values, 1111);
                       return value.length > 10;
                     },
                     message: '我是自定义校验，长度不能小于10',

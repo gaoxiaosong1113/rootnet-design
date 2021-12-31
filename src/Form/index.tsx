@@ -84,11 +84,11 @@ export const Form = (props: FormProps, ref: any) => {
     onSubmit,
     onError,
     onValuesChange,
-    initialValues,
+    initialValues = {},
     ...prop
   } = props;
 
-  const [value, setValue] = useState(initialValues || {}) as any;
+  const [value, setValue] = useState({ ...initialValues }) as any;
 
   const formRef: any = useRef({});
 
@@ -130,13 +130,17 @@ export const Form = (props: FormProps, ref: any) => {
       setValue({ ...value });
     },
     reset: () => {
-      setValue({});
-      onValuesChange?.({}, {});
+      let val = { ...initialValues } as any;
+      setValue(val);
+      onValuesChange?.(val, val);
+      for (let attr in value) {
+        formRef.current[attr].clearError(attr, val[attr]);
+      }
     },
   }));
 
   useEffect(() => {
-    setValue(initialValues || {});
+    setValue({ ...initialValues });
   }, [initialValues]);
 
   return (
@@ -233,6 +237,7 @@ export const Item = (props: FormItemProps, ref: any) => {
   const [value, setValue] = useState(formValue[name]);
   const [required, setRequired] = useState(false);
   const [error, setError] = useState([] as Array<any>);
+  console.log(formValue);
 
   const handleValidation = () => {
     return {
@@ -255,6 +260,9 @@ export const Item = (props: FormItemProps, ref: any) => {
         }
         return validationData(n, v);
       },
+      clearError: () => {
+        setError([]);
+      },
     };
     if (onChange && name) {
       onChange(name, value);
@@ -275,7 +283,7 @@ export const Item = (props: FormItemProps, ref: any) => {
       let errorAry = rules
         .map((item: any) => {
           // 必填项
-          if (item.required !== undefined && item.required === true) {
+          if (item.required !== undefined && item.required !== null && item.required === true) {
             if (v === undefined || v === null || v.length <= 0) {
               return {
                 message: `必填项`,
@@ -341,9 +349,15 @@ export const Item = (props: FormItemProps, ref: any) => {
   };
 
   useEffect(() => {
-    setValue(formValue[name]);
+    console.log(formValue);
+    setValue(formValue[name] || null);
   }, [formValue[name]]);
 
+  useEffect(() => {
+    console.log(formValue, name);
+    setValue(formValue[name] || null);
+  }, [formValue]);
+  console.log(value);
   return (
     <div
       className={clsx(className, `${prefix}-form-item`, {

@@ -67,9 +67,7 @@ function Group(props: EadioProps) {
   }, [props.checked]);
 
   useEffect(() => {
-    if (props.value !== undefined && props.value !== null) {
-      setChecked(props.value);
-    }
+    setChecked(props.value);
   }, [props.value]);
 
   const context = {

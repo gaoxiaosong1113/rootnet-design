@@ -42,16 +42,26 @@ export interface GroupProps {
    * @default           -
    */
   name: string;
+
+  /**
+   * @description      form中使用
+   * @default           -
+   */
+  value?: any;
 }
 
 function Group(props: GroupProps) {
-  const { className, children, onChange, ...prop } = props;
+  const { className, children, onChange, value, ...prop } = props;
 
   const [checked, setChecked] = useState(props.checked || []);
 
   useEffect(() => {
     setChecked(props.checked || []);
   }, [props.checked]);
+
+  useEffect(() => {
+    setChecked(props.value || []);
+  }, [props.value]);
 
   function handleChange(e: any, v: any) {
     let findIndex = checked.indexOf(v);
