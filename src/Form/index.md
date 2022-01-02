@@ -1067,6 +1067,76 @@ export default () => {
             >
               <Input placeholder="请输入电话号码" icon={<Icon name="Rootnet" />} />
             </Form.Item>
+            <Form.Item
+              label="选项"
+              name="select"
+              rules={[
+                {
+                  required: true,
+                  message: '请选择',
+                },
+              ]}
+            >
+              <Select
+                options={[
+                  {
+                    label: '选项一选项一选项一选项一选项一选项一选项一选项一',
+                    value: 1,
+                  },
+                  {
+                    label: '选项二',
+                    value: 2,
+                  },
+                  {
+                    label: '选项三',
+                    value: 3,
+                  },
+                ]}
+                placeholder={'默认下拉框'}
+              />
+            </Form.Item>
+            <Form.Item
+              label="选项"
+              name="checkbox"
+              rules={[
+                {
+                  required: true,
+                  message: '请输入电话号码',
+                },
+              ]}
+            >
+              <Checkbox.Group>
+                <div>
+                  <Checkbox value="1" disabled>
+                    Checkbox组
+                  </Checkbox>
+                </div>
+                <div>
+                  <Checkbox value="2">Checkbox组</Checkbox>
+                </div>
+                <div>
+                  <Checkbox value="3">Checkbox组</Checkbox>
+                </div>
+                <Checkbox value="4">Checkbox组</Checkbox>
+                <Checkbox value="5">Checkbox组</Checkbox>
+                <Checkbox value="6">Checkbox组</Checkbox>
+                <Checkbox value="7">Checkbox组</Checkbox>
+              </Checkbox.Group>
+            </Form.Item>
+            <Form.Item
+              label="协议"
+              name="radio"
+              rules={[
+                {
+                  required: true,
+                  message: '请勾选协议',
+                },
+              ]}
+            >
+              <Radio.Group>
+                <Radio value="1">同意</Radio>
+              </Radio.Group>
+            </Form.Item>
           </Form>
         </Col>
         <Col span={24}>
