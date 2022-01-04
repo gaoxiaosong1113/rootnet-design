@@ -69,4 +69,4 @@ export default () => {
 };
 ```
 
-<!-- <API exports='["Row", "Col"]'/> -->
+<API exports='["Row", "Col"]'/>

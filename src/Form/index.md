@@ -1018,10 +1018,7 @@ export default () => {
             <Form
               layout={'horizontal'}
               name={'n2'}
-              // initialValues={initialValues}
-              initialValues={{
-                select3: 2,
-              }}
+              initialValues={initialValues}
               onSubmit={(form) => {
                 console.log('校验成功');
                 console.log(form);

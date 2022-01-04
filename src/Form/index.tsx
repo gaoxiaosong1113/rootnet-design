@@ -130,7 +130,7 @@ export const Form = (props: FormProps, ref: any) => {
       setValue({ ...value });
     },
     reset: () => {
-      let val = { ...initialValues } as any;
+      let val = initialValues ? { ...initialValues } : ({} as any);
       setValue(val);
       onValuesChange?.(val, val);
       for (let attr in formRef.current) {
