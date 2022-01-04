@@ -1,7 +1,7 @@
 {
   "private": false,
   "name": "rootnet-design",
-  "version": "0.0.132",
+  "version": "0.0.133",
   "files": [
     "dist",
     "lib",
