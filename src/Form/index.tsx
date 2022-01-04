@@ -84,11 +84,11 @@ export const Form = (props: FormProps, ref: any) => {
     onSubmit,
     onError,
     onValuesChange,
-    initialValues = {},
+    initialValues,
     ...prop
   } = props;
 
-  const [value, setValue] = useState({ ...initialValues }) as any;
+  const [value, setValue] = useState(initialValues || {}) as any;
 
   const formRef: any = useRef({});
 
@@ -140,7 +140,7 @@ export const Form = (props: FormProps, ref: any) => {
   }));
 
   useEffect(() => {
-    setValue({ ...initialValues });
+    setValue(initialValues || {});
   }, [initialValues]);
 
   return (
