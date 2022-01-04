@@ -1097,6 +1097,34 @@ export default () => {
             </Form.Item>
             <Form.Item
               label="选项"
+              name="select2"
+              rules={[
+                {
+                  required: true,
+                  message: '请选择',
+                },
+              ]}
+            >
+              <Select
+                options={[
+                  {
+                    label: '选项一选项一选项一选项一选项一选项一选项一选项一',
+                    value: 1,
+                  },
+                  {
+                    label: '选项二',
+                    value: 2,
+                  },
+                  {
+                    label: '选项三',
+                    value: 3,
+                  },
+                ]}
+                placeholder={'默认下拉框'}
+              />
+            </Form.Item>
+            <Form.Item
+              label="选项"
               name="checkbox"
               rules={[
                 {
@@ -1167,6 +1195,7 @@ export default () => {
                 username: '1',
                 username2: '2',
                 phone: '3',
+                select2: 2,
               });
             }}
           >

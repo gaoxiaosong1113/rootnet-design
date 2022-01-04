@@ -133,7 +133,7 @@ export const Form = (props: FormProps, ref: any) => {
       let val = { ...initialValues } as any;
       setValue(val);
       onValuesChange?.(val, val);
-      for (let attr in value) {
+      for (let attr in formRef.current) {
         formRef.current[attr].clearError(attr, val[attr]);
       }
     },
@@ -351,9 +351,9 @@ export const Item = (props: FormItemProps, ref: any) => {
     setValue(formValue[name] || null);
   }, [formValue[name]]);
 
-  useEffect(() => {
-    setValue(formValue[name] || null);
-  }, [formValue]);
+  // useEffect(() => {
+  //   setValue(formValue[name] || null);
+  // }, [formValue]);
 
   return (
     <div
