@@ -1007,7 +1007,7 @@ export default () => {
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
-    }, 10000);
+    }, 3000);
   }, []);
 
   return (
@@ -1018,7 +1018,10 @@ export default () => {
             <Form
               layout={'horizontal'}
               name={'n2'}
-              initialValues={initialValues}
+              // initialValues={initialValues}
+              initialValues={{
+                select3: 2,
+              }}
               onSubmit={(form) => {
                 console.log('校验成功');
                 console.log(form);
@@ -1125,6 +1128,35 @@ export default () => {
                 ]}
               >
                 <Select
+                  options={[
+                    {
+                      label: '选项一选项一选项一选项一选项一选项一选项一选项一',
+                      value: 1,
+                    },
+                    {
+                      label: '选项二',
+                      value: 2,
+                    },
+                    {
+                      label: '选项三',
+                      value: 3,
+                    },
+                  ]}
+                  placeholder={'默认下拉框'}
+                />
+              </Form.Item>
+              <Form.Item
+                label="选项"
+                name="select3"
+                rules={[
+                  {
+                    required: true,
+                    message: '请选择',
+                  },
+                ]}
+              >
+                <Select
+                  search
                   options={[
                     {
                       label: '选项一选项一选项一选项一选项一选项一选项一选项一',

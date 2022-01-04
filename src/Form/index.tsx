@@ -88,7 +88,7 @@ export const Form = (props: FormProps, ref: any) => {
     ...prop
   } = props;
 
-  const [value, setValue] = useState(initialValues || {}) as any;
+  const [value, setValue] = useState({}) as any;
 
   const formRef: any = useRef({});
 
@@ -140,7 +140,9 @@ export const Form = (props: FormProps, ref: any) => {
   }));
 
   useEffect(() => {
-    setValue(initialValues || {});
+    if (initialValues != undefined) {
+      setValue({ ...(initialValues || {}) });
+    }
   }, [initialValues]);
 
   return (
@@ -172,20 +174,6 @@ export const Form = (props: FormProps, ref: any) => {
         {...prop}
       >
         {children}
-        {/* {React.Children.map(children, (item) => {
-          return (
-            item &&
-            React.cloneElement(
-              item,
-              item.props.name
-                ? {
-                    ref: (r: any) => (formRef.current[item.props.name] = r),
-                    value: initialValues[item.props.name],
-                  }
-                : {},
-            )
-          );
-        })} */}
       </form>
     </FormContext.Provider>
   );
@@ -348,12 +336,15 @@ export const Item = (props: FormItemProps, ref: any) => {
   };
 
   useEffect(() => {
+    console.log('更新');
     setValue(formValue[name] || null);
   }, [formValue[name]]);
 
-  // useEffect(() => {
-  //   setValue(formValue[name] || null);
-  // }, [formValue]);
+  useEffect(() => {
+    console.log('更新2');
+    console.log(formValue);
+    setValue(formValue[name] || null);
+  }, [formValue]);
 
   return (
     <div
