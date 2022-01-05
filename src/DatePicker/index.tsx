@@ -408,8 +408,7 @@ function DateCalendar(props: any) {
     // 获取本月最后一天
     function getMonthLastDay(date: any) {
       date = new Date(date.valueOf());
-      date.setMonth(date.getMonth() + 1);
-      date.setDate(0);
+      date.setMonth(date.getMonth() + 1, 0);
       return date;
     }
 
