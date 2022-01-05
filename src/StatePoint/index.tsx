@@ -47,23 +47,15 @@ export interface StatePointProps {
 }
 
 function StatePoint(props: StatePointProps) {
-  const {
-    className,
-    style,
-    text = '状态',
-    type,
-    fontColor,
-    radiusColor,
-    ...prop
-  } = props;
+  const { className, style, text = '', type, fontColor, radiusColor, ...prop } = props;
   return (
     <div
-      className={clsx(className, `${prefix}-StatePoint`, `StatePoint-${type}`)}
+      className={clsx(className, `${prefix}-statePoint`, `${prefix}-statePoint-${type}`)}
       style={{ color: fontColor }}
       {...prop}
     >
       <em style={{ backgroundColor: radiusColor }}></em>
-      {text}
+      <span>{text}</span>
     </div>
   );
 }

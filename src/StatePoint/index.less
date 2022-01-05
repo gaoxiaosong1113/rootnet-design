@@ -1,6 +1,6 @@
 @import '../index.less';
 
-.@{prefix}-StatePoint {
+.@{prefix}-statePoint {
   color: #d0d1d9;
   font-size: 14px;
 
@@ -11,37 +11,42 @@
     margin-right: 8px;
     border-radius: 50%;
     background-color: #d0d1d9;
+    vertical-align: middle;
   }
-}
-
-.StatePoint-primary {
-  color: @primaryColor;
-
-  em {
-    background-color: @primaryColor;
+  span {
+    display: inline-block;
+    vertical-align: middle;
   }
-}
 
-.StatePoint-success {
-  color: @successColor;
+  &-primary {
+    color: @primaryColor;
 
-  em {
-    background-color: @successColor;
+    em {
+      background-color: @primaryColor;
+    }
   }
-}
 
-.StatePoint-warning {
-  color: @warningColor;
+  &-success {
+    color: @successColor;
 
-  em {
-    background-color: @warningColor;
+    em {
+      background-color: @successColor;
+    }
   }
-}
 
-.StatePoint-error {
-  color: @errorColor;
+  &-warning {
+    color: @warningColor;
 
-  em {
-    background-color: @errorColor;
+    em {
+      background-color: @warningColor;
+    }
+  }
+
+  &-error {
+    color: @errorColor;
+
+    em {
+      background-color: @errorColor;
+    }
   }
 }

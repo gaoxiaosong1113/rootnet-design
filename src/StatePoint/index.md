@@ -22,7 +22,7 @@ export default () => {
     <div>
       <Row gutter={[16, 16]}>
         <Col span={4}>
-          <StatePoint />
+          <StatePoint text="状态" />
         </Col>
         <Col span={4}>
           <StatePoint type="primary" text="状态" />
