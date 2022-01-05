@@ -185,6 +185,7 @@ function Select(props: SelectProps) {
               if (disabled) return;
               setSearchFocus(true);
               e.target.value = searchValue;
+              // setVisible(false);
               // setVisible(true);
             }}
             onClick={(e) => {
@@ -249,8 +250,10 @@ function Select(props: SelectProps) {
           }}
           select={select}
           onCancel={() => {
-            setVisible(false);
-            onCancel && onCancel();
+            if (!searchFocus) {
+              setVisible(false);
+              onCancel && onCancel();
+            }
           }}
           onChange={(v: any) => {
             if (!multiple) {
@@ -290,6 +293,7 @@ function SelectContent(props: any) {
   }
 
   useEffect(() => {
+    document.body.addEventListener('click', handleClick);
     document.body.addEventListener('click', handleClick);
     return () => {
       document.body.removeEventListener('click', handleClick);
