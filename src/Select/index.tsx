@@ -185,11 +185,11 @@ function Select(props: SelectProps) {
               if (disabled) return;
               setSearchFocus(true);
               e.target.value = searchValue;
-              setVisible(true);
+              // setVisible(true);
             }}
             onClick={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
+              // e.preventDefault();
+              // e.stopPropagation();
             }}
             onBlur={() => setSearchFocus(false)}
             onChange={(e) => {
