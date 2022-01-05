@@ -416,7 +416,6 @@ function Upload(props: UploadProps, ref: any) {
           .then((res: any) => {
             upItem.status = 'success';
             upItem.url = res.data;
-            console.log(fileListRef.current);
             setFileList([...fileListRef.current]);
             onChange?.(fileListRef.current);
             resolve(true);
@@ -456,7 +455,6 @@ function Upload(props: UploadProps, ref: any) {
 
       // 超出数量不做任何处理
       files = convertFiles(files);
-      console.log(files, 1010);
       files.map((file: any) => {
         handleFileListAdd(file, files);
       });

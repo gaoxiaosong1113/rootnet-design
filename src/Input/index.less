@@ -6,6 +6,7 @@
   border-radius: 4px;
   transition: border 0.3s;
   background: #fff;
+  box-sizing: border-box;
 
   &:hover:not(.@{prefix}-input-disabled) {
     border-color: @primaryColorHover;
@@ -45,13 +46,13 @@
 
   div.label {
     font-size: 14px;
-    line-height: 32px;
+    line-height: 30px;
     color: @auxiliaryTextColor;
 
     .label-required {
       font-size: 14px;
       color: @errorColor;
-      line-height: 32px;
+      line-height: 30px;
       margin-right: 4px;
     }
   }
@@ -59,7 +60,7 @@
     border-color: @primaryColorActive;
   }
   &-icon {
-    line-height: 32px;
+    line-height: 30px;
     margin-left: 8px;
     color: @fullDarkColor;
   }
@@ -75,7 +76,7 @@
     }
   }
   &-affterIcon {
-    line-height: 32px;
+    line-height: 30px;
     margin-right: 8px;
     color: @fullDarkColor;
   }
@@ -87,7 +88,7 @@
       width: 100%;
       border: none;
       font-size: 14px;
-      line-height: 32px;
+      line-height: 30px;
       background: none;
       &::placeholder {
         color: @promptTextColor;

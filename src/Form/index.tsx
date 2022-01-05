@@ -88,7 +88,7 @@ export const Form = (props: FormProps, ref: any) => {
     ...prop
   } = props;
 
-  const [value, setValue] = useState(initialValues || {}) as any;
+  const [value, setValue] = useState({}) as any;
 
   const formRef: any = useRef({});
 
@@ -130,13 +130,19 @@ export const Form = (props: FormProps, ref: any) => {
       setValue({ ...value });
     },
     reset: () => {
-      setValue({});
-      onValuesChange?.({}, {});
+      let val = initialValues ? { ...initialValues } : ({} as any);
+      setValue(val);
+      onValuesChange?.(val, val);
+      for (let attr in formRef.current) {
+        formRef.current[attr].clearError(attr, val[attr]);
+      }
     },
   }));
 
   useEffect(() => {
-    setValue(initialValues || {});
+    if (initialValues != undefined) {
+      setValue({ ...(initialValues || {}) });
+    }
   }, [initialValues]);
 
   return (
@@ -168,20 +174,6 @@ export const Form = (props: FormProps, ref: any) => {
         {...prop}
       >
         {children}
-        {/* {React.Children.map(children, (item) => {
-          return (
-            item &&
-            React.cloneElement(
-              item,
-              item.props.name
-                ? {
-                    ref: (r: any) => (formRef.current[item.props.name] = r),
-                    value: initialValues[item.props.name],
-                  }
-                : {},
-            )
-          );
-        })} */}
       </form>
     </FormContext.Provider>
   );
@@ -255,6 +247,9 @@ export const Item = (props: FormItemProps, ref: any) => {
         }
         return validationData(n, v);
       },
+      clearError: () => {
+        setError([]);
+      },
     };
     if (onChange && name) {
       onChange(name, value);
@@ -275,7 +270,7 @@ export const Item = (props: FormItemProps, ref: any) => {
       let errorAry = rules
         .map((item: any) => {
           // 必填项
-          if (item.required !== undefined && item.required === true) {
+          if (item.required !== undefined && item.required !== null && item.required === true) {
             if (v === undefined || v === null || v.length <= 0) {
               return {
                 message: `必填项`,
@@ -341,8 +336,15 @@ export const Item = (props: FormItemProps, ref: any) => {
   };
 
   useEffect(() => {
-    setValue(formValue[name]);
+    console.log('更新');
+    setValue(formValue[name] || null);
   }, [formValue[name]]);
+
+  useEffect(() => {
+    console.log('更新2');
+    console.log(formValue);
+    setValue(formValue[name] || null);
+  }, [formValue]);
 
   return (
     <div

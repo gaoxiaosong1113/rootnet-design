@@ -1,10 +1,4 @@
-import React, {
-  useEffect,
-  useMemo,
-  useState,
-  useContext,
-  ReactNode,
-} from 'react';
+import React, { useEffect, useMemo, useState, useContext, ReactNode } from 'react';
 
 import clsx from 'clsx';
 
@@ -71,8 +65,7 @@ export interface RadioProps {
 }
 
 function Radio(props: RadioProps) {
-  const { className, type, icon, disabled, children, onChange, size, ...prop } =
-    props;
+  const { className, type, icon, disabled, children, onChange, size, ...prop } = props;
   const [checked, setChecked] = useState(props.checked || false);
   const [value, setValue] = useState(props.value || '');
 
@@ -112,7 +105,7 @@ function Radio(props: RadioProps) {
   }, [props.checked]);
 
   useEffect(() => {
-    setValue(props.value == undefined ? '' : props.value);
+    setValue(props.value === undefined ? '' : props.value);
   }, [props.value]);
 
   return (

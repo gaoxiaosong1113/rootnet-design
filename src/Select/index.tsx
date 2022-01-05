@@ -104,31 +104,18 @@ function Select(props: SelectProps) {
 
   function handleOnChange(e: any) {
     setValue(e);
-    // if (search) {
-    //   refInput.current.value = SelectValue({
-    //     options: props.options,
-    //     value: e,
-    //     placeholder,
-    //     multiple
-    //   })
-    // }
     if (onChange) onChange(e);
   }
 
   useEffect(() => {
+    console.log(props.value);
     setValue(props.value);
+    setSearchInputValue(props.value);
   }, [props.value]);
 
   useEffect(() => {
     if (!visible) {
-      if (search && refInput.current) {
-        refInput.current.value = SelectValue({
-          options: props.options,
-          value,
-          placeholder,
-          multiple,
-        });
-      }
+      setSearchInputValue(value);
     }
   }, [visible]);
 
@@ -157,7 +144,16 @@ function Select(props: SelectProps) {
     return value === '' || value === undefined || value === null || JSON.stringify(value) === '[]';
   }, [value]);
 
-  console.log(fullOptions);
+  const setSearchInputValue = (v: any) => {
+    if (search && refInput.current) {
+      refInput.current.value = SelectValue({
+        options: props.options,
+        value: v,
+        placeholder,
+        multiple,
+      });
+    }
+  };
 
   return (
     <div
