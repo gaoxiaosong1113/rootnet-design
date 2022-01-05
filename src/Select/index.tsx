@@ -107,18 +107,6 @@ function Select(props: SelectProps) {
     if (onChange) onChange(e);
   }
 
-  useEffect(() => {
-    console.log(props.value);
-    setValue(props.value);
-    setSearchInputValue(props.value);
-  }, [props.value]);
-
-  useEffect(() => {
-    if (!visible) {
-      setSearchInputValue(value);
-    }
-  }, [visible]);
-
   const fullOptions = useMemo(() => {
     let allCheck = [] as any;
     if (search && searchValue.length > 0 && props.options) {
@@ -130,6 +118,23 @@ function Select(props: SelectProps) {
     }
     return props.options;
   }, [searchValue, props.options]);
+
+  useEffect(() => {
+    console.log(props.value);
+    setValue(props.value);
+    if (!searchFocus) {
+      setSearchInputValue(props.value);
+    }
+    if (multiple) {
+      setSelect(props.value && props.value.length >= fullOptions.length);
+    }
+  }, [props.value]);
+
+  useEffect(() => {
+    if (!visible) {
+      setSearchInputValue(value);
+    }
+  }, [visible]);
 
   const inputPlaceholder = useMemo(() => {
     return SelectValue({
@@ -309,7 +314,7 @@ function SelectContent(props: any) {
         }}
       >
         <div className={clsx(`${prefix}-select-body`, {})}>
-          {search && multiple && (
+          {search && multiple && options.length > 0 && (
             <div className={clsx(`${prefix}-select-all`, {})}>
               <Checkbox checked={select} onChange={(v: any) => setSelect(v)}>
                 全选
