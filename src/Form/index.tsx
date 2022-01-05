@@ -133,7 +133,6 @@ export const Form = (props: FormProps, ref: any) => {
       let val = initialValues ? { ...initialValues } : ({} as any);
       setValue(val);
       onValuesChange?.(val, val);
-      console.log(val);
       for (let attr in formRef.current) {
         formRef.current[attr].clearError(attr, val[attr]);
       }

@@ -120,7 +120,6 @@ function Select(props: SelectProps) {
   }, [searchValue, props.options]);
 
   useEffect(() => {
-    console.log(props.value);
     setValue(props.value);
     if (!searchFocus) {
       setSearchInputValue(props.value);
