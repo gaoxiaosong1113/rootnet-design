@@ -68,6 +68,7 @@ export default () => {
         <Col span={4}>
           <Select
             search
+            close
             value={2}
             options={[
               {
@@ -132,6 +133,7 @@ export default () => {
               },
             ]}
             search
+            close
             multiple={true}
             placeholder={'多选下拉框'}
             onChange={(value) => {
@@ -142,6 +144,7 @@ export default () => {
         <Col span={4}>
           <Select
             value={[2, 3, 4]}
+            close
             options={[
               {
                 label: '选项一选项一选项一选项一选项一选项一选项一选项一',

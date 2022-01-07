@@ -10,6 +10,8 @@ import { prefix } from '../config';
 import { Icon, Button, Tree, Popup, Checkbox } from '../index';
 import { getOffsetLeft, getOffsetTop, findKey } from '../_util';
 
+import noData from './noData.svg';
+
 export interface SelectProps {
   /**
    * @description      类名
@@ -132,6 +134,9 @@ function Select(props: SelectProps) {
   useEffect(() => {
     if (!visible) {
       setSearchInputValue(value);
+      if (!getValue()) {
+        setSearchValue('');
+      }
     }
   }, [visible]);
 
@@ -157,6 +162,13 @@ function Select(props: SelectProps) {
         multiple,
       });
     }
+  };
+
+  const getValue = () => {
+    if (value instanceof Array) {
+      return value.length > 0;
+    }
+    return !!value;
   };
 
   return (
@@ -204,9 +216,18 @@ function Select(props: SelectProps) {
           <SelectValue {...props} value={value} />
         )}
       </div>
-      {value && value != undefined && close ? (
+      {value && getValue() && close ? (
         <div
-          onClick={() => handleOnChange(null)}
+          onClick={() => {
+            if (multiple) {
+              setSelect(false);
+            }
+            if (search) {
+              setSearchValue('');
+              refInput.current.value = '';
+            }
+            handleOnChange(multiple ? [] : null);
+          }}
           className={clsx(`${prefix}-select-target-close`, {})}
         >
           <Icon name="shibai" size={14} />
@@ -325,7 +346,10 @@ function SelectContent(props: any) {
             </div>
           )}
           {(!options || options.length == 0) && (
-            <div className={clsx(`${prefix}-select-noData`, {})}>暂无数据</div>
+            <div className={clsx(`${prefix}-select-noData`, {})}>
+              <img src={noData} alt="" />
+              <p>暂无数据</p>
+            </div>
           )}
           {options && multiple && (
             <Tree
@@ -369,13 +393,15 @@ function SelectValue(props: SelectProps) {
   if (value !== undefined && value !== '' && value !== null) {
     if (multiple) {
       if (value.length > 0) {
-        return value.map((item: any, index: any) => {
-          let itemData = findKey(options, item);
-          if (itemData && itemData.label) {
-            return itemData.label + (index + 1 < value.length ? '，' : '');
-          }
-          return '';
-        });
+        return value
+          .map((item: any, index: any) => {
+            let itemData = findKey(options, item);
+            if (itemData && itemData.label) {
+              return itemData.label + (index + 1 < value.length ? '' : '');
+            }
+            return '';
+          })
+          .join('，');
       }
     } else {
       if (value !== undefined && value !== null) {
