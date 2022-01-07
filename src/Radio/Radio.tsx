@@ -105,7 +105,9 @@ function Radio(props: RadioProps) {
   }, [props.checked]);
 
   useEffect(() => {
-    setValue(props.value === undefined ? '' : props.value);
+    if (props.value !== undefined) {
+      setValue(props.value || '');
+    }
   }, [props.value]);
 
   return (
