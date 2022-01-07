@@ -155,6 +155,12 @@ export interface UploadProps {
   showAccept?: boolean;
 
   /**
+   * @description      是否显示上传个数
+   * @default           true
+   */
+  showMaxCount?: boolean;
+
+  /**
    * @description      自定义文件预览逻辑
    * @default           -
    */
@@ -217,6 +223,7 @@ function Upload(props: UploadProps, ref: any) {
     listType = 'text',
     showAccept = true,
     maxCount,
+    showMaxCount = true,
     multiple = false,
     previewFile,
     showUploadList = true,
@@ -491,6 +498,12 @@ function Upload(props: UploadProps, ref: any) {
     });
 
     if (maxCount !== undefined) {
+      if (files.length > maxCount) {
+        Message.show({
+          content: `最多上传${maxCount}个文件！`,
+          type: 'warning',
+        });
+      }
       if (fileList.length > maxCount) {
         return [];
       } else {
@@ -541,6 +554,9 @@ function Upload(props: UploadProps, ref: any) {
         )}
         {accept && showAccept && (
           <div className={clsx(`${prefix}-upload-accept`, {})}>支持扩展名{accept}</div>
+        )}
+        {maxCount && showMaxCount && (
+          <div className={clsx(`${prefix}-upload-accept`, {})}>最多上传{maxCount}个文件</div>
         )}
       </div>
 
