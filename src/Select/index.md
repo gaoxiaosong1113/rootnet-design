@@ -132,6 +132,7 @@ export default () => {
                 value: 3,
               },
             ]}
+            value={[]}
             search
             close
             multiple={true}

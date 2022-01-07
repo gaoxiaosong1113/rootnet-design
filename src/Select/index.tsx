@@ -197,19 +197,21 @@ function Select(props: SelectProps) {
               if (disabled) return;
               setSearchFocus(true);
               e.target.value = searchValue;
-              // setVisible(false);
-              // setVisible(true);
             }}
-            onClick={(e) => {
-              // e.preventDefault();
-              // e.stopPropagation();
-            }}
+            onClick={(e) => {}}
             onBlur={() => setSearchFocus(false)}
             onChange={(e) => {
               if (disabled) return;
               setSelect(false);
               handleOnChange(multiple ? [] : null);
               setSearchValue(e.target.value);
+            }}
+            onKeyDown={(e: any) => {
+              if (e.keyCode === 13) {
+                e.target.blur();
+                setSearchFocus(false);
+                setVisible(false);
+              }
             }}
           />
         ) : (
