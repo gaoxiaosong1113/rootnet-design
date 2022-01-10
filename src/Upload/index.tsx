@@ -458,6 +458,7 @@ function Upload(props: UploadProps, ref: any) {
     uploadFileArea.current.addEventListener('drop', handleDrop, false);
 
     function handleDrop(e: any) {
+      fileListRef.current = fileList;
       let files = e.dataTransfer.files;
 
       // 超出数量不做任何处理
@@ -497,17 +498,21 @@ function Upload(props: UploadProps, ref: any) {
       }
     });
 
-    if (maxCount !== undefined) {
-      if (files.length > maxCount) {
-        Message.show({
-          content: `最多上传${maxCount}个文件！`,
-          type: 'warning',
-        });
-      }
-      if (fileList.length > maxCount) {
-        return [];
+    if (maxCount !== undefined && maxCount !== null) {
+      if (maxCount == 1) {
+        fileListRef.current = [];
+        return files;
       } else {
-        files = files.splice(0, maxCount - fileList.length);
+        let spliceIndex = maxCount - fileList.length;
+
+        if (spliceIndex === 0) {
+          Message.show({
+            content: `最多上传${maxCount}个文件！`,
+            type: 'warning',
+          });
+        }
+
+        files = files.splice(0, spliceIndex);
       }
     }
 
