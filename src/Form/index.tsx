@@ -7,6 +7,8 @@ import React, {
   useImperativeHandle,
   ReactNode,
   ReactElement,
+  useMemo,
+  useCallback,
 } from 'react';
 
 import ReactDOM from 'react-dom';
@@ -92,6 +94,9 @@ export const Form = (props: FormProps, ref: any) => {
 
   const formRef: any = useRef({});
 
+  // 用来解决 value set 后值不及时更新的问题
+  const valueRef: any = useRef(value);
+
   function handleSubmit(e: any) {
     e && e.preventDefault();
     if (!validation()) return;
@@ -141,7 +146,9 @@ export const Form = (props: FormProps, ref: any) => {
 
   useEffect(() => {
     if (initialValues != undefined) {
-      setValue({ ...(initialValues || {}) });
+      let val = { ...(initialValues || {}) };
+      setValue(val);
+      valueRef.current = val;
     }
   }, [initialValues]);
 
@@ -154,7 +161,19 @@ export const Form = (props: FormProps, ref: any) => {
         onChange: (name: string, v: string) => {
           value[name] = v;
           setValue({ ...value });
+          valueRef.current = value;
           onValuesChange?.({ [`${name}`]: v }, value);
+        },
+        subscribe: (name: string, v: string) => {
+          value[name] = v;
+          setValue({ ...value });
+        },
+        unsubscribe: (name: string, v: string) => {
+          // 注销时如果使用 value 拿到的是旧的值
+          delete valueRef.current[name];
+          delete formRef.current[name];
+          setValue({ ...valueRef.current });
+          onValuesChange?.({ [`${name}`]: v }, valueRef.current);
         },
         onError: (error: any) => {
           // setError(error);
@@ -221,8 +240,8 @@ export interface FormItemProps {
 
 export const Item = (props: FormItemProps, ref: any) => {
   const { className, label, name, children, rules, labelWidth = 200, ...prop } = props;
-  const { onChange, onFocus, onBlur, formValue, formRef, layout } = useContext(FormContext);
-  const [value, setValue] = useState(formValue[name]);
+  const { subscribe, unsubscribe, onChange, onFocus, onBlur, formValue, formRef, layout } =
+    useContext(FormContext);
   const [required, setRequired] = useState(false);
   const [error, setError] = useState([] as Array<any>);
 
@@ -239,6 +258,10 @@ export const Item = (props: FormItemProps, ref: any) => {
 
   useImperativeHandle(ref, () => handleValidation());
 
+  const value = useMemo(() => {
+    return formValue[name];
+  }, [formValue]);
+
   useEffect(() => {
     formRef[name] = {
       validation: (n: any, v: any) => {
@@ -251,11 +274,11 @@ export const Item = (props: FormItemProps, ref: any) => {
         setError([]);
       },
     };
-    if (onChange && name) {
-      onChange(name, value);
+    if (subscribe && name) {
+      subscribe(name, value);
     }
     return () => {
-      delete formRef[name];
+      unsubscribe(name);
     };
   }, []);
 
@@ -316,7 +339,7 @@ export const Item = (props: FormItemProps, ref: any) => {
   };
 
   const handleChange = (v: any) => {
-    setValue(v);
+    console.log(formValue);
     if (name && onChange) {
       onChange(name, v);
       validationData(name, v);
@@ -334,14 +357,6 @@ export const Item = (props: FormItemProps, ref: any) => {
       onBlur(e);
     }
   };
-
-  useEffect(() => {
-    setValue(formValue[name] || null);
-  }, [formValue[name]]);
-
-  useEffect(() => {
-    setValue(formValue[name] || null);
-  }, [formValue]);
 
   return (
     <div

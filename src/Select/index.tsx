@@ -91,6 +91,7 @@ function Select(props: SelectProps) {
     multiple,
     scrollRef,
     search = false,
+    options = [],
     ...prop
   } = props;
 
@@ -111,15 +112,23 @@ function Select(props: SelectProps) {
 
   const fullOptions = useMemo(() => {
     let allCheck = [] as any;
-    if (search && searchValue.length > 0 && props.options) {
+    if (search && searchValue.length > 0 && options.length > 0) {
       return allCheck.concat(
-        props.options.filter((item) => {
+        options.filter((item) => {
           return item.label.indexOf(searchValue) != -1;
         }),
       );
     }
-    return props.options;
-  }, [searchValue, props.options]);
+    return options;
+  }, [searchValue, options]);
+
+  useEffect(() => {
+    return () => {
+      if (search && refInput.current) {
+        refInput.current.value = '';
+      }
+    };
+  }, []);
 
   useEffect(() => {
     setValue(props.value);
@@ -127,7 +136,7 @@ function Select(props: SelectProps) {
       setSearchInputValue(props.value);
     }
     if (multiple) {
-      setSelect(props.value && props.value.length >= fullOptions.length);
+      setSelect(props.value && fullOptions.length > 0 && props.value.length >= fullOptions.length);
     }
   }, [props.value]);
 
@@ -142,12 +151,12 @@ function Select(props: SelectProps) {
 
   const inputPlaceholder = useMemo(() => {
     return SelectValue({
-      options: props.options,
+      options: options,
       value,
       placeholder,
       multiple,
     });
-  }, [searchFocus, props.options, value, placeholder, multiple]);
+  }, [searchFocus, options, value, placeholder, multiple]);
 
   const isPlaceholder = useMemo(() => {
     return value === '' || value === undefined || value === null || JSON.stringify(value) === '[]';
@@ -156,7 +165,7 @@ function Select(props: SelectProps) {
   const setSearchInputValue = (v: any) => {
     if (search && refInput.current) {
       refInput.current.value = SelectValue({
-        options: props.options,
+        options: options,
         value: v,
         placeholder,
         multiple,

@@ -335,11 +335,32 @@ export default () => {
 搜索下拉框：
 
 ```tsx
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Select, Grid } from 'rootnet-design';
 const { Row, Col } = Grid;
 
 export default () => {
+  const [options, setOptions] = useState();
+
+  useEffect(() => {
+    window.setTimeout(() => {
+      setOptions([
+        {
+          label: '选项一选项一选项一选项一选项一选项一选项一选项一',
+          value: 1,
+        },
+        {
+          label: '选项二',
+          value: 2,
+        },
+        {
+          label: '选项三',
+          value: 3,
+        },
+      ]);
+    }, [3000]);
+  }, []);
+
   return (
     <div>
       <Row gutter={[16, 16]}>
@@ -348,20 +369,7 @@ export default () => {
             multiple
             search
             close
-            options={[
-              {
-                label: '选项一选项一选项一选项一选项一选项一选项一选项一',
-                value: 1,
-              },
-              {
-                label: '选项二',
-                value: 2,
-              },
-              {
-                label: '选项三',
-                value: 3,
-              },
-            ]}
+            options={options}
             placeholder={'多选'}
             onChange={(value) => {
               console.log(value);
