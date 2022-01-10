@@ -395,4 +395,49 @@ export default () => {
 };
 ```
 
+限制上传数量：
+
+```tsx
+import React from 'react';
+import { Upload, Grid, Button } from 'rootnet-design';
+
+const { Row, Col } = Grid;
+
+export default () => {
+  return (
+    <div>
+      <Row gutter={[16, 16]}>
+        <Col span={12}>
+          <Upload
+            accept=".png,.jpg,.jpeg,.gif"
+            action={(form, config) => {
+              console.log(form, config);
+              return new Promise((resolve, reject) => {
+                resolve({ data: '上传的地址' });
+              });
+            }}
+            maxCount={2}
+            multiple={true}
+            onPreview={(file) => {
+              console.log('预览');
+              console.log(file);
+            }}
+            onRemove={(file) => {
+              console.log('删除');
+              console.log(file);
+            }}
+            onChange={(files) => {
+              console.log('更改');
+              console.log(files);
+            }}
+          >
+            <Button icon="shangchuan">上传文件</Button>
+          </Upload>
+        </Col>
+      </Row>
+    </div>
+  );
+};
+```
+
 <API exports='["default", "UploadFileInterface"]'/>

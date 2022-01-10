@@ -10,6 +10,8 @@ import { prefix } from '../config';
 import { Icon, Button, Tree, Popup, Checkbox } from '../index';
 import { getOffsetLeft, getOffsetTop, findKey } from '../_util';
 
+import noData from './noData.svg';
+
 export interface SelectProps {
   /**
    * @description      类名
@@ -107,18 +109,6 @@ function Select(props: SelectProps) {
     if (onChange) onChange(e);
   }
 
-  useEffect(() => {
-    console.log(props.value);
-    setValue(props.value);
-    setSearchInputValue(props.value);
-  }, [props.value]);
-
-  useEffect(() => {
-    if (!visible) {
-      setSearchInputValue(value);
-    }
-  }, [visible]);
-
   const fullOptions = useMemo(() => {
     let allCheck = [] as any;
     if (search && searchValue.length > 0 && props.options) {
@@ -130,6 +120,25 @@ function Select(props: SelectProps) {
     }
     return props.options;
   }, [searchValue, props.options]);
+
+  useEffect(() => {
+    setValue(props.value);
+    if (!searchFocus) {
+      setSearchInputValue(props.value);
+    }
+    if (multiple) {
+      setSelect(props.value && props.value.length >= fullOptions.length);
+    }
+  }, [props.value]);
+
+  useEffect(() => {
+    if (!visible) {
+      setSearchInputValue(value);
+      if (!getValue()) {
+        setSearchValue('');
+      }
+    }
+  }, [visible]);
 
   const inputPlaceholder = useMemo(() => {
     return SelectValue({
@@ -153,6 +162,13 @@ function Select(props: SelectProps) {
         multiple,
       });
     }
+  };
+
+  const getValue = () => {
+    if (value instanceof Array) {
+      return value.length > 0;
+    }
+    return !!value;
   };
 
   return (
@@ -181,12 +197,8 @@ function Select(props: SelectProps) {
               if (disabled) return;
               setSearchFocus(true);
               e.target.value = searchValue;
-              setVisible(true);
             }}
-            onClick={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-            }}
+            onClick={(e) => {}}
             onBlur={() => setSearchFocus(false)}
             onChange={(e) => {
               if (disabled) return;
@@ -194,14 +206,30 @@ function Select(props: SelectProps) {
               handleOnChange(multiple ? [] : null);
               setSearchValue(e.target.value);
             }}
+            onKeyDown={(e: any) => {
+              if (e.keyCode === 13) {
+                e.target.blur();
+                setSearchFocus(false);
+                setVisible(false);
+              }
+            }}
           />
         ) : (
           <SelectValue {...props} value={value} />
         )}
       </div>
-      {value && value != undefined && close ? (
+      {value && getValue() && close ? (
         <div
-          onClick={() => handleOnChange(null)}
+          onClick={() => {
+            if (multiple) {
+              setSelect(false);
+            }
+            if (search) {
+              setSearchValue('');
+              refInput.current.value = '';
+            }
+            handleOnChange(multiple ? [] : null);
+          }}
           className={clsx(`${prefix}-select-target-close`, {})}
         >
           <Icon name="shibai" size={14} />
@@ -245,8 +273,10 @@ function Select(props: SelectProps) {
           }}
           select={select}
           onCancel={() => {
-            setVisible(false);
-            onCancel && onCancel();
+            if (!searchFocus) {
+              setVisible(false);
+              onCancel && onCancel();
+            }
           }}
           onChange={(v: any) => {
             if (!multiple) {
@@ -287,6 +317,7 @@ function SelectContent(props: any) {
 
   useEffect(() => {
     document.body.addEventListener('click', handleClick);
+    document.body.addEventListener('click', handleClick);
     return () => {
       document.body.removeEventListener('click', handleClick);
     };
@@ -309,7 +340,7 @@ function SelectContent(props: any) {
         }}
       >
         <div className={clsx(`${prefix}-select-body`, {})}>
-          {search && multiple && (
+          {search && multiple && options.length > 0 && (
             <div className={clsx(`${prefix}-select-all`, {})}>
               <Checkbox checked={select} onChange={(v: any) => setSelect(v)}>
                 全选
@@ -317,7 +348,10 @@ function SelectContent(props: any) {
             </div>
           )}
           {(!options || options.length == 0) && (
-            <div className={clsx(`${prefix}-select-noData`, {})}>暂无数据</div>
+            <div className={clsx(`${prefix}-select-noData`, {})}>
+              <img src={noData} alt="" />
+              <p>暂无数据</p>
+            </div>
           )}
           {options && multiple && (
             <Tree
@@ -361,13 +395,15 @@ function SelectValue(props: SelectProps) {
   if (value !== undefined && value !== '' && value !== null) {
     if (multiple) {
       if (value.length > 0) {
-        return value.map((item: any, index: any) => {
-          let itemData = findKey(options, item);
-          if (itemData && itemData.label) {
-            return itemData.label + (index + 1 < value.length ? '，' : '');
-          }
-          return '';
-        });
+        return value
+          .map((item: any, index: any) => {
+            let itemData = findKey(options, item);
+            if (itemData && itemData.label) {
+              return itemData.label + (index + 1 < value.length ? '' : '');
+            }
+            return '';
+          })
+          .join('，');
       }
     } else {
       if (value !== undefined && value !== null) {

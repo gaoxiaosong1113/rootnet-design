@@ -320,10 +320,7 @@ export default function Tree(props: TreeProps) {
   }, [rowSelection?.selectedRowKeys]);
 
   useEffect(() => {
-    if (!props.value) return;
-    if (props.value != value) {
-      setValue(props.value);
-    }
+    setValue(props.value);
   }, [props.value]);
 
   useEffect(() => {

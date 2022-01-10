@@ -336,13 +336,10 @@ export const Item = (props: FormItemProps, ref: any) => {
   };
 
   useEffect(() => {
-    console.log('更新');
     setValue(formValue[name] || null);
   }, [formValue[name]]);
 
   useEffect(() => {
-    console.log('更新2');
-    console.log(formValue);
     setValue(formValue[name] || null);
   }, [formValue]);
 

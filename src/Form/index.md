@@ -1154,6 +1154,7 @@ export default () => {
               >
                 <Select
                   search
+                  multiple
                   options={[
                     {
                       label: '选项一选项一选项一选项一选项一选项一选项一选项一',
@@ -1244,6 +1245,7 @@ export default () => {
                   username2: '2',
                   phone: '3',
                   select2: 2,
+                  select3: [1, 3],
                 });
               }}
             >
