@@ -4,9 +4,9 @@ export default {
   esm: 'rollup',
   cjs: 'rollup',
   // umd: 'rollup',
-  // extractCSS: true,
-  // disableTypeCheck: true,
-  // lessInBabelMode: true,
+  extractCSS: true,
+  disableTypeCheck: true,
+  lessInBabelMode: true,
   // extraPostCSSPlugins: [],
   extraBabelPlugins: [
     [
