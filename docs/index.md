@@ -1,9 +1,3 @@
-<!--
- * @Author: gaoxiaosong (gaoxiaosong@huoban.com)
- * @Date: 2021-12-27 17:02:18
- * @Description:
--->
-
 ---
 
 hero:
