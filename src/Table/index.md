@@ -55,19 +55,19 @@ export default () => {
     {
       id: 'a001',
       productName: '我是产品名称',
-      stkIndustryNames: '私募产品',
+      stkIndustryNames: '产品',
       productStatus: '1',
     },
     {
       id: 'a001',
       productName: '我是产品名称',
-      stkIndustryNames: '私募产品',
+      stkIndustryNames: '产品',
       productStatus: '2',
     },
     {
       id: 'a001',
       productName: '我是产品名称',
-      stkIndustryNames: '私募产品',
+      stkIndustryNames: '产品',
       productStatus: '2',
     },
   ]);
@@ -78,19 +78,19 @@ export default () => {
   //       {
   //         id: 'a001',
   //         productName: '我是产品名称',
-  //         stkIndustryNames: '私募产品',
+  //         stkIndustryNames: '产品',
   //         productStatus: '1',
   //       },
   //       {
   //         id: 'a002',
   //         productName: '我是产品名称',
-  //         stkIndustryNames: '私募产品',
+  //         stkIndustryNames: '产品',
   //         productStatus: '2',
   //       },
   //       {
   //         id: 'a003',
   //         productName: '我是产品名称',
-  //         stkIndustryNames: '私募产品',
+  //         stkIndustryNames: '产品',
   //         productStatus: '1',
   //       },
   //     ]);
@@ -554,19 +554,19 @@ export default () => {
     {
       id: 'a001',
       productName: '我是产品名称1',
-      stkIndustryNames: '私募产品1',
+      stkIndustryNames: '产品1',
       productStatus: '1',
     },
     {
       id: 'a001',
       productName: '我是产品名称1',
-      stkIndustryNames: '私募产品2',
+      stkIndustryNames: '产品2',
       productStatus: '2',
     },
     {
       id: 'a003',
       productName: '我是产品名称',
-      stkIndustryNames: '私募产品2',
+      stkIndustryNames: '产品2',
       productStatus: '2',
     },
   ]);
