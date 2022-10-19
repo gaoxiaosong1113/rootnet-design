@@ -336,6 +336,7 @@ function Popup(props: PopupProps, ref: any): any {
         )}
         ref={innerRef}
         {...prop}
+        onClick={(e) => e.stopPropagation()}
       >
         {children}
       </div>,
